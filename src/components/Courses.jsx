@@ -75,7 +75,7 @@ const Courses = () => {
     }
 
     if (error) {
-        navigate(0)
+        // navigate(0)
         return <div className="flex items-center justify-center h-screen">
             <div className="text-4xl font-bold text-red-600"> Error: {error.message}. Please refresh the page.</div>
         </div>;
