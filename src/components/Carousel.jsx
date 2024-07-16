@@ -4,7 +4,6 @@ import React, { useState, useEffect, Fragment } from 'react';
 const Carousel = () => {
  const [currentSlide, setCurrentSlide] = useState(0);
  const [isHovered, setIsHovered] = useState(false);
- const slideCount = 4;
  const img = [
    {
      imgurl: "https://flowbite.com/docs/images/carousel/carousel-2.svg"
@@ -28,7 +27,7 @@ const Carousel = () => {
      }, 5000);
      return () => clearInterval(interval);
    }
- }, [isHovered]);
+ }, [isHovered, img.length]);
 
 
  const goToSlide = (index) => {
@@ -87,7 +86,6 @@ const Carousel = () => {
        ))}
      </div>
 
-
      <button
        type="button"
        className="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
@@ -102,7 +100,7 @@ const Carousel = () => {
            fill="none"
            viewBox="0 0 6 10"
          >
-           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 1 1 5l4 4" />
          </svg>
          <span className="sr-only">Previous</span>
        </span>
@@ -121,7 +119,7 @@ const Carousel = () => {
            fill="none"
            viewBox="0 0 6 10"
          >
-           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
          </svg>
          <span className="sr-only">Next</span>
        </span>

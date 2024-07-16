@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaSearch } from "react-icons/fa";
-import PaginationNew from './pagination/PaginationNew';
+import PaginationNew from '../../components/pagination/PaginationNew';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowRight } from 'react-icons/fi';
 import he from 'he';

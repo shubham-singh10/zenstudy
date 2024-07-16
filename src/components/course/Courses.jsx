@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const CourseCard = ({ course }) => {
+    const navigate = useNavigate()
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const year = date.getFullYear();
@@ -26,7 +27,7 @@ const CourseCard = ({ course }) => {
             </div>
             <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center">
                 <p className="text-blue-600 font-bold text-2xl">₹{course.price}</p>
-                <button className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
+                <button className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full" onClick={() => navigate("/course-details", { state: { courseId: course._id } })}>
                     View Details
                 </button>
             </div>

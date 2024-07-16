@@ -47,7 +47,7 @@ const ContactUs = () => {
                 <h2 className="text-3xl font-bold mb-8  text-blue-600">Find Us On Map</h2>
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d28013.452410248326!2d77.15255183858231!3d28.63930484227425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m0!4m5!1s0x390d03546ed7b9f1%3A0x5067889d8241272f!2szenstudy!3m2!1d28.6467262!2d77.1632791!5e0!3m2!1sen!2sin!4v1720787355305!5m2!1sen!2sin"
-                    width="600" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                    width="600" title='Map' height="450" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"
                     className='w-full '></iframe>
             </div>
 

@@ -12,3 +12,8 @@
   box-sizing: border-box;
   font-family: "Poppins";
 }
+
+.glide__arrow {
+  background-color: #054bb4 !important;
+  border-radius: 120px !important;
+}
