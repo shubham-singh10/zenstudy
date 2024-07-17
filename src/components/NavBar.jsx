@@ -1,7 +1,8 @@
 import React, { Fragment, useState } from "react";
 import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+
 const navLink = [
   {
     label: "Home",
@@ -39,6 +40,7 @@ const navLink = [
 const NavBar = () => {
   const [hamBurger, setHamBurger] = useState(false);
   const location = useLocation()
+  const navigate = useNavigate()
   function handleClick() {
     setHamBurger(!hamBurger);
     // console.log(hamBurger);
@@ -70,7 +72,7 @@ const NavBar = () => {
             </ul>
           </div>
           <div className="lg:block hidden">
-            <button className="px-5 py-2 bg-[#054BB4] text-white rounded-full">
+            <button className="px-5 py-2 bg-[#054BB4] text-white rounded-full" onClick={()=> navigate("/sign-Up")}>
               Login/SignUp
             </button>
           </div>

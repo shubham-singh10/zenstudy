@@ -13,7 +13,9 @@ const CourseDetails = lazy(() => import("./components/course/Coursedetails.jsx")
 const Upsc = lazy(() => import("./components/upsc/Upsc.jsx"));
 const UPSCDetails = lazy(() => import("./components/upsc/UPSCDetails.jsx"));
 const ContactUs = lazy(() => import("./components/Contact.jsx"));
-const Register = lazy(() => import("./components/auth/Register.jsx"));
+const SignUp = lazy(() => import("./components/auth/Sign-up.jsx"));
+const SignIn = lazy(() => import("./components/auth/Sign-In.jsx"));
+const ResetPassword = lazy(() => import("./components/auth/Reset-Password.jsx"));
 
 function App() {
   return (
@@ -30,7 +32,9 @@ function App() {
           <Route path="/upsc" element={<Upsc />} />
           <Route path="/upsc-details" element={<UPSCDetails />} />
           <Route path="/contact" element={<ContactUs />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/sign-Up" element={<SignUp />} />
+          <Route path="/sign-In" element={<SignIn />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>
       </Suspense>
