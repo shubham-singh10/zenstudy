@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { IoClose, IoNotifications } from 'react-icons/io5';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { FiUser, FiBook, FiAward } from 'react-icons/fi';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const links = [
     {
@@ -26,6 +26,7 @@ const StudentDashNavbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [userData, setUserData] = useState(null)
     const location = useLocation();
+    const navigate = useNavigate();
     
     useEffect(() => {
         const userDataFromLocalStorage = localStorage.getItem("userData");
@@ -41,9 +42,13 @@ const StudentDashNavbar = () => {
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
-
+    const handleLogout =()=>{
+        localStorage.removeItem("userData")
+        navigate("/")
+        setIsOpen(!isOpen);
+    }
     return (
-        <div className="w-full h-[10vh] shadow-lg flex items-center justify-between px-4 lg:px-12 relative bg-white">
+        <div className="m-5 h-[10vh] shadow-lg flex items-center justify-between px-4 lg:px-12 relative bg-white">
             <div>
                 <p className="font-semibold text-lg hidden lg:block">Student Dashboard</p>
                 <RxHamburgerMenu className="lg:hidden block text-2xl cursor-pointer" onClick={toggleSidebar} />
@@ -65,7 +70,7 @@ const StudentDashNavbar = () => {
                                     </Link>
                                 ))}
                             </div>
-                            <button className="bg-red-500 w-full py-3 text-lg text-white font-semibold" onClick={toggleSidebar}>Log Out</button>
+                            <button className="bg-red-500 w-full py-3 text-lg text-white font-semibold" onClick={()=> handleLogout()}>Log Out</button>
                         </div>
                     </div>
                 )}

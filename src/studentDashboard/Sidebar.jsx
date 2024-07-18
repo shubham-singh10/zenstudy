@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FiLogOut, FiUser, FiBook, FiAward, FiMenu, FiChevronRight, FiCircle } from 'react-icons/fi';
 
 const links = [
@@ -23,10 +23,15 @@ const links = [
 const Sidebar = () => {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const location = useLocation();
-
+    const navigate = useNavigate()
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed);
     };
+
+    const handleLogout =()=>{
+        localStorage.removeItem("userData")
+        navigate("/")
+    }
 
     return (
         <div className={`hidden h-full lg:flex flex-col justify-between py-8 shadow-xl ${isCollapsed ? 'w-20' : 'w-1/6'} transition-all duration-300`}>
@@ -51,7 +56,7 @@ const Sidebar = () => {
                 ))}
             </div>
             <div>
-                <button className="bg-red-500 w-full py-3 text-lg text-white font-semibold flex items-center justify-center">
+                <button className="bg-red-500 w-full py-3 text-lg text-white font-semibold flex items-center justify-center" onClick={()=> handleLogout()}>
                     <FiLogOut className="text-2xl mr-2" />
                     {!isCollapsed && 'Log Out'}
                 </button>
