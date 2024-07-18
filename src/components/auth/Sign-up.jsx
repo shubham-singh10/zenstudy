@@ -88,15 +88,15 @@ const SignUp = () => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || "Login failed");
+                throw new Error(errorData.message || "Register failed");
             }
             const resData = await response.json();
-            console.log("ResData", resData)
+            //console.log("ResData", resData)
             if (resData.message === "Success") {
                 Swal.fire({
                     icon: "error",
-                    title: "You have already login.",
-                    text: `Please login to explore.`,
+                    title: "User Already Registered",
+                    text: "This phone number is already associated with an account. Please log in to continue.",
                 });
 
             }
@@ -190,14 +190,15 @@ const SignUp = () => {
                     <h1 className="text-2xl font-bold mb-4">Welcome to ZenStudy</h1>
                     <h3 className="text-xl font-bold mb-4">Connect with us</h3>
                     <div className="flex space-x-4 justify-center">
-                    <Link href="#" className="hover:bg-red-500 rounded-full p-2"><FiYoutube size={25} className='hover:text-white' /></Link>
+                        <Link href="#" className="hover:bg-red-500 rounded-full p-2"><FiYoutube size={25} className='hover:text-white' /></Link>
                         <Link href="#" className="hover:bg-gradient-to-br from-[#405DE6] via-[#5B51D8] to-[#E1306C] rounded-full p-2"><FiInstagram size={25} className='hover:text-white' /></Link>
                         <Link href="#" className="hover:bg-[#4267B2] rounded-full p-2"><FiFacebook size={25} className='hover:text-white' /></Link>
                         <Link href="#" className="hover:bg-[#1DA1F2] rounded-full p-2"><FiTwitter size={25} className='hover:text-white' /></Link>
                     </div>
                 </div>
-                <div className="flex-1 p-8 lg:w-3/4 w-full">
-                    <h2 className="text-3xl font-bold mb-4 text-blue-600 text-end">SignUp</h2>
+                <div className="flex-1 p-8 lg:w-3/4 w-full text-center lg:text-center">
+                    <h2 className="text-3xl font-bold mb-4 text-blue-600">Join the ZenStudy Community</h2>
+                    <p className="text-xl text-gray-600 mb-4">Sign up now to start your learning journey with us.</p>
                     <form className={`space-y-4 ${showotpForm && "hidden"}`} onSubmit={handleSubmit(OnSubmit)}>
                         <Box sx={{ '& > :not(style)': { m: 1 }, }} noValidate autoComplete="off">
                             <TextField

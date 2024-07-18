@@ -28,7 +28,8 @@ const SignIn = () => {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(sendData)
+                    body: JSON.stringify(sendData),
+                    credentials:"include"
                 }
             );
             if (!response.ok) {
@@ -41,16 +42,10 @@ const SignIn = () => {
                 icon: "success",
                 title: "Login Successful",
                 text: `Welcome back, ${resData.name}! You are now logged in.`,
-            }).then(() => {
-                Swal.fire({
-                    icon: "info",
-                    title: "Page Under Development",
-                    text: "The login page is currently under development. We apologize for any inconvenience caused.",
-                });
-            });
+            })
             setloading(false)
-            //localStorage.setItem("userData", JSON.stringify(resData));
-
+            localStorage.setItem("userData", JSON.stringify(resData));
+            navigate("/profile")
         } catch (error) {
             Swal.fire({
                 icon: "error",

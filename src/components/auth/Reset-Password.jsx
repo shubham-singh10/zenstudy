@@ -87,7 +87,7 @@ const ResetPassword = () => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || "Login failed");
+                throw new Error(errorData.message || "Reset failed");
             }
             const resData = await response.json();
             //console.log("ResData", resData)
@@ -98,9 +98,10 @@ const ResetPassword = () => {
         } catch (error) {
             Swal.fire({
                 icon: "error",
-                title: "You have already login.",
-                text: `Error: ${error.message}`,
+                title: "Password Reset Error",
+                text: `An error occurred while trying to reset your password. Please try again. Error: ${error.message}`,
             });
+            setLoading(true)
 
         }
 

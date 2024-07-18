@@ -3,6 +3,7 @@ import Carousel from './Carousel'
 import CourseCarousel from './CourseCarousel'
 import ExploreArticles from './ExploreArticles '
 import FeatureVideo from './FeatureVideo'
+import { Link } from 'react-router-dom'
 const cards = [
     {
         imgurl: 'https://static.pw.live/5eb393ee95fab7468a79d189/GLOBAL_CMS/39ce18e9-0c4a-4b15-80f2-29e07f961d96.webp',
@@ -10,6 +11,7 @@ const cards = [
         description: 'Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.'
     },
 
+
     {
         imgurl: 'https://static.pw.live/5eb393ee95fab7468a79d189/GLOBAL_CMS/39ce18e9-0c4a-4b15-80f2-29e07f961d96.webp',
         title: 'Noteworthy technology acquisitions 2021',
@@ -26,8 +28,10 @@ const cards = [
         description: 'Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.'
     },
 
+
     // Add more cards here...
 ];
+
 
 const Home = () => {
     return (
@@ -45,41 +49,38 @@ const Home = () => {
                         <button className='rounded-full border-2  border-solid border-[#054BB4] text-[#054BB4] px-6 py-2 font-medium'>Watch Videos</button>
                     </div>
                 </div>
-                <div className="image-section md:w-1/2">
+                <div className="relative image-section md:w-1/2 flex justify-center items-center">
                     <img
-                        src="https://flowbite.com/docs/images/carousel/carousel-2.svg"
+                        src="/assets/herosection-logo.jpeg"
                         alt="Description of the"
-                        className="w-full h-85 rounded-lg"
+                        className="lg:w-[100%] lg:h-[auto] md:w-[400px] md:h-[400px] w-[300px] h-[300px] z-50 rounded-lg"
                     />
                 </div>
             </div>
-            <div className='mt-20'>
-                <h1 className='text-5xl mb-10 text-center text-[#054BB4] font-semibold'>Re<span className='border-b-8 border-[#054BB4]'>cently Added Cours</span>es</h1>
+            <div className='lg:mt-20 lg:mb-20 md:mt-15 md:mb-15 mt-10 mb-10'>
+                <h1 className=' text-2xl md:text-3xl lg:text-4xl mb-8 text-center text-[#054BB4] font-semibold'>Re<span className='border-b-8 border-[#054BB4]'>cently Added Cours</span>es</h1>
                 <CourseCarousel>
                     {cards.map((card, index) => (
                         <div key={index} className="w-full flex-shrink-0 p-4">
                             <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow mx-auto">
-                                <a href="#">
+                                <Link to="#">
                                     <img className="rounded-t-lg w-full h-52 object-cover" src={card.imgurl} alt="" />
-                                </a>
-
+                                </Link>
                             </div>
                         </div>
                     ))}
                 </CourseCarousel>
-
             </div>
             <ExploreArticles />
             <FeatureVideo />
-
             <div className="w-full min-h-[30vh] ">
-                <div className="px-12 flex flex-col gap-10 ">
+                <div className="px-4 lg:px-12 flex flex-col mt-20 lg:mt-20 gap-6 lg:gap-10 ">
                     <div>
-                        <p className="text-4xl text-center text-[#054BB4] font-bold">
-                            Learn About Us
-                        </p>
+                    <p className="text-center py-5  mb-10 text-2xl md:text-3xl lg:text-4xl font-semibold text-[#054BB4]">
+                    Le<span className='border-b-8 border-[#054BB4]'>arn About </span>Us
+                  </p>
                     </div>
-                    <div className="flex flex-col gap-8">
+                    <div className="flex flex-col gap-14 mb-10">
                         <div className=" relative lg:rounded-full md:rounded-full bg-[#CADEFB] flex items-center justify-center min-h-[30vh] lg:w-full md:w-full min-w-[30vw]">
                             <div className=" absolute lg:top-[-30px] md:top-[-30px] top-[-25px] lg:left-20 md:left-20 left-4 lg:text-6xl md:text-6xl text-5xl text-[#054BB4] font-semibold">
                                 01
@@ -145,4 +146,8 @@ const Home = () => {
 }
 
 
+
+
 export default Home
+
+

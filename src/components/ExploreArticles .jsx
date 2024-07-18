@@ -1,6 +1,7 @@
 import React from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
+
 const ExploreArticles = () => {
  const images = [
    {
@@ -26,12 +27,14 @@ const ExploreArticles = () => {
  ];
 
 
+
+
  return (
-   <div className="w-full min-h-screen ">
-     <div className="px-12 ">
+   <div className="w-full min-h-screen md:mb-10 lg:mb-20">
+     <div className="lg:px-12 md:p-4 p-4 ">
        <div>
-         <p className="text-center py-5 text-4xl font-bold text-[#054BB4]">
-           E<span className='border-b-8 border-[#054BB4]'>xplore Recent Article</span>s
+         <p className="text-center py-5  mb-10 text-2xl md:text-3xl lg:text-4xl font-semibold text-[#054BB4]">
+           Ex<span className='border-b-8 border-[#054BB4]'>plore Recent Articl</span>es
          </p>
        </div>
 
@@ -105,7 +108,7 @@ const ExploreArticles = () => {
              </div>
            </div>
          </div>
-         <div className="lg:w-[35vw] flex flex-col lg:items-end justify-center gap-5 w-full items-start">
+         <div className="lg:w-[35vw] mt-10 md:mt-10 lg:mt-0 flex flex-col lg:items-end justify-center gap-5 w-full items-start">
            <p className="lg:text-3xl text-2xl  font-bold text-[#054BB4]">
              Category Name
            </p>
@@ -125,6 +128,5 @@ const ExploreArticles = () => {
  );
 };
 
+
 export default ExploreArticles;
-
-

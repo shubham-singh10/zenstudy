@@ -49,14 +49,14 @@ const NavBar = () => {
     <>
       <div className="w-full h-[15vh] flex items-center justify-between px-12">
         <div className="flex items-center justify-between w-full">
-          <div className="flex items-center flex-col">
+          <Link to={"/"} className="flex items-center flex-col">
             <p className="text-3xl font-bold">
               ZenStudy<span className="text-[#054BB4] text-4xl">.</span>
             </p>
             <p className="text-[10px] font-medium text-[#054BB4]">
               Making Education Imaginative
             </p>
-          </div>
+          </Link>
           <div className="lg:block hidden">
             <ul className="flex items-center justify-between gap-8 cursor-pointer">
               {navLink.map((item) => (
@@ -72,7 +72,7 @@ const NavBar = () => {
             </ul>
           </div>
           <div className="lg:block hidden">
-            <button className="px-5 py-2 bg-[#054BB4] text-white rounded-full" onClick={()=> navigate("/sign-Up")}>
+            <button className="px-5 py-2 bg-[#054BB4] text-white rounded-full" onClick={() => navigate("/sign-Up")}>
               Login/SignUp
             </button>
           </div>
@@ -106,9 +106,12 @@ const NavBar = () => {
                       </Link>
                     </li>
                   ))}
-                 
+
                 </ul>
-                <button className="px-4 py-1 border-2 border-solid border-white text-lg rounded-full hover:text-[#054BB4] hover:bg-[#F9F9F9] transition-all duration-300 cursor-pointer">
+                <button 
+                  className="px-4 py-1 border-2 border-solid border-white text-lg rounded-full hover:text-[#054BB4] hover:bg-[#F9F9F9] transition-all duration-300 cursor-pointer" 
+                  onClick={()=> {navigate("/sign-Up"); setHamBurger(false)}}
+                >
                   Login/SignUp
                 </button>
               </div>

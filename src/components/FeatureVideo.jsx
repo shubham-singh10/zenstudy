@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
 
+
+
 const FeatureVideo = () => {
   const [mainVideo, setMainVideo] = useState(
     "https://www.youtube.com/embed/GEmeo2uMAnA?si=Oqai2O3hcVVgipYR"
@@ -12,7 +14,6 @@ const FeatureVideo = () => {
     "https://www.youtube.com/embed/1vf6AyPuzGE?si=nDvsbK1dCRz8VPrX",
   ]);
 
-
   const handleSwap = (index) => {
     const newMainVideo = otherVideos[index];
     const newOtherVideos = [...otherVideos];
@@ -21,18 +22,17 @@ const FeatureVideo = () => {
     setOtherVideos(newOtherVideos);
   };
 
-
   return (
     <>
-      <div className="w-full min-h-[70vh]">
-        <div className="px-12">
+      <div className="w-full mt-10 min-h-[70vh]">
+        <div className="px-4 md:px-10 lg:px-12">
           <div>
-            <p className="lg:text-4xl md:text-3xl text-2xl font-bold mb-5 text-center">
-              Explore Feature Video
+            <p className="text-center py-5  mb-10 text-2xl md:text-3xl lg:text-4xl font-semibold text-[#054BB4]">
+              Ex<span className='border-b-8 border-[#054BB4]'>plore Feature Vide</span>os
             </p>
           </div>
-          <div className="flex items-center justify-between flex-col lg:flex-row gap-5 lg:gap-0">
-            <div className="lg:w-2/4 flex flex-col gap-4 items-start w-full">
+          <div className="flex items-center flex-col-reverse justify-between lg:flex-row gap-5 lg:gap-0">
+            <div className="lg:w-2/4 flex flex-col gap-4 items-start w-full mt-[150px] lg:mt-[0px]">
               <p className="text-[#054BB4] font-bold lg:text-3xl text-2xl">
                 Watch Our Videos
               </p>
@@ -47,7 +47,7 @@ const FeatureVideo = () => {
               </button>
             </div>
             <div className="lg:w-2/4 flex flex-col gap-4 w-full">
-              <div className="w-full h-[50vh]">
+              <div className="w-full h-[30vh] lg:h-[50vh]">
                 <iframe
                   src={mainVideo}
                   title="video2"
@@ -82,6 +82,5 @@ const FeatureVideo = () => {
     </>
   );
 };
-
 
 export default FeatureVideo;
