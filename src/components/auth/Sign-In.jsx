@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { MdPhone } from 'react-icons/md';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
-
+import Cookies from 'js-cookie'
 
 const SignIn = () => {
     const [loading, setloading] = useState(false)
@@ -25,11 +25,11 @@ const SignIn = () => {
                 `${process.env.REACT_APP_API2}zenstudy/api/auth/signin`,
                 {
                     method: "POST",
+                    credentials: 'include',
                     headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify(sendData),
-                    credentials: 'include',
                 }
             );
             if (!response.ok) {
@@ -44,6 +44,7 @@ const SignIn = () => {
                 text: `Welcome back, ${resData.name}! You are now logged in.`,
             })
             setloading(false)
+            Cookies.set('access_tokennew', resData._id)
             localStorage.setItem("userData", JSON.stringify(resData));
             navigate("/profile")
         } catch (error) {

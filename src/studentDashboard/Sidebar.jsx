@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FiLogOut, FiUser, FiBook, FiAward, FiMenu, FiChevronRight, FiCircle } from 'react-icons/fi';
+import Cookies from 'js-cookie';
 
 const links = [
     {
@@ -29,6 +30,7 @@ const Sidebar = () => {
     };
 
     const handleLogout =()=>{
+        Cookies.remove('access_tokennew')
         localStorage.removeItem("userData")
         navigate("/")
     }

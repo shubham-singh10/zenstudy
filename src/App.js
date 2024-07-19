@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import Loading from "./Loading.jsx";
 import MainLayout from "./MainLayout.jsx";
 import StudentLayout from "./studentDashboard/StudentLayout.jsx";
+import PrivateRoute from "./PrivateRoute.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -25,7 +26,7 @@ const UPSCStudent = lazy(() => import("./studentDashboard/component/Upse.jsx"))
 
 function App() {
   const navigate = useNavigate()
-  const isAuthenticated = !!Cookies.get('access_token')
+  const isAuthenticated = !!Cookies.get('access_tokennew')
   return (
     <Fragment>
       <Suspense fallback={<Loading />}>
@@ -44,9 +45,8 @@ function App() {
             <Route path="/sign-In" element={<SignIn />} />
             <Route path="/reset-password" element={<ResetPassword />} />
           </Route>
-          <Route element={<StudentLayout />}>
+          <Route element={<PrivateRoute element={<StudentLayout />} />}>
             <Route path="/profile" element={<Profile />} />
-            <Route path="/course-details-student" element={<CourseDetailsStudent />} />
             <Route path="/course-details-student" element={<CourseDetailsStudent />} />
             <Route path="/upsc-student" element={<UPSCStudent />} />
           </Route>
@@ -59,35 +59,3 @@ function App() {
 
 export default App;
 
-
-
-// import { Fragment } from "react";
-// import NavBar from "./components/NavBar";
-// import { Route, Routes } from "react-router-dom"
-// import Home from "./components/Home";
-// import About from "./components/About";
-// import Articles from "./components/Articles";
-// import Footer from "./components/Footer";
-// import ArticleDetail from "./components/ArticlesDetails";
-// import Courses from "./components/Courses";
-// import Upsc from "./components/Upsc";
-// import ContactUs from "./components/Contact";
-// function App() {
-//   return (
-//     <Fragment>
-//       <NavBar />
-//       <Routes>
-//         <Route path="/" element={<Home/>}/>
-//         <Route path="/about" element={<About/>}/>
-//         <Route path="/article" element={<Articles/>}/>
-//         <Route path="/article-details" element={<ArticleDetail/>}/>
-//         <Route path="/courses" element={<Courses/>}/>
-//         <Route path="/upsc" element={<Upsc/>}/>
-//         <Route path="/contact" element={<ContactUs/>}/>
-//       </Routes>
-//       <Footer/>
-//     </Fragment>
-//   );
-// }
-
-// export default App;
