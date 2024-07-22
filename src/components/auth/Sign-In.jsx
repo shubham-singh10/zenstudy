@@ -70,8 +70,9 @@ const SignIn = () => {
                         <Link href="#" className="hover:bg-[#1DA1F2] rounded-full p-2"><FiTwitter size={25} className='hover:text-white' /></Link>
                     </div>
                 </div>
-                <div className="flex-1 p-8 lg:w-3/4 w-full ">
-                    <h2 className="text-3xl font-bold mb-4 text-blue-600 text-end">SignIn</h2>
+                <div className="flex-1 p-8 lg:w-3/4 w-full text-center lg:text-center">
+                    <h2 className="text-3xl font-bold mb-2 text-blue-600">Welcome Back!</h2>
+                    <p className="text-xl text-gray-600 mb-4">Sign in to continue your learning journey with ZenStudy.</p>
                     <form className="space-y-4" onSubmit={handleSubmit(OnSubmit)}>
                         <Box sx={{ '& > :not(style)': { m: 1 }, }}>
                             <TextField

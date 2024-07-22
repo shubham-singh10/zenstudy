@@ -66,9 +66,6 @@ const Home = () => {
         <div>
             <Carousel />
 
-
-
-
             <div className="flex flex-col md:flex-row items-center justify-between mt-8 px-4 md:px-16">
                 <animated.div
                     style={SlideLeft1}
@@ -113,15 +110,8 @@ const Home = () => {
                     />
                 </animated.div>
             </div>
-
-
-
-
             <div className="relative lg:mt-20 lg:mb-20 md:mt-15 md:mb-15 mt-10 mb-10">
                 <div className="absolute -z-50 lg:top-[-100px] lg:left-[0px] top-[-30px] left-[0px] lg:w-[300px] lg:h-[300px] w-[200px] h-[200px] bg-gray-100 text-white flex items-center justify-end px-4 rounded-full"></div>
-
-
-
 
                 <animated.h1
                     style={SlideUp}
@@ -138,21 +128,10 @@ const Home = () => {
                     <CardSlider />
                 </animated.div>
             </div>
-
-
-
-
             <ExploreArticles />
             <FeatureVideo />
-
-
-
-
             <div className="w-full min-h-[30vh] relative ">
                 <div className="absolute -z-50 lg:top-[-70px] lg:right-[0px] top-[-10px] right-[0px] lg:w-[300px] lg:h-[300px] w-[200px] h-[200px] bg-gray-100 text-white flex items-center justify-end px-4 rounded-full"></div>
-
-
-
 
                 <div className="px-4 lg:px-12 flex flex-col mt-20 lg:mt-20 gap-6 lg:gap-10 ">
                     <div>

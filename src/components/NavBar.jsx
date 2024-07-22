@@ -71,14 +71,21 @@ const NavBar = () => {
               ))}
             </ul>
           </div>
-          <div className="lg:block hidden">
-            <button className="px-5 py-2 bg-[#054BB4] text-white rounded-full" onClick={() => navigate("/sign-In")}>
+          <div className="lg:block hidden space-x-4">
+            <button
+              className="px-5 py-2 bg-[#054BB4] text-white rounded-full hover:bg-[#063e92] transition-colors duration-200"
+              onClick={() => navigate("/sign-In")}
+            >
               Login
             </button>
-            <button className="px-5 py-2 bg-[#054BB4] text-white rounded-full" onClick={() => navigate("/sign-Up")}>
-              SignUp
+            <button
+              className="px-5 py-2 bg-[#054BB4] text-white rounded-full hover:bg-[#063e92] transition-colors duration-200"
+              onClick={() => navigate("/sign-Up")}
+            >
+              Sign Up
             </button>
           </div>
+
           <div className="lg:hidden text-2xl flex items-center relative z-30 text-[#054BB4]">
             {!hamBurger ? (
               <RxHamburgerMenu onClick={handleClick} className="cursor-pointer" />
@@ -111,9 +118,9 @@ const NavBar = () => {
                   ))}
 
                 </ul>
-                <button 
-                  className="px-4 py-1 border-2 border-solid border-white text-lg rounded-full hover:text-[#054BB4] hover:bg-[#F9F9F9] transition-all duration-300 cursor-pointer" 
-                  onClick={()=> {navigate("/sign-Up"); setHamBurger(false)}}
+                <button
+                  className="px-4 py-1 border-2 border-solid border-white text-lg rounded-full hover:text-[#054BB4] hover:bg-[#F9F9F9] transition-all duration-300 cursor-pointer"
+                  onClick={() => { navigate("/sign-Up"); setHamBurger(false) }}
                 >
                   Login/SignUp
                 </button>

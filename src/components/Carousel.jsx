@@ -1,5 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
 
+
+
+
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -16,6 +19,9 @@ const Carousel = () => {
 
   ];
 
+
+
+
   useEffect(() => {
     if (!isHovered) {
       const interval = setInterval(() => {
@@ -25,17 +31,29 @@ const Carousel = () => {
     }
   }, [isHovered, img.length]);
 
+
+
+
   const goToSlide = (index) => {
     setCurrentSlide(index);
   };
+
+
+
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + img.length) % img.length);
   };
 
+
+
+
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % img.length);
   };
+
+
+
 
   return (
     <Fragment>
@@ -56,12 +74,17 @@ const Carousel = () => {
             >
               <img
                 src={im.imgurl}
-                className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                className="absolute block w-[100%] h-[100%] -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                 alt="..."
+
+
               />
             </div>
           ))}
         </div>
+
+
+
 
         <div className="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
           {img.map((_, index) => (
@@ -76,6 +99,7 @@ const Carousel = () => {
             ></button>
           ))}
         </div>
+
 
         <button
           type="button"
@@ -119,10 +143,10 @@ const Carousel = () => {
       {/* carousel end */}
 
     </Fragment>
+
+
+
+
   );
 };
 export default Carousel;
-
-
-
-
