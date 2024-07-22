@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IoClose, IoNotifications } from 'react-icons/io5';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { FiUser, FiBook, FiAward } from 'react-icons/fi';
+import { FiUser, FiBook, FiAward, FiCircle } from 'react-icons/fi';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const links = [
@@ -14,6 +14,11 @@ const links = [
         label: "Course Details",
         link: "/course-details-student",
         icon: <FiBook />,
+    },
+    {
+        label: "My Courses",
+        link: "/mycourse",
+        icon: <FiCircle />,
     },
     {
         label: "UPSC",

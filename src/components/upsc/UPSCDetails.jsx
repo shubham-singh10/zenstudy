@@ -4,6 +4,7 @@ import { BsFillReplyFill, BsReply } from "react-icons/bs";
 import { useLocation, useNavigate } from 'react-router-dom';
 import he from 'he';
 
+
 const UPSCDetails = () => {
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
@@ -16,11 +17,13 @@ const UPSCDetails = () => {
     const { postId } = location.state || {}
     const maxWordCount = 200;
 
+
     const handleCommentChange = (e) => {
         if (e.target.value.split(' ').length <= maxWordCount) {
             setComment(e.target.value);
         }
     };
+
 
     const handleAddComment = () => {
         if (comment.trim()) {
@@ -29,8 +32,10 @@ const UPSCDetails = () => {
         }
     };
 
+
     // Perticular Artcile get data API
     useEffect(() => {
+
 
         const getArticle = async () => {
             try {
@@ -55,7 +60,9 @@ const UPSCDetails = () => {
         };
         getArticle()
 
+
     }, [postId])
+
 
     if (loading) {
         return <div className="flex items-center justify-center h-screen">
@@ -64,6 +71,7 @@ const UPSCDetails = () => {
         </div>
     }
 
+
     if (error) {
         return <div className="flex items-center justify-center h-screen">
             <div className="text-4xl font-bold text-red-600"> Error: Please refresh the page.</div>
@@ -71,16 +79,20 @@ const UPSCDetails = () => {
     }
     const decodedContent = articlePost ? he.decode(articlePost.content) : '';
 
+
     return (
         <div className="container mx-auto p-4">
-            <button className='text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 flex justify-between ml-14 mt-2' onClick={() => navigate(-1)}><FiArrowLeft className='w-5 h-5' />Back</button>
+            <button className='text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-4 flex justify-between ml-2 lg:ml-12 mt-2 ' onClick={() => navigate(-1)}><FiArrowLeft className='w-5 h-5' />Back</button>
             <h1 className="text-2xl font-bold text-blue-600 text-center">{articlePost !== null && (articlePost?.title)}</h1>
 
-            <div className="my-4 px-10 md:px-32 lg:px-40">
+
+            <div className="my-4 px-6 md:px-32 lg:px-40">
                 <img src={articlePost !== null && (articlePost?.image)} alt={articlePost?.title} className="w-full h-fit" />
             </div>
 
-            <div className="p-12 space-y-4" dangerouslySetInnerHTML={{ __html: decodedContent }} />
+
+            <div className="p-4 md:p-8 lg:p-12 space-y-4 -mt-20 lg:-mt-14 " dangerouslySetInnerHTML={{ __html: decodedContent }} />
+
 
             {currentUser ? (<div className="sm:px-2 md:px-6 lg:px-12">
                 <div className="flex items-center mb-4">
@@ -91,6 +103,7 @@ const UPSCDetails = () => {
                     />
                     <span className="text-blue-600 font-bold">Name</span>
                 </div>
+
 
                 <div className="bg-blue-100 p-4  rounded-3xl   sm:px-0 md:px-20 lg:px-52  mx-0 text-center">
                     <textarea
@@ -103,6 +116,7 @@ const UPSCDetails = () => {
                         {maxWordCount - comment.split(' ').length} Words left
                     </div>
 
+
                 </div>
                 <div style={{ marginTop: "-20px", float: 'right', marginRight: "50px" }}>
                     <button
@@ -112,6 +126,7 @@ const UPSCDetails = () => {
                     </button>
                 </div>
                 <br></br>
+
 
                 <div className="flex items-start m-4">
                     <img
@@ -129,22 +144,27 @@ const UPSCDetails = () => {
                             <div className='flex justify-end items-center gap-5'>
                                 <FiThumbsUp className='text-blue-500 h-10 w-10 cursor-pointer' />
 
+
                                 <BsFillReplyFill className='text-blue-500 h-10 w-10 cursor-pointer' />
+
 
                             </div>
                         </div>
                     </div>
                 </div>
 
+
             </div>) : (
                 <div className='flex flex-wrap text-center justify-center m-4'>
-                    <div className='text-4xl'>Please login to comment</div>
-                    <button className='bg-lime-600 rounded-lg p-2 ml-4'>Login</button>
+                    <div className='text-2xl md:text-3xl lg:text-4xl '>Please login to comment</div>
+                    <button className='bg-blue-600 text-white rounded-lg p-2 ml-4'>Login</button>
                 </div>
             )}
         </div>
     );
 }
+
+
 
 
 export default UPSCDetails;

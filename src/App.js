@@ -22,11 +22,13 @@ const ResetPassword = lazy(() => import("./components/auth/Reset-Password.jsx"))
 //Student Dashboard Pages
 const Profile = lazy(() => import("./studentDashboard/component/Profile.jsx"))
 const CourseDetailsStudent = lazy(() => import("./studentDashboard/component/CourseDeatils.jsx"))
+const CourseDetailsStudentView = lazy(() => import("./studentDashboard/component/CourseDetails-View.jsx"))
+const MyCourses = lazy(() => import("./studentDashboard/component/MyCourses.jsx"))
 const UPSCStudent = lazy(() => import("./studentDashboard/component/Upse.jsx"))
 
 function App() {
-  const navigate = useNavigate()
-  const isAuthenticated = !!Cookies.get('access_tokennew')
+  // const navigate = useNavigate()
+  // const isAuthenticated = !!Cookies.get('access_tokennew')
   return (
     <Fragment>
       <Suspense fallback={<Loading />}>
@@ -48,6 +50,8 @@ function App() {
           <Route element={<PrivateRoute element={<StudentLayout />} />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/course-details-student" element={<CourseDetailsStudent />} />
+            <Route path="/course-details-view" element={<CourseDetailsStudentView />} />
+            <Route path="/mycourse" element={<MyCourses />} />
             <Route path="/upsc-student" element={<UPSCStudent />} />
           </Route>
           <Route path="*" element={<div>Page Not Found</div>} />

@@ -72,8 +72,11 @@ const NavBar = () => {
             </ul>
           </div>
           <div className="lg:block hidden">
+            <button className="px-5 py-2 bg-[#054BB4] text-white rounded-full" onClick={() => navigate("/sign-In")}>
+              Login
+            </button>
             <button className="px-5 py-2 bg-[#054BB4] text-white rounded-full" onClick={() => navigate("/sign-Up")}>
-              Login/SignUp
+              SignUp
             </button>
           </div>
           <div className="lg:hidden text-2xl flex items-center relative z-30 text-[#054BB4]">

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FiLogOut, FiUser, FiBook, FiAward, FiMenu, FiChevronRight, FiCircle } from 'react-icons/fi';
+import { FiLogOut, FiUser, FiBook, FiAward, FiMenu, FiChevronRight, FiCircle, FiChevronLeft } from 'react-icons/fi';
 import Cookies from 'js-cookie';
 
 const links = [
@@ -14,6 +14,12 @@ const links = [
         link: "/course-details-student",
         icon: <FiBook />,
     },
+    {
+        label: "My Courses",
+        link: "/mycourse",
+        icon: <FiCircle />,
+    },
+
     {
         label: "UPSC",
         link: "/upsc-student",
@@ -44,7 +50,7 @@ const Sidebar = () => {
                     </p>
                 </div>
                 <button onClick={toggleSidebar} className=" block text-2xl focus:outline-none">
-                    {isCollapsed ? <FiChevronRight /> : <FiCircle />}
+                    {isCollapsed ? <FiChevronRight /> : <FiChevronLeft />}
                 </button>
             </div>
             <div className={`flex flex-col items-center justify-center gap-4 font-medium text-xl ${isCollapsed ? 'mt-8' : 'mt-16'}`}>

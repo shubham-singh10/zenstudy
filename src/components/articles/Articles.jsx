@@ -14,6 +14,7 @@ const Articles = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const navigate = useNavigate()
 
+
     // Artcile get data API
     useEffect(() => {
         const getarcticle = async () => {
@@ -39,8 +40,11 @@ const Articles = () => {
         }
 
 
+
+
         getarcticle()
     }, [currentPage])
+
 
     const filteredData = articlePost.filter((post) => {
         const titleMatch = post.title.toLowerCase().includes(searchText.toLowerCase());
@@ -48,8 +52,9 @@ const Articles = () => {
         return titleMatch && categoryMatch;
     });
 
+
     useEffect(() => {
-        setCurrentPage(1); 
+        setCurrentPage(1);
     }, [searchText, category])
     if (loading) {
         return <div className="flex items-center justify-center h-screen">
@@ -58,6 +63,7 @@ const Articles = () => {
         </div>
     }
 
+
     if (error) {
         // navigate(0)
         return <div className="flex items-center justify-center h-screen">
@@ -65,21 +71,28 @@ const Articles = () => {
         </div>;
     }
 
+
     const paginatedData = filteredData.slice(
         (currentPage - 1) * itemperpage,
         currentPage * itemperpage
     )
+
 
     const stripHtmlTags = (html) => {
         const doc = new DOMParser().parseFromString(html, 'text/html');
         return doc.body.textContent || "";
     };
 
-    
+
+
     return (
         <div className="px-0 md:px-10 lg:px-12 m-10">
-            <h1 className="text-3xl font-bold text-center mb-6">Our Blog Posts</h1>
-            <div className="flex flex-col md:flex-row lg:flex-row justify-between space-x-4 my-8 mx-50px">
+
+
+            <h1 className=' text-2xl mt-10 md:text-3xl lg:text-4xl mb-8 text-center text-[#054BB4] font-semibold'>O<span className='border-b-8 border-[#054BB4]'>ur Blog Pos</span>ts</h1>
+
+
+            <div className="flex flex-col md:flex-row lg:flex-row justify-between gap-4 my-8 mx-50px">
                 <div className="flex items-center bg-blue-100 rounded-full px-4 py-2 mb-4 w-full md:w-1/2 lg:w-1/2 ">
                     <input
                         type="text"
@@ -115,6 +128,7 @@ const Articles = () => {
                 </div>
             </div>
 
+
             <div className="space-y-4 mt-10 ">
                 {paginatedData.length === 0 ? (
                     <div className='text-5xl flex items-center justify-center m-55'>
@@ -146,6 +160,5 @@ const Articles = () => {
         </div>
     );
 };
-
 
 export default Articles;

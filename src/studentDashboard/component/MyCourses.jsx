@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import PaginationNew from '../../components/pagination/PaginationNew';
 import { FaSearch } from 'react-icons/fa';
-
+import Cookies from 'js-cookie';
 const CourseCard = ({ course }) => {
     const navigate = useNavigate()
     const formatDate = (dateString) => {
@@ -36,29 +36,39 @@ const CourseCard = ({ course }) => {
     );
 };
 
-const CourseDeatils = () => {
+const MyCourses = () => {
     const [courses, setCourse] = useState([])
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1)
     const itemperpage = 6
     const [searchText, setSearchText] = useState('');
+    const token = Cookies.get("access_tokennew");
+    let userId = null;
 
+    if (token) {
+        try {
+            userId = token;
+        } catch (error) {
+            console.error('Error decoding token:', error);
+        }
+    }
     useEffect(() => {
         const getcourse = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/course`, {
-                    method: 'GET',
+                const response = await fetch(`${process.env.REACT_APP_API3}zenstudy/api/payment/purchaseCourse`, {
+                    method: 'POST',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
+                    body:JSON.stringify({user_id:userId})
                 });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
                 console.log("Course_data", data)
-                setCourse(data);
+                setCourse(data.courses);
                 setLoading(false);
             } catch (error) {
                 console.log("Error:", error);
@@ -114,4 +124,4 @@ const CourseDeatils = () => {
     )
 }
 
-export default CourseDeatils
+export default MyCourses

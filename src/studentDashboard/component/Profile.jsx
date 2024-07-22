@@ -9,31 +9,30 @@ const Profile = () => {
         name: '',
         email: '',
         phone: '',
-        address: '',
-        city: '',
-        state: '',
-        country: '',
-        pincode: ''
+        Address: '',
+        City: '',
+        State: '',
+        Country: '',
+        Pincode: '',
+        avatar: ""
     });
     const [image, setImage] = useState('https://i.ibb.co/GcKk9fh/images-2.jpg');
-    const [imageFile, setImageFile] = useState(null);
     const [loading, setLoading] = useState(false);
-
     const token = Cookies.get("access_tokennew");
     let userId = null;
 
     if (token) {
         try {
-            userId = token; // Adjust based on your token's structure
+            userId = token;
         } catch (error) {
             console.error('Error decoding token:', error);
         }
     }
 
+    // Handel Image Update
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setImageFile(file);
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImage(reader.result);
@@ -42,6 +41,7 @@ const Profile = () => {
         }
     };
 
+    //Get User Data API
     const getUserData = async (userId) => {
         try {
             const response = await fetch(
@@ -58,6 +58,7 @@ const Profile = () => {
                 throw new Error(errorData.message || "Failed to fetch user data");
             }
             const resData = await response.json();
+            //console.log("User_ProfileData", resData)
             setUserData(resData.userdetail || {});
         } catch (error) {
             Swal.fire({
@@ -68,12 +69,14 @@ const Profile = () => {
         }
     };
 
+    // Update User API 
     const submitData = async () => {
-        if (!userId) return; // Exit if userId is not available
+        if (!userId) return;
 
         setLoading(true);
+        // console.log("User_Data", userData)
         try {
-            const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/user/update/${userId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API3}zenstudy/api/user/updatenew/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,23 +89,35 @@ const Profile = () => {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Failed to update user');
             }
+            const resData = await response.json()
+            // console.log("Response_Data", resData)
+            if (resData.message === "Success") {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'User updated successfully',
+                });
+            }
 
-            Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'User updated successfully',
-            });
         } catch (error) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: `Error: ${error.message}`,
+                text: `Error: User update failed.`,
             });
         } finally {
             setLoading(false);
         }
     };
 
+    //User for set Image
+    useEffect(() => {
+        if (userData?.avatar) {
+            setImage(userData.avatar);
+        }
+    }, [userData])
+
+    //Call getUser Data
     useEffect(() => {
         if (userId) {
             getUserData(userId);
@@ -149,51 +164,51 @@ const Profile = () => {
             <TextField
                 label="Address"
                 variant="outlined"
-                value={userData.address || ''}
+                value={userData.Address || ''}
                 fullWidth
-                onChange={(e) => setUserData(prev => ({ ...prev, address: e.target.value }))}
+                onChange={(e) => setUserData(prev => ({ ...prev, Address: e.target.value }))}
             />
             <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
                 <TextField
                     label="City"
                     variant="outlined"
-                    value={userData.city || ''}
+                    value={userData.City || ''}
                     className="w-full md:w-1/2"
-                    onChange={(e) => setUserData(prev => ({ ...prev, city: e.target.value }))}
+                    onChange={(e) => setUserData(prev => ({ ...prev, City: e.target.value }))}
                 />
                 <TextField
                     label="State"
                     variant="outlined"
-                    value={userData.state || ''}
+                    value={userData.State || ''}
                     className="w-full md:w-1/2"
-                    onChange={(e) => setUserData(prev => ({ ...prev, state: e.target.value }))}
+                    onChange={(e) => setUserData(prev => ({ ...prev, State: e.target.value }))}
                 />
             </div>
             <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
                 <TextField
                     label="Country"
                     variant="outlined"
-                    value={userData.country || ''}
+                    value={userData.Country || ''}
                     className="w-full md:w-1/2"
-                    onChange={(e) => setUserData(prev => ({ ...prev, country: e.target.value }))}
+                    onChange={(e) => setUserData(prev => ({ ...prev, Country: e.target.value }))}
                 />
                 <TextField
                     label="Pincode"
                     variant="outlined"
-                    value={userData.pincode || ''}
+                    value={userData.Pincode || ''}
                     className="w-full md:w-1/2"
-                    onChange={(e) => setUserData(prev => ({ ...prev, pincode: e.target.value }))}
+                    onChange={(e) => setUserData(prev => ({ ...prev, Pincode: e.target.value }))}
                 />
             </div>
             <div className="flex justify-end">
-                {/* <Button
+                <Button
                     variant="contained"
                     color="primary"
                     onClick={submitData}
                     disabled={loading}
                 >
                     {loading ? 'Updating...' : 'Update'}
-                </Button> */}
+                </Button>
             </div>
         </form>
     );
