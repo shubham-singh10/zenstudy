@@ -73,10 +73,10 @@ function CardSlider() {
 
     return (
         <div className='w-full'>
-            <div className='mt-20 m-1 lg:m-20'>
+            <div className='mt-20 m-1 lg:m-20 '>
                 <Slider {...settings}>
                     {data.map((d, index) => (
-                        <div className="max-w-sm rounded-2xl overflow-hidden shadow-lg m-4 p-4">
+                        <div className="max-w-sm rounded-2xl overflow-hidden  shadow-lg m-4 p-4">
                             <img
                                 className="w-full h-52 rounded-2xl"
                                 src={d.img}

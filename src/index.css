@@ -26,12 +26,14 @@
 
 .slick-slide > div {
   margin: 0  10px !important;
+  display: flex;
+  justify-content: center;
 }
 
 
 /* Custom styles for the previous arrow */
 .slick-prev {
-  left: -5px !important; /* Adjust position as needed */
+  left: 0px !important; /* Adjust position as needed */
   z-index: 1 !important;
   background-color: hsla(0, 0%, 47%, 0.5); /* Semi-transparent background */
   border-radius: 50% !important;
@@ -49,7 +51,7 @@
 
 /* Custom styles for the next arrow */
 .slick-next {
-  right: -5px !important; /* Adjust position as needed */
+  right: 0px !important; /* Adjust position as needed */
   z-index: 1 !important;
   background-color: hsla(0, 0%, 47%, 0.5); /* Semi-transparent background */
   border-radius: 50% !important;
