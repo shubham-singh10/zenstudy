@@ -1,6 +1,5 @@
 import { Fragment, Suspense, lazy } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import Cookies from 'js-cookie'
+import { Route, Routes } from "react-router-dom";
 import Loading from "./Loading.jsx";
 import MainLayout from "./MainLayout.jsx";
 import StudentLayout from "./studentDashboard/StudentLayout.jsx";
@@ -27,8 +26,6 @@ const MyCourses = lazy(() => import("./studentDashboard/component/MyCourses.jsx"
 const UPSCStudent = lazy(() => import("./studentDashboard/component/Upse.jsx"))
 
 function App() {
-  // const navigate = useNavigate()
-  // const isAuthenticated = !!Cookies.get('access_tokennew')
   return (
     <Fragment>
       <Suspense fallback={<Loading />}>
