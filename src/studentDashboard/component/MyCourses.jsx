@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import PaginationNew from '../../components/pagination/PaginationNew';
 import { FaSearch } from 'react-icons/fa';
 import Cookies from 'js-cookie';
+
 const CourseCard = ({ course }) => {
     const navigate = useNavigate()
     const formatDate = (dateString) => {
@@ -16,20 +17,20 @@ const CourseCard = ({ course }) => {
         <div className="max-w-sm rounded-2xl overflow-hidden shadow-lg m-4 p-4">
             <img
                 className="w-full h-52 rounded-2xl"
-                src={course.image}
+                src={course.course_id.image}
                 alt="Course "
             />
             <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2 text-blue-600">{course.title}</div>
-                <p className="text-gray-700 text-base">{course.tutor}</p>
-                <p className="text-gray-600">{formatDate(course.createdAt)}</p>
-                <p className="text-gray-600">{course.day}</p>
+                <div className="font-bold text-xl mb-2 text-blue-600">{course.course_id.title}</div>
+                <p className="text-gray-700 text-base">{course.course_id.tutor}</p>
+                <p className="text-gray-600">{formatDate(course.course_id.createdAt)}</p>
+                <p className="text-gray-600">{course.course_id.day}</p>
 
             </div>
             <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center">
-                <p className="text-blue-600 font-bold text-2xl">₹{course.price}</p>
-                <button className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full" onClick={() => navigate("/course-details-view", { state: { courseId: course._id } })}>
-                    View Details
+                <p className="text-blue-600 font-bold text-2xl">₹{course.course_id.price}</p>
+                <button className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full" onClick={() => navigate("/course-details-view", { state: { courseId: course.course_id._id } })}>
+                    Watch Course
                 </button>
             </div>
         </div>
@@ -67,8 +68,8 @@ const MyCourses = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                console.log("Course_data", data)
-                setCourse(data.courses);
+                //console.log("Purchase_course", data)
+                setCourse(data.purchaseCourses);
                 setLoading(false);
             } catch (error) {
                 console.log("Error:", error);
@@ -81,7 +82,7 @@ const MyCourses = () => {
     }, [])
 
     const filteredData = courses.filter((course) => {
-        const titleMatch = course.title.toLowerCase().includes(searchText.toLowerCase());
+        const titleMatch = course.course_id.title.toLowerCase().includes(searchText.toLowerCase());
         return titleMatch;
     });
 

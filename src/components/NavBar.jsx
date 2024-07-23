@@ -100,7 +100,7 @@ const NavBar = () => {
           <div
             className="lg:hidden w-full bg-[#054BB4] text-white overflow-hidden"
           >
-            <div className="w-full h-[120vh] bg-[#054BB4] relative top-[-230px] text-white ">
+            <div className="w-full h-[120vh] bg-[#054BB4] relative top-[-190px] text-white ">
               <div className="w-full h-full absolute flex items-center justify-center flex-col gap-5">
                 <ul className="flex flex-col items-center justify-center  text-lg w-full">
                   {navLink.map((item) => (

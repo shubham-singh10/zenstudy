@@ -1,16 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { FiEye, FiEyeOff, FiFacebook, FiInstagram, FiTwitter, FiYoutube } from "react-icons/fi";
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { Box, TextField, InputAdornment } from '@mui/material'
-import { MdPerson, MdPhone } from 'react-icons/md'
+import { Box, TextField, InputAdornment } from '@mui/material';
+import { MdPerson, MdPhone } from 'react-icons/md';
 import { firebase } from '../../Firebase'; // Adjust the import path as necessary
-import {
-    getAuth,
-    signInWithCredential,
-    PhoneAuthProvider,
-} from "firebase/auth";
+import { useSpring, animated } from "@react-spring/web";
+import { getAuth, signInWithCredential, PhoneAuthProvider } from "firebase/auth";
 import Swal from 'sweetalert2';
+import { useInView } from 'react-intersection-observer';
+
 
 const SignUp = () => {
     const [formData, setFormData] = useState({
@@ -18,26 +17,52 @@ const SignUp = () => {
         phone: "",
         password: "",
         cpassword: ""
-    })
+    });
     const [otpSent, setOtpSent] = useState(false);
-    const [showPassword, setShowPassword] = useState(false)
-    const [showCPassword, setShowCPassword] = useState(false)
-    const [showotpForm, setShowOtpForm] = useState(false)
+    const [showPassword, setShowPassword] = useState(false);
+    const [showCPassword, setShowCPassword] = useState(false);
+    const [showotpForm, setShowOtpForm] = useState(false);
     const [timer, setTimer] = useState(40);
     const [loading, setLoading] = useState(false);
     const [otploading, setotpLoading] = useState(false);
     const [verificationId, setVerificationId] = useState(null);
-    const [otpError, setOtpError] = useState("")
-    const { register, handleSubmit, formState: { errors }, watch } = useForm()
-    const { register: register2, handleSubmit: handleSubmit2, formState: { errors: errors2 } } = useForm()
-    const navigate = useNavigate()
+    const [otpError, setOtpError] = useState("");
+    const { register, handleSubmit, formState: { errors }, watch } = useForm();
+    const { register: register2, handleSubmit: handleSubmit2, formState: { errors: errors2 } } = useForm();
+    const navigate = useNavigate();
+    const password = watch("password");
 
-    const password = watch("password")
 
-    //Handle OTP Sent to firebase
+    // Intersection Observers
+    const { ref: slideLeftRef, inView: slideLeftInView } = useInView({ triggerOnce: true });
+    const { ref: slideUpRef, inView: slideUpInView } = useInView({ triggerOnce: true });
+    const { ref: slideRightRef, inView: slideRightInView } = useInView({ triggerOnce: true });
+
+
+    const SlideUp = useSpring({
+        from: { y: 100, opacity: 0 },
+        to: { y: slideUpInView ? 0 : 100, opacity: slideUpInView ? 1 : 0 },
+        config: { duration: 500 },
+    });
+
+
+    const SlideLeft = useSpring({
+        from: { x: -100, opacity: 0 },
+        to: { x: slideLeftInView ? 0 : -100, opacity: slideLeftInView ? 1 : 0 },
+        config: { duration: 500 },
+    });
+
+
+    const SlideRight = useSpring({
+        from: { x: 100, opacity: 0 },
+        to: { x: slideRightInView ? 0 : 100, opacity: slideRightInView ? 1 : 0 },
+        config: { duration: 500 },
+    });
+
+
+    // Handle OTP Sent to firebase
     const handlePhoneNumberAuth = async (phoneNumber) => {
         try {
-            // Check if recaptchaVerifier is already initialized
             if (!window.recaptchaVerifier) {
                 window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
                     size: 'invisible',
@@ -46,6 +71,7 @@ const SignUp = () => {
                     },
                 });
             }
+
 
             const appVerifier = window.recaptchaVerifier;
             const confirmationResult = await firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier);
@@ -67,14 +93,15 @@ const SignUp = () => {
         }
     };
 
-    //called Otp Send function and User Verification code
+
+    // Called Otp Send function and User Verification code
     const OnSubmit = async (data) => {
-        setLoading(true)
+        setLoading(true);
         setFormData(data);
         try {
             const sendData = {
                 phone: data.phone,
-            }
+            };
             const response = await fetch(
                 `${process.env.REACT_APP_API2}zenstudy/api/auth/user-check`,
                 {
@@ -86,27 +113,26 @@ const SignUp = () => {
                 }
             );
 
+
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || "Register failed");
             }
             const resData = await response.json();
-            //console.log("ResData", resData)
             if (resData.message === "Success") {
                 Swal.fire({
                     icon: "error",
                     title: "User Already Registered",
                     text: "This phone number is already associated with an account. Please log in to continue.",
                 });
-
             }
         } catch (error) {
             await handlePhoneNumberAuth(`+91${data.phone}`);
         }
+    };
 
-    }
 
-    //Resend OTP Timer 40 sec
+    // Resend OTP Timer 40 sec
     const startTimer = () => {
         setOtpSent(true);
         const interval = setInterval(() => {
@@ -122,21 +148,20 @@ const SignUp = () => {
         }, 1000);
     };
 
-    //OTP Verification and user registration API call
+
+    // OTP Verification and user registration API call
     const OnSubmitOTP = async (data) => {
         try {
-            // Verify OTP
-            setotpLoading(true)
+            setotpLoading(true);
             const auth = getAuth();
-            const credential = PhoneAuthProvider.credential(verificationId, data.otp)
+            const credential = PhoneAuthProvider.credential(verificationId, data.otp);
             await signInWithCredential(auth, credential);
 
-            // Destructure formData
-            const { phone, name, password } = formData;
 
+            const { phone, name, password } = formData;
             const sendData = { phone, name, password };
 
-            // Send user data to your backend
+
             const response = await fetch(
                 `${process.env.REACT_APP_API2}zenstudy/api/auth/readerSignup`,
                 {
@@ -148,14 +173,14 @@ const SignUp = () => {
                 }
             );
 
+
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || "Registration failed");
             }
 
-            const resData = await response.json();
-            console.log("ResData", resData);
 
+            const resData = await response.json();
             if (resData.message === "Success") {
                 Swal.fire({
                     icon: "success",
@@ -167,8 +192,7 @@ const SignUp = () => {
         } catch (error) {
             console.error('Error verifying OTP:', error);
             setOtpError("Invalid OTP. Please try again.");
-            setotpLoading(false)
-            // Show SweetAlert error notification for registration failure
+            setotpLoading(false);
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
@@ -177,16 +201,18 @@ const SignUp = () => {
         }
     };
 
-    //Used to resent OTP
+
+    // Used to resend OTP
     const resendOtp = async () => {
         await handlePhoneNumberAuth(`+91${formData.phone}`);
     };
+
 
     return (
         <div className='p-2 lg:p-12 md:p-10'>
             <div id="recaptcha-container"></div>
             <div className="flex flex-col items-center lg:flex-row p-4 lg:p-12 bg-white gap-10 w-full h-full">
-                <div className=" bg-blue-600 text-center text-white p-4 lg:p-16 rounded-3xl  lg:w-1/4 w-full">
+                <animated.div ref={slideLeftRef} style={SlideLeft} className="bg-blue-600 text-center text-white p-4 lg:p-16 rounded-3xl lg:w-1/4 w-full">
                     <h1 className="text-2xl font-bold mb-4">Welcome to ZenStudy</h1>
                     <h3 className="text-xl font-bold mb-4">Connect with us</h3>
                     <div className="flex space-x-4 justify-center">
@@ -195,12 +221,12 @@ const SignUp = () => {
                         <Link href="#" className="hover:bg-[#4267B2] rounded-full p-2"><FiFacebook size={25} className='hover:text-white' /></Link>
                         <Link href="#" className="hover:bg-[#1DA1F2] rounded-full p-2"><FiTwitter size={25} className='hover:text-white' /></Link>
                     </div>
-                </div>
-                <div className="flex-1 p-8 lg:w-3/4 w-full text-center lg:text-center">
-                    <h2 className="text-3xl font-bold mb-4 text-blue-600">Join the ZenStudy Community</h2>
-                    <p className="text-xl text-gray-600 mb-4">Sign up now to start your learning journey with us.</p>
-                    <form className={`space-y-4 ${showotpForm && "hidden"}`} onSubmit={handleSubmit(OnSubmit)}>
-                        <Box sx={{ '& > :not(style)': { m: 1 }, }} noValidate autoComplete="off">
+                </animated.div>
+                <div className="flex-1 p-2 lg:p-8 lg:w-3/4 w-full text-center lg:text-center">
+                    <animated.h2 ref={slideUpRef} style={SlideUp} className="text-3xl font-bold mb-4 text-blue-600">Join the ZenStudy Community</animated.h2>
+                    <animated.p ref={slideUpRef} style={SlideUp} className="text-xl text-gray-600 mb-4">Sign up now to start your learning journey with us.</animated.p>
+                    <animated.form ref={slideRightRef} style={SlideRight} className={`space-y-4 ${showotpForm && "hidden"}`} onSubmit={handleSubmit(OnSubmit)}>
+                        <Box sx={{ '& > :not(style)': { m: 1 } }} noValidate autoComplete="off">
                             <TextField
                                 className='w-full'
                                 id="name"
@@ -285,16 +311,17 @@ const SignUp = () => {
                         <div className='flex justify-between'>
                             <p>Already have an account ? <Link to="/sign-In" className='underline text-blue-500 hover:text-blue-700'>Login</Link></p>
                             {loading ? (
-                                <button disabled className="bg-red-600 text-white py-2 px-10 rounded-full">Please wait...</button>
+                                <button disabled className="bg-red-600 text-white py-2 lg:py-2 lg:px-10 px-4 rounded-full">Please wait...</button>
                             ) : (
-                                <button type="submit" className="bg-blue-600 text-white py-2 px-10 rounded-full">Register</button>
+                                <button type="submit" className="bg-blue-600 text-white py-2 lg:py-2 lg:px-10 px-4 rounded-full">Register</button>
                             )}
                         </div>
-                    </form>
+                    </animated.form>
+
 
                     {/* OTP Form */}
                     <form className={`space-y-4 ${!showotpForm && "hidden"}`} onSubmit={handleSubmit2(OnSubmitOTP)}>
-                        <Box sx={{ '& > :not(style)': { m: 1 }, }} noValidate autoComplete="off">
+                        <Box sx={{ '& > :not(style)': { m: 1 } }} noValidate autoComplete="off">
                             <TextField
                                 className='w-full'
                                 id="otp"
@@ -316,10 +343,12 @@ const SignUp = () => {
                         </div>
                     </form>
 
+
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default SignUp
+
+export default SignUp;

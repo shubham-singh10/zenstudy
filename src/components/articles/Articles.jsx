@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { FaSearch } from "react-icons/fa";
-import PaginationNew from '../../components/pagination/PaginationNew';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowRight } from 'react-icons/fi';
 import he from 'he';
+import Pagination from '../pagination/Pagination';
 const Articles = () => {
     const [articlePost, setArticlePost] = useState([]);
+    const [articleTotal, setArticleTotal] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchText, setSearchText] = useState('');
@@ -14,12 +15,13 @@ const Articles = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const navigate = useNavigate()
 
-
     // Artcile get data API
     useEffect(() => {
+
         const getarcticle = async () => {
+            setLoading(true)
             try {
-                const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/post/getposts`, {
+                const response = await fetch(`${process.env.REACT_APP_API3}zenstudy/api/post/getposts?page=${currentPage}&limit=${itemperpage}&category=${category}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -30,32 +32,24 @@ const Articles = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                console.log("Article_data", data)
+                //console.log("Article_data", data)
                 setArticlePost(data.posts);
+                setArticleTotal(data.totalPages);
                 setLoading(false);
             } catch (error) {
                 setError(error);
                 setLoading(false);
             }
         }
-
-
-
-
         getarcticle()
-    }, [currentPage])
+    }, [currentPage, category])
 
 
-    const filteredData = articlePost.filter((post) => {
-        const titleMatch = post.title.toLowerCase().includes(searchText.toLowerCase());
-        const categoryMatch = category === 'none' || post.category === category;
-        return titleMatch && categoryMatch;
-    });
+    const filteredData = articlePost.filter((post) =>
+        post.title.toLowerCase().includes(searchText.toLowerCase())
 
+    );
 
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [searchText, category])
     if (loading) {
         return <div className="flex items-center justify-center h-screen">
             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
@@ -71,13 +65,6 @@ const Articles = () => {
         </div>;
     }
 
-
-    const paginatedData = filteredData.slice(
-        (currentPage - 1) * itemperpage,
-        currentPage * itemperpage
-    )
-
-
     const stripHtmlTags = (html) => {
         const doc = new DOMParser().parseFromString(html, 'text/html');
         return doc.body.textContent || "";
@@ -87,10 +74,7 @@ const Articles = () => {
 
     return (
         <div className="px-0 md:px-10 lg:px-12 m-10">
-
-
             <h1 className=' text-2xl mt-10 md:text-3xl lg:text-4xl mb-8 text-center text-[#054BB4] font-semibold'>O<span className='border-b-8 border-[#054BB4]'>ur Blog Pos</span>ts</h1>
-
 
             <div className="flex flex-col md:flex-row lg:flex-row justify-between gap-4 my-8 mx-50px">
                 <div className="flex items-center bg-blue-100 rounded-full px-4 py-2 mb-4 w-full md:w-1/2 lg:w-1/2 ">
@@ -128,20 +112,22 @@ const Articles = () => {
                 </div>
             </div>
 
-
             <div className="space-y-4 mt-10 ">
-                {paginatedData.length === 0 ? (
+                {filteredData.length === 0 ? (
                     <div className='text-5xl flex items-center justify-center m-55'>
                         <h1>No Data Found</h1>
                     </div>
-                ) : (paginatedData.map((post, index) => (
+                ) : (filteredData.map((post, index) => (
                     <div key={index} className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden mb-10 hover:shadow-lg transition duration-300">
                         <img src={post.image} alt={post.title} className="h-full w-full md:w-1/3 object-cover object-center" />
                         <div className="p-4 flex flex-col justify-between flex-1">
                             <div>
                                 <h2 className="text-xl font-bold">{post.title}</h2>
                                 <p className="text-gray-600 mt-2 text-justify">{stripHtmlTags(he.decode(post.content)).substring(0, 500)}...</p>
-                                <h1 className="text-blue-500 mt-2 font-extrabold">{post.category}</h1>
+                                <div className="flex justify-between mt-2">
+                                    <h1 className="text-blue-500 font-extrabold">{post.category}</h1>
+                                    <h1 className="text-gray-600 font-extrabold">Author-<span className='text-indigo-500'>{post.userId?.name}</span></h1>
+                                </div>
                             </div>
                             <div className="flex justify-between items-center mt-4">
                                 <button className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 flex justify-center gap-1" onClick={() => navigate("/article-details", { state: { postId: post._id } })}>Read More <FiArrowRight className='h-5 w-5' /></button>
@@ -151,12 +137,12 @@ const Articles = () => {
                     </div>
                 )))}
             </div>
-            <PaginationNew
+            {!searchText && (<Pagination
                 setCurrentPage={setCurrentPage}
                 currentPage={currentPage}
-                data={filteredData}
+                data={articleTotal}
                 itemsPerPage={itemperpage}
-            />
+            />)}
         </div>
     );
 };

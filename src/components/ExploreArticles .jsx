@@ -3,9 +3,6 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
 
-
-
-
 const ExploreArticles = () => {
   // Use react-intersection-observer to detect when elements are in view
   const { ref: refSlideUp, inView: inViewSlideUp } = useInView({
@@ -21,17 +18,11 @@ const ExploreArticles = () => {
     threshold: 0.1,
   });
 
-
-
-
   const SlideUp = useSpring({
     from: { y: 100, opacity: 0 },
     to: { y: inViewSlideUp ? 0 : 100, opacity: inViewSlideUp ? 1 : 0 },
     config: { duration: 500 },
   });
-
-
-
 
   const SlideLeft = useSpring({
     from: { x: -100, opacity: 0 },
@@ -39,17 +30,11 @@ const ExploreArticles = () => {
     config: { duration: 500 },
   });
 
-
-
-
   const SlideRight = useSpring({
     from: { x: 100, opacity: 0 },
     to: { x: inViewSlideRight ? 0 : 100, opacity: inViewSlideRight ? 1 : 0 },
     config: { duration: 500 },
   });
-
-
-
 
   const images = [
     {
@@ -100,8 +85,8 @@ const ExploreArticles = () => {
 
         <div className="flex lg:flex-row flex-col">
           <animated.div
-            ref={refSlideLeft}
-            style={SlideLeft}
+            ref={refSlideUp}
+            style={SlideUp}
             className="lg:w-[60vw] h-[70vh] flex w-full"
           >
             <div className="w-2/4 h-full flex flex-col justify-between">
@@ -170,8 +155,8 @@ const ExploreArticles = () => {
             </div>
           </animated.div>
           <animated.div
-            ref={refSlideRight}
-            style={SlideRight}
+            ref={refSlideLeft}
+            style={SlideLeft}
             className="lg:w-[35vw] mt-10 md:mt-10 lg:mt-0 flex flex-col lg:items-end justify-center gap-5 w-full items-start"
           >
             <p className="lg:text-3xl text-2xl font-bold text-[#054BB4]">
@@ -193,11 +178,4 @@ const ExploreArticles = () => {
   );
 };
 
-
-
-
 export default ExploreArticles;
-
-
-
-
