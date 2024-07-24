@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import Cookies from 'js-cookie';
 
 const navLink = [
   {
@@ -71,7 +72,7 @@ const NavBar = () => {
               ))}
             </ul>
           </div>
-          <div className="lg:block hidden space-x-4">
+          {!Cookies.get('access_tokennew') ? (<div className="lg:block hidden space-x-4">
             <button
               className="px-5 py-2 bg-[#054BB4] text-white rounded-full hover:bg-[#063e92] transition-colors duration-200"
               onClick={() => navigate("/sign-In")}
@@ -84,7 +85,16 @@ const NavBar = () => {
             >
               Sign Up
             </button>
-          </div>
+          </div>) : (
+            <div className="lg:block hidden space-x-4">
+              <button
+                className="px-5 py-2 bg-[#054BB4] text-white rounded-full hover:bg-[#063e92] transition-colors duration-200"
+                onClick={() => navigate("/profile")}
+              >
+                Go to Dashboard
+              </button>
+            </div>
+          )}
 
           <div className="lg:hidden text-2xl flex items-center relative z-30 text-[#054BB4]">
             {!hamBurger ? (

@@ -3,7 +3,7 @@ import { IoClose, IoNotifications } from 'react-icons/io5';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { FiUser, FiBook, FiAward, FiCircle } from 'react-icons/fi';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-
+import Cookies from 'js-cookie';
 const links = [
     {
         label: "Profile",
@@ -49,6 +49,7 @@ const StudentDashNavbar = () => {
     };
     const handleLogout =()=>{
         localStorage.removeItem("userData")
+        Cookies.remove('access_tokennew')
         navigate("/")
         setIsOpen(!isOpen);
     }

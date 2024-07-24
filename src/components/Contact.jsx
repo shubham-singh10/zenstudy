@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
@@ -8,9 +8,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
 import { FiFacebook, FiInstagram, FiTwitter, FiYoutube } from "react-icons/fi";
-
-
-
+import Swal from "sweetalert2";
 
 const ContactUs = () => {
     // Hooks for section visibility
@@ -27,9 +25,6 @@ const ContactUs = () => {
         threshold: 0.1,
     });
 
-
-
-
     // Animation for left sliding section
     const SlideLeft = useSpring({
         from: { x: -100, opacity: 0 },
@@ -37,18 +32,12 @@ const ContactUs = () => {
         config: { duration: 500 },
     });
 
-
-
-
     // Animation for right sliding section
     const SlideRight = useSpring({
         from: { x: 100, opacity: 0 },
         to: { x: inViewSlideRight ? 0 : 100, opacity: inViewSlideRight ? 1 : 0 },
         config: { duration: 500 },
     });
-
-
-
 
     // Animation for the map section
     const SlideLeftMap = useSpring({
@@ -60,8 +49,93 @@ const ContactUs = () => {
         config: { duration: 500 },
     });
 
+    const [formData, setFormData] = useState({
+        fullName: "",
+        email: "",
+        message: "",
+    });
+    const [Loading, setLoading] = useState(false)
 
+    const [errors, setErrors] = useState({
+        email: "",
+    });
 
+    // Handle form change
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+
+        if (name === "email") {
+            setErrors({ email: "" });
+        }
+    };
+
+    const validateEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    };
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        let valid = true;
+
+        // Email validation
+        if (!validateEmail(formData.email)) {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                email: "Email is not valid",
+            }));
+            valid = false;
+        }
+
+        if (valid) {
+            setLoading(true)
+            try {
+                const sendData = {
+                    name: formData.fullName,
+                    email: formData.email,
+                    message: formData.message
+                }
+                const response = await fetch(`${process.env.REACT_APP_API3}zenstudy/api/contact`, {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(sendData)
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                // console.log("Contact", data)
+                if (data) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Message Sent Successfully!",
+                        timer: 3000,
+                        text: "Thank you for reaching out. We will get back to you soon."
+                    });
+                }
+                setLoading(false);
+            } catch (error) {
+                console.error("Error:", error);
+            } finally {
+                setLoading(false);
+            }
+
+            // Clear form data
+            setFormData({
+                fullName: "",
+                email: "",
+                message: "",
+            });
+        }
+
+    }
 
     return (
         <div>
@@ -121,9 +195,8 @@ const ContactUs = () => {
                     <h2 className="text-3xl font-bold mb-8 text-blue-600">
                         Get In Touch
                     </h2>
-                    <form className="space-y-4">
+                    <form className="space-y-4" onSubmit={onSubmit}>
                         <Box
-                            component="form"
                             sx={{ "& > :not(style)": { m: 1 } }}
                             noValidate
                             autoComplete="off"
@@ -131,38 +204,47 @@ const ContactUs = () => {
                             <TextField
                                 className="w-full"
                                 id="outlined-basic"
+                                name="fullName"
                                 label="Enter Full Name"
+                                value={formData.fullName}
+                                onChange={handleChange}
                                 variant="outlined"
                             />
                             <TextField
                                 className="w-full"
                                 id="outlined-basic"
+                                name="email"
+                                type="email"
+                                value={formData.email}
+                                onChange={handleChange}
                                 label="Enter Your Email"
+                                error={!!errors.email}
+                                helperText={errors.email}
                                 variant="outlined"
                             />
                             <TextField
                                 className="w-full"
                                 id="outlined-basic"
+                                name="message"
+                                value={formData.message}
+                                onChange={handleChange}
                                 label="Enter Your Message"
                                 variant="outlined"
+                                multiline
+                                rows={4}
                             />
                         </Box>
-
-
-
 
                         <button
                             type="submit"
                             className="bg-blue-600 text-white py-2 px-4 rounded-md"
+                            disabled={Loading}
                         >
-                            Submit
+                            {Loading ? "Please wait..." : "Submit"}
                         </button>
                     </form>
                 </animated.div>
             </div>
-
-
-
 
             <div ref={refSlideLeftMap} className="p-4 lg:p-16 md:p-8">
                 <animated.h2

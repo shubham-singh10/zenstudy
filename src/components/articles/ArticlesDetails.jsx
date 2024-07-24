@@ -1,22 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FiArrowLeft, FiThumbsUp } from "react-icons/fi";
 import { BsFillReplyFill, BsReply } from "react-icons/bs";
 import { useLocation, useNavigate } from 'react-router-dom';
 import he from 'he';
-
-
+import Cookies from 'js-cookie';
+import Swal from 'sweetalert2';
+import { ImSpinner2 } from 'react-icons/im';
 const ArticleDetail = () => {
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
     const [currentUser, setcurrentUser] = useState(false)
     const [articlePost, setArticlePost] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [loadingC, setLoadingC] = useState(false);
+    const [loadingL, setLoadingL] = useState(false);
+    const [likedComments, setLikedComments] = useState(new Set());
     const [error, setError] = useState(null);
     const navigate = useNavigate()
     const location = useLocation()
     const { postId } = location.state || {}
     const maxWordCount = 200;
 
+    useEffect(() => {
+        const token = Cookies.get("access_tokennew");
+        if (token) {
+            try {
+                setcurrentUser(token);
+            } catch (error) {
+                console.error('Error decoding token:', error);
+            }
+        }
+    }, []);
 
     const handleCommentChange = (e) => {
         if (e.target.value.split(' ').length <= maxWordCount) {
@@ -25,18 +39,112 @@ const ArticleDetail = () => {
     };
 
 
-    const handleAddComment = () => {
-        if (comment.trim()) {
-            setComments([...comments, comment]);
-            setComment('');
+    const handleAddComment = async () => {
+
+        setLoadingC(true)
+        try {
+            const sendData = {
+                postId: postId,
+                userId: currentUser,
+                content: comment
+            }
+            const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/comment/createnew`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(sendData)
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            console.log("Comment", data)
+            if (data) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Comment Sent Successfully!",
+                    timer: 3000,
+                    text: "Thank you for reaching out. We will get back to you soon."
+                });
+            }
+            setLoadingC(false);
+        } catch (error) {
+            console.error("Error:", error);
+        } finally {
+            setLoadingC(false);
         }
     };
 
+    const handleLikeComment = async (commentId) => {
+        console.log("Id", commentId)
+        setLoadingL(true)
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API3}zenstudy/api/comment/likeCommentNew/${commentId}`, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userId: currentUser })
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            console.log("Comment_Like", data)
+            if (data.comment.likes && data.comment.likes.includes(currentUser)) {
+                setLikedComments(prev => new Set(prev).add(commentId));
+                Swal.fire({
+                    icon: "success",
+                    title: "Liked!",
+                    text: "You liked this comment.",
+                    timer: 2000
+                });
+            } else {
+                setLikedComments(prev => {
+                    const updatedLikes = new Set(prev);
+                    updatedLikes.delete(commentId);
+                    return updatedLikes;
+                });
+                Swal.fire({
+                    icon: "error",
+                    title: "Disliked!",
+                    text: "You disliked this comment.",
+                    timer: 2000
+                });
+            }
+            setLoadingL(false);
+        } catch (error) {
+            console.error("Error:", error);
+        } finally {
+            setLoadingL(false);
+        }
+    };
+    
+    const getComment = useCallback(async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API3}zenstudy/api/comment/getPostComments/${postId}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            console.log("Comment", data);
+            setComments(data)
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }, [postId]);
 
     // Perticular Artcile get data API
     useEffect(() => {
-
-
         const getArticle = async () => {
             try {
                 const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/post/getPostDetails/${postId}`, {
@@ -50,7 +158,7 @@ const ArticleDetail = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                console.log("Article_data", data);
+                //console.log("Article_data", data);
                 setArticlePost(data.postDetails);
                 setLoading(false);
             } catch (error) {
@@ -59,9 +167,8 @@ const ArticleDetail = () => {
             }
         };
         getArticle()
-
-
-    }, [postId])
+        getComment()
+    }, [postId, getComment])
 
 
     if (loading) {
@@ -79,6 +186,13 @@ const ArticleDetail = () => {
     }
     const decodedContent = articlePost ? he.decode(articlePost.content) : '';
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
 
     return (
         <div className="container mx-auto p-4">
@@ -116,42 +230,50 @@ const ArticleDetail = () => {
                         {maxWordCount - comment.split(' ').length} Words left
                     </div>
 
-
                 </div>
                 <div style={{ marginTop: "-20px", float: 'right', marginRight: "50px" }}>
                     <button
                         className="bg-blue-600 text-right text-white px-10 py-2 rounded-full mt-2 "
-                        onClick={handleAddComment}>
-                        Send
+                        onClick={handleAddComment}
+                        disabled={loadingC}
+                    >
+                        {loadingC ? "Please wait..." : "Send"}
                     </button>
                 </div>
                 <br></br>
 
 
-                <div className="flex items-start m-4">
-                    <img
-                        src="https://images.pexels.com/photos/326055/pexels-photo-326055.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        alt="User"
-                        className="w-10 h-10 rounded-full mr-2 object-cover" />
-                    <div className="flex flex-col bg-white p-4 rounded-lg shadow-md w-full">
-                        <div className="flex justify-between items-center mb-2">
-                            <span className="text-blue-600 font-bold">Name</span>
-                        </div>
-                        <div className='flex flex-col'>
-                            <p className='mb-4 text-justify'>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos aliquam beatae illo eius accusantium provident eos corrupti asperiores vero, inventore reiciendis eaque aliquid. Rerum dolor suscipit voluptate officiis libero, minus assumenda adipisci eaque perferendis fugiat, possimus temporibus, soluta magni numquam? Dolorem eveniet cupiditate quaerat nisi laborum nulla enim deleniti distinctio ipsa sunt. Officia minus itaque ipsum quidem sit at, voluptatem adipisci minima omnis vitae. Quia accusamus perspiciatis, totam enim possimus sint quas repellat eius doloremque tempore, eos molestiae obcaecati laudantium est laboriosam culpa officia at animi? Debitis repudiandae iste voluptate eveniet veniam aliquam harum nam, tenetur adipisci, perferendis nulla earum rerum consequuntur nisi quasi ipsum error magnam, officia esse voluptatibus nesciunt assumenda accusantium? Aut, ea atque quia, laudantium mollitia dolores, omnis suscipit labore veniam sint nisi. Blanditiis consectetur ducimus sapiente magni numquam dolorem? Excepturi possimus doloremque ab esse similique nam, provident consectetur maiores cum illum atque eius reprehenderit deleniti nihil magnam quos, obcaecati non cumque quisquam amet at odio eaque! Laborum, omnis obcaecati earum rerum quod explicabo reiciendis corrupti itaque, inventore, atque mollitia nihil natus repellat alias? Eligendi illo neque porro numquam minima maxime doloremque laboriosam esse aspernatur repellat quo magni culpa perspiciatis facere, ducimus sapiente reprehenderit alias aut veritatis?
-                            </p>
-                            <div className='flex justify-end items-center gap-5'>
-                                <FiThumbsUp className='text-blue-500 h-10 w-10 cursor-pointer' />
-
-
-                                <BsFillReplyFill className='text-blue-500 h-10 w-10 cursor-pointer' />
-
-
+                {comments ? comments.map((cdata) => (
+                    <div className="flex items-start m-4" key={cdata?._id}>
+                        <img
+                            src="https://images.pexels.com/photos/326055/pexels-photo-326055.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                            alt="User"
+                            className="w-10 h-10 rounded-full mr-2 object-cover" />
+                        <div className="flex flex-col bg-white p-4 rounded-lg shadow-md w-full">
+                            <div className="flex justify-between items-center mb-2">
+                                <span className="text-blue-600 font-bold">{cdata?.userId?.name}</span>
+                            </div>
+                            <div className='flex flex-col'>
+                                <p className='mb-4 text-justify'>
+                                    {cdata?.content}
+                                </p>
+                                <div className='flex justify-between items-center p-4'>
+                                    <span>{formatDate(cdata?.createdAt)}</span>
+                                    <div className='flex gap-5'>
+                                        {loadingL && likedComments.has(cdata._id) ? (
+                                            <ImSpinner2 className='text-blue-500 h-8 w-8 animate-spin' />
+                                        ) : (
+                                            <FiThumbsUp
+                                                className={`h-8 w-8 cursor-pointer ${cdata?.likes.includes(currentUser)} ? 'text-blue-500' : 'text-gray-500'}`}
+                                                onClick={() => handleLikeComment(cdata._id)}
+                                            />
+                                        )}
+                                        {/* <BsFillReplyFill className='text-blue-500 h-10 w-10 cursor-pointer' /> */}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </div>)) : <h1>No comment Found</h1>}
 
 
             </div>) : (
