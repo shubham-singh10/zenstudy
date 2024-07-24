@@ -136,7 +136,7 @@ const ArticleDetail = () => {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-            console.log("Comment", data);
+            // console.log("Comment", data);
             setComments(data)
         } catch (error) {
             console.error("Error:", error);
@@ -279,7 +279,7 @@ const ArticleDetail = () => {
             </div>) : (
                 <div className='flex flex-wrap text-center justify-center m-4'>
                     <div className='text-2xl lg:text-4xl md:text-3xl'>Please login to comment</div>
-                    <button className='bg-blue-600  text-white rounded-lg p-2 ml-4'>Login</button>
+                    <button className='bg-blue-600  text-white rounded-lg p-2 ml-4' >Login</button>
                 </div>
             )}
         </div>

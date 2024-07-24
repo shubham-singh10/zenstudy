@@ -4,6 +4,7 @@ import Loading from "./Loading.jsx";
 import MainLayout from "./MainLayout.jsx";
 import StudentLayout from "./studentDashboard/StudentLayout.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
+import { Toaster } from "react-hot-toast";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -24,10 +25,12 @@ const CourseDetailsStudent = lazy(() => import("./studentDashboard/component/Cou
 const CourseDetailsStudentView = lazy(() => import("./studentDashboard/component/CourseDetails-View.jsx"))
 const MyCourses = lazy(() => import("./studentDashboard/component/MyCourses.jsx"))
 const UPSCStudent = lazy(() => import("./studentDashboard/component/Upse.jsx"))
+const WatchCourse = lazy(() => import("./studentDashboard/component/WatchCourse.jsx"))
 
 function App() {
   return (
     <Fragment>
+      <Toaster />
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route element={<MainLayout />}>
@@ -50,6 +53,7 @@ function App() {
             <Route path="/course-details-view" element={<CourseDetailsStudentView />} />
             <Route path="/mycourse" element={<MyCourses />} />
             <Route path="/upsc-student" element={<UPSCStudent />} />
+            <Route path="/watch-course" element={<WatchCourse />} />
           </Route>
           <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>

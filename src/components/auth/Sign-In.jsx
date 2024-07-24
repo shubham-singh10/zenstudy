@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from 'react-intersection-observer';
+import toast from 'react-hot-toast';
 
 
 const SignIn = () => {
@@ -67,10 +68,15 @@ const SignIn = () => {
                 throw new Error(errorData.message || "Login failed");
             }
             const resData = await response.json();
-            Swal.fire({
-                icon: "success",
-                title: "Login Successful",
-                text: `Welcome back, ${resData.name}! You are now logged in.`,
+            // Swal.fire({
+            //     icon: "success",
+            //     title: "Login Successful",
+            //     text: `Welcome back, ${resData.name}! You are now logged in.`,
+            // });
+            toast.success(`Welcome back, ${resData.name}! You are now logged in.`,{
+                position:"top-right",
+                duration:4000,
+                icon: '👏',
             });
             setLoading(false);
             Cookies.set('access_tokennew', resData._id);

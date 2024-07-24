@@ -4,6 +4,9 @@ import PaginationNew from '../../components/pagination/PaginationNew';
 import { FaSearch } from 'react-icons/fa';
 import Cookies from 'js-cookie';
 
+
+
+
 const CourseCard = ({ course }) => {
     const navigate = useNavigate()
     const formatDate = (dateString) => {
@@ -13,29 +16,51 @@ const CourseCard = ({ course }) => {
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     };
-    return (
-        <div className="max-w-sm rounded-2xl overflow-hidden shadow-lg m-4 p-4">
-            <img
-                className="w-full h-52 rounded-2xl"
-                src={course.course_id.image}
-                alt="Course "
-            />
-            <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2 text-blue-600">{course.course_id.title}</div>
-                <p className="text-gray-700 text-base">{course.course_id.tutor}</p>
-                <p className="text-gray-600">{formatDate(course.course_id.createdAt)}</p>
-                <p className="text-gray-600">{course.course_id.day}</p>
 
+
+    return (
+
+
+
+
+        <div className="max-w-xs rounded overflow-hidden shadow-lg p-4 bg-white">
+            <div className="relative">
+                <img className="w-full rounded-2xl h-52 " src={course.course_id.image} alt="Course" />
+                <div className=' relative rounded-full h-16 w-16 top-[-35px] right-[-13.5rem] mb-[-40px] bg-white '>
+                    <button className="absolute top-[4px] left-[4px]  bg-blue-600 rounded-full p-4 ">
+                        <svg className="w-6 h-6 text-white hover:animate-spin" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </button>
+                </div>
             </div>
-            <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center">
-                <p className="text-blue-600 font-bold text-2xl">₹{course.course_id.price}</p>
-                <button className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full" onClick={() => navigate("/course-details-view", { state: { courseId: course.course_id._id } })}>
-                    Watch Course
-                </button>
+            <div className="px-4 py-2">
+                <div className="font-bold text-lg mb-1">{course.course_id.title}</div>
+                <p className="text-gray-700 text-sm">{course.course_id.tutor}</p>
+                <p className="text-gray-600 text-xs">{formatDate(course.course_id.createdAt)}</p>
+                <p className="text-gray-600 text-xs">{course.course_id.day}</p>
+            </div>
+            <div className="px-4 pt-2 pb-2">
+                <div className="relative pt-1">
+                    <div className="flex mb-2 items-center justify-between">
+                        <div className="text-xs text-gray-500">progress % Completed</div>
+                    </div>
+                    <div className="overflow-hidden h-2 mb-2 text-xs flex rounded bg-gray-200">
+                        <div style={{ width: `progress %` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
+                    </div>
+                </div>
+                <button className="bg-blue-500 text-white font-bold py-1 px-3 rounded-full" onClick={() => navigate("/watch-course", { state: { courseId: course.course_id._id } })}>Continue Learning</button>
             </div>
         </div>
+
+
+
+
     );
 };
+
+
+
 
 const MyCourses = () => {
     const [courses, setCourse] = useState([])
@@ -45,6 +70,9 @@ const MyCourses = () => {
     const [searchText, setSearchText] = useState('');
     const token = Cookies.get("access_tokennew");
     let userId = null;
+
+
+
 
     if (token) {
         try {
@@ -62,7 +90,7 @@ const MyCourses = () => {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
-                    body:JSON.stringify({user_id:userId})
+                    body: JSON.stringify({ user_id: userId })
                 });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -78,13 +106,25 @@ const MyCourses = () => {
         }
 
 
+
+
+
+
+
+
         getcourse()
     }, [])
+
+
+
 
     const filteredData = courses.filter((course) => {
         const titleMatch = course.course_id.title.toLowerCase().includes(searchText.toLowerCase());
         return titleMatch;
     });
+
+
+
 
     if (loading) {
         return <div className="flex items-center justify-center h-screen">
@@ -92,24 +132,27 @@ const MyCourses = () => {
         </div>
     }
 
+
+
+
     const paginatedData = filteredData.slice(
         (currentPage - 1) * itemperpage,
         currentPage * itemperpage
     )
     return (
-        <div className='container mx-auto p-4'>
-            <div className="flex items-center bg-blue-100 rounded-full px-4 py-2 mb-4 w-full md:w-1/2 lg:w-1/2 ">
-                    <input
-                        type="text"
-                        placeholder="Search Our course by title"
-                        onChange={(e) => setSearchText(e.target.value)}
-                        className="bg-blue-100 rounded-l-full focus:outline-none  py-2 w-full text-gray-700"
-                    />
-                    <button className="text-blue-500">
-                        <FaSearch /> 
-                    </button>
-                </div>
-            <div className="flex flex-wrap justify-center">
+        <div className='container mx-auto p-4 flex flex-col items-center gap-4'>
+            <div className="flex items-center  justify-center bg-blue-100 rounded-full px-4 py-2 mb-4 w-full md:w-1/2 lg:w-1/2 ">
+                <input
+                    type="text"
+                    placeholder="Search Our course by title"
+                    onChange={(e) => setSearchText(e.target.value)}
+                    className="bg-blue-100 rounded-l-full focus:outline-none  py-2 w-full text-gray-700"
+                />
+                <button className="text-blue-500">
+                    <FaSearch />
+                </button>
+            </div>
+            <div className="flex flex-wrap justify-center gap-10">
                 {paginatedData && paginatedData.map((course, index) => (
                     <CourseCard key={index} course={course} />
                 ))}
@@ -120,9 +163,11 @@ const MyCourses = () => {
                 data={filteredData}
                 itemsPerPage={itemperpage}
 
+
+
+
             />
         </div>
     )
 }
-
 export default MyCourses

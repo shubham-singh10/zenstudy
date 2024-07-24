@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import PaginationNew from '../../components/pagination/PaginationNew';
 import { FaSearch } from 'react-icons/fa';
 
+
 const CourseCard = ({ course }) => {
     const navigate = useNavigate()
     const formatDate = (dateString) => {
@@ -13,7 +14,7 @@ const CourseCard = ({ course }) => {
         return `${year}-${month}-${day}`;
     };
     return (
-        <div className="max-w-sm rounded-2xl overflow-hidden shadow-lg m-4 p-4">
+        <div className="max-w-xs rounded-2xl overflow-hidden shadow-lg m-4 p-4">
             <img
                 className="w-full h-52 rounded-2xl"
                 src={course.image}
@@ -24,6 +25,7 @@ const CourseCard = ({ course }) => {
                 <p className="text-gray-700 text-base">{course.tutor}</p>
                 <p className="text-gray-600">{formatDate(course.createdAt)}</p>
                 <p className="text-gray-600">{course.day}</p>
+
 
             </div>
             <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center">
@@ -36,12 +38,14 @@ const CourseCard = ({ course }) => {
     );
 };
 
+
 const CourseDeatils = () => {
     const [courses, setCourse] = useState([])
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1)
     const itemperpage = 6
     const [searchText, setSearchText] = useState('');
+
 
     useEffect(() => {
         const getcourse = async () => {
@@ -67,13 +71,17 @@ const CourseDeatils = () => {
         }
 
 
+
+
         getcourse()
     }, [])
+
 
     const filteredData = courses.filter((course) => {
         const titleMatch = course.title.toLowerCase().includes(searchText.toLowerCase());
         return titleMatch;
     });
+
 
     if (loading) {
         return <div className="flex items-center justify-center h-screen">
@@ -81,23 +89,24 @@ const CourseDeatils = () => {
         </div>
     }
 
+
     const paginatedData = filteredData.slice(
         (currentPage - 1) * itemperpage,
         currentPage * itemperpage
     )
     return (
-        <div className='container mx-auto p-4'>
-            <div className="flex items-center bg-blue-100 rounded-full px-4 py-2 mb-4 w-full md:w-1/2 lg:w-1/2 ">
-                    <input
-                        type="text"
-                        placeholder="Search Our course by title"
-                        onChange={(e) => setSearchText(e.target.value)}
-                        className="bg-blue-100 rounded-l-full focus:outline-none  py-2 w-full text-gray-700"
-                    />
-                    <button className="text-blue-500">
-                        <FaSearch /> 
-                    </button>
-                </div>
+        <div className='container mx-auto p-4 flex flex-col items-center gap-4'>
+            <div className="flex items-center  justify-center bg-blue-100 rounded-full px-4 py-2 mb-4 w-full md:w-1/2 lg:w-1/2 ">
+                <input
+                    type="text"
+                    placeholder="Search Our course by title"
+                    onChange={(e) => setSearchText(e.target.value)}
+                    className="bg-blue-100 rounded-l-full focus:outline-none  py-2 w-full text-gray-700"
+                />
+                <button className="text-blue-500">
+                    <FaSearch />
+                </button>
+            </div>
             <div className="flex flex-wrap justify-center">
                 {paginatedData && paginatedData.map((course, index) => (
                     <CourseCard key={index} course={course} />
@@ -109,9 +118,11 @@ const CourseDeatils = () => {
                 data={filteredData}
                 itemsPerPage={itemperpage}
 
+
             />
         </div>
     )
 }
+
 
 export default CourseDeatils
