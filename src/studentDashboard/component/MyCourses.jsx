@@ -25,7 +25,7 @@ const CourseCard = ({ course }) => {
 
         <div className="max-w-xs rounded overflow-hidden shadow-lg p-4 bg-white">
             <div className="relative">
-                <img className="w-full rounded-2xl h-52 " src={course.course_id.image} alt="Course" />
+                <img className="w-full rounded-2xl h-52 " src={course.course_id.thumbnail} alt="Course" />
                 <div className=' relative rounded-full h-16 w-16 top-[-35px] right-[-13.5rem] mb-[-40px] bg-white '>
                     <button className="absolute top-[4px] left-[4px]  bg-blue-600 rounded-full p-4 ">
                         <svg className="w-6 h-6 text-white hover:animate-spin" fill="currentColor" viewBox="0 0 24 24">
@@ -96,7 +96,7 @@ const MyCourses = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                //console.log("Purchase_course", data)
+                console.log("Purchase_course", data)
                 setCourse(data.purchaseCourses);
                 setLoading(false);
             } catch (error) {
@@ -105,21 +105,12 @@ const MyCourses = () => {
             }
         }
 
-
-
-
-
-
-
-
         getcourse()
     }, [])
 
 
-
-
     const filteredData = courses.filter((course) => {
-        const titleMatch = course.course_id.title.toLowerCase().includes(searchText.toLowerCase());
+        const titleMatch = course.course_id?.title.toLowerCase().includes(searchText.toLowerCase());
         return titleMatch;
     });
 
@@ -131,9 +122,6 @@ const MyCourses = () => {
             <div className="text-4xl font-bold animate-pulse">ZenStudy.</div>
         </div>
     }
-
-
-
 
     const paginatedData = filteredData.slice(
         (currentPage - 1) * itemperpage,

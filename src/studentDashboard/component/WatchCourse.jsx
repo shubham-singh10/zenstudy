@@ -58,36 +58,23 @@ const WatchCourse = () => {
       <div className="flex flex-col lg:flex-row lg:space-x-8">
         {/* Video Section */}
         <div className="lg:w-2/3">
-          <div className="relative">
+          <div >
             <iframe
-              src="https://player.vdocipher.com/v2/?otp=20160313versASE323s4S1hQSfuWTzSE0dJ7qwaqNVRlBwUF5LCSRXanNavZtxTF&playbackInfo=eyJ2aWRlb0lkIjoiMTJkY2RkZDcxMzJlNDFiZTE2NWQ0NmM5NTk0ZmVlNTEifQ=="
-              className="top-0 left-0 h-[50vh] w-full border max-w-screen-lg"
-              allowFullScreen
+              src="https://player.vdocipher.com/v2/?otp=20160313versASE323zz9phoHOsH1PkMZWYbPZR9bcl6CaJAmzoLkFarDXfq3qSi&playbackInfo=eyJ2aWRlb0lkIjoiMTJkY2RkZDcxMzJlNDFiZTE2NWQ0NmM5NTk0ZmVlNTEifQ=="
+              className="w-[100%] h-[30vh] lg:h-[50vh] "
+              allowFullScreen="true"
               allow="encrypted-media"
-              title="Video Player"
             ></iframe>
-
-
-            <button className="absolute inset-0 flex items-center justify-center">
-              <svg
-                className="w-12 h-12 text-white"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </button>
           </div>
           <div className="mt-4">
             <div className="flex space-x-8 border-b">
               {tabs.map((tab) => (
                 <button
                   key={tab}
-                  className={`text-lg p-2 ${
-                    selectedTab === tab
-                      ? "border-b-2 border-blue-500 text-blue-500"
-                      : "text-gray-500"
-                  }`}
+                  className={`text-lg p-2 ${selectedTab === tab
+                    ? "border-b-2 border-blue-500 text-blue-500"
+                    : "text-gray-500"
+                    }`}
                   onClick={() => setSelectedTab(tab)}
                 >
                   {tab}

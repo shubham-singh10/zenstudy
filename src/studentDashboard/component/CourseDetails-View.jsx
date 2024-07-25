@@ -29,7 +29,7 @@ const CourseDetailsView = () => {
 
         const getCourse = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/course/coursedetail/${courseId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API3}zenstudy/api/course/coursedetail/${courseId}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -40,7 +40,7 @@ const CourseDetailsView = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                //console.log("Course_data", data);
+                console.log("Course_data", data);
                 setCoursePost(data.coursedetail);
                 setLoading(false);
             } catch (error) {
@@ -185,12 +185,12 @@ const CourseDetailsView = () => {
                         {coursePost?.title}
                     </h1>
                     <p className="mt-2 md:mt-4 text-sm md:text-base">
-                        {stripHtmlTags(he.decode(coursePost.content))}
+                        {stripHtmlTags(he.decode(coursePost.description))}
                     </p>
                     <div className="flex items-center mt-4">
                         <div className="flex items-center mr-4">
                             <GrLanguage />
-                            <span className="ml-2">Hindi, English</span>
+                            <span className="ml-2">{coursePost?.language}</span>
                         </div>
                     </div>
                 </div>
@@ -219,7 +219,7 @@ const CourseDetailsView = () => {
                 <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4">
                     <img
                         className="w-full h-52 rounded-2xl"
-                        src={coursePost?.image}
+                        src={coursePost?.thumbnail}
                         alt={coursePost?.title}
                     />
                     <div className="px-6 py-4">
@@ -245,12 +245,12 @@ const CourseDetailsView = () => {
 
 
             <div className="p-2 md:p-12 lg:p-12 bg-blue-100 ">
-                {Array(3).fill("Module Title").map((title, index) => (
+                {coursePost.modules.map((title, index) => (
                     <details key={index} className="mb-4 bg-white rounded-2xl shadow overflow-hidden">
                         <summary className="flex items-center p-4 cursor-pointer">
                             <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center mr-4" />
 
-                            <span className="flex-1 font-semibold">{title}</span>
+                            <span className="flex-1 font-semibold">{title.moduleTitle}</span>
                             <div className="transform rotate-0 transition-transform">
                                 <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>

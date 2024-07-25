@@ -17,7 +17,7 @@ const CourseCard = ({ course }) => {
         <div className="max-w-xs rounded-2xl overflow-hidden shadow-lg m-4 p-4">
             <img
                 className="w-full h-52 rounded-2xl"
-                src={course.image}
+                src={course.thumbnail}
                 alt="Course "
             />
             <div className="px-6 py-4">
@@ -50,7 +50,7 @@ const CourseDeatils = () => {
     useEffect(() => {
         const getcourse = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/course`, {
+                const response = await fetch(`${process.env.REACT_APP_API3}zenstudy/api/course/getCoursesP`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -108,9 +108,9 @@ const CourseDeatils = () => {
                 </button>
             </div>
             <div className="flex flex-wrap justify-center">
-                {paginatedData && paginatedData.map((course, index) => (
+                {paginatedData.length > 0 ? (paginatedData.map((course, index) => (
                     <CourseCard key={index} course={course} />
-                ))}
+                ))): (<h2>No Data Found</h2>)}
             </div>
             <PaginationNew
                 setCurrentPage={setCurrentPage}
