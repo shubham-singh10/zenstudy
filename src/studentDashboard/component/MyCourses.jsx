@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import PaginationNew from '../../components/pagination/PaginationNew';
 import { FaSearch } from 'react-icons/fa';
@@ -12,17 +12,13 @@ const CourseCard = ({ course }) => {
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     };
 
 
     return (
-
-
-
-
         <div className="max-w-xs rounded overflow-hidden shadow-lg p-4 bg-white">
             <div className="relative">
                 <img className="w-full rounded-2xl h-52 " src={course.course_id.thumbnail} alt="Course" />
@@ -71,9 +67,6 @@ const MyCourses = () => {
     const token = Cookies.get("access_tokennew");
     let userId = null;
 
-
-
-
     if (token) {
         try {
             userId = token;
@@ -92,6 +85,12 @@ const MyCourses = () => {
                     },
                     body: JSON.stringify({ user_id: userId })
                 });
+                if (response.status === 204) {
+                    setCourse([]);
+                    setLoading(false);
+                    return;
+                }
+
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -129,32 +128,35 @@ const MyCourses = () => {
     )
     return (
         <div className='container mx-auto p-4 flex flex-col items-center gap-4'>
-            <div className="flex items-center  justify-center bg-blue-100 rounded-full px-4 py-2 mb-4 w-full md:w-1/2 lg:w-1/2 ">
-                <input
-                    type="text"
-                    placeholder="Search Our course by title"
-                    onChange={(e) => setSearchText(e.target.value)}
-                    className="bg-blue-100 rounded-l-full focus:outline-none  py-2 w-full text-gray-700"
-                />
-                <button className="text-blue-500">
-                    <FaSearch />
-                </button>
-            </div>
-            <div className="flex flex-wrap justify-center gap-10">
-                {paginatedData && paginatedData.map((course, index) => (
-                    <CourseCard key={index} course={course} />
-                ))}
-            </div>
-            <PaginationNew
-                setCurrentPage={setCurrentPage}
-                currentPage={currentPage}
-                data={filteredData}
-                itemsPerPage={itemperpage}
 
-
-
-
-            />
+            {courses.length === 0 ? (
+                <div className="text-center text-gray-500">No courses found.</div>
+            ) : (
+                <Fragment>
+                    <div className="flex items-center  justify-center bg-blue-100 rounded-full px-4 py-2 mb-4 w-full md:w-1/2 lg:w-1/2 ">
+                        <input
+                            type="text"
+                            placeholder="Search Our course by title"
+                            onChange={(e) => setSearchText(e.target.value)}
+                            className="bg-blue-100 rounded-l-full focus:outline-none  py-2 w-full text-gray-700"
+                        />
+                        <button className="text-blue-500">
+                            <FaSearch />
+                        </button>
+                    </div>
+                    <div className="flex flex-wrap justify-center gap-10">
+                        {paginatedData.map((course, index) => (
+                            <CourseCard key={index} course={course} />
+                        ))}
+                    </div>
+                    <PaginationNew
+                        setCurrentPage={setCurrentPage}
+                        currentPage={currentPage}
+                        data={filteredData}
+                        itemsPerPage={itemperpage}
+                    />
+                </Fragment>
+            )}
         </div>
     )
 }
