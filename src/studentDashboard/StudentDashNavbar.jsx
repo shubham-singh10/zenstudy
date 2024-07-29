@@ -20,11 +20,11 @@ const links = [
         link: "/mycourse",
         icon: <FiCircle />,
     },
-    {
-        label: "UPSC",
-        link: "/upsc-student",
-        icon: <FiAward />,
-    },
+    // {
+    //     label: "UPSC",
+    //     link: "/upsc-student",
+    //     icon: <FiAward />,
+    // },
 ];
 
 const StudentDashNavbar = () => {

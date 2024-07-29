@@ -2,20 +2,39 @@ import React, { useEffect, useState } from 'react';
 import { FiArrowLeft } from 'react-icons/fi';
 import { GrLanguage } from "react-icons/gr";
 import { useLocation, useNavigate } from 'react-router-dom';
-
-const CourseDetail = () => {
+import he from 'he';
+import Cookies from 'js-cookie';
+import Swal from 'sweetalert2';
+import { MdSlowMotionVideo } from "react-icons/md";
+import { FaLock } from "react-icons/fa6";
+const CourseDetailsView = () => {
     const [coursePost, setCoursePost] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [payloading, setPayLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate()
     const location = useLocation()
     const { courseId } = location.state || {}
+
+
+    const token = Cookies.get("access_tokennew");
+    let userId = null;
+
+
+    if (token) {
+        try {
+            userId = token;
+        } catch (error) {
+            console.error('Error decoding token:', error);
+        }
+    }
     // Perticular Course get data API
     useEffect(() => {
 
+
         const getCourse = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/course/coursedetail/${courseId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API3}zenstudy/api/course/coursedetail/${courseId}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -36,7 +55,9 @@ const CourseDetail = () => {
         };
         getCourse()
 
+
     }, [courseId])
+
 
     if (loading) {
         return <div className="flex items-center justify-center h-screen">
@@ -45,11 +66,14 @@ const CourseDetail = () => {
         </div>
     }
 
+
     if (error) {
         return <div className="flex items-center justify-center h-screen">
             <div className="text-4xl font-bold text-red-600"> Error: Please refresh the page.</div>
         </div>;
     }
+
+
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const year = date.getFullYear();
@@ -57,6 +81,110 @@ const CourseDetail = () => {
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     };
+
+
+    const stripHtmlTags = (html) => {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        return doc.body.textContent || "";
+    };
+
+
+
+
+    //Payment Initiate
+
+
+    const handlePayment = async (amount) => {
+        setPayLoading(true)
+        try {
+            const res = await fetch(
+                `${process.env.REACT_APP_API3}zenstudy/api/payment/order`,
+                {
+                  method: "POST",
+                  headers: {
+                    "content-type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    amount,
+                    user_id: userId,
+                    course_id: courseId,
+                  }),
+                }
+              );
+       
+              if (!res.ok) {
+                const errorText = await res.text();
+                console.error(`Error: ${res.status} - ${res.statusText}\n${errorText}`);
+                Swal.fire({
+                    title: "Oops. Course already purchase",
+                    text: "Please visit the MyCourse section to see course",
+                    icon: "error"
+                }).then((result)=>{
+                    navigate("/mycourse")
+                })
+                return;
+              }
+       
+              const data = await res.json();
+              console.log("Data", data)
+              handlePaymentVerify(data.data, courseId);
+            } catch (error) {
+              console.error("Error creating payment order:", error);
+              setPayLoading(false)
+            }
+           
+
+
+    }
+
+
+    const handlePaymentVerify = async (data, courseId) => {
+        const options = {
+          key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+          amount: data.amount,
+          currency: data.currency,
+          name: "ZenStudy",
+          description: "Making Education Imaginative",
+          order_id: data.id,
+          handler: async (response) => {
+            try {
+              const res = await fetch(
+                `${process.env.REACT_APP_API3}zenstudy/api/payment/verify`,
+                {
+                  method: "POST",
+                  headers: {
+                    "content-type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_signature: response.razorpay_signature,
+                    user_id: userId,
+                    course_id: courseId,
+                  }),
+                }
+              );
+   
+              const verifyData = await res.json();
+              console.log("VerifyData", verifyData)
+              if (verifyData.message === "Payment Successful") {
+                console.log("Payment Success")
+                navigate(verifyData.Url)
+              }
+            } catch (error) {
+              console.error("Error verifying payment:", error);
+             
+            }
+          },
+          theme: {
+            color: "#5f63b8",
+          },
+        };
+        console.log("Options", options)
+        const rzp1 = new window.Razorpay(options);
+        rzp1.open();
+      };
+
 
     return (
         <div className="">
@@ -73,12 +201,12 @@ const CourseDetail = () => {
                         {coursePost?.title}
                     </h1>
                     <p className="mt-2 md:mt-4 text-sm md:text-base">
-                        {coursePost?.content}
+                        {stripHtmlTags(he.decode(coursePost.description))}
                     </p>
                     <div className="flex items-center mt-4">
                         <div className="flex items-center mr-4">
                             <GrLanguage />
-                            <span className="ml-2">Hindi, English</span>
+                            <span className="ml-2">{coursePost?.language}</span>
                         </div>
                     </div>
                 </div>
@@ -107,7 +235,7 @@ const CourseDetail = () => {
                 <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4">
                     <img
                         className="w-full h-52 rounded-2xl"
-                        src={coursePost?.image}
+                        src={coursePost?.thumbnail}
                         alt={coursePost?.title}
                     />
                     <div className="px-6 py-4">
@@ -117,33 +245,48 @@ const CourseDetail = () => {
                         <p className="text-gray-600">course day</p>
 
 
+
+
                     </div>
                     <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center">
                         <p className="text-blue-600 font-bold text-2xl">₹ {coursePost?.price}</p>
-                        <button className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
-                            Pay Now
-                        </button>
+                        {
+                        //<button
+                        //     className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
+                        //     onClick={()=> navigate("/course-details-student")}
+                        //     disabled={!payloading}
+                        // >
+                        //    {!payloading ? 'Please wait...' : 'Pay Now'}
+                        // </button>
+                        }
                     </div>
                 </div>
             </div>
 
 
+
+
             <div className="p-2 md:p-12 lg:p-12 bg-blue-100 ">
-                {Array(3).fill("Module Title").map((title, index) => (
+                {coursePost.modules.map((title, index) => (
                     <details key={index} className="mb-4 bg-white rounded-2xl shadow overflow-hidden">
                         <summary className="flex items-center p-4 cursor-pointer">
                             <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center mr-4" />
 
-                            <span className="flex-1 font-semibold">{title}</span>
+
+                            <span className="flex-1 font-semibold">{title.moduleTitle}</span>
                             <div className="transform rotate-0 transition-transform">
                                 <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                                 </svg>
                             </div>
                         </summary>
-                        <div className="p-4">
-                            <p>Module content goes here.</p>
+                       {title.videos.length > 0 ?(title.videos.map(({_id, videoTitle})=>(
+                        <div className="pb-2 px-10 flex items-center justify-start" key={_id}>
+                        <MdSlowMotionVideo className='text-blue-500' />
+                            <p className='px-4 text-gray-500 bg-gray-50 w-full '>{videoTitle || "no videos"}</p>
+                            <FaLock className='text-blue-400 '  />
                         </div>
+                       ))):(<h2>No videos</h2>)}
                     </details>
                 ))}
             </div>
@@ -152,4 +295,6 @@ const CourseDetail = () => {
 };
 
 
-export default CourseDetail;
+
+
+export default CourseDetailsView;

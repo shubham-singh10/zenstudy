@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FiLogOut, FiUser, FiBook, FiAward, FiMenu, FiChevronRight, FiCircle, FiChevronLeft } from 'react-icons/fi';
+import { FiLogOut, FiUser, FiBook, FiAward, FiChevronRight, FiCircle, FiChevronLeft } from 'react-icons/fi';
 import Cookies from 'js-cookie';
 
 const links = [
@@ -20,11 +20,11 @@ const links = [
         icon: <FiCircle />,
     },
 
-    {
-        label: "UPSC",
-        link: "/upsc-student",
-        icon: <FiAward />,
-    },
+    // {
+    //     label: "UPSC",
+    //     link: "/upsc-student",
+    //     icon: <FiAward />,
+    // },
 ];
 
 const Sidebar = () => {
@@ -45,9 +45,9 @@ const Sidebar = () => {
         <div className={`hidden h-full lg:flex flex-col justify-between py-8 shadow-xl ${isCollapsed ? 'w-20' : 'w-1/6'} transition-all duration-300`}>
             <div className="flex items-center justify-between px-4">
                 <div className="flex items-center">
-                    <p className={`text-3xl font-bold ${isCollapsed ? 'hidden' : 'block'}`}>
+                    <Link to={"/"} className={`text-3xl font-bold ${isCollapsed ? 'hidden' : 'block'}`}>
                         ZenStudy<span className="text-[#054BB4] text-4xl">.</span>
-                    </p>
+                    </Link>
                 </div>
                 <button onClick={toggleSidebar} className=" block text-2xl focus:outline-none">
                     {isCollapsed ? <FiChevronRight /> : <FiChevronLeft />}

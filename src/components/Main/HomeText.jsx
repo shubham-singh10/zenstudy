@@ -1,6 +1,8 @@
 import React from "react";
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
+import { Link } from "react-router-dom";
+
 
 const HomeText = () => {
     const { ref: slideLeftRef, inView: slideLeftInView } = useInView({
@@ -8,10 +10,12 @@ const HomeText = () => {
         threshold: 0.1,
     });
 
+
     const { ref: slideRightRef, inView: slideRightInView } = useInView({
         triggerOnce: true,
         threshold: 0.1,
     });
+
 
     const slideLeftStyles = useSpring({
         from: { x: -100, opacity: 0 },
@@ -19,11 +23,13 @@ const HomeText = () => {
         config: { duration: 500 },
     });
 
+
     const slideRightStyles = useSpring({
         from: { y: 100, opacity: 0 },
         to: { y: slideRightInView ? 0 : 100, opacity: slideRightInView ? 1 : 0 },
         config: { duration: 500 },
     });
+
 
     return (
         <div>
@@ -52,12 +58,14 @@ const HomeText = () => {
                         application.
                     </p>
                     <div className="mt-9">
-                        <button className="rounded-full bg-[#054BB4] text-[#ffffff] px-6 py-2 font-medium mr-5">
+                        <Link to="/courses"><button className="rounded-full bg-[#054BB4] text-[#ffffff] px-6 py-2 font-medium mr-5">
                             Explore Courses
                         </button>
-                        <button className="rounded-full border-2 border-solid border-[#054BB4] text-[#054BB4] px-6 py-2 font-medium lg:mt-0 md:mt-4 mt-4">
+                        </Link>
+                        <Link to="https://youtube.com/@zenstudyz?si=iN4l51faOy1_mjYu" target="blank"><button className="rounded-full border-2 border-solid border-[#054BB4] text-[#054BB4] px-6 py-2 font-medium lg:mt-0 md:mt-4 mt-4">
                             Watch Videos
                         </button>
+                        </Link>
                     </div>
                 </animated.div>
                 <animated.div
@@ -76,5 +84,6 @@ const HomeText = () => {
         </div>
     );
 };
+
 
 export default HomeText;

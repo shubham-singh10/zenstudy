@@ -7,6 +7,10 @@ import Cookies from 'js-cookie';
 
 
 
+
+
+
+
 const CourseCard = ({ course }) => {
     const navigate = useNavigate()
     const formatDate = (dateString) => {
@@ -16,6 +20,8 @@ const CourseCard = ({ course }) => {
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     };
+
+
 
 
     return (
@@ -45,15 +51,23 @@ const CourseCard = ({ course }) => {
                         <div style={{ width: `progress %` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
                     </div>
                 </div>
-                <button className="bg-blue-500 text-white font-bold py-1 px-3 rounded-full" onClick={() => navigate("/watch-course", { state: { courseId: course.course_id._id } })}>Continue Learning</button>
+                <button className="bg-blue-500 text-white font-bold py-1 px-3 rounded-full" onClick={() => navigate("/watch-course", { state: { id: course._id } })}>Continue Learning</button>
             </div>
         </div>
 
 
 
 
+
+
+
+
     );
 };
+
+
+
+
 
 
 
@@ -66,6 +80,7 @@ const MyCourses = () => {
     const [searchText, setSearchText] = useState('');
     const token = Cookies.get("access_tokennew");
     let userId = null;
+
 
     if (token) {
         try {
@@ -91,6 +106,7 @@ const MyCourses = () => {
                     return;
                 }
 
+
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -104,6 +120,7 @@ const MyCourses = () => {
             }
         }
 
+
         getcourse()
     }, [])
 
@@ -114,13 +131,12 @@ const MyCourses = () => {
     });
 
 
-
-
     if (loading) {
         return <div className="flex items-center justify-center h-screen">
             <div className="text-4xl font-bold animate-pulse">ZenStudy.</div>
         </div>
     }
+
 
     const paginatedData = filteredData.slice(
         (currentPage - 1) * itemperpage,
@@ -129,8 +145,9 @@ const MyCourses = () => {
     return (
         <div className='container mx-auto p-4 flex flex-col items-center gap-4'>
 
+
             {courses.length === 0 ? (
-                <div className="text-center text-gray-500">No courses found.</div>
+                <div className="flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl  text-gray-500">No courses found...</div>
             ) : (
                 <Fragment>
                     <div className="flex items-center  justify-center bg-blue-100 rounded-full px-4 py-2 mb-4 w-full md:w-1/2 lg:w-1/2 ">

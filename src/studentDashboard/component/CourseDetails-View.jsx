@@ -5,6 +5,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import he from 'he';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
+import { MdSlowMotionVideo } from "react-icons/md";
+import { FaLock } from "react-icons/fa6";
 const CourseDetailsView = () => {
     const [coursePost, setCoursePost] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -14,8 +16,10 @@ const CourseDetailsView = () => {
     const location = useLocation()
     const { courseId } = location.state || {}
 
+
     const token = Cookies.get("access_tokennew");
     let userId = null;
+
 
     if (token) {
         try {
@@ -26,6 +30,7 @@ const CourseDetailsView = () => {
     }
     // Perticular Course get data API
     useEffect(() => {
+
 
         const getCourse = async () => {
             try {
@@ -50,7 +55,9 @@ const CourseDetailsView = () => {
         };
         getCourse()
 
+
     }, [courseId])
+
 
     if (loading) {
         return <div className="flex items-center justify-center h-screen">
@@ -59,11 +66,13 @@ const CourseDetailsView = () => {
         </div>
     }
 
+
     if (error) {
         return <div className="flex items-center justify-center h-screen">
             <div className="text-4xl font-bold text-red-600"> Error: Please refresh the page.</div>
         </div>;
     }
+
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -73,13 +82,17 @@ const CourseDetailsView = () => {
         return `${year}-${month}-${day}`;
     };
 
+
     const stripHtmlTags = (html) => {
         const doc = new DOMParser().parseFromString(html, 'text/html');
         return doc.body.textContent || "";
     };
 
 
+
+
     //Payment Initiate
+
 
     const handlePayment = async (amount) => {
         setPayLoading(true)
@@ -98,7 +111,7 @@ const CourseDetailsView = () => {
                   }),
                 }
               );
-        
+       
               if (!res.ok) {
                 const errorText = await res.text();
                 console.error(`Error: ${res.status} - ${res.statusText}\n${errorText}`);
@@ -111,7 +124,7 @@ const CourseDetailsView = () => {
                 })
                 return;
               }
-        
+       
               const data = await res.json();
               console.log("Data", data)
               handlePaymentVerify(data.data, courseId);
@@ -119,9 +132,11 @@ const CourseDetailsView = () => {
               console.error("Error creating payment order:", error);
               setPayLoading(false)
             }
-            
+           
+
 
     }
+
 
     const handlePaymentVerify = async (data, courseId) => {
         const options = {
@@ -149,7 +164,7 @@ const CourseDetailsView = () => {
                   }),
                 }
               );
-    
+   
               const verifyData = await res.json();
               console.log("VerifyData", verifyData)
               if (verifyData.message === "Payment Successful") {
@@ -169,6 +184,7 @@ const CourseDetailsView = () => {
         const rzp1 = new window.Razorpay(options);
         rzp1.open();
       };
+
 
     return (
         <div className="">
@@ -229,19 +245,23 @@ const CourseDetailsView = () => {
                         <p className="text-gray-600">course day</p>
 
 
+
+
                     </div>
                     <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center">
                         <p className="text-blue-600 font-bold text-2xl">₹ {coursePost?.price}</p>
-                        <button 
-                            className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full" 
+                        <button
+                            className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
                             onClick={()=> handlePayment(coursePost?.price)}
                             disabled={!payloading}
                         >
-                           {!payloading ? 'Please wait...' : 'Pay Now'} 
+                           {!payloading ? 'Please wait...' : 'Pay Now'}
                         </button>
                     </div>
                 </div>
             </div>
+
+
 
 
             <div className="p-2 md:p-12 lg:p-12 bg-blue-100 ">
@@ -250,6 +270,7 @@ const CourseDetailsView = () => {
                         <summary className="flex items-center p-4 cursor-pointer">
                             <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center mr-4" />
 
+
                             <span className="flex-1 font-semibold">{title.moduleTitle}</span>
                             <div className="transform rotate-0 transition-transform">
                                 <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -257,15 +278,21 @@ const CourseDetailsView = () => {
                                 </svg>
                             </div>
                         </summary>
-                        <div className="p-4">
-                            <p>Module content goes here.</p>
+                       {title.videos.length > 0 ?(title.videos.map(({_id, videoTitle})=>(
+                        <div className="pb-2 px-10 flex items-center justify-start" key={_id}>
+                        <MdSlowMotionVideo className='text-blue-500' />
+                            <p className='px-4 text-gray-500 bg-gray-50 w-full '>{videoTitle || "no videos"}</p>
+                            <FaLock className='text-blue-400 '  />
                         </div>
+                       ))):(<h2>No videos</h2>)}
                     </details>
                 ))}
             </div>
         </div>
     );
 };
+
+
 
 
 export default CourseDetailsView;

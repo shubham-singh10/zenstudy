@@ -1,6 +1,8 @@
 import React from "react";
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
+import { Link } from "react-router-dom";
+
 
 const LearnAbousUs = () => {
     const { ref: slideUpTitleRef, inView: slideUpTitleInView } = useInView({
@@ -8,20 +10,24 @@ const LearnAbousUs = () => {
         threshold: 0.1,
     });
 
+
     const { ref: slideUp01Ref, inView: slideUp01InView } = useInView({
         triggerOnce: true,
         threshold: 0.1,
     });
+
 
     const { ref: slideUp02Ref, inView: slideUp02InView } = useInView({
         triggerOnce: true,
         threshold: 0.1,
     });
 
+
     const { ref: slideUp03Ref, inView: slideUp03InView } = useInView({
         triggerOnce: true,
         threshold: 0.1,
     });
+
 
     const slideUpTitleStyles = useSpring({
         from: { y: 100, opacity: 0 },
@@ -35,11 +41,19 @@ const LearnAbousUs = () => {
 
 
 
+
+
+
+
     const slideUp01Styles = useSpring({
         from: { y: 100, opacity: 0 },
         to: { y: slideUp01InView ? 0 : 100, opacity: slideUp01InView ? 1 : 0 },
         config: { duration: 500 },
     });
+
+
+
+
 
 
 
@@ -53,6 +67,10 @@ const LearnAbousUs = () => {
 
 
 
+
+
+
+
     const slideUp03Styles = useSpring({
         from: { y: 100, opacity: 0 },
         to: { y: slideUp03InView ? 0 : 100, opacity: slideUp03InView ? 1 : 0 },
@@ -60,16 +78,10 @@ const LearnAbousUs = () => {
     });
 
 
-
-
     return (
         <div>
             <div className="w-full min-h-[30vh] relative ">
                 <div className="absolute -z-50 lg:top-[-70px] lg:right-[0px] top-[-10px] right-[0px] lg:w-[300px] lg:h-[300px] w-[200px] h-[200px] bg-gray-100 text-white flex items-center justify-end px-4 rounded-full"></div>
-
-
-
-
                 <div className="px-4 lg:px-12 flex flex-col mt-20 lg:mt-20 gap-6 lg:gap-10 ">
                     <div>
                         <animated.p
@@ -102,9 +114,9 @@ const LearnAbousUs = () => {
                                     education, with an interactive online platform and real-world
                                     application.
                                 </p>
-                                <button className="lg:px-5 md:px-5 px-4 py-1 bg-[#054BB4] text-white rounded-full">
+                                <Link to="/about"><button className="lg:px-5 md:px-5 px-4 py-1 bg-[#054BB4] text-white rounded-full">
                                     Read More
-                                </button>
+                                </button></Link>
                             </div>
                         </animated.div>
                         <animated.div
@@ -125,9 +137,9 @@ const LearnAbousUs = () => {
                                     through innovative and imaginative approaches that incorporate
                                     gamification and cutting-edge technology.
                                 </p>
-                                <button className="lg:px-5 md:px-5 px-4 py-1 bg-[#054BB4] text-white rounded-full">
+                                <Link to="/about"><button className="lg:px-5 md:px-5 px-4 py-1 bg-[#054BB4] text-white rounded-full">
                                     Read More
-                                </button>
+                                </button></Link>
                             </div>
                         </animated.div>
                         <animated.div
@@ -148,9 +160,9 @@ const LearnAbousUs = () => {
                                     students from underserved urban and rural areas have access to
                                     high-quality education.
                                 </p>
-                                <button className="lg:px-5 md:px-5 px-4 py-1 bg-[#054BB4] text-white rounded-full">
+                                <Link to="/about"><button className="lg:px-5 md:px-5 px-4 py-1 bg-[#054BB4] text-white rounded-full">
                                     Read More
-                                </button>
+                                </button></Link>
                             </div>
                         </animated.div>
                     </div>
@@ -159,5 +171,6 @@ const LearnAbousUs = () => {
         </div>
     );
 };
+
 
 export default LearnAbousUs;

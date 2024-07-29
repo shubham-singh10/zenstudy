@@ -1,12 +1,9 @@
 
 
-
-
 import React, { useState } from "react";
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
-
-
+import { Link } from "react-router-dom";
 
 
 const FeatureVideo = () => {
@@ -21,8 +18,6 @@ const FeatureVideo = () => {
   ]);
 
 
-
-
   const handleSwap = (index) => {
     const newMainVideo = otherVideos[index];
     const newOtherVideos = [...otherVideos];
@@ -30,8 +25,6 @@ const FeatureVideo = () => {
     setMainVideo(newMainVideo);
     setOtherVideos(newOtherVideos);
   };
-
-
 
 
   // Intersection observers
@@ -45,8 +38,6 @@ const FeatureVideo = () => {
   });
 
 
-
-
   // Animations
   const slideUp = useSpring({
     from: { y: 100, opacity: 0 },
@@ -55,17 +46,11 @@ const FeatureVideo = () => {
   });
 
 
-
-
   const slideLeft = useSpring({
     from: { x: -100, opacity: 0 },
     to: { x: inViewOtherVideos ? 0 : -100, opacity: inViewOtherVideos ? 1 : 0 },
     config: { duration: 500 },
   });
-
-
-
-
   const slideRight = useSpring({
     from: { x: 100, opacity: 0 },
     to: { x: inViewOtherVideos ? 0 : 100, opacity: inViewOtherVideos ? 1 : 0 },
@@ -73,13 +58,9 @@ const FeatureVideo = () => {
   });
 
 
-
-
   return (
     <div className="w-full mt-10 min-h-[70vh] relative">
       <div className="absolute -z-50 lg:top-[-70px] lg:left-[0px] top-[-30px] left-[0px] lg:w-[300px] lg:h-[300px] w-[200px] h-[200px] bg-gray-100 text-white flex items-center justify-end px-4 rounded-full"></div>
-
-
 
 
       <div className="px-4 md:px-10 lg:px-12">
@@ -110,9 +91,9 @@ const FeatureVideo = () => {
               the students receive an enriching and dynamic educational
               experience.
             </p>
-            <button className="px-6 py-2 bg-[#054BB4] text-white rounded-full">
+            <Link to="https://youtube.com/@zenstudyz?si=iN4l51faOy1_mjYu" target="blank" className="px-6 py-2 bg-[#054BB4] text-white rounded-full">
               Watch Now
-            </button>
+            </Link>
           </animated.div>
           <animated.div
             style={slideUp}
@@ -155,20 +136,4 @@ const FeatureVideo = () => {
     </div>
   );
 };
-
-
-
-
 export default FeatureVideo;
-
-
-
-
-
-
-
-
-
-
-
-

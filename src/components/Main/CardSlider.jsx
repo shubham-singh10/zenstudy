@@ -4,17 +4,14 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
+import { useNavigate } from "react-router-dom";
 
-
-
-
-function CardSlider() {
+function CardSlider({ courseData }) {
+    const navigate = useNavigate()
     const { ref: slideLeftRef, inView: slideLeftInView } = useInView({
         triggerOnce: true,
         threshold: 0.1,
     });
-
-
 
 
     const slideLeftStyles = useSpring({
@@ -22,8 +19,6 @@ function CardSlider() {
         to: { x: slideLeftInView ? 0 : -100, opacity: slideLeftInView ? 1 : 0 },
         config: { duration: 500 },
     });
-
-
 
 
     const settings = {
@@ -53,47 +48,14 @@ function CardSlider() {
             },
         ],
     };
-
-
-
-
-    const data = [
-        {
-            title: "UPSC",
-            img: "https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            price: "1000",
-        },
-        {
-            title: "UPSC",
-            img: "https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            price: "1000",
-        },
-        {
-            title: "UPSC",
-            img: "https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            price: "1000",
-        },
-        {
-            title: "UPSC",
-            img: "https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            price: "1000",
-        },
-        {
-            title: "UPSC",
-            img: "https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            price: "1000",
-        },
-        {
-            title: "UPSC",
-            img: "https://images.pexels.com/photos/206359/pexels-photo-206359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-            price: "1000",
-        },
-        // Add more data items here...
-    ];
-
-
-
-
+    // console.log("Recenet_course", courseData)
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      };
     return (
         <div>
             <animated.div
@@ -103,14 +65,14 @@ function CardSlider() {
             >
                 <div className="mt-20 m-1 lg:m-20">
                     <Slider {...settings}>
-                        {data.map((d, index) => (
+                        {courseData.map((d, index) => (
                             <div
                                 key={index}
                                 className="max-w-sm rounded-2xl overflow-hidden shadow-lg m-4 p-4"
                             >
                                 <img
                                     className="w-full h-52 rounded-2xl"
-                                    src={d.img}
+                                    src={d.thumbnail}
                                     alt="Course"
                                 />
                                 <div className="px-6 py-4">
@@ -118,14 +80,19 @@ function CardSlider() {
                                         {d.title}
                                     </div>
                                     <p className="text-gray-700 text-base">{d.name}</p>
-                                    <p className="text-gray-600">{d.name}</p>
-                                    <p className="text-gray-600">{d.name}</p>
+                                    <p className="text-gray-600">{d.language}</p>
+                                    <p className="text-gray-600">{formatDate(d.createdAt)}</p>
                                 </div>
                                 <div className="flex flex-row px-6 pt-4 pb-2 justify-between items-center">
                                     <p className="text-blue-600 font-bold text-2xl">
                                         ₹ {d.price}
                                     </p>
-                                    <button className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
+                                    <button
+                                        className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
+                                        onClick={() =>
+                                            navigate("/course-details", { state: { courseId: d._id } })
+                                        }
+                                    >
                                         View Details
                                     </button>
                                 </div>

@@ -17,7 +17,6 @@ const Articles = () => {
 
     // Artcile get data API
     useEffect(() => {
-
         const getarcticle = async () => {
             setLoading(true)
             try {
@@ -69,8 +68,13 @@ const Articles = () => {
         const doc = new DOMParser().parseFromString(html, 'text/html');
         return doc.body.textContent || "";
     };
-
-
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      };
 
     return (
         <div className="px-0 md:px-10 lg:px-12 m-10">
@@ -131,7 +135,7 @@ const Articles = () => {
                             </div>
                             <div className="flex justify-between items-center mt-4">
                                 <button className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 flex justify-center gap-1" onClick={() => navigate("/article-details", { state: { postId: post._id } })}>Read More <FiArrowRight className='h-5 w-5' /></button>
-                                <span className="text-gray-500">{post.date}</span>
+                                <span className="text-gray-500">{formatDate(post.createdAt)}</span>
                             </div>
                         </div>
                     </div>

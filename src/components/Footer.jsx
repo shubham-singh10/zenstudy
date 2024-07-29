@@ -5,6 +5,12 @@ import { FiFacebook, FiInstagram, FiTwitter, FiYoutube } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 
+
+
+
+
+
+
 const Footer = () => {
   const date = new Date()
   return (
@@ -21,7 +27,7 @@ const Footer = () => {
             </div>
             <div>
               <p className="font-medium text-sm">
-                Zen-Study is a result of the vision of "MAKING EDUCATION
+                ZenStudy is a result of the vision of "MAKING EDUCATION
                 IMAGINATIVE". We have ventured into the field of education.
               </p>
             </div>
@@ -38,6 +44,18 @@ const Footer = () => {
             </ul>
           </div>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -60,29 +78,53 @@ const Footer = () => {
           <div className="w-full md:w-1/2 flex flex-col lg:items-start md:items-start md:px-14  items-start">
             <p className="mb-4 text-2xl font-semibold ">Let’s Connect</p>
 
+
+
+
             <div className="flex items-start space-x-4">
 
-              <Link to="#" className="hover:bg-red-500 rounded-full p-2">
+
+
+
+              <Link to="https://youtube.com/@zenstudyz?si=iN4l51faOy1_mjYu" target="blank" className="hover:bg-red-500 rounded-full p-2">
                 <FiYoutube size={25} className="hover:text-white" />
               </Link>
 
-              <Link to="#" className="hover:bg-gradient-to-br from-[#405DE6] via-[#5B51D8] to-[#E1306C] rounded-full p-2">
+
+
+
+              <Link to="https://www.instagram.com/zenstudyz/" target="blank" className="hover:bg-gradient-to-br from-[#405DE6] via-[#5B51D8] to-[#E1306C] rounded-full p-2">
                 <FiInstagram size={25} className="hover:text-white" />
               </Link>
 
 
-              <Link to="#" className="hover:bg-[#4267B2] rounded-full p-2">
+
+
+
+
+
+
+              <Link to="https://www.facebook.com/people/Zenstudy/61555473406607/" target="blank" className="hover:bg-[#4267B2] rounded-full p-2">
                 <FiFacebook size={25} className="hover:text-white" />
               </Link>
 
-              <Link to="#" className="hover:bg-[#1DA1F2] rounded-full p-2">
+
+
+
+              <Link to="https://twitter.com/ZenstudyZ" target="blank" className="hover:bg-[#1DA1F2] rounded-full p-2">
                 <FiTwitter size={25} className="hover:text-white" />
               </Link>
+
+
+
 
             </div>
           </div>
         </div>
       </div>
+
+
+
 
       <div className="lg:px-12 md:px-8 px-4 py-4 border-t border-[#CADEFB]">
         <div className="flex justify-between items-center">
@@ -97,10 +139,4 @@ const Footer = () => {
     </div>
   );
 };
-
-
-
-
 export default Footer;
-
-
