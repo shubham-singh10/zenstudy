@@ -4,13 +4,6 @@ import PaginationNew from '../../components/pagination/PaginationNew';
 import { FaSearch } from 'react-icons/fa';
 import Cookies from 'js-cookie';
 
-
-
-
-
-
-
-
 const CourseCard = ({ course }) => {
     const navigate = useNavigate()
     const formatDate = (dateString) => {
@@ -20,9 +13,6 @@ const CourseCard = ({ course }) => {
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     };
-
-
-
 
     return (
         <div className="max-w-xs rounded overflow-hidden shadow-lg p-4 bg-white">
@@ -54,22 +44,8 @@ const CourseCard = ({ course }) => {
                 <button className="bg-blue-500 text-white font-bold py-1 px-3 rounded-full" onClick={() => navigate("/watch-course", { state: { id: course._id } })}>Continue Learning</button>
             </div>
         </div>
-
-
-
-
-
-
-
-
     );
 };
-
-
-
-
-
-
 
 
 const MyCourses = () => {
@@ -81,7 +57,6 @@ const MyCourses = () => {
     const token = Cookies.get("access_tokennew");
     let userId = null;
 
-
     if (token) {
         try {
             userId = token;
@@ -92,7 +67,7 @@ const MyCourses = () => {
     useEffect(() => {
         const getcourse = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API3}zenstudy/api/payment/purchaseCourse`, {
+                const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/payment/purchaseCourse`, {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
@@ -112,7 +87,14 @@ const MyCourses = () => {
                 }
                 const data = await response.json();
                 console.log("Purchase_course", data)
-                setCourse(data.purchaseCourses);
+                const filteredCourses = data.purchaseCourses.filter(purchase => purchase.course_id !== null);
+
+                if (filteredCourses.length === 0) {
+                    setCourse([]);
+                } else {
+                    setCourse(filteredCourses);
+                }
+        
                 setLoading(false);
             } catch (error) {
                 console.log("Error:", error);
@@ -122,7 +104,7 @@ const MyCourses = () => {
 
 
         getcourse()
-    }, [])
+    }, [userId])
 
 
     const filteredData = courses.filter((course) => {
@@ -144,8 +126,6 @@ const MyCourses = () => {
     )
     return (
         <div className='container mx-auto p-4 flex flex-col items-center gap-4'>
-
-
             {courses.length === 0 ? (
                 <div className="flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl  text-gray-500">No courses found...</div>
             ) : (

@@ -65,7 +65,7 @@ const ExploreArticles = () => {
     const fetchArticles = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API3}zenstudy/api/post/getposts`,
+          `${process.env.REACT_APP_API}zenstudy/api/post/getposts`,
           {
             method: "GET",
             headers: {

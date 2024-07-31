@@ -24,9 +24,8 @@ const CourseCard = ({ course }) => {
         <div className="font-bold text-xl mb-2 text-blue-600">
           {course.title}
         </div>
-        <p className="text-gray-700 text-base">{course.tutor}</p>
+        <p className="text-gray-700 text-base mb-1">{course.userId?.name}</p>
         <p className="text-gray-600">{formatDate(course.createdAt)}</p>
-        <p className="text-gray-600">{course.day}</p>
       </div>
       <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center">
         <p className="text-blue-600 font-bold text-2xl">₹{course.price}</p>
@@ -58,7 +57,7 @@ const CourseDeatils = () => {
     const getcourse = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API3}zenstudy/api/course/getCoursesP`,
+          `${process.env.REACT_APP_API}zenstudy/api/course/getCoursesP`,
           {
             method: "GET",
             headers: {

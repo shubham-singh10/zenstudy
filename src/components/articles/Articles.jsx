@@ -20,7 +20,7 @@ const Articles = () => {
         const getarcticle = async () => {
             setLoading(true)
             try {
-                const response = await fetch(`${process.env.REACT_APP_API3}zenstudy/api/post/getposts?page=${currentPage}&limit=${itemperpage}&category=${category}`, {
+                const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/post/getposts?page=${currentPage}&limit=${itemperpage}&category=${category}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',

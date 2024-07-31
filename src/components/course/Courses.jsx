@@ -53,7 +53,7 @@ const Courses = () => {
     const getcourse = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API3}zenstudy/api/course/getCoursesP`,
+          `${process.env.REACT_APP_API}zenstudy/api/course/getCoursesP`,
           {
             method: "GET",
             headers: {

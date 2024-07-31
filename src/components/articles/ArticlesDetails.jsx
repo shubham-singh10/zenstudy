@@ -96,7 +96,7 @@ const ArticleDetail = () => {
     setLoadingL(true);
     try {
       const response = await fetch(`
-        ${process.env.REACT_APP_API3}zenstudy/api/comment/likeCommentNew/${commentId}`,
+        ${process.env.REACT_APP_API}zenstudy/api/comment/likeCommentNew/${commentId}`,
         {
           method: "PUT",
           headers: {
@@ -162,7 +162,7 @@ const ArticleDetail = () => {
   const getComment = useCallback(async () => {
     try {
       const response = await fetch(`
-        ${process.env.REACT_APP_API3}zenstudy/api/comment/getPostComments/${postId}`,
+        ${process.env.REACT_APP_API}zenstudy/api/comment/getPostComments/${postId}`,
         {
           method: "GET",
           headers: {
@@ -190,7 +190,7 @@ const ArticleDetail = () => {
     const getArticle = async () => {
       try {
         const response = await fetch(`
-          ${process.env.REACT_APP_API2}zenstudy/api/post/getPostDetails/${postId}`,
+          ${process.env.REACT_APP_API}zenstudy/api/post/getPostDetails/${postId}`,
           {
             method: "GET",
             headers: {

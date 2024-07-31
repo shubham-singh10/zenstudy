@@ -34,7 +34,7 @@ const CourseDetailsView = () => {
 
         const getCourse = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API3}zenstudy/api/course/coursedetail/${courseId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/course/coursedetail/${courseId}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -88,17 +88,12 @@ const CourseDetailsView = () => {
         return doc.body.textContent || "";
     };
 
-
-
-
     //Payment Initiate
-
-
     const handlePayment = async (amount) => {
         setPayLoading(true)
         try {
             const res = await fetch(
-                `${process.env.REACT_APP_API3}zenstudy/api/payment/order`,
+                `${process.env.REACT_APP_API}zenstudy/api/payment/order`,
                 {
                   method: "POST",
                   headers: {
@@ -149,7 +144,7 @@ const CourseDetailsView = () => {
           handler: async (response) => {
             try {
               const res = await fetch(
-                `${process.env.REACT_APP_API3}zenstudy/api/payment/verify`,
+                `${process.env.REACT_APP_API}zenstudy/api/payment/verify`,
                 {
                   method: "POST",
                   headers: {
@@ -240,13 +235,9 @@ const CourseDetailsView = () => {
                     />
                     <div className="px-6 py-4">
                         <div className="font-bold text-xl mb-2 text-blue-600">{coursePost?.title}</div>
-                        <p className="text-gray-700 text-base">Tutor</p>
+                        <p className="text-gray-700 text-base">{coursePost?.userId?.name}</p>
                         <p className="text-gray-600">created at- {formatDate(coursePost?.createdAt)}</p>
-                        <p className="text-gray-600">course day</p>
-
-
-
-
+                        
                     </div>
                     <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center">
                         <p className="text-blue-600 font-bold text-2xl">₹ {coursePost?.price}</p>
@@ -260,9 +251,6 @@ const CourseDetailsView = () => {
                     </div>
                 </div>
             </div>
-
-
-
 
             <div className="p-2 md:p-12 lg:p-12 bg-blue-100 ">
                 {coursePost.modules.map((title, index) => (

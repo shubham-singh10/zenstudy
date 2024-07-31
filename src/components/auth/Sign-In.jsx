@@ -53,7 +53,7 @@ const SignIn = () => {
                 password: data.password
             };
             const response = await fetch(
-                `${process.env.REACT_APP_API2}zenstudy/api/auth/signin`,
+                `${process.env.REACT_APP_API}zenstudy/api/auth/signin`,
                 {
                     method: "POST",
                     credentials: 'include',

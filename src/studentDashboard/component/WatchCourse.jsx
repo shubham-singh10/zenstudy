@@ -21,7 +21,7 @@ const WatchCourse = () => {
     const myCourse = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API3}zenstudy/api/payment/watchCourse`,
+          `${process.env.REACT_APP_API}zenstudy/api/payment/watchCourse`,
           {
             method: "POST",
             headers: {

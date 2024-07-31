@@ -20,7 +20,7 @@ const Upsc = () => {
   useEffect(() => {
     const getupscarcticle = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/post/getposts`, {
+        const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/post/getposts`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',

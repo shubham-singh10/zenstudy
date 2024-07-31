@@ -39,7 +39,7 @@ const UPSCDetails = () => {
 
         const getArticle = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/post/getPostDetails/${postId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/post/getPostDetails/${postId}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',

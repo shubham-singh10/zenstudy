@@ -34,7 +34,7 @@ const CourseDetailsView = () => {
 
         const getCourse = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API3}zenstudy/api/course/coursedetail/${courseId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/course/coursedetail/${courseId}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json',
@@ -98,7 +98,7 @@ const CourseDetailsView = () => {
         setPayLoading(true)
         try {
             const res = await fetch(
-                `${process.env.REACT_APP_API3}zenstudy/api/payment/order`,
+                `${process.env.REACT_APP_API}zenstudy/api/payment/order`,
                 {
                   method: "POST",
                   headers: {
@@ -149,7 +149,7 @@ const CourseDetailsView = () => {
           handler: async (response) => {
             try {
               const res = await fetch(
-                `${process.env.REACT_APP_API3}zenstudy/api/payment/verify`,
+                `${process.env.REACT_APP_API}zenstudy/api/payment/verify`,
                 {
                   method: "POST",
                   headers: {

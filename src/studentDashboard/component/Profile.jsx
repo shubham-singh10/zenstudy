@@ -45,7 +45,7 @@ const Profile = () => {
     const getUserData = async (userId) => {
         try {
             const response = await fetch(
-                `${process.env.REACT_APP_API2}zenstudy/api/user/userdetail/${userId}`,
+                `${process.env.REACT_APP_API}zenstudy/api/user/userdetail/${userId}`,
                 {
                     method: "GET",
                     headers: {
@@ -76,7 +76,7 @@ const Profile = () => {
         setLoading(true);
         // console.log("User_Data", userData)
         try {
-            const response = await fetch(`${process.env.REACT_APP_API3}zenstudy/api/user/updatenew/${userId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/user/updatenew/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

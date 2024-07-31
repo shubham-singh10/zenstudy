@@ -75,7 +75,7 @@ const ResetPassword = () => {
                 phone: data.phone,
             }
             const response = await fetch(
-                `${process.env.REACT_APP_API2}zenstudy/api/auth/user-check`,
+                `${process.env.REACT_APP_API}zenstudy/api/auth/user-check`,
                 {
                     method: "POST",
                     headers: {
@@ -139,7 +139,7 @@ const ResetPassword = () => {
 
             // Send user data to your backend
             const response = await fetch(
-                `${process.env.REACT_APP_API2}zenstudy/api/auth/forget`,
+                `${process.env.REACT_APP_API}zenstudy/api/auth/forget`,
                 {
                     method: "POST",
                     headers: {

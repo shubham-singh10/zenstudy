@@ -103,7 +103,7 @@ const SignUp = () => {
                 phone: data.phone,
             };
             const response = await fetch(
-                `${process.env.REACT_APP_API2}zenstudy/api/auth/user-check`,
+                `${process.env.REACT_APP_API}zenstudy/api/auth/user-check`,
                 {
                     method: "POST",
                     headers: {
@@ -163,7 +163,7 @@ const SignUp = () => {
 
 
             const response = await fetch(
-                `${process.env.REACT_APP_API2}zenstudy/api/auth/readerSignup`,
+                `${process.env.REACT_APP_API}zenstudy/api/auth/readerSignup`,
                 {
                     method: "POST",
                     headers: {
