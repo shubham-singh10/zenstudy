@@ -67,7 +67,7 @@ const SignUp = () => {
                 window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
                     size: 'invisible',
                     callback: () => {
-                        console.log('Recaptcha verified');
+                        //console.log('Recaptcha verified');
                     },
                 });
             }

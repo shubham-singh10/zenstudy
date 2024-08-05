@@ -86,7 +86,7 @@ const MyCourses = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                console.log("Purchase_course", data)
+                //console.log("Purchase_course", data)
                 const filteredCourses = data.purchaseCourses.filter(purchase => purchase.course_id !== null);
 
                 if (filteredCourses.length === 0) {
@@ -97,7 +97,7 @@ const MyCourses = () => {
         
                 setLoading(false);
             } catch (error) {
-                console.log("Error:", error);
+                //console.log("Error:", error);
                 setLoading(false);
             }
         }

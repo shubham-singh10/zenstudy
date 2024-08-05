@@ -43,7 +43,7 @@ const RecentlyAddedCourse = () => {
               throw new Error("Network response was not ok");
             }
             const data = await response.json();
-            // console.log("Recent_Course_data", data)
+            // //console.log("Recent_Course_data", data)
             setCourse(data);
             setLoading(false);
           } catch (error) {

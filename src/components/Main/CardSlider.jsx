@@ -48,7 +48,7 @@ function CardSlider({ courseData }) {
             },
         ],
     };
-    // console.log("Recenet_course", courseData)
+    // //console.log("Recenet_course", courseData)
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const year = date.getFullYear();

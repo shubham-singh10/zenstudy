@@ -32,7 +32,7 @@ const Upsc = () => {
         }
         const data = await response.json();
         const otherPosts = data.posts.filter(post => post.category === 'Others');
-       // console.log("Upsc_data", otherPosts)
+       // //console.log("Upsc_data", otherPosts)
         setUpscPost(otherPosts);
         setLoading(false);
       } catch (error) {

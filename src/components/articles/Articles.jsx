@@ -31,7 +31,7 @@ const Articles = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                //console.log("Article_data", data)
+                ////console.log("Article_data", data)
                 setArticlePost(data.posts);
                 setArticleTotal(data.totalPages);
                 setLoading(false);

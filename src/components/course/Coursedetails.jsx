@@ -45,7 +45,7 @@ const CourseDetailsView = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                console.log("Course_data", data);
+                //console.log("Course_data", data);
                 setCoursePost(data.coursedetail);
                 setLoading(false);
             } catch (error) {
@@ -126,7 +126,7 @@ const CourseDetailsView = () => {
               }
        
               const data = await res.json();
-              console.log("Data", data)
+              //console.log("Data", data)
               handlePaymentVerify(data.data, courseId);
             } catch (error) {
               console.error("Error creating payment order:", error);
@@ -166,9 +166,9 @@ const CourseDetailsView = () => {
               );
    
               const verifyData = await res.json();
-              console.log("VerifyData", verifyData)
+              //console.log("VerifyData", verifyData)
               if (verifyData.message === "Payment Successful") {
-                console.log("Payment Success")
+                //console.log("Payment Success")
                 navigate(verifyData.Url)
               }
             } catch (error) {
@@ -180,7 +180,7 @@ const CourseDetailsView = () => {
             color: "#5f63b8",
           },
         };
-        console.log("Options", options)
+        //console.log("Options", options)
         const rzp1 = new window.Razorpay(options);
         rzp1.open();
       };

@@ -111,7 +111,7 @@ const ContactUs = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                // console.log("Contact", data)
+                // //console.log("Contact", data)
                 if (data) {
                     Swal.fire({
                         icon: "success",
@@ -151,7 +151,7 @@ const ContactUs = () => {
                             <i className="fas fa-envelope text-xl">
                                 <IoMdMail />
                             </i>{" "}
-                            piyush@zenstudy.in
+                            contact@zenstudy.in
                         </p>
                         <p className="flex gap-2 items-center">
                             <i className="fas fa-phone text-xl">
@@ -163,7 +163,7 @@ const ContactUs = () => {
                             <i className="fas fa-map-marker-alt text-xl">
                                 <FaLocationDot />
                             </i>{" "}
-                            House no 2934, GF, Block-13, Block 7, Patel Nagar, Ranjeet Nagar, New Delhi, Delhi, 110008
+                            7/46, Shankar Rd, Block 7, Old Rajinder Nagar, Rajinder Nagar, New Delhi, Delhi, 110060
                         </p>
                     </div>
                     <h3 className="text-2xl font-bold mb-4">Connect with us</h3>

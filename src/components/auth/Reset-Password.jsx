@@ -41,7 +41,7 @@ const ResetPassword = () => {
                 window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
                     size: 'invisible',
                     callback: () => {
-                        console.log('Recaptcha verified');
+                        //console.log('Recaptcha verified');
                     },
                 });
             }
@@ -90,7 +90,7 @@ const ResetPassword = () => {
                 throw new Error(errorData.message || "Reset failed");
             }
             const resData = await response.json();
-            //console.log("ResData", resData)
+            ////console.log("ResData", resData)
             if (resData.message === "Success") {
                 await handlePhoneNumberAuth(`+91${data.phone}`);
 
@@ -155,7 +155,7 @@ const ResetPassword = () => {
             }
 
             const resData = await response.json();
-            console.log("ResData", resData);
+            //console.log("ResData", resData);
 
             if (resData.message === "Password updated successfully") {
                 Swal.fire({

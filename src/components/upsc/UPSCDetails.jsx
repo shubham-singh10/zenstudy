@@ -50,7 +50,7 @@ const UPSCDetails = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                console.log("UPSC_Deatils_data", data);
+                //console.log("UPSC_Deatils_data", data);
                 setArticlePost(data.postDetails);
                 setLoading(false);
             } catch (error) {

@@ -42,11 +42,11 @@ const WatchCourse = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-      //console.log("MyCourse_purchase", data.response?.modules);
+      ////console.log("MyCourse_purchase", data.response?.modules);
         setCourses(data.response?.modules);
         setLoading(false);
       } catch (error) {
-        console.log("Error:", error);
+        //console.log("Error:", error);
         setLoading(false);
       }
     };

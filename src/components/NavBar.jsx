@@ -44,7 +44,7 @@ const NavBar = () => {
   const navigate = useNavigate()
   function handleClick() {
     setHamBurger(!hamBurger);
-    // console.log(hamBurger);
+    // //console.log(hamBurger);
   }
   return (
     <>

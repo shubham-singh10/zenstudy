@@ -58,7 +58,7 @@ const Profile = () => {
                 throw new Error(errorData.message || "Failed to fetch user data");
             }
             const resData = await response.json();
-            //console.log("User_ProfileData", resData)
+            ////console.log("User_ProfileData", resData)
             setUserData(resData.userdetail || {});
         } catch (error) {
             Swal.fire({
@@ -74,7 +74,7 @@ const Profile = () => {
         if (!userId) return;
 
         setLoading(true);
-        // console.log("User_Data", userData)
+        // //console.log("User_Data", userData)
         try {
             const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/user/updatenew/${userId}`, {
                 method: 'PUT',
@@ -90,7 +90,7 @@ const Profile = () => {
                 throw new Error(errorData.message || 'Failed to update user');
             }
             const resData = await response.json()
-            // console.log("Response_Data", resData)
+            // //console.log("Response_Data", resData)
             if (resData.message === "Success") {
                 Swal.fire({
                     icon: 'success',

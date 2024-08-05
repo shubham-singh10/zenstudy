@@ -16,7 +16,6 @@ const CourseDetailsView = () => {
     const location = useLocation()
     const { courseId } = location.state || {}
 
-
     const token = Cookies.get("access_tokennew");
     let userId = null;
 
@@ -45,7 +44,7 @@ const CourseDetailsView = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                console.log("Course_data", data);
+                //console.log("Course_data", data);
                 setCoursePost(data.coursedetail);
                 setLoading(false);
             } catch (error) {
@@ -95,39 +94,39 @@ const CourseDetailsView = () => {
             const res = await fetch(
                 `${process.env.REACT_APP_API}zenstudy/api/payment/order`,
                 {
-                  method: "POST",
-                  headers: {
-                    "content-type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    amount,
-                    user_id: userId,
-                    course_id: courseId,
-                  }),
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        amount,
+                        user_id: userId,
+                        course_id: courseId,
+                    }),
                 }
-              );
-       
-              if (!res.ok) {
+            );
+
+            if (!res.ok) {
                 const errorText = await res.text();
                 console.error(`Error: ${res.status} - ${res.statusText}\n${errorText}`);
                 Swal.fire({
                     title: "Oops. Course already purchase",
                     text: "Please visit the MyCourse section to see course",
                     icon: "error"
-                }).then((result)=>{
+                }).then((result) => {
                     navigate("/mycourse")
                 })
                 return;
-              }
-       
-              const data = await res.json();
-              console.log("Data", data)
-              handlePaymentVerify(data.data, courseId);
-            } catch (error) {
-              console.error("Error creating payment order:", error);
-              setPayLoading(false)
             }
-           
+
+            const data = await res.json();
+            //console.log("Data", data)
+            handlePaymentVerify(data.data, courseId);
+        } catch (error) {
+            console.error("Error creating payment order:", error);
+            setPayLoading(false)
+        }
+
 
 
     }
@@ -135,50 +134,50 @@ const CourseDetailsView = () => {
 
     const handlePaymentVerify = async (data, courseId) => {
         const options = {
-          key: process.env.REACT_APP_RAZORPAY_KEY_ID,
-          amount: data.amount,
-          currency: data.currency,
-          name: "ZenStudy",
-          description: "Making Education Imaginative",
-          order_id: data.id,
-          handler: async (response) => {
-            try {
-              const res = await fetch(
-                `${process.env.REACT_APP_API}zenstudy/api/payment/verify`,
-                {
-                  method: "POST",
-                  headers: {
-                    "content-type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    razorpay_order_id: response.razorpay_order_id,
-                    razorpay_payment_id: response.razorpay_payment_id,
-                    razorpay_signature: response.razorpay_signature,
-                    user_id: userId,
-                    course_id: courseId,
-                  }),
+            key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+            amount: data.amount,
+            currency: data.currency,
+            name: "ZenStudy",
+            description: "Making Education Imaginative",
+            order_id: data.id,
+            handler: async (response) => {
+                try {
+                    const res = await fetch(
+                        `${process.env.REACT_APP_API}zenstudy/api/payment/verify`,
+                        {
+                            method: "POST",
+                            headers: {
+                                "content-type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_signature: response.razorpay_signature,
+                                user_id: userId,
+                                course_id: courseId,
+                            }),
+                        }
+                    );
+
+                    const verifyData = await res.json();
+                    //console.log("VerifyData", verifyData)
+                    if (verifyData.message === "Payment Successful") {
+                        //console.log("Payment Success")
+                        navigate(verifyData.Url)
+                    }
+                } catch (error) {
+                    console.error("Error verifying payment:", error);
+
                 }
-              );
-   
-              const verifyData = await res.json();
-              console.log("VerifyData", verifyData)
-              if (verifyData.message === "Payment Successful") {
-                console.log("Payment Success")
-                navigate(verifyData.Url)
-              }
-            } catch (error) {
-              console.error("Error verifying payment:", error);
-             
-            }
-          },
-          theme: {
-            color: "#5f63b8",
-          },
+            },
+            theme: {
+                color: "#5f63b8",
+            },
         };
-        console.log("Options", options)
+        //console.log("Options", options)
         const rzp1 = new window.Razorpay(options);
         rzp1.open();
-      };
+    };
 
 
     return (
@@ -206,28 +205,19 @@ const CourseDetailsView = () => {
                     </div>
                 </div>
             </div>
-            <div className=" p-4 md:p-12 lg:p-12 mt-8 flex flex-col md:flex-row lg:flex-row gap-1 md:gap-4 lg:gap-56">
-                <div className=' border-l-8 border-blue-600 p-8'>
+            <div className=" p-4 md:p-12 lg:p-12 mt-8 flex flex-col justify-center items-center md:items-start lg:items-start md:flex-row lg:flex-row gap-1 md:gap-4 lg:gap-56">
+                <div className=' border-l-8 border-blue-600 p-2  w-full md:w-1/2 lg:w-1/2'>
                     <h2 className="text-lg md:text-xl font-bold">About Course</h2>
                     <ul className="mt-4 space-y-2 flex flex-col gap-4">
-                        <li className="flex items-start">
-                            Lorem Ipsum has been the industry's standard dummy text
+                        <li className="flex items-start text-justify">
+                            Scoring well in the UPSC mains exam requires a strategic approach, and understanding the importance of previous years' questions (PYQs) is crucial. PYQs help you identify the patterns, trends, and types of questions frequently asked, which can guide your preparation and focus on key areas. Developing the ability to write effective answers, even with limited information, is essential to maximize your marks. This skill helps you demonstrate a comprehensive understanding of the subject and meet the exam's demands.
                         </li>
-                        <li className="flex items-start">
-                            Lorem Ipsum has been the industry's standard dummy text
-                        </li>
-                        <li className="flex items-start">
-                            Lorem Ipsum has been the industry's standard dummy text
-                        </li>
-                        <li className="flex items-start">
-                            Lorem Ipsum has been the industry's standard dummy text
-                        </li>
-                        <li className="flex items-start">
-                            Lorem Ipsum has been the industry's standard dummy text
+                        <li className="flex items-start text-justify">
+                            Our course offers detailed explanations of PYQs, teaching you how to tackle various question types and structure your answers effectively. Mains performance is critical for making it onto the list, while the interview stage determines your final rank. By joining our course, you'll gain insights into the nuances of the exam and learn how to address the questions holistically, ensuring you cover every aspect and increase your chances of success.
                         </li>
                     </ul>
                 </div>
-                <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4">
+                <div className="bg-white justify-center sm:items-center max-w-sm w-full md:w-1/2 lg:w-1/2 h-1/2  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4">
                     <img
                         className="w-full h-52 rounded-2xl"
                         src={coursePost?.thumbnail}
@@ -237,16 +227,16 @@ const CourseDetailsView = () => {
                         <div className="font-bold text-xl mb-2 text-blue-600">{coursePost?.title}</div>
                         <p className="text-gray-700 text-base">{coursePost?.userId?.name}</p>
                         <p className="text-gray-600">created at- {formatDate(coursePost?.createdAt)}</p>
-                        
+
                     </div>
                     <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center">
                         <p className="text-blue-600 font-bold text-2xl">₹ {coursePost?.price}</p>
                         <button
                             className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
-                            onClick={()=> handlePayment(coursePost?.price)}
+                            onClick={() => handlePayment(coursePost?.price)}
                             disabled={!payloading}
                         >
-                           {!payloading ? 'Please wait...' : 'Pay Now'}
+                            {!payloading ? 'Please wait...' : 'Pay Now'}
                         </button>
                     </div>
                 </div>
@@ -266,13 +256,13 @@ const CourseDetailsView = () => {
                                 </svg>
                             </div>
                         </summary>
-                       {title.videos.length > 0 ?(title.videos.map(({_id, videoTitle})=>(
-                        <div className="pb-2 px-10 flex items-center justify-start" key={_id}>
-                        <MdSlowMotionVideo className='text-blue-500' />
-                            <p className='px-4 text-gray-500 bg-gray-50 w-full '>{videoTitle || "no videos"}</p>
-                            <FaLock className='text-blue-400 '  />
-                        </div>
-                       ))):(<h2>No videos</h2>)}
+                        {title.videos.length > 0 ? (title.videos.map(({ _id, videoTitle }) => (
+                            <div className="pb-2 px-10 flex items-center justify-start" key={_id}>
+                                <MdSlowMotionVideo className='text-blue-500' />
+                                <p className='px-4 text-gray-500 bg-gray-50 w-full '>{videoTitle || "no videos"}</p>
+                                <FaLock className='text-blue-400 ' />
+                            </div>
+                        ))) : (<h2>No videos</h2>)}
                     </details>
                 ))}
             </div>
