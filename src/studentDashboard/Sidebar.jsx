@@ -23,6 +23,7 @@ const links = [
 
 const Sidebar = () => {
     const [isCollapsed, setIsCollapsed] = useState(false);
+    const navigate = useNavigate()
     const location = useLocation();
     const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed);
@@ -32,7 +33,7 @@ const Sidebar = () => {
     return (
         <div className={`hidden h-full lg:flex flex-col py-8 shadow-xl transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
             <div className="flex items-center justify-between px-4">
-                <img src={"/assets/logo.png"} alt="Logo" className={`h-10 w-10 ${isCollapsed ? 'block' : 'hidden'}`} />
+                <img src={"/assets/logo.png"} alt="Logo" onClick={()=> navigate("/")} className={`h-10 w-10 cursor-pointer ${isCollapsed ? 'block' : 'hidden'}`} />
                 <Link to={"/"} className={`text-3xl font-bold ${isCollapsed ? 'hidden' : 'block'}`}>
                     ZenStudy<span className="text-[#054BB4] text-4xl">.</span>
                 </Link>

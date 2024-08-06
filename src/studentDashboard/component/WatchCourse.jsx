@@ -42,7 +42,7 @@ const WatchCourse = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-      ////console.log("MyCourse_purchase", data.response?.modules);
+        ////console.log("MyCourse_purchase", data.response?.modules);
         setCourses(data.response?.modules);
         setLoading(false);
       } catch (error) {
@@ -94,7 +94,7 @@ const WatchCourse = () => {
       <div className="flex flex-col lg:flex-row lg:space-x-8">
         {/* Video Section */}
         <div className="lg:w-2/3">
-          <div>
+          {/* <div>
             <iframe
               src={`${url}`}
               title="zenstudy"
@@ -102,6 +102,14 @@ const WatchCourse = () => {
               allowFullScreen
               allow="encrypted-media"
             ></iframe>
+          </div> */}
+          <div>
+            <iframe
+              src={`${url}`}
+              frameborder="0"
+              className="top-0 left-0 h-[70vh] w-[100%]"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+              title="zenstudy"></iframe>
           </div>
           <div className="mt-4">
             <div className="flex space-x-8 border-b">
@@ -109,8 +117,8 @@ const WatchCourse = () => {
                 <button
                   key={tab}
                   className={`text-lg p-2 ${selectedTab === tab
-                      ? "border-b-2 border-blue-500 text-blue-500"
-                      : "text-gray-500"
+                    ? "border-b-2 border-blue-500 text-blue-500"
+                    : "text-gray-500"
                     }`}
                   onClick={() => setSelectedTab(tab)}
                 >
@@ -122,7 +130,7 @@ const WatchCourse = () => {
               {selectedTab === "About Video" && (
                 <div>
                   <p className="text-gray-700">
-                   {selectedVideoDesc}
+                    {selectedVideoDesc}
                   </p>
                 </div>
               )}
@@ -152,8 +160,8 @@ const WatchCourse = () => {
                     <div
                       key={index}
                       className={`flex items-center p-2 border-t ${selectedVideoTitle === video.videoTitle
-                          ? "text-blue-500"
-                          : ""
+                        ? "text-blue-500"
+                        : ""
                         }`}
                       onClick={() =>
                         handleVideoClick(video.videoUrl, video.videoTitle, video?.videoDescription)

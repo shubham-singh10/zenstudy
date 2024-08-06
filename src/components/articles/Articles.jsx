@@ -130,12 +130,13 @@ const Articles = () => {
                                 <p className="text-gray-600 mt-2 text-justify">{stripHtmlTags(he.decode(post.content)).substring(0, 500)}...</p>
                                 <div className="flex justify-between mt-2">
                                     <h1 className="text-blue-500 font-extrabold">{post.category}</h1>
-                                    <h1 className="text-gray-600 font-extrabold">Author-<span className='text-indigo-500'>{post.userId?.name}</span></h1>
+                                    <span className="text-gray-500">{formatDate(post.createdAt)}</span>
+                                    {/* <h1 className="text-gray-600 font-extrabold">Author-<span className='text-indigo-500'>{post.userId?.name}</span></h1> */}
                                 </div>
                             </div>
                             <div className="flex justify-between items-center mt-4">
                                 <button className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 flex justify-center gap-1" onClick={() => navigate("/article-details", { state: { postId: post._id } })}>Read More <FiArrowRight className='h-5 w-5' /></button>
-                                <span className="text-gray-500">{formatDate(post.createdAt)}</span>
+                                {/* <span className="text-gray-500">{formatDate(post.createdAt)}</span> */}
                             </div>
                         </div>
                     </div>

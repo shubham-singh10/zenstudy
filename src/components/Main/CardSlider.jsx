@@ -80,7 +80,7 @@ function CardSlider({ courseData }) {
                                         {d.title}
                                     </div>
                                     <p className="text-gray-700 text-base">{d.name}</p>
-                                    <p className="text-gray-600">{d.language}</p>
+                                    {/* <p className="text-gray-600">{d.language}</p> */}
                                     <p className="text-gray-600">{formatDate(d.createdAt)}</p>
                                 </div>
                                 <div className="flex flex-row px-6 pt-4 pb-2 justify-between items-center">

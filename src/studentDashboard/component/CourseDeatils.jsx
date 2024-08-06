@@ -13,6 +13,7 @@ const CourseCard = ({ course }) => {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
+
   return (
     <div className="max-w-xs rounded-2xl overflow-hidden shadow-lg m-4 p-4">
       <img
@@ -24,12 +25,17 @@ const CourseCard = ({ course }) => {
         <div className="font-bold text-xl mb-2 text-blue-600">
           {course.title}
         </div>
-        <p className="text-gray-700 text-base mb-1">{course.userId?.name}</p>
+        {/* <p className="text-gray-700 text-base mb-1">{course.userId?.name}</p> */}
         <p className="text-gray-600">{formatDate(course.createdAt)}</p>
       </div>
       <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center">
         <p className="text-blue-600 font-bold text-2xl">₹{course.price}</p>
-        <button
+        {course.modules.length === 0 ? (<button
+          className="bg-red-600 text-white font-bold py-2 px-4 rounded-full"
+          disabled
+        >
+          View Details
+        </button>) : (<button
           className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
           onClick={() =>
             navigate("/course-details-view", {
@@ -38,7 +44,7 @@ const CourseCard = ({ course }) => {
           }
         >
           View Details
-        </button>
+        </button>)}
       </div>
     </div>
   );
@@ -77,7 +83,7 @@ const CourseDeatils = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        //console.log("Course_data", data);
+        // console.log("Course_data", data);
         setCourse(data);
         setLoading(false);
       } catch (error) {

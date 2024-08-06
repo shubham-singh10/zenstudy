@@ -205,8 +205,8 @@ const CourseDetailsView = () => {
                     </div>
                 </div>
             </div>
-            <div className=" p-4 md:p-12 lg:p-12 mt-8 flex flex-col justify-center items-center md:items-start lg:items-start md:flex-row lg:flex-row gap-1 md:gap-4 lg:gap-56">
-                <div className=' border-l-8 border-blue-600 p-2  w-full md:w-1/2 lg:w-1/2'>
+            <div className="p-4 md:p-12 lg:p-12 mt-8 flex flex-col md:flex-row lg:flex-row gap-1 md:gap-4 lg:gap-10 md:items-center lg:items-start items-center">
+                <div className=' border-l-8 border-blue-600 p-2  w-full md:w-1/2 lg:w-2/3'>
                     <h2 className="text-lg md:text-xl font-bold">About Course</h2>
                     <ul className="mt-4 space-y-2 flex flex-col gap-4">
                         <li className="flex items-start text-justify">
@@ -217,7 +217,7 @@ const CourseDetailsView = () => {
                         </li>
                     </ul>
                 </div>
-                <div className="bg-white justify-center sm:items-center max-w-sm w-full md:w-1/2 lg:w-1/2 h-1/2  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4">
+                <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
                     <img
                         className="w-full h-52 rounded-2xl"
                         src={coursePost?.thumbnail}
