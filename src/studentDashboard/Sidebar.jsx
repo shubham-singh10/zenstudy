@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FiLogOut, FiUser, FiBook, FiCircle, FiChevronRight, FiChevronLeft } from 'react-icons/fi';
+import { FiUser, FiBook, FiCircle } from 'react-icons/fi';
+import { RiMenuFoldLine, RiMenuUnfoldLine } from "react-icons/ri";
+import { FaHome } from "react-icons/fa";
 import Cookies from 'js-cookie';
 
 const links = [
+    {
+        label: "Home",
+        link: "/",
+        icon: <FaHome />,
+    },
     {
         label: "Profile",
         link: "/profile",
@@ -38,7 +45,7 @@ const Sidebar = () => {
                     ZenStudy<span className="text-[#054BB4] text-4xl">.</span>
                 </Link>
                 <button onClick={toggleSidebar} className="text-2xl focus:outline-none">
-                    {isCollapsed ? <FiChevronRight size={35} /> : <FiChevronLeft size={35} />}
+                    {isCollapsed ? <RiMenuUnfoldLine  size={25} /> : <RiMenuFoldLine size={25} />}
                 </button>
             </div>
             <div className={`flex flex-col mt-36 items-center justify-center gap-4 font-medium text-xl ${isCollapsed ? 'mt-8' : 'mt-16'}`}>

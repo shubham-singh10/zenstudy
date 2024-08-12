@@ -160,9 +160,9 @@ const StudentDashNavbar = () => {
               >
                 <FiUser className="mr-2" /> Profile
               </Link>
-              <hr className="border-t-2 border-gray-500 my-4" />
+              <hr className="border-t-2 border-gray-500 " />
               <button
-                className="ml-6 mb-2 mt-2 flex items-center px-8 py-2 bg-red-500 text-white hover:bg-red-700 font-semibold rounded transition-colors duration-200"
+                className="ml-6 mb-2 mt-2 flex items-center px-8 py-2 bg-blue-600 text-white hover:bg-blue-700 font-semibold rounded transition-colors duration-200"
                 onClick={handleLogout}
               >
                 <FiLogOut className="mr-2" /> Logout
