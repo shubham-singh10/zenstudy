@@ -8,6 +8,9 @@ import Swal from "sweetalert2";
 import { MdSlowMotionVideo } from "react-icons/md";
 import { FaLock } from "react-icons/fa6";
 import toast from "react-hot-toast";
+import useWindowSize from "react-use/lib/useWindowSize";
+import Confetti from "react-confetti";
+
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -15,9 +18,22 @@ const CourseDetailsView = () => {
   const [error, setError] = useState(null);
   const [discount, setDiscount] = useState(null);
   const [code, setCode] = useState("");
+  const [showConfetti, setShowConfetti] = useState(true);
+  const { width, height } = useWindowSize(); // Get the current window size
   const navigate = useNavigate();
   const location = useLocation();
   const { courseId } = location.state || {};
+
+  useEffect(() => {
+    if (discount) { // Assuming you only want to show confetti if there's a discount
+      const timer = setTimeout(() => {
+        setShowConfetti(false);
+      }, 3000); // 3 seconds
+
+      // Cleanup the timeout if the component unmounts before the timeout completes
+      return () => clearTimeout(timer);
+    }
+  }, [discount]);
 
   const token = Cookies.get("access_tokennew");
   let userId = null;
@@ -198,8 +214,6 @@ const CourseDetailsView = () => {
         }
       );
 
-      
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
@@ -211,8 +225,8 @@ const CourseDetailsView = () => {
 
       const data = await response.json(); // Parse the successful response
 
-      setCode(null)
-      
+      setCode(null);
+
       setDiscount(data);
 
       toast.success("Discount applied successfull!!", {
@@ -227,6 +241,8 @@ const CourseDetailsView = () => {
 
   return (
     <div className="">
+    {showConfetti && discount && <Confetti width={width} height={height} />}
+      
       <div className="p-4 lg:p-12 bg-blue-100 w-full md:p-8 rounded-md flex flex-col justify-start items-start">
         <button
           className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-4 flex items-center lg:-mt-10 md:-mt-6 sm:mt-0"
