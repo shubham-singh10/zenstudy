@@ -74,6 +74,7 @@ const CourseDetailsView = () => {
     getCourse();
   }, [courseId]);
 
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -329,7 +330,7 @@ const CourseDetailsView = () => {
             <p className="text-blue-600 font-bold text-2xl">
               {discount ? (
                 <Fragment>
-                  <span className="line-through mr-2 text-lg">
+                  <span className="line-through text-gray-400 mr-2 text-lg">
                     ₹ {coursePost?.price}
                   </span>
                   <span>₹ {discount.discount}</span>
