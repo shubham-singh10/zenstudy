@@ -76,16 +76,16 @@ function CardSlider({ courseData }) {
                                     alt="Course"
                                 />
                                 <div className="px-6 py-4">
-                                    <div className="font-bold text-xl mb-2 text-blue-600">
+                                    <div className="font-bold text-lg h-20 mb-2 text-blue-600">
                                         {d.title}
                                     </div>
                                     <p className="text-gray-700 text-base">{d.name}</p>
                                     {/* <p className="text-gray-600">{d.language}</p> */}
-                                    <p className="text-gray-600">{formatDate(d.createdAt)}</p>
+                                    <p className="text-gray-600 text-xs ">Created at - {formatDate(d.createdAt)}</p>
                                 </div>
-                                <div className="flex flex-row px-6 pt-4 pb-2 justify-between items-center">
+                                <div className="flex flex-row px-6 pt-4 pb-2 justify-between items-center  border-t-2">
                                     <p className="text-blue-600 font-bold text-2xl">
-                                        ₹ {d.price}
+                                        ₹  {d.price}
                                     </p>
                                     <button
                                         className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"

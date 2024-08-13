@@ -11,7 +11,7 @@ const CourseCard = ({ course }) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+        return `${day}-${month}-${year}`;
     };
 
     return (
@@ -27,9 +27,13 @@ const CourseCard = ({ course }) => {
                 </div>
             </div>
             <div className="px-4 py-2">
-                <div className="font-bold text-lg mb-1">{course.course_id.title}</div>
-                <p className="text-gray-700 text-sm">{course.course_id.tutor}</p>
-                <p className="text-gray-600 text-xs">{formatDate(course.course_id.createdAt)}</p>
+                <div className="font-bold text-lg mb-1 h-24">{course.course_id.title}</div>
+                
+                {
+                    // <p className="text-gray-700 text-sm">{course.course_id.tutor}</p>
+                }
+
+                <p className="text-gray-600 text-xs">Created at - {formatDate(course.course_id.createdAt)}</p>
                 <p className="text-gray-600 text-xs">{course.course_id.day}</p>
             </div>
             <div className="px-4 pt-2 pb-2">
@@ -41,7 +45,7 @@ const CourseCard = ({ course }) => {
                         <div style={{ width: `progress %` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
                     </div>
                 </div>
-                <button className="bg-blue-500 text-white font-bold py-1 px-3 rounded-full" onClick={() => navigate("/watch-course", { state: { id: course._id } })}>Continue Learning</button>
+                <button className="bg-blue-500 mt-2 text-white font-bold py-1 px-3 rounded-full" onClick={() => navigate("/watch-course", { state: { id: course._id } })}>Continue Learning</button>
             </div>
         </div>
     );

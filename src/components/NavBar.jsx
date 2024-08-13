@@ -2,6 +2,9 @@ import React, { Fragment, useState } from "react";
 import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import { IoMdArrowDropdown } from "react-icons/io";
+import { FaUserAlt } from "react-icons/fa";
+import { IoMdArrowDropup } from "react-icons/io";
 import Cookies from 'js-cookie';
 
 const navLink = [
@@ -15,16 +18,16 @@ const navLink = [
     link: "/about",
     className: "hover:text-[#054BB4]"
   },
-  {
-    label: "Article",
-    link: "/article",
-    className: "hover:text-[#054BB4]"
-  },
-  {
-    label: "Upsc",
-    link: "/upsc",
-    className: "hover:text-[#054BB4]"
-  },
+  // {
+  //   label: "Article",
+  //   link: "/article",
+  //   className: "hover:text-[#054BB4]"
+  // },
+  // {
+  //   label: "UPSC",
+  //   link: "/upsc",
+  //   className: "hover:text-[#054BB4]"
+  // },
   {
     label: "Courses",
     link: "/courses",
@@ -42,10 +45,19 @@ const NavBar = () => {
   const [hamBurger, setHamBurger] = useState(false);
   const location = useLocation()
   const navigate = useNavigate()
+  const isLoggedIn = !!Cookies.get('access_tokennew');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
   function handleClick() {
     setHamBurger(!hamBurger);
     // //console.log(hamBurger);
   }
+
+  const handleLogout = () => {
+    Cookies.remove('access_tokennew');
+    navigate('/');
+  };
+
   return (
     <>
       <div className="w-full h-[15vh] flex items-center justify-between px-12">
@@ -55,7 +67,7 @@ const NavBar = () => {
               ZenStudy<span className="text-[#054BB4] text-4xl">.</span>
             </p>
             <p className="text-[10px] font-medium text-[#054BB4]">
-              Making Education Imaginative
+              Making Education Imaginative 
             </p>
           </Link>
           <div className="lg:block hidden">
@@ -86,14 +98,31 @@ const NavBar = () => {
               Sign Up
             </button>
           </div>) : (
-            <div className="lg:block hidden space-x-4">
-              <button
-                className="px-5 py-2 bg-[#054BB4] text-white rounded-full hover:bg-[#063e92] transition-colors duration-200"
-                onClick={() => navigate("/profile")}
-              >
-                Go to Dashboard
-              </button>
-            </div>
+            <div className="lg:block hidden relative">
+            <button
+              className="p-2 flex gap-2 bg-[#054BB4] text-white rounded-full hover:bg-[#063e92] transition-colors duration-200"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+            >
+            <FaUserAlt />{dropdownOpen ?<IoMdArrowDropup />:<IoMdArrowDropdown />}
+            </button>
+            {dropdownOpen && (
+              <div className="absolute z-50 -right-10 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+                <button
+                  className="block w-full text-left px-4 py-2 rounded-t-md  text-gray-800 hover:bg-blue-600 hover:text-white"
+                  onClick={() => navigate("/profile")}
+                >
+                  User Dashboard
+                </button>
+                <button
+                  className="block w-full bg-red-600 rounded-b-md text-white text-left px-4 py-2 hover:bg-red-700 hover:text-white"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+              
           )}
 
           <div className="lg:hidden text-2xl flex items-center relative z-30 text-[#054BB4]">
@@ -110,7 +139,7 @@ const NavBar = () => {
           <div
             className="lg:hidden w-full bg-[#054BB4] text-white overflow-hidden"
           >
-            <div className="w-full h-[120vh] bg-[#054BB4] relative top-[-190px] text-white ">
+            <div className="w-full h-[120vh] bg-[#054BB4] relative top-[-160px] text-white ">
               <div className="w-full h-full absolute flex items-center justify-center flex-col gap-5">
                 <ul className="flex flex-col items-center justify-center  text-lg w-full">
                   {navLink.map((item) => (
@@ -128,12 +157,29 @@ const NavBar = () => {
                   ))}
 
                 </ul>
-                <button
-                  className="px-4 py-1 border-2 border-solid border-white text-lg rounded-full hover:text-[#054BB4] hover:bg-[#F9F9F9] transition-all duration-300 cursor-pointer"
-                  onClick={() => { navigate("/sign-Up"); setHamBurger(false) }}
-                >
-                  Login/SignUp
-                </button>
+                {!isLoggedIn ? (
+                  <button
+                    className="px-4 py-1 border-2 border-solid border-white text-lg rounded-full hover:text-[#054BB4] hover:bg-[#F9F9F9] transition-all duration-300 cursor-pointer"
+                    onClick={() => { navigate("/sign-Up"); setHamBurger(false); }}
+                  >
+                    Login/SignUp
+                  </button>
+                ) : (
+                  <div className="flex flex-col space-y-4">
+                    <button
+                      className="px-4 py-1 border-2 border-solid border-white text-lg rounded-full hover:text-[#054BB4] hover:bg-[#F9F9F9] transition-all duration-300 cursor-pointer"
+                      onClick={() => { navigate("/profile"); setHamBurger(false); }}
+                    >
+                      User Dashboard
+                    </button>
+                    <button
+                      className="px-4 py-1 border-2 border-solid border-white text-lg rounded-full hover:text-[#054BB4] hover:bg-[#F9F9F9] transition-all duration-300 cursor-pointer"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>)}

@@ -257,7 +257,7 @@ const ExploreArticles = () => {
               Explore Articles
             </p>
             <p className="lg:w-[90%] w-full">
-              PSC preparation requires depth of understanding of issues.
+              UPSC preparation requires depth of understanding of issues.
               We at Zenstudy are creating content that would have in depth analysis and relationships between various issues.</p>
 
 

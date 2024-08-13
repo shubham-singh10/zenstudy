@@ -16,9 +16,10 @@ const Home = () => {
 
 
       <RecentlyAddedCourse />
-       
-      <ExploreArticles/>
-
+     
+      {
+      // <ExploreArticles/>
+      }
 
       <FeatureVideo />
 

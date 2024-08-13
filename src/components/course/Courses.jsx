@@ -9,7 +9,7 @@ const CourseCard = ({ course }) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
     const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
+    return `${day}-${month}-${year}`;
   };
   return (
     <div className="max-w-sm rounded-2xl overflow-hidden shadow-lg m-4 p-4">
@@ -19,15 +19,21 @@ const CourseCard = ({ course }) => {
         alt="Course "
       />
       <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2 text-blue-600">
+        <div className="font-bold text-lg mb-2 h-20 text-blue-600">
           {course.title}
         </div>
-        <p className="text-gray-700 text-base">{course.tutor}</p>
-        <p className="text-gray-600">{formatDate(course.createdAt)}</p>
-        <p className="text-gray-600">{course.day}</p>
+        {
+          //  <p className="text-gray-700 text-base">{course.tutor}</p>
+        }
+        <p className="text-gray-600 text-xs">Created at - {formatDate(course.createdAt)}</p>
+        
+        {
+          // <p className="text-gray-600">{course.day}</p>
+        }
+
       </div>
-      <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center">
-        <p className="text-blue-600 font-bold text-2xl">₹{course.price}</p>
+      <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center border-t-2">
+        <p className="text-blue-600 font-bold text-2xl">₹ {course.price}</p>
         <button
           className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
           onClick={() =>
