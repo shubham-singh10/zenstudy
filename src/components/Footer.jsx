@@ -34,12 +34,14 @@ const Footer = () => {
               <Link to="/about" className="hover:text-white">
                 <li>About</li>
               </Link>
-              <Link to="/article" className="hover:text-white">
-                <li>Article</li>
-              </Link>
-              <Link to="/upsc" className="hover:text-white">
-                <li>UPSC</li>
-              </Link>
+             { 
+              // <Link to="/article" className="hover:text-white">
+              //   <li>Article</li>
+              // </Link>
+              // <Link to="/upsc" className="hover:text-white">
+              //   <li>UPSC</li>
+              // </Link>
+            }
               <Link to="/courses" className="hover:text-white">
                 <li>Courses</li>
               </Link>

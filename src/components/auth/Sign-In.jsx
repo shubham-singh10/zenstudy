@@ -74,7 +74,7 @@ const SignIn = () => {
             Cookies.set('access_tokennew', resData._id);
             localStorage.setItem("userData", JSON.stringify(resData));
 
-            const from = location.state?.from || '/';
+            const from = location.state?.from || '/course-details-student';
             navigate(from); // Redirect back to the previous page or to the default page
 
         } catch (error) {
@@ -92,13 +92,15 @@ const SignIn = () => {
             <div className="flex flex-col items-center lg:flex-row-reverse p-4 lg:p-12 bg-white gap-10 w-full">
                 <animated.div ref={slideRightRef} style={SlideRight} className="bg-blue-600 text-center text-white p-4 lg:p-16 rounded-3xl lg:w-1/4 w-full">
                     <h1 className="text-3xl font-bold mb-4">Welcome to ZenStudy</h1>
-                    <h3 className="text-2xl font-bold mb-4">Connect with us</h3>
-                    <div className="flex space-x-4 justify-center">
-                        <Link to="#" className="hover:bg-red-500 rounded-full p-2"><FiYoutube size={25} className='hover:text-white' /></Link>
-                        <Link to="#" className="hover:bg-gradient-to-br from-[#405DE6] via-[#5B51D8] to-[#E1306C] rounded-full p-2"><FiInstagram size={25} className='hover:text-white' /></Link>
-                        <Link to="#" className="hover:bg-[#4267B2] rounded-full p-2"><FiFacebook size={25} className='hover:text-white' /></Link>
-                        <Link to="#" className="hover:bg-[#1DA1F2] rounded-full p-2"><FiTwitter size={25} className='hover:text-white' /></Link>
-                    </div>
+                    {
+                    //     <h3 className="text-2xl font-bold mb-4">Connect with us</h3>
+                    // <div className="flex space-x-4 justify-center">
+                    //     <Link to="#" className="hover:bg-red-500 rounded-full p-2"><FiYoutube size={25} className='hover:text-white' /></Link>
+                    //     <Link to="#" className="hover:bg-gradient-to-br from-[#405DE6] via-[#5B51D8] to-[#E1306C] rounded-full p-2"><FiInstagram size={25} className='hover:text-white' /></Link>
+                    //     <Link to="#" className="hover:bg-[#4267B2] rounded-full p-2"><FiFacebook size={25} className='hover:text-white' /></Link>
+                    //     <Link to="#" className="hover:bg-[#1DA1F2] rounded-full p-2"><FiTwitter size={25} className='hover:text-white' /></Link>
+                    // </div>
+                }
                 </animated.div>
                 <div className="flex-1 p-2 lg:p-8 lg:w-3/4 w-full text-center lg:text-center">
                     <animated.h2 ref={slideUpRef} style={SlideUp} className="text-3xl font-bold mb-2 text-blue-600">Welcome Back!</animated.h2>

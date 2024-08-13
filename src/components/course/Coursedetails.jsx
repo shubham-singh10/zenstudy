@@ -189,10 +189,6 @@ const CourseDetailsView = () => {
     rzp1.open();
   };
 
-  const handlePayNow = () => {
-    const currentPath = window.location.pathname;
-    navigate("/sign-in", { state: { from: currentPath } });
-  };
 
   const firstModule = coursePost.modules[0];
 
@@ -297,7 +293,7 @@ const CourseDetailsView = () => {
               </button>
             ) : (
               <button
-                onClick={handlePayNow}
+                onClick={()=> navigate("/sign-in")}
                 className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
               >
                 Pay Now
