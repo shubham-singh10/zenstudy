@@ -18,16 +18,16 @@ const navLink = [
     link: "/about",
     className: "hover:text-[#054BB4]"
   },
-  {
-    label: "Article",
-    link: "/article",
-    className: "hover:text-[#054BB4]"
-  },
-  {
-    label: "UPSC",
-    link: "/upsc",
-    className: "hover:text-[#054BB4]"
-  },
+  // {
+  //   label: "Article",
+  //   link: "/article",
+  //   className: "hover:text-[#054BB4]"
+  // },
+  // {
+  //   label: "UPSC",
+  //   link: "/upsc",
+  //   className: "hover:text-[#054BB4]"
+  // },
   {
     label: "Courses",
     link: "/courses",

@@ -36,12 +36,15 @@ function App() {
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route path="/article" element={<Articles />} />
-            <Route path="/article-details" element={<ArticleDetail />} />
+            {
+            // <Route path="/article" element={<Articles />} />
+            // <Route path="/article-details" element={<ArticleDetail />} />
+            // <Route path="/upsc" element={<Upsc />} />
+            // <Route path="/upsc-details" element={<UPSCDetails />} />
+            }
+            
             <Route path="/courses" element={<Courses />} />
             <Route path="/course-details" element={<CourseDetails />} />
-            <Route path="/upsc" element={<Upsc />} />
-            <Route path="/upsc-details" element={<UPSCDetails />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/sign-Up" element={<SignUp />} />
             <Route path="/sign-In" element={<SignIn />} />
