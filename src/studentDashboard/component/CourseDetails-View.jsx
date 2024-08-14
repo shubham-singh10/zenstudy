@@ -204,7 +204,7 @@ const CourseDetailsView = () => {
       console.log("Sending data:", sendData);
 
       const response = await fetch(
-        `${process.env.REACT_APP_API3}zenstudy/api/coupon/applyCoupon`,
+        `${process.env.REACT_APP_API}zenstudy/api/coupon/applyCoupon`,
         {
           method: "POST",
           headers: {
