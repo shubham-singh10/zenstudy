@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
 import { useNavigate } from "react-router-dom";
+import Images from "../Images";
 
 function CardSlider({ courseData }) {
     const navigate = useNavigate()
@@ -69,12 +70,10 @@ function CardSlider({ courseData }) {
                             <div
                                 key={index}
                                 className="max-w-sm rounded-2xl overflow-hidden shadow-lg m-4 p-4"
-                            >
-                                <img
-                                    className="w-full h-52 rounded-2xl"
-                                    src={d.thumbnail}
-                                    alt="Course"
-                                />
+                            >   
+                            
+                            <Images thumbnail={d.thumbnail} className="w-full h-52 rounded-2xl"/>
+                               
                                 <div className="px-6 py-4">
                                     <div className="font-bold text-lg h-20 mb-2 text-blue-600">
                                         {d.title}

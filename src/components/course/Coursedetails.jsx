@@ -5,8 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import he from "he";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
-import { MdSlowMotionVideo } from "react-icons/md";
-import { FaLock } from "react-icons/fa6";
+import Images from "../Images";
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -246,24 +245,28 @@ const CourseDetailsView = () => {
 
         <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
 
-          {firstModule && (
-            <div key={0}>
-              {firstModule.videos.length > 0 ? (
-                <div key={firstModule.videos[0]._id}>
-                  <iframe
-                    src={firstModule.videos[0].videoUrl || "no videos"}
-                    frameborder="0"
-                    className="top-0 left-0 h-[30vh] w-[100%]"
-                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-                    title="zenstudy"
-                  ></iframe>
+          {
+        // firstModule && (
+        //     <div key={0}>
+        //       {firstModule.videos.length > 0 ? (
+        //         <div key={firstModule.videos[0]._id}>
+        //           <iframe
+        //             src={firstModule.videos[0].videoUrl || "no videos"}
+        //             frameborder="0"
+        //             className="top-0 left-0 h-[30vh] w-[100%]"
+        //             allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+        //             title="zenstudy"
+        //           ></iframe>
                   
-                </div>
-              ) : (
-                <div>No videos</div>
-              )}
-            </div>
-          )}
+        //         </div>
+        //       ) : (
+        //         <div>No videos</div>
+        //       )}
+        //     </div>
+        //   )
+            }
+
+          <Images thumbnail={coursePost?.thumbnail} className="w-full h-52 rounded-2xl"/>
 
           <div className="px-6 py-4">
             <div className="font-bold text-xl mb-2 text-blue-600">

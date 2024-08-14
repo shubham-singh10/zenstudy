@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
+import Images from "../Images";
 
 
 const CourseCard = ({ course }) => {
@@ -13,11 +14,9 @@ const CourseCard = ({ course }) => {
   };
   return (
     <div className="max-w-sm rounded-2xl overflow-hidden shadow-lg m-4 p-4">
-      <img
-        className="w-full h-52 rounded-2xl"
-        src={course.thumbnail}
-        alt="Course "
-      />
+
+      <Images thumbnail={course.thumbnail} className="w-full h-52 rounded-2xl"/>
+
       <div className="px-6 py-4">
         <div className="font-bold text-lg mb-2 h-20 text-blue-600">
           {course.title}
