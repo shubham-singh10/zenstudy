@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PaginationNew from "../../components/pagination/PaginationNew";
 import { FaSearch } from "react-icons/fa";
+import Images from "../../components/Images";
 
 
 const CourseCard = ({ course }) => {
@@ -16,11 +17,9 @@ const CourseCard = ({ course }) => {
 
   return (
     <div className="max-w-xs rounded-2xl overflow-hidden shadow-lg m-4 p-4">
-      <img
-        className="w-full h-52 rounded-2xl"
-        src={course.thumbnail}
-        alt="Course "
-      />
+
+      <Images thumbnail={course.thumbnail} className="w-full h-52 rounded-2xl"/>
+
       <div className="px-6 py-4">
         <div className="font-bold text-lg mb-2 h-20 text-blue-600">
           {course.title}

@@ -10,6 +10,8 @@ import { FaLock } from "react-icons/fa6";
 import toast from "react-hot-toast";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
+import Images from "../../components/Images";
+
 
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
@@ -294,11 +296,9 @@ const CourseDetailsView = () => {
           </ul>
         </div>
         <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
-          <img
-            className="w-full h-52 rounded-2xl"
-            src={coursePost?.thumbnail}
-            alt={coursePost?.title}
-          />
+                
+        <Images thumbnail={coursePost?.thumbnail} className="w-full h-52 rounded-2xl"/>
+
           <div className="px-6 py-4">
             <div className="font-bold text-xl mb-2 text-blue-600">
               {coursePost?.title}

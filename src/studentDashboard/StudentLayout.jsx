@@ -9,7 +9,7 @@ const StudentLayout = () => {
             <Sidebar />
             <div className="flex-1 flex flex-col">
                 <StudentDashNavbar />
-                <div className="flex-1 p-4 overflow-auto">
+                <div className="flex-1 p-4 lg:overflow-auto">
                     <Outlet />
                 </div>
             </div>
