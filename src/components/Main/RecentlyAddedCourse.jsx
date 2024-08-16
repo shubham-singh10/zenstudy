@@ -10,8 +10,6 @@ const RecentlyAddedCourse = () => {
         triggerOnce: true,
         threshold: 0.1,
     });
-
-
     const slideUpStyles = useSpring({
         from: { y: 100, opacity: 0 },
         to: { y: slideUpInView ? 0 : 100, opacity: slideUpInView ? 1 : 0 },
@@ -38,13 +36,15 @@ const RecentlyAddedCourse = () => {
               return;
             }
     
-    
             if (!response.ok) {
               throw new Error("Network response was not ok");
             }
             const data = await response.json();
             // //console.log("Recent_Course_data", data)
-            setCourse(data);
+            setCourse(data.map(course => ({
+              ...course,
+              imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`
+            })));
             setLoading(false);
           } catch (error) {
             setLoading(false);

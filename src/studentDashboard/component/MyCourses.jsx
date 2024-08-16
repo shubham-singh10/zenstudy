@@ -6,6 +6,8 @@ import Cookies from 'js-cookie';
 
 const CourseCard = ({ course }) => {
     const navigate = useNavigate()
+    const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`);
+    const [loading, setLoading] = useState(true);
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         const year = date.getFullYear();
@@ -13,27 +15,28 @@ const CourseCard = ({ course }) => {
         const day = String(date.getDate()).padStart(2, '0');
         return `${day}-${month}-${year}`;
     };
-
     return (
         <div className="max-w-xs rounded overflow-hidden shadow-lg p-4 bg-white">
             <div className="relative">
-                <img className="w-full rounded-2xl h-52 " src={course.course_id.thumbnail} alt="Course" />
-                <div className=' relative rounded-full h-16 w-16 top-[-35px] right-[-13.5rem] mb-[-40px] bg-white '>
-                    <button className="absolute top-[4px] left-[4px]  bg-blue-600 rounded-full p-4 ">
-                        <svg className="w-6 h-6 text-white hover:animate-spin" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z" />
-                        </svg>
-                    </button>
-                </div>
+                {loading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
+                        <div className="w-24 h-24 bg-gray-400 rounded-full"></div>
+                    </div>
+                )}
+                <img
+                    src={imageSrc}
+                    crossOrigin="anonymous"
+                    alt={course.course_id.title}
+                    className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${loading ? "opacity-0" : "opacity-100"}`}
+                    onLoad={() => {
+                        setLoading(false);
+                        setImageSrc(course.imageUrl);
+                    }}
+                />
             </div>
             <div className="px-4 py-2">
-                <div className="font-bold text-lg mb-1 h-24">{course.course_id.title}</div>
-                
-                {
-                    // <p className="text-gray-700 text-sm">{course.course_id.tutor}</p>
-                }
-
-                <p className="text-gray-600 text-xs">Created at - {formatDate(course.course_id.createdAt)}</p>
+                <div className="font-bold text-lg mb-1">{course.course_id.title}</div>
+                <p className="text-gray-600 text-xs">Created at: {formatDate(course.course_id.createdAt)}</p>
                 <p className="text-gray-600 text-xs">{course.course_id.day}</p>
             </div>
             <div className="px-4 pt-2 pb-2">
@@ -92,13 +95,15 @@ const MyCourses = () => {
                 const data = await response.json();
                 //console.log("Purchase_course", data)
                 const filteredCourses = data.purchaseCourses.filter(purchase => purchase.course_id !== null);
-
                 if (filteredCourses.length === 0) {
                     setCourse([]);
                 } else {
-                    setCourse(filteredCourses);
+                    const coursesWithImageUrls = filteredCourses.map(purchase => ({
+                        ...purchase,
+                        imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${purchase.course_id.thumbnail}` // Assuming `thumbnail` is a property of `course_id`
+                    }));
+                    setCourse(coursesWithImageUrls);
                 }
-        
                 setLoading(false);
             } catch (error) {
                 //console.log("Error:", error);

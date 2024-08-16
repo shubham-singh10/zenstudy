@@ -2,44 +2,59 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PaginationNew from "../../components/pagination/PaginationNew";
 import { FaSearch } from "react-icons/fa";
-import Images from "../../components/Images";
-
 
 const CourseCard = ({ course }) => {
   const navigate = useNavigate();
+  const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`);
+  const [loading, setLoading] = useState(true);
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     return `${day}-${month}-${year}`;
   };
-
+  const isUpcoming = course.other1 === "upcoming";
   return (
-    <div className="max-w-xs rounded-2xl overflow-hidden shadow-lg m-4 p-4">
-
-      <Images thumbnail={course.thumbnail} className="w-full h-52 rounded-2xl"/>
+    <div className="max-w-sm rounded-2xl overflow-hidden shadow-lg m-4 p-4">
+      <div className="relative">
+        {loading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
+            <div className="w-24 h-24 bg-gray-400 rounded-full"></div>
+          </div>
+        )}
+        <img
+          src={imageSrc}
+          crossOrigin="anonymous"
+          alt="Thumbnail"
+          className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${loading ? "opacity-0" : "opacity-100"}`}
+          onLoad={() => {
+            setLoading(false);
+            setImageSrc(course.imageUrl);
+          }}
+        />
+      </div>
 
       <div className="px-6 py-4">
-        <div className="font-bold text-lg mb-2 h-20 text-blue-600">
+        <div className="font-bold text-lg mb-1 text-blue-600">
           {course.title}
         </div>
-        {/* <p className="text-gray-700 text-base mb-1">{course.userId?.name}</p> */}
-        <p className="text-gray-600 text-xs">Created at - {formatDate(course.createdAt)}</p>
+
+        {isUpcoming ? (
+          <p className="text-gray-600 text-md mt-2">Expected: October 2024</p>
+        ) : (<p className="text-gray-600 text-md">
+          Created at: {formatDate(course.createdAt)}
+        </p>)}
       </div>
-      <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center border-t-2">
+      <div className="flex flex-row px-6 pt-4 pb-2 justify-between items-center border-t-2">
         <p className="text-blue-600 font-bold text-2xl">₹ {course.price}</p>
-        {course.modules.length === 0 ? (<button
-          className="bg-red-600 text-white font-bold py-2 px-4 rounded-full"
-          disabled
-        >
-          View Details
-        </button>) : (<button
+        {isUpcoming ? (
+          <p className="text-red-600 font-bold">Coming Soon</p>
+        ) : (<button
           className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
           onClick={() =>
-            navigate("/course-details-view", {
-              state: { courseId: course._id },
-            })
+            navigate("/course-details-view", { state: { courseId: course._id } })
           }
         >
           View Details
@@ -83,7 +98,11 @@ const CourseDeatils = () => {
         }
         const data = await response.json();
         // console.log("Course_data", data);
-        setCourse(data);
+        // setCourse(data);
+        setCourse(data.filter(course => course.other1 !== "upcoming").map(course => ({
+          ...course,
+          imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`
+        })));
         setLoading(false);
       } catch (error) {
         //console.log("Error:", error);

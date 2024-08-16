@@ -16,7 +16,7 @@ import Images from "../../components/Images";
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [payloading, setPayLoading] = useState(true);
+  const [payloading, setPayLoading] = useState(false);
   const [error, setError] = useState(null);
   const [discount, setDiscount] = useState(null);
   const [code, setCode] = useState("");
@@ -147,7 +147,9 @@ const CourseDetailsView = () => {
       handlePaymentVerify(data.data, courseId);
     } catch (error) {
       console.error("Error creating payment order:", error);
-      setPayLoading(false);
+      
+    }finally {
+      setPayLoading(false); // End loading
     }
   };
 
@@ -244,12 +246,12 @@ const CourseDetailsView = () => {
 
   return (
     <div className="">
-    {showConfetti && discount && <Confetti width={width} height={height} />}
-      
+      {showConfetti && discount && <Confetti width={width} height={height} />}
+
       <div className="p-4 lg:p-12 bg-blue-100 w-full md:p-8 rounded-md flex flex-col justify-start items-start">
         <button
           className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-4 flex items-center lg:-mt-10 md:-mt-6 sm:mt-0"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/course-details-student")}
         >
           <FiArrowLeft className="w-5 h-5 mr-2" />
           Back
@@ -274,38 +276,24 @@ const CourseDetailsView = () => {
           <h2 className="text-lg md:text-xl font-bold">About Course</h2>
           <ul className="mt-4 space-y-2 flex flex-col gap-4">
             <li className="flex items-start text-justify">
-              Scoring well in the UPSC mains exam requires a strategic approach,
-              and understanding the importance of previous years' questions
-              (PYQs) is crucial. PYQs help you identify the patterns, trends,
-              and types of questions frequently asked, which can guide your
-              preparation and focus on key areas. Developing the ability to
-              write effective answers, even with limited information, is
-              essential to maximize your marks. This skill helps you demonstrate
-              a comprehensive understanding of the subject and meet the exam's
-              demands.
+              {coursePost?.other1}
             </li>
             <li className="flex items-start text-justify">
-              Our course offers detailed explanations of PYQs, teaching you how
-              to tackle various question types and structure your answers
-              effectively. Mains performance is critical for making it onto the
-              list, while the interview stage determines your final rank. By
-              joining our course, you'll gain insights into the nuances of the
-              exam and learn how to address the questions holistically, ensuring
-              you cover every aspect and increase your chances of success.
+              {coursePost?.other2}
             </li>
           </ul>
         </div>
         <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
-                
-        <Images thumbnail={coursePost?.thumbnail} className="w-full h-52 rounded-2xl"/>
+
+          <Images thumbnail={coursePost?.thumbnail} className="w-full h-52 rounded-2xl" />
 
           <div className="px-6 py-4">
             <div className="font-bold text-xl mb-2 text-blue-600">
               {coursePost?.title}
             </div>
 
-            <p className="text-gray-600 mt-4 text-xs">
-              created at - {formatDate(coursePost?.createdAt)}
+            <p className="text-gray-600 mt-2 text-xs">
+              created at: {formatDate(coursePost?.createdAt)}
             </p>
           </div>
 
@@ -341,14 +329,39 @@ const CourseDetailsView = () => {
             </p>
 
             <button
-              className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
-              onClick={() =>
-                handlePayment(discount ? discount.discount : coursePost?.price)
-              }
-              disabled={!payloading}
+              className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center"
+              onClick={() => handlePayment(discount ? discount.discount : coursePost?.price)}
+              disabled={payloading}
             >
-              {!payloading ? "Please wait..." : "Pay Now"}
+              {payloading ? (
+                <span className="flex items-center">
+                  <svg
+                    className="w-5 h-5 mr-2 animate-spin text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
+                    ></path>
+                  </svg>
+                  Please wait...
+                </span>
+              ) : (
+                "Pay Now"
+              )}
             </button>
+
           </div>
         </div>
       </div>
