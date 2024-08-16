@@ -153,7 +153,3 @@ const CourseDeatils = () => {
 
 
 export default CourseDeatils;
-
-
-
-

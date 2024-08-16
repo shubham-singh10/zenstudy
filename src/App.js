@@ -5,15 +5,12 @@ import MainLayout from "./MainLayout.jsx";
 import StudentLayout from "./studentDashboard/StudentLayout.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
 import { Toaster } from "react-hot-toast";
+import CoursesNew from "./components/course/CoursesNew.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
-const Articles = lazy(() => import("./components/articles/Articles.jsx"));
-const ArticleDetail = lazy(() => import("./components/articles/ArticlesDetails.jsx"));
 const Courses = lazy(() => import("./components/course/Courses.jsx"));
 const CourseDetails = lazy(() => import("./components/course/Coursedetails.jsx"));
-const Upsc = lazy(() => import("./components/upsc/Upsc.jsx"));
-const UPSCDetails = lazy(() => import("./components/upsc/UPSCDetails.jsx"));
 const ContactUs = lazy(() => import("./components/Contact.jsx"));
 const SignUp = lazy(() => import("./components/auth/Sign-up.jsx"));
 const SignIn = lazy(() => import("./components/auth/Sign-In.jsx"));
@@ -35,15 +32,9 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            {
-            // <Route path="/article" element={<Articles />} />
-            // <Route path="/article-details" element={<ArticleDetail />} />
-            // <Route path="/upsc" element={<Upsc />} />
-            // <Route path="/upsc-details" element={<UPSCDetails />} />
-            }
-            
+            <Route path="/about" element={<About />} />            
             <Route path="/courses" element={<Courses />} />
+            <Route path="/coursesNew" element={<CoursesNew />} />
             <Route path="/course-details" element={<CourseDetails />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/sign-Up" element={<SignUp />} />

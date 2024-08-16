@@ -16,7 +16,9 @@ const CourseCard = ({ course }) => {
   };
   return (
     <div className="max-w-sm rounded-2xl overflow-hidden shadow-lg m-4 p-4">
-      <Images thumbnail={course.thumbnail} className="w-full h-52 rounded-2xl" />
+      {/* <Images thumbnail={course.thumbnail} className="w-full h-52 rounded-2xl" /> */}
+      <img src="https://api.zenstudy.in/zenstudy/api/image/getimage/1723639706328-POLITY%20THUMBNAIL.webp" alt="Thumbnail" className="w-full h-52 rounded-2xl" />
+
       <div className="px-6 py-4">
         <div className="font-bold text-lg mb-2 h-20 text-blue-600">
           {course.title}
@@ -41,11 +43,16 @@ const CourseCard = ({ course }) => {
   );
 };
 
+const getOptimizedImageUrl = (thumbnail) => `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${thumbnail}?size=large`;
+const getImageUrl = (thumbnail) => {
+  const encodedThumbnail = encodeURIComponent(thumbnail);
+  return `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${encodedThumbnail}`;
+};
 
-const Courses = () => {
+const CoursesNew = () => {
   const [courses, setCourse] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  console.log("course", courses)
   useEffect(() => {
     const getcourse = async () => {
       try {
@@ -72,7 +79,12 @@ const Courses = () => {
         }
         const data = await response.json();
         ////console.log("Course_data", data)
-        setCourse(data);
+        setCourse(data.map(course => ({
+          ...course,
+          //imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`
+          imageUrl: getOptimizedImageUrl(course.thumbnail)
+        })));
+        // setCourse(data);
         setLoading(false);
       } catch (error) {
         toast.error(`Oops!! Something went wrong`, {
@@ -85,8 +97,6 @@ const Courses = () => {
 
     getcourse();
   }, []);
-
-
   if (loading) {
     return <Loading />
   }
@@ -110,4 +120,4 @@ const Courses = () => {
 };
 
 
-export default Courses;
+export default CoursesNew;

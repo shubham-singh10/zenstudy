@@ -2,58 +2,36 @@ import React from "react";
 import { ImQuotesLeft, ImQuotesRight } from "react-icons/im";
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer"; // Correct import
-
-
-
-
 const About = () => {
   const { ref: refSlideUp, inView: inViewSlideUp } = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
-
-
-
   const { ref: refSlideLeft, inView: inViewSlideLeft } = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
-
-
-
 
   const { ref: refSlideRight, inView: inViewSlideRight } = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
-
-
-
   const { ref: refSlideLeft1, inView: inViewSlideLeft1 } = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
-
-
-
 
   const { ref: refSlideRight1, inView: inViewSlideRight1 } = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
-
-
-
   const { ref: refScaleUp, inView: inViewScaleUp } = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
-
-
-
 
   const SlideUp = useSpring({
     from: { y: 100, opacity: 0 },
@@ -61,17 +39,11 @@ const About = () => {
     config: { duration: 700 },
   });
 
-
-
-
   const SlideLeft = useSpring({
     from: { x: -100, opacity: 0 },
     to: { x: inViewSlideLeft ? 0 : -100, opacity: inViewSlideLeft ? 1 : 0 },
     config: { duration: 500 },
   });
-
-
-
 
   const SlideRight = useSpring({
     from: { x: 100, opacity: 0 },
@@ -79,17 +51,11 @@ const About = () => {
     config: { duration: 500 },
   });
 
-
-
-
   const SlideLeft1 = useSpring({
     from: { x: -100, opacity: 0 },
     to: { x: inViewSlideLeft1 ? 0 : -100, opacity: inViewSlideLeft1 ? 1 : 0 },
     config: { duration: 500 },
   });
-
-
-
 
   const SlideRight1 = useSpring({
     from: { x: 100, opacity: 0 },
@@ -97,16 +63,11 @@ const About = () => {
     config: { duration: 500 },
   });
 
-
-
-
   const ScaleUp = useSpring({
     from: { scale: 0, opacity: 0 },
     to: { scale: inViewScaleUp ? 1 : 0, opacity: inViewScaleUp ? 1 : 0 },
     config: { duration: 500 },
   });
-
-
 
 
   return (
@@ -118,10 +79,6 @@ const About = () => {
       >
         A<span className="border-b-4 border-[#054BB4]">bout U</span>s
       </animated.h1>
-
-
-
-
       <div className="flex flex-col lg:flex-row items-center lg:items-start lg:px-12 md:px-6 px-4 py-4 lg:py-10">
         <animated.div
           style={SlideLeft}
@@ -136,10 +93,6 @@ const About = () => {
           <animated.div className="absolute top-0 right-0 w-[150px] h-[150px] border-t-8 border-r-8 border-blue-600"></animated.div>
           <animated.div className="absolute bottom-0 left-0 w-[150px] h-[150px] border-b-8 border-l-8 border-blue-600"></animated.div>
         </animated.div>
-
-
-
-
         <animated.div
           style={SlideRight}
           ref={refSlideRight}
@@ -157,10 +110,6 @@ const About = () => {
                 </p>
               </div>
             </div>
-
-
-
-
             <div className="flex items-start">
               <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
               <div className="ml-4">
@@ -170,10 +119,6 @@ const About = () => {
                 </p>
               </div>
             </div>
-
-
-
-
             <div className="flex items-start">
               <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
               <div className="ml-4">
@@ -187,10 +132,6 @@ const About = () => {
           </div>
         </animated.div>
       </div>
-
-
-
-
       <animated.div
         style={ScaleUp}
         ref={refScaleUp}
@@ -206,9 +147,6 @@ const About = () => {
           <ImQuotesRight />
         </div>
       </animated.div>
-
-
-
 
       <div className="flex flex-col-reverse lg:flex-row items-center lg:items-start lg:px-12 md:px-6 px-4 py-16">
         <animated.div
@@ -229,10 +167,6 @@ const About = () => {
                 </p>
               </div>
             </div>
-
-
-
-
             <div className="flex items-start">
               <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
               <div className="ml-4">
@@ -242,10 +176,6 @@ const About = () => {
                 </p>
               </div>
             </div>
-
-
-
-
             <div className="flex items-start">
               <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
               <div className="ml-4">
@@ -258,10 +188,6 @@ const About = () => {
             </div>
           </div>
         </animated.div>
-
-
-
-
         <animated.div
           style={SlideRight1}
           ref={refSlideRight1}
@@ -279,8 +205,5 @@ const About = () => {
     </div>
   );
 };
-
-
-
 
 export default About;

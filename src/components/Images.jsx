@@ -1,15 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-function Images({ thumbnail , className}) {
+function Images({ thumbnail, className }) {
   const [imageData, setImageData] = useState(null);
   const [error, setError] = useState(null);
-    console.log(thumbnail)
   const getThumbnail = useCallback(async () => {
-    if (!thumbnail) return; // Check if thumbnail is provided
+    if (!thumbnail) return;
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API}/zenstudy/api/image/getimage/${thumbnail}`,
+        `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${thumbnail}`,
         {
           method: "GET",
           headers: {
@@ -23,9 +22,10 @@ function Images({ thumbnail , className}) {
         throw new Error(`Error: ${response.statusText}`);
       }
 
-      const blob = await response.blob(); 
-      const url = URL.createObjectURL(blob); 
-      setImageData(url); 
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      console.log("URL", url)
+      setImageData(url);
 
     } catch (error) {
       console.log("Error:", error.message);
@@ -41,7 +41,7 @@ function Images({ thumbnail , className}) {
     <div>
       {error && <p className="text-red-500">{error}</p>}
       {imageData ? (
-        <img src={imageData} alt="Thumbnail"  className={className}/> 
+        <img src={imageData} alt="Thumbnail" className={className} />
       ) : (
         <p>Loading...</p>
       )}
