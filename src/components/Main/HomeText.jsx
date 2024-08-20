@@ -39,14 +39,14 @@ const HomeText = () => {
                     style={slideLeftStyles}
                     className="text-section md:w-1/2 mb-4 md:mb-0"
                 >
-                    <h2 className="text-2xl font-bold mb-4">
-                        <span className="text-[#5D6169]">Welcome To</span>
-                        <span className="text-[#054BB4]"> ZenStudy</span>
+                    <h2 className="font-bold lg:mb-2  text-center">
+                        <span className="text-4xl md:text-2xl lg:text-2xl text-[#5D6169]">Welcome To</span>
+                        <span className="text-3xl md:text-4xl lg:text-4xl text-[#054BB4]"> ZenStudy</span>
                     </h2>
-                    <h1 className="text-4xl font-bold mb-4">
-                        <span className="text-[#5D6169]">Making</span>
-                        <span className="text-[#054BB4]"> Education</span>
-                        <span className="text-[#5D6169]"> Imaginative</span>
+                    <h1 className="text-4xl font-bold mb-4 text-center">
+                        <span className="text-xl lg:text-2xl text-[#5D6169]">Making</span>
+                        <span className="text-xl  lg:text-4xl text-[#054BB4]"> Education</span>
+                        <span className="text-xl lg:text-2xl text-[#5D6169]"> Imaginative</span>
                     </h1>
                     <p className="text-[#5D6169]">
                         Zenstudy offers a unique educational platform by making education
@@ -57,12 +57,12 @@ const HomeText = () => {
                         methodology, interactive online platforms and real world
                         application.
                     </p>
-                    <div className="mt-9">
-                        <Link to="/courses"><button className="rounded-full bg-[#054BB4] text-[#ffffff] px-6 py-2 font-medium mr-5">
+                    <div className="mt-9 flex flex-col md:flex-row lg:flex-row justify-center text-center mb-4 lg:mb-0 md:mb-0">
+                        <Link to="/courses"><button className="rounded-full bg-[#054BB4] text-[#ffffff] px-6 py-2 font-medium md:mr-5 lg:mr-5">
                             Explore Courses
                         </button>
                         </Link>
-                        <Link to="https://youtube.com/@zenstudyz?si=iN4l51faOy1_mjYu" target="blank"><button className="rounded-full border-2 border-solid border-[#054BB4] text-[#054BB4] px-6 py-2 font-medium lg:mt-0 md:mt-4 mt-4">
+                        <Link to="https://youtube.com/@zenstudyz?si=iN4l51faOy1_mjYu" target="blank"><button className="rounded-full border-2 border-solid border-[#054BB4] text-[#054BB4] px-6 py-2 font-medium lg:mt-0 md:mt-0 mt-4">
                             Watch Videos
                         </button>
                         </Link>

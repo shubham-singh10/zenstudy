@@ -12,10 +12,11 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import Images from "../../components/Images";
 
-
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [couponLoading, setCouponLoading] = useState(false);
+
   const [payloading, setPayLoading] = useState(false);
   const [error, setError] = useState(null);
   const [discount, setDiscount] = useState(null);
@@ -27,7 +28,8 @@ const CourseDetailsView = () => {
   const { courseId } = location.state || {};
 
   useEffect(() => {
-    if (discount) { // Assuming you only want to show confetti if there's a discount
+    if (discount) {
+      // Assuming you only want to show confetti if there's a discount
       const timer = setTimeout(() => {
         setShowConfetti(false);
       }, 3000); // 3 seconds
@@ -75,7 +77,6 @@ const CourseDetailsView = () => {
     };
     getCourse();
   }, [courseId]);
-
 
   if (loading) {
     return (
@@ -147,8 +148,7 @@ const CourseDetailsView = () => {
       handlePaymentVerify(data.data, courseId);
     } catch (error) {
       console.error("Error creating payment order:", error);
-      
-    }finally {
+    } finally {
       setPayLoading(false); // End loading
     }
   };
@@ -201,9 +201,11 @@ const CourseDetailsView = () => {
 
   const ApplyCoupon = async (price) => {
     try {
+      setCouponLoading(true)
       const sendData = {
         code: code, // Ensure `code` is defined in your component
         coursePrice: price,
+        courseId: courseId,
       };
       console.log("Sending data:", sendData);
 
@@ -230,9 +232,11 @@ const CourseDetailsView = () => {
 
       const data = await response.json(); // Parse the successful response
 
-      setCode(null);
-
       setDiscount(data);
+
+      setCouponLoading(false)
+
+      setCode("");
 
       toast.success("Discount applied successfull!!", {
         position: "top-center",
@@ -241,6 +245,7 @@ const CourseDetailsView = () => {
       return data; // Optionally return the response data
     } catch (error) {
       console.error("Error applying coupon:", error);
+      setCouponLoading(false);
     }
   };
 
@@ -284,8 +289,10 @@ const CourseDetailsView = () => {
           </ul>
         </div>
         <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
-
-          <Images thumbnail={coursePost?.thumbnail} className="w-full h-52 rounded-2xl" />
+          <Images
+            thumbnail={coursePost?.thumbnail}
+            className="w-full h-52 rounded-2xl"
+          />
 
           <div className="px-6 py-4">
             <div className="font-bold text-xl mb-2 text-blue-600">
@@ -306,12 +313,18 @@ const CourseDetailsView = () => {
               placeholder="Enter Coupon Code"
             />
             <span>
-              <button
-                onClick={() => ApplyCoupon(coursePost?.price)}
-                className="bg-blue-500 text- text-white px-4 py-2 "
-              >
-                Apply
-              </button>
+              {couponLoading ? (
+                <button className="bg-red-600 text- text-white px-4 py-2 ">
+                  Wait..
+                </button>
+              ) : (
+                <button
+                  onClick={() => ApplyCoupon(coursePost?.price)}
+                  className="bg-blue-600 hover:bg-blue-700 text- text-white px-4 py-2 "
+                >
+                  Apply
+                </button>
+              )}
             </span>
           </div>
           <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center border-t-2">
@@ -319,18 +332,20 @@ const CourseDetailsView = () => {
               {discount ? (
                 <Fragment>
                   <span className="line-through text-gray-400 mr-2 text-lg">
-                    ₹ {coursePost?.price}
+                    ₹ {Math.round(coursePost?.price)}
                   </span>
-                  <span>₹ {discount.discount}</span>
+                  <span>₹ {Math.round(discount.discount)}</span>
                 </Fragment>
               ) : (
-                <span>₹{coursePost?.price}</span>
+                <span>₹{Math.round(coursePost?.price)}</span>
               )}
             </p>
 
             <button
-              className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center"
-              onClick={() => handlePayment(discount ? discount.discount : coursePost?.price)}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center"
+              onClick={() =>
+                handlePayment(discount ? discount.discount : coursePost?.price)
+              }
               disabled={payloading}
             >
               {payloading ? (
@@ -361,7 +376,6 @@ const CourseDetailsView = () => {
                 "Pay Now"
               )}
             </button>
-
           </div>
         </div>
       </div>

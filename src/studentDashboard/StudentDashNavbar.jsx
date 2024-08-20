@@ -3,9 +3,15 @@ import { IoClose, IoNotifications } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FiUser, FiBook, FiCircle, FiLogOut } from "react-icons/fi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FaHome } from "react-icons/fa";
 import Cookies from "js-cookie";
 
 const links = [
+  {
+    label: "Home",
+    link: "/",
+    icon: <FaHome />,
+  },
   {
     label: "Profile",
     link: "/profile",
@@ -90,7 +96,7 @@ const StudentDashNavbar = () => {
   };
 
   return (
-    <div className="m-5 h-[10vh] shadow-lg flex items-center justify-between px-4 lg:px-12 relative bg-white">
+    <div className="m-5 h-[10vh] shadow-lg flex items-center justify-between px-4 py-4 lg:px-12 relative bg-white">
       <div>
         {/* <p className="font-semibold text-lg hidden lg:block">Student Dashboard</p> */}
         <RxHamburgerMenu
@@ -102,7 +108,7 @@ const StudentDashNavbar = () => {
             <div className="flex items-center flex-col h-full py-11">
               <div className="flex items-center flex-col w-full px-12">
                 <Link to={"/"} className="text-3xl font-bold">
-                  <img src={"/assets/logo.png"} alt="Logo" className={`h-90 w-90`} />
+                  <img src={"/assets/logo.png"} alt="Logo" className={`h-40 w-40`} />
                 </Link>
                 <IoClose
                   className="text-3xl absolute right-3 top-2"
@@ -134,17 +140,19 @@ const StudentDashNavbar = () => {
       <div className="flex items-center justify-between gap-7">
         {/* <IoNotifications className="lg:text-2xl md:text-xl text-lg text-[#054BB4]" /> */}
         <div className="relative">
-          <div className="flex items-center gap-4 cursor-pointer" onClick={toggleDropdown}>
+          <div className="flex items-center gap-2 cursor-pointer" onClick={toggleDropdown}>
             <div className="flex flex-col items-end">
               <p className="text-[#054BB4] font-semibold sm:text-sm md:text-lg lg:text-lg">
                 {userData?.name}
               </p>
-              <p className="text-[#CADEFB] text-sm">Student</p>
+              {
+                // <p className="text-[#CADEFB] text-sm">Student</p>
+            }
             </div>
             <img
               src={userData?.avatar || "https://i.ibb.co/GcKk9fh/images-2.jpg"}
               alt="Profile"
-              className="lg:w-14 md:w-12 w-10 rounded-full"
+              className="lg:w-14 md:w-12 w-10 m-2 rounded-full"
             />
           </div>
           {isDropdownOpen && (

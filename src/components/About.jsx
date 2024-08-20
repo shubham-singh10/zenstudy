@@ -69,36 +69,39 @@ const About = () => {
     config: { duration: 500 },
   });
 
-
   return (
     <div className="flex flex-col items-center bg-white gap-2">
-      <animated.h1
-        style={SlideUp}
-        ref={refSlideUp}
-        className="text-2xl mt-10 md:text-3xl lg:text-4xl mb-8 text-center text-[#054BB4] font-semibold"
-      >
-        A<span className="border-b-4 border-[#054BB4]">bout U</span>s
-      </animated.h1>
+      {
+        //  <animated.h1
+        //   style={SlideUp}
+        //   ref={refSlideUp}
+        //   className="text-2xl mt-10 md:text-3xl lg:text-4xl mb-8 text-center text-[#054BB4] font-semibold"
+        // >
+        //   A<span className="border-b-4 border-[#054BB4]">bout U</span>s
+        // </animated.h1>
+      }
       <div className="flex flex-col lg:flex-row items-center lg:items-start lg:px-12 md:px-6 px-4 py-4 lg:py-10">
         <animated.div
           style={SlideLeft}
           ref={refSlideLeft}
-          className="relative mb-8 lg:mb-0 lg:mr-16 p-10"
+          className="relative mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
         >
           <animated.img
-            src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="/assets/about1.webp"
             alt="Team"
             className="w-full h-auto object-cover"
           />
-          <animated.div className="absolute top-0 right-0 w-[150px] h-[150px] border-t-8 border-r-8 border-blue-600"></animated.div>
-          <animated.div className="absolute bottom-0 left-0 w-[150px] h-[150px] border-b-8 border-l-8 border-blue-600"></animated.div>
+          <animated.div className="absolute top-0 right-0 lg:w-[150px] lg:h-[150px] w-[100px] h-[100px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4 border-blue-600"></animated.div>
+          <animated.div className="absolute bottom-0 left-0 lg:w-[150px] lg:h-[150px] w-[100px] h-[100px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></animated.div>
         </animated.div>
         <animated.div
           style={SlideRight}
           ref={refSlideRight}
           className="flex flex-col items-start"
         >
-          <h2 className="text-3xl font-bold mb-4">About Us</h2>
+          <div className="text-2xl mt-10 md:text-3xl lg:text-4xl mb-8 text-center text-[#054BB4] font-semibold">
+            A<span className="border-b-4 border-[#054BB4]">bout U</span>s
+          </div>
           <div className="flex flex-col space-y-8">
             <div className="flex items-start">
               <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
@@ -154,7 +157,11 @@ const About = () => {
           ref={refSlideLeft1}
           className="flex flex-col items-start"
         >
-          <h2 className="text-3xl font-bold mb-4">Our Mission</h2>
+        <div
+        className="text-2xl mt-10 md:text-3xl lg:text-4xl mb-8 text-center text-[#054BB4] font-semibold"
+      >
+        O<span className="border-b-4 border-[#054BB4]">ur Missio</span>n
+      </div>
           <div className="flex flex-col space-y-8">
             <div className="flex items-start">
               <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
@@ -191,15 +198,15 @@ const About = () => {
         <animated.div
           style={SlideRight1}
           ref={refSlideRight1}
-          className="relative mb-8 lg:mb-0 lg:ml-16 p-10"
+          className="relative mb-8 lg:mb-0 lg:ml-16 p-6 lg:p-10 md:p-8"
         >
           <img
-            src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="/assets/about2.webp"
             alt="Team"
             className="w-full h-auto object-cover"
           />
-          <div className="absolute top-0 right-0 w-[150px] h-[150px] border-t-8 border-r-8 border-blue-600"></div>
-          <div className="absolute bottom-0 left-0 w-[150px] h-[150px] border-b-8 border-l-8 border-blue-600"></div>
+          <div className="absolute top-0 right-0 w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4  border-blue-600"></div>
+          <div className="absolute bottom-0 left-0 w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></div>
         </animated.div>
       </div>
     </div>

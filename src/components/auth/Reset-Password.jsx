@@ -184,22 +184,14 @@ const ResetPassword = () => {
     };
 
     return (
-        <div className='p-2 lg:p-12 md:p-10'>
+        <div className='p-0 lg:p-12 md:p-10'>
             <div id="recaptcha-container"></div>
             <div className="flex flex-col items-center lg:flex-row-reverse p-4 lg:p-12 bg-white gap-10 w-full">
                 <div className=" bg-blue-600 text-center text-white p-4 lg:p-16 rounded-3xl lg:w-1/4 w-full">
-                    <h1 className="text-3xl font-bold mb-4">Welcome to ZenStudy</h1>
-                    {
-                    //     <h3 className="text-2xl font-bold mb-4">Connect with us</h3>
-                    // <div className="flex space-x-4 justify-center">
-                    //     <Link href="#" className="hover:bg-red-500 rounded-full p-2"><FiYoutube size={25} className='hover:text-white' /></Link>
-                    //     <Link href="#" className="hover:bg-gradient-to-br from-[#405DE6] via-[#5B51D8] to-[#E1306C] rounded-full p-2"><FiInstagram size={25} className='hover:text-white' /></Link>
-                    //     <Link href="#" className="hover:bg-[#4267B2] rounded-full p-2"><FiFacebook size={25} className='hover:text-white' /></Link>
-                    //     <Link href="#" className="hover:bg-[#1DA1F2] rounded-full p-2"><FiTwitter size={25} className='hover:text-white' /></Link>
-                    // </div>
-                }
+                    <h1 className="text-4xl font-bold mb-4">Welcome to ZenStudy</h1>
+                   
                 </div>
-                <div className="flex-1 p-8 lg:w-3/4 w-full text-center lg:text-center">
+                <div className="flex-1 p-4 md:p-8 lg:p-8 lg:w-3/4 w-full text-center lg:text-center">
                     <h2 className="text-3xl font-bold mb-4 text-blue-600">Reset Your Password</h2>
                     <p className="text-xl text-gray-600 mb-4">Enter your phone below to reset your password. We'll send you a otp to create a new one.</p>
                     <form className={`space-y-4 ${showotpForm && "hidden"}`} onSubmit={handleSubmit(OnSubmit)}>

@@ -67,7 +67,7 @@ function CardSlider({ courseData }) {
                         {courseData.map((d, index) => (
                             <div
                                 key={index}
-                                className="max-w-sm rounded-2xl overflow-hidden shadow-lg m-4 p-4"
+                                className="max-w-xs rounded-2xl overflow-hidden shadow-lg m-4 p-4"
                             >
                                 <div className="relative">
                                     <img
@@ -79,7 +79,7 @@ function CardSlider({ courseData }) {
                                 </div>
 
                                 <div className="px-6 py-4">
-                                    <div className="font-bold text-lg mb-2 text-blue-600">
+                                    <div className="font-bold h-20 text-lg mb-2 text-blue-600">
                                         {d.title}
                                     </div>
                                     <p className="text-gray-700 text-base">{d.name}</p>

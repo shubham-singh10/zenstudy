@@ -17,7 +17,7 @@ const CourseCard = ({ course }) => {
   };
   const isUpcoming = course.other1 === "upcoming";
   return (
-    <div className="max-w-sm rounded-2xl overflow-hidden shadow-lg m-4 p-4">
+    <div className="max-w-xs rounded-2xl overflow-hidden shadow-lg m-4 p-4">
       <div className="relative">
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
@@ -37,7 +37,7 @@ const CourseCard = ({ course }) => {
       </div>
 
       <div className="px-6 py-4">
-        <div className="font-bold text-lg mb-1 text-blue-600">
+        <div className="font-bold text-lg mb-1 h-20 text-blue-600">
           {course.title}
         </div>
 
