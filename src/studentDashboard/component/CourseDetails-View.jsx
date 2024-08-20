@@ -203,7 +203,7 @@ const CourseDetailsView = () => {
     try {
       setCouponLoading(true)
       const sendData = {
-        code: code, // Ensure `code` is defined in your component
+        code: code,
         coursePrice: price,
         courseId: courseId,
       };
