@@ -202,8 +202,9 @@ const CourseDetailsView = () => {
   const ApplyCoupon = async (price) => {
     try {
       const sendData = {
-        code: code, // Ensure `code` is defined in your component
+        code: code,
         coursePrice: price,
+        courseId: courseId
       };
       console.log("Sending data:", sendData);
 
