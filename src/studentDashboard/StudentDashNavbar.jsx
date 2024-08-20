@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { IoClose, IoNotifications } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FiUser, FiBook, FiCircle, FiLogOut } from "react-icons/fi";
 import { Link, useLocation, useNavigate } from "react-router-dom";

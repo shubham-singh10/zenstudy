@@ -3,10 +3,6 @@ import { ImQuotesLeft, ImQuotesRight } from "react-icons/im";
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer"; // Correct import
 const About = () => {
-  const { ref: refSlideUp, inView: inViewSlideUp } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
 
   const { ref: refSlideLeft, inView: inViewSlideLeft } = useInView({
     triggerOnce: true,
@@ -31,12 +27,6 @@ const About = () => {
   const { ref: refScaleUp, inView: inViewScaleUp } = useInView({
     triggerOnce: true,
     threshold: 0.1,
-  });
-
-  const SlideUp = useSpring({
-    from: { y: 100, opacity: 0 },
-    to: { y: inViewSlideUp ? 0 : 100, opacity: inViewSlideUp ? 1 : 0 },
-    config: { duration: 700 },
   });
 
   const SlideLeft = useSpring({

@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Box, TextField, InputAdornment } from '@mui/material'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { MdPhone } from 'react-icons/md';
 import { useForm } from 'react-hook-form';
-import { FiEye, FiEyeOff, FiFacebook, FiInstagram, FiTwitter, FiYoutube } from 'react-icons/fi';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { firebase } from '../../Firebase';
 import {
     getAuth,

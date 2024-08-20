@@ -10,13 +10,13 @@ import { FaLock } from "react-icons/fa6";
 import toast from "react-hot-toast";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
-import Images from "../../components/Images";
 
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [couponLoading, setCouponLoading] = useState(false);
-
+  const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`);
+  const [Iloading, setILoading] = useState(true);
   const [payloading, setPayLoading] = useState(false);
   const [error, setError] = useState(null);
   const [discount, setDiscount] = useState(null);
@@ -67,8 +67,14 @@ const CourseDetailsView = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        //console.log("Course_data", data);
-        setCoursePost(data.coursedetail);
+        // console.log("Course_data", data);
+
+        const imageUrl = `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`
+        setCoursePost({
+          ...data.coursedetail,
+          imageUrl, // Add the imageUrl to the state
+        });
+        // setCoursePost(data.coursedetail);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -289,9 +295,16 @@ const CourseDetailsView = () => {
           </ul>
         </div>
         <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
-          <Images
-            thumbnail={coursePost?.thumbnail}
-            className="w-full h-52 rounded-2xl"
+         
+          <img
+            src={imageSrc}
+            crossOrigin="anonymous"
+            alt={coursePost?.title}
+            className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${Iloading ? "opacity-0" : "opacity-100"}`}
+            onLoad={() => {
+              setILoading(false);
+              setImageSrc(coursePost?.imageUrl);
+            }}
           />
 
           <div className="px-6 py-4">
