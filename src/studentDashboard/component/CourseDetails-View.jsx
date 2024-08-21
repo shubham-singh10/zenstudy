@@ -22,7 +22,7 @@ const CourseDetailsView = () => {
   const [discount, setDiscount] = useState(null);
   const [code, setCode] = useState("");
   const [showConfetti, setShowConfetti] = useState(true);
-  const { width, height } = useWindowSize(); // Get the current window size
+  const { width, height } = useWindowSize(); 
   const navigate = useNavigate();
   const location = useLocation();
   const { courseId } = location.state || {};
@@ -120,6 +120,7 @@ const CourseDetailsView = () => {
   //Payment Initiate
   const handlePayment = async (amount) => {
     setPayLoading(true);
+    console.log("am",amount)
     try {
       const res = await fetch(
         `${process.env.REACT_APP_API}zenstudy/api/payment/order`,
@@ -357,7 +358,8 @@ const CourseDetailsView = () => {
             <button
               className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center"
               onClick={() =>
-                handlePayment(discount ? discount.discount : coursePost?.price)
+                handlePayment(discount ? Math.round(discount.discount) : coursePost?.price)
+
               }
               disabled={payloading}
             >

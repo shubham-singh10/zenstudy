@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PaginationNew from "../../components/pagination/PaginationNew";
 import { FaSearch } from "react-icons/fa";
+import Cookies from "js-cookie";
 
 const CourseCard = ({ course }) => {
   const navigate = useNavigate();
@@ -72,12 +73,13 @@ const CourseDeatils = () => {
   const itemperpage = 6;
   const [searchText, setSearchText] = useState("");
 
-
+const userId = Cookies.get("access_tokennew")
+console.log(userId)
   useEffect(() => {
     const getcourse = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API}zenstudy/api/course/getCoursesP`,
+          `${process.env.REACT_APP_API2}zenstudy/api/course/getCoursesPurc/${userId}`,
           {
             method: "GET",
             headers: {
@@ -97,9 +99,13 @@ const CourseDeatils = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        // console.log("Course_data", data);
+         console.log("Course_data", data);
         // setCourse(data);
-        setCourse(data.filter(course => course.other1 !== "upcoming").map(course => ({
+        // setCourse(data.filter(course => course.other1 !== "upcoming").map(course => ({
+        //   ...course,
+        //   imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`
+        // })));
+        setCourse(data.map(course => ({
           ...course,
           imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`
         })));

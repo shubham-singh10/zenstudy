@@ -5,22 +5,28 @@ import { useLocation, useNavigate } from "react-router-dom";
 import he from "he";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
-import { MdSlowMotionVideo } from "react-icons/md";
-import { FaLock } from "react-icons/fa6";
+import toast from "react-hot-toast";
+import useWindowSize from "react-use/lib/useWindowSize";
+import Confetti from "react-confetti";
+
+
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [payloading, setPayLoading] = useState(true);
+  const [discount, setDiscount] = useState(null);
+  const [code, setCode] = useState("");
+  const [showConfetti, setShowConfetti] = useState(true);
+  const { width, height } = useWindowSize(); 
+  const [couponLoading, setCouponLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { courseId } = location.state || {};
   const [currentUser, setCurrentUser] = useState(false);
 
-
   const token = Cookies.get("access_tokennew");
   let userId = null;
-
 
   if (token) {
     try {
@@ -29,6 +35,69 @@ const CourseDetailsView = () => {
       console.error("Error decoding token:", error);
     }
   }
+
+
+  const ApplyCoupon = async (price) => {
+    try {
+      setCouponLoading(true)
+      const sendData = {
+        code: code,
+        coursePrice: price,
+        courseId: courseId,
+      };
+      console.log("Sending data:", sendData);
+
+      const response = await fetch(
+        `${process.env.REACT_APP_API}zenstudy/api/coupon/applyCoupon`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(sendData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          toast.error(
+            ` ${errorData.message}`
+          )`Network response was not ok: ${response.status} - ${errorData.message}`
+        );
+      }
+
+      const data = await response.json(); // Parse the successful response
+
+      setDiscount(data);
+
+      setCouponLoading(false)
+
+      setCode("");
+
+      toast.success("Discount applied successfull!!", {
+        position: "top-center",
+      });
+      console.log("Coupon applied successfully:", data);
+      return data; // Optionally return the response data
+    } catch (error) {
+      console.error("Error applying coupon:", error);
+      setCouponLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (discount) {
+      // Assuming you only want to show confetti if there's a discount
+      const timer = setTimeout(() => {
+        setShowConfetti(false);
+      }, 3000); // 3 seconds
+
+      // Cleanup the timeout if the component unmounts before the timeout completes
+      return () => clearTimeout(timer);
+    }
+  }, [discount]);
 
 
   useEffect(() => {
@@ -41,7 +110,6 @@ const CourseDetailsView = () => {
       }
     }
   }, []);
-
 
   // Perticular Course get data API
   useEffect(() => {
@@ -62,8 +130,7 @@ const CourseDetailsView = () => {
         }
         const data = await response.json();
 
-
-        console.log("Course_data", data);
+        // console.log("Course_data", data);
         setCoursePost(data.coursedetail);
         setLoading(false);
       } catch (error) {
@@ -74,7 +141,6 @@ const CourseDetailsView = () => {
     getCourse();
   }, [courseId]);
 
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -83,7 +149,6 @@ const CourseDetailsView = () => {
       </div>
     );
   }
-
 
   if (error) {
     return (
@@ -96,7 +161,6 @@ const CourseDetailsView = () => {
     );
   }
 
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -105,12 +169,10 @@ const CourseDetailsView = () => {
     return `${day}-${month}-${year}`;
   };
 
-
   const stripHtmlTags = (html) => {
     const doc = new DOMParser().parseFromString(html, "text/html");
     return doc.body.textContent || "";
   };
-
 
   //Payment Initiate
   const handlePayment = async (amount) => {
@@ -131,7 +193,6 @@ const CourseDetailsView = () => {
         }
       );
 
-
       if (!res.ok) {
         const errorText = await res.text();
         console.error(`Error: ${res.status} - ${res.statusText}\n${errorText}`);
@@ -145,7 +206,6 @@ const CourseDetailsView = () => {
         return;
       }
 
-
       const data = await res.json();
       //console.log("Data", data)
       handlePaymentVerify(data.data, courseId);
@@ -154,7 +214,6 @@ const CourseDetailsView = () => {
       setPayLoading(false);
     }
   };
-
 
   const handlePaymentVerify = async (data, courseId) => {
     const options = {
@@ -183,7 +242,6 @@ const CourseDetailsView = () => {
             }
           );
 
-
           const verifyData = await res.json();
           //console.log("VerifyData", verifyData)
           if (verifyData.message === "Payment Successful") {
@@ -203,14 +261,11 @@ const CourseDetailsView = () => {
     rzp1.open();
   };
 
-
-
-
   const firstModule = coursePost.modules[0];
-
 
   return (
     <div className="">
+    {showConfetti && discount && <Confetti width={width} height={height} />}
       <div className="p-4 lg:p-12 bg-blue-100 w-full md:p-8 rounded-md flex flex-col justify-start items-start">
         <button
           className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-4 flex items-center lg:-mt-10 md:-mt-6 sm:mt-0"
@@ -261,10 +316,7 @@ const CourseDetailsView = () => {
           </ul>
         </div>
 
-
         <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
-
-
           {firstModule && (
             <div key={0}>
               {firstModule.videos.length > 0 ? (
@@ -276,14 +328,12 @@ const CourseDetailsView = () => {
                     allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
                     title="zenstudy"
                   ></iframe>
-                  
                 </div>
               ) : (
                 <div>No videos</div>
               )}
             </div>
           )}
-
 
           <div className="px-6 py-4">
             <div className="font-bold text-xl mb-2 text-blue-600">
@@ -299,21 +349,52 @@ const CourseDetailsView = () => {
               // <p className="text-gray-600">course day</p>
             }
           </div>
+
+            {currentUser &&  <div className="mb-4 w-[100%] flex flex-wrap justify-center  px-4">
+                  <input
+                    type="text"
+                    id="coupon"
+                    onChange={(e) => setCode(e.target.value)}
+                    className="border p-1 outline-none"
+                    placeholder="Enter Coupon Code"
+                  />
+                  <span>
+                    {couponLoading ? (
+                      <button className="bg-red-600 text- text-white px-4 py-2 ">
+                        Wait..
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => ApplyCoupon(coursePost?.price)}
+                        className="bg-blue-600 hover:bg-blue-700 text- text-white px-4 py-2 "
+                      >
+                        Apply
+                      </button>
+                    )}
+                  </span>
+                </div>}
+
           <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center  border-t-2">
             <p className="text-blue-600 font-bold text-2xl">
               ₹ {coursePost?.price}
             </p>
+
             {currentUser ? (
-              <button
-                className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
-                onClick={() => handlePayment(coursePost?.price)}
-                disabled={!payloading}
-              >
-                {!payloading ? "Please wait..." : "Pay Now"}
-              </button>
+                <button
+                  className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
+                  onClick={() => handlePayment(coursePost?.price)}
+                  disabled={!payloading}
+                >
+                  {!payloading ? "Please wait..." : "Pay Now"}
+                </button>
+              
             ) : (
               <button
-                onClick={()=> navigate("/sign-in")}
+                onClick={() =>
+                  navigate("/login", {
+                    state: { courseId: courseId },
+                  })
+                }
                 className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
               >
                 Pay Now
@@ -322,7 +403,6 @@ const CourseDetailsView = () => {
           </div>
         </div>
       </div>
-
 
       <div className="p-2 md:p-12 lg:p-12 bg-blue-100 ">
         {coursePost.modules.map((title, index) => (
@@ -333,9 +413,7 @@ const CourseDetailsView = () => {
             <div className="flex items-center p-4 cursor-pointer">
               <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center mr-4" />
 
-
               <span className="flex-1 font-semibold">{title.moduleTitle}</span>
-
 
               {
                 //  <div className="transform rotate-0 transition-transform">
@@ -361,7 +439,4 @@ const CourseDetailsView = () => {
   );
 };
 
-
 export default CourseDetailsView;
-
-

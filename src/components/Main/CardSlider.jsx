@@ -62,7 +62,7 @@ function CardSlider({ courseData }) {
                 style={slideLeftStyles}
                 className="w-full"
             >
-                <div className="mt-20 m-1 lg:m-20">
+                <div className="mt-20 m-1 lg:m-20 ">
                     <Slider {...settings}>
                         {courseData.map((d, index) => (
                             <div
@@ -79,7 +79,7 @@ function CardSlider({ courseData }) {
                                 </div>
 
                                 <div className="px-6 py-4">
-                                    <div className="font-bold h-20 text-lg mb-2 text-blue-600">
+                                    <div className="font-bold text-lg mb-2 text-blue-600">
                                         {d.title}
                                     </div>
                                     <p className="text-gray-700 text-base">{d.name}</p>

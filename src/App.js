@@ -6,6 +6,7 @@ import StudentLayout from "./studentDashboard/StudentLayout.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
 import { Toaster } from "react-hot-toast";
 import CoursesNew from "./components/course/CoursesNew.jsx";
+import SignInDynamic from "./components/auth/Sign-inDynamic.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -38,6 +39,7 @@ function App() {
             <Route path="/course-details" element={<CourseDetails />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/sign-Up" element={<SignUp />} />
+            <Route path="/login" element={<SignInDynamic />} />
             <Route path="/sign-In" element={<SignIn />} />
             <Route path="/reset-password" element={<ResetPassword />} />
           </Route>
