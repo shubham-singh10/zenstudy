@@ -2,6 +2,7 @@ import React, { useEffect, useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../Loading";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
 const CourseCard = ({ course }) => {
   const navigate = useNavigate();
@@ -69,10 +70,17 @@ const Courses = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const userId = Cookies.get("access_tokennew")
+    let api
+    if (userId){
+      api = `getCoursesPurc/${userId}`
+    } else{
+      api = "getCoursesP"
+    }
     const getcourse = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API}zenstudy/api/course/getCoursesP`,
+          `${process.env.REACT_APP_API}zenstudy/api/course/${api}`,
           {
             method: "GET",
             headers: {

@@ -79,7 +79,7 @@ console.log(userId)
     const getcourse = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API2}zenstudy/api/course/getCoursesPurc/${userId}`,
+          `${process.env.REACT_APP_API}zenstudy/api/course/getCoursesPurc/${userId}`,
           {
             method: "GET",
             headers: {
