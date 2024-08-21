@@ -101,14 +101,11 @@ console.log(userId)
         const data = await response.json();
          console.log("Course_data", data);
         // setCourse(data);
-        // setCourse(data.filter(course => course.other1 !== "upcoming").map(course => ({
-        //   ...course,
-        //   imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`
-        // })));
-        setCourse(data.map(course => ({
+        setCourse(data.filter(course => course.other1 !== "upcoming").map(course => ({
           ...course,
           imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`
         })));
+       
         setLoading(false);
       } catch (error) {
         //console.log("Error:", error);

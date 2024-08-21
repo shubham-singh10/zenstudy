@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {Fragment, useEffect, useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { GrLanguage } from "react-icons/gr";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -9,15 +9,14 @@ import toast from "react-hot-toast";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 
-
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [payloading, setPayLoading] = useState(true);
+  const [payloading, setPayLoading] = useState(false);
   const [discount, setDiscount] = useState(null);
   const [code, setCode] = useState("");
   const [showConfetti, setShowConfetti] = useState(true);
-  const { width, height } = useWindowSize(); 
+  const { width, height } = useWindowSize();
   const [couponLoading, setCouponLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -36,10 +35,9 @@ const CourseDetailsView = () => {
     }
   }
 
-
   const ApplyCoupon = async (price) => {
     try {
-      setCouponLoading(true)
+      setCouponLoading(true);
       const sendData = {
         code: code,
         coursePrice: price,
@@ -72,7 +70,7 @@ const CourseDetailsView = () => {
 
       setDiscount(data);
 
-      setCouponLoading(false)
+      setCouponLoading(false);
 
       setCode("");
 
@@ -98,7 +96,6 @@ const CourseDetailsView = () => {
       return () => clearTimeout(timer);
     }
   }, [discount]);
-
 
   useEffect(() => {
     const token = Cookies.get("access_tokennew");
@@ -209,6 +206,7 @@ const CourseDetailsView = () => {
       const data = await res.json();
       //console.log("Data", data)
       handlePaymentVerify(data.data, courseId);
+      setPayLoading(false);
     } catch (error) {
       console.error("Error creating payment order:", error);
       setPayLoading(false);
@@ -265,7 +263,7 @@ const CourseDetailsView = () => {
 
   return (
     <div className="">
-    {showConfetti && discount && <Confetti width={width} height={height} />}
+      {showConfetti && discount && <Confetti width={width} height={height} />}
       <div className="p-4 lg:p-12 bg-blue-100 w-full md:p-8 rounded-md flex flex-col justify-start items-start">
         <button
           className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-4 flex items-center lg:-mt-10 md:-mt-6 sm:mt-0"
@@ -350,43 +348,95 @@ const CourseDetailsView = () => {
             }
           </div>
 
-            {currentUser &&  <div className="mb-4 w-[100%] flex flex-wrap justify-center  px-4">
-                  <input
-                    type="text"
-                    id="coupon"
-                    onChange={(e) => setCode(e.target.value)}
-                    className="border p-1 outline-none"
-                    placeholder="Enter Coupon Code"
-                  />
-                  <span>
-                    {couponLoading ? (
-                      <button className="bg-red-600 text- text-white px-4 py-2 ">
-                        Wait..
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => ApplyCoupon(coursePost?.price)}
-                        className="bg-blue-600 hover:bg-blue-700 text- text-white px-4 py-2 "
-                      >
-                        Apply
-                      </button>
-                    )}
-                  </span>
-                </div>}
+          {currentUser && (
+            <div className="mb-4 w-[100%] flex flex-wrap justify-center  px-4">
+              <input
+                type="text"
+                id="coupon"
+                onChange={(e) => setCode(e.target.value)}
+                className="border p-1 outline-none"
+                placeholder="Enter Coupon Code"
+              />
+              <span>
+                {couponLoading ? (
+                  <button className="bg-red-600 text- text-white px-4 py-2 ">
+                    Wait..
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => ApplyCoupon(coursePost?.price)}
+                    className="bg-blue-600 hover:bg-blue-700 text- text-white px-4 py-2 "
+                  >
+                    Apply
+                  </button>
+                )}
+              </span>
+            </div>
+          )}
 
           <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center  border-t-2">
             <p className="text-blue-600 font-bold text-2xl">
-              ₹ {coursePost?.price}
+              {discount ? (
+                <Fragment>
+                  <span className="line-through text-gray-400 mr-2 text-lg">
+                    ₹ {Math.round(coursePost?.price)}
+                  </span>
+                  <span>
+                    ₹{" "}
+                    {Math.round(discount.discount) === 0
+                      ? 1
+                      : Math.round(discount.discount)}
+                  </span>
+                </Fragment>
+              ) : (
+                <span>₹ {Math.round(coursePost?.price)}</span>
+              )}
             </p>
 
             {currentUser ? (
-                <button
-                  className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
-                  onClick={() => handlePayment(coursePost?.price)}
-                  disabled={!payloading}
-                >
-                  {!payloading ? "Please wait..." : "Pay Now"}
-                </button>
+
+              <button
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center"
+              onClick={() =>
+                handlePayment(
+                  discount
+                    ? Math.round(discount.discount) === 0
+                      ? 1
+                      : Math.round(discount.discount)
+                    : coursePost?.price
+                )
+              }
+              disabled={payloading}
+            >
+              {payloading ? (
+                <span className="flex items-center">
+                  <svg
+                    className="w-5 h-5 mr-2 animate-spin text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
+                    ></path>
+                  </svg>
+                  Please wait...
+                </span>
+              ) : (
+                "Pay Now"
+              )}
+            </button>
+
               
             ) : (
               <button

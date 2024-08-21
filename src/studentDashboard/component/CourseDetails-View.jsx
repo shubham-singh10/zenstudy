@@ -22,7 +22,7 @@ const CourseDetailsView = () => {
   const [discount, setDiscount] = useState(null);
   const [code, setCode] = useState("");
   const [showConfetti, setShowConfetti] = useState(true);
-  const { width, height } = useWindowSize(); 
+  const { width, height } = useWindowSize();
   const navigate = useNavigate();
   const location = useLocation();
   const { courseId } = location.state || {};
@@ -69,7 +69,7 @@ const CourseDetailsView = () => {
         const data = await response.json();
         // console.log("Course_data", data);
 
-        const imageUrl = `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`
+        const imageUrl = `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`;
         setCoursePost({
           ...data.coursedetail,
           imageUrl, // Add the imageUrl to the state
@@ -120,7 +120,7 @@ const CourseDetailsView = () => {
   //Payment Initiate
   const handlePayment = async (amount) => {
     setPayLoading(true);
-    console.log("am",amount)
+    console.log("am", amount);
     try {
       const res = await fetch(
         `${process.env.REACT_APP_API}zenstudy/api/payment/order`,
@@ -208,7 +208,7 @@ const CourseDetailsView = () => {
 
   const ApplyCoupon = async (price) => {
     try {
-      setCouponLoading(true)
+      setCouponLoading(true);
       const sendData = {
         code: code,
         coursePrice: price,
@@ -241,7 +241,7 @@ const CourseDetailsView = () => {
 
       setDiscount(data);
 
-      setCouponLoading(false)
+      setCouponLoading(false);
 
       setCode("");
 
@@ -296,12 +296,13 @@ const CourseDetailsView = () => {
           </ul>
         </div>
         <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
-         
           <img
             src={imageSrc}
             crossOrigin="anonymous"
             alt={coursePost?.title}
-            className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${Iloading ? "opacity-0" : "opacity-100"}`}
+            className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${
+              Iloading ? "opacity-0" : "opacity-100"
+            }`}
             onLoad={() => {
               setILoading(false);
               setImageSrc(coursePost?.imageUrl);
@@ -348,7 +349,12 @@ const CourseDetailsView = () => {
                   <span className="line-through text-gray-400 mr-2 text-lg">
                     ₹ {Math.round(coursePost?.price)}
                   </span>
-                  <span>₹ {Math.round(discount.discount)}</span>
+                  <span>
+                    ₹{" "}
+                    {Math.round(discount.discount) === 0
+                      ? 1
+                      : Math.round(discount.discount)}
+                  </span>
                 </Fragment>
               ) : (
                 <span>₹{Math.round(coursePost?.price)}</span>
@@ -358,8 +364,13 @@ const CourseDetailsView = () => {
             <button
               className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center"
               onClick={() =>
-                handlePayment(discount ? Math.round(discount.discount) : coursePost?.price)
-
+                handlePayment(
+                  discount
+                    ? Math.round(discount.discount) === 0
+                      ? 1
+                      : Math.round(discount.discount)
+                    : coursePost?.price
+                )
               }
               disabled={payloading}
             >
