@@ -4,7 +4,6 @@ import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
 
 const RecentlyAddedCourse = () => {
-    const[Loading, setLoading] = useState(true)
     const [courses, setCourse] = useState([]);
     const { ref: slideUpRef, inView: slideUpInView } = useInView({
         triggerOnce: true,
@@ -32,22 +31,19 @@ const RecentlyAddedCourse = () => {
     
             if (response.status === 204) {
               setCourse([]);
-              setLoading(false);
               return;
             }
-    
             if (!response.ok) {
               throw new Error("Network response was not ok");
             }
             const data = await response.json();
-            // //console.log("Recent_Course_data", data)
+           // console.log("Recent_Course_data", data)
             setCourse(data.map(course => ({
               ...course,
               imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`
             })));
-            setLoading(false);
           } catch (error) {
-            setLoading(false);
+            console.error("Error", error)
           }
         };
     

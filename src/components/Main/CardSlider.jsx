@@ -25,14 +25,14 @@ function CardSlider({ courseData }) {
         speed: 500,
         slidesToShow: 3,
         slidesToScroll: 1,
-        centerMode: true,
+        centerMode: false,
         centerPadding: "0",
         responsive: [
             {
                 breakpoint: 1024,
                 settings: {
                     slidesToShow: 2,
-                    centerMode: true,
+                    centerMode: false,
                     centerPadding: "0",
                 },
             },
@@ -40,7 +40,7 @@ function CardSlider({ courseData }) {
                 breakpoint: 600,
                 settings: {
                     slidesToShow: 1,
-                    centerMode: true,
+                    centerMode: false,
                     centerPadding: "0",
                 },
             },
@@ -54,7 +54,7 @@ function CardSlider({ courseData }) {
         const day = String(date.getDate()).padStart(2, "0");
         return `${year}-${month}-${day}`;
     };
-
+    
     return (
         <div>
             <animated.div
@@ -63,7 +63,7 @@ function CardSlider({ courseData }) {
                 className="w-full"
             >
                 <div className="mt-20 m-1 lg:m-20 ">
-                    <Slider {...settings}>
+                    <Slider {...settings}  key={courseData.length}>
                         {courseData.map((d, index) => (
                             <div
                                 key={index}
