@@ -24,6 +24,7 @@ const CourseDetailsStudentView = lazy(() => import("./studentDashboard/component
 const MyCourses = lazy(() => import("./studentDashboard/component/MyCourses.jsx"))
 const UPSCStudent = lazy(() => import("./studentDashboard/component/Upse.jsx"))
 const WatchCourse = lazy(() => import("./studentDashboard/component/WatchCourse.jsx"))
+const ZoomClasses = lazy(() => import("./studentDashboard/component/ZoomClasses.jsx"))
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
             <Route path="/mycourse" element={<MyCourses />} />
             <Route path="/upsc-student" element={<UPSCStudent />} />
             <Route path="/watch-course" element={<WatchCourse />} />
+            <Route path="/live-class" element={<ZoomClasses />} />
           </Route>
           <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>
