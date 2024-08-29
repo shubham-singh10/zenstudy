@@ -1,7 +1,12 @@
 import React, { useState } from "react";
-import ZoomMtgEmbedded from "@zoom/meetingsdk/embedded";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+// import ZoomMtgEmbedded from "@zoom/meetingsdk/embedded";
+import "./main.css"
+import { ZoomMtg } from '@zoom/meetingsdk';
+
+ZoomMtg.preLoadWasm();
+ZoomMtg.prepareWebSDK();
 
 function ZoomClasses() {
   const [formData, setFormData] = useState({
@@ -12,54 +17,37 @@ function ZoomClasses() {
   });
   const [Loading, setLoading] = useState(false);
 
-  const client = ZoomMtgEmbedded.createClient();
+  // const client = ZoomMtgEmbedded.createClient();
 
   // var authEndpoint = "http:localhost:4000";
   var sdkKey = "nibV3hlUQzZSR7ge3HWMw";
-  // var meetingNumber = 99644085298;
-  // var passWord = 605110;
-  // var userName = "Main";
-  var userEmail = "";
-  var registrantToken = "";
-  var zakToken = "";
-
-  // function getSignature(e) {
-  //   e.preventDefault();
-  //   startMeeting(
-  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZGtLZXkiOiJuaWJWM2hsVVF6WlNSN2dlM0hXTXciLCJtbiI6OTk2NDQwODUyOTgsInJvbGUiOjAsImlhdCI6MTcyNDc0ODI4OCwiZXhwIjoxNzI0NzU1NDg4LCJ0b2tlbkV4cCI6MTcyNDc1NTQ4OH0.U2ZeKgqLAza7bnn2JX50A3RKNvTOEDw4OoaGbgdYfkA"
-  //   );
-  // }
 
   function startMeeting(signature, meetingNumber, passWord, username) {
-    let meetingSDKElement = document.getElementById("meetingSDKElement");
-    console.log("Signature", signature);
-    console.log("meetingNumber", meetingNumber);
-    console.log("Password", passWord);
-    console.log("userName", username);
-
-    client.init({
-      zoomAppRoot: meetingSDKElement,
-      language: "en-US",
+     document.getElementById('zmmtg-root').style.display = 'block'
+    
+    ZoomMtg.init({
+      leaveUrl: "http://localhost:3000",
       patchJsMedia: true,
       leaveOnPageUnload: true,
-    }).then(() => {
-      client.join({
+      success:(success)=> {
+      ZoomMtg.join({
         signature: signature,
         sdkKey: sdkKey,
         meetingNumber: Number(meetingNumber),
         password: Number(passWord),
         userName: username,
-        userEmail: userEmail,
-        tk: registrantToken,
-        zak: zakToken,
-      }).then(() => {
-        console.log("Joined meeting successfully");
-      }).catch((error) => {
-        console.error("Error joining meeting:", error);
-      });
-    }).catch((error) => {
-      console.error("Error initializing Zoom SDK", error);
-    });
+        success:(success)=> {
+          console.log("Joined meeting successfully", success);
+        },
+        error:(error)=> {
+          console.error("Error joining meeting:", error);
+        }
+    })
+  },
+    error: (error) => {
+      console.log(error)
+    }
+  })
   }
 
   // Handle form change

@@ -69,8 +69,7 @@
   /* Custom arrow icon, you can use any character or Unicode */
 }
 
-
-
-
-
-
+#zmmtg-root{
+  display: none;
+  min-width: 0 !important;
+}
