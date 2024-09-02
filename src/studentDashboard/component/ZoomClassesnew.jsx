@@ -1,30 +1,62 @@
 import React, { useState } from "react";
+import ZoomMtgEmbedded from "@zoom/meetingsdk/embedded";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { ZoomMtg } from '@zoom/meetingsdk';
-import "./main.css";
 
-ZoomMtg.preLoadWasm();
-ZoomMtg.prepareWebSDK();
-
-function ZoomClasses() {
+function ZoomClassesNew() {
   const [formData, setFormData] = useState({
     meetingNumber: "",
-    password: "",
+    passowrd: "",
     userId: "",
+    courseId: "",
   });
-  const [loading, setLoading] = useState(false);
+  const [Loading, setLoading] = useState(false);
 
+  const client = ZoomMtgEmbedded.createClient();
+
+  // var authEndpoint = "http:localhost:4000";
+  var sdkKey = "nibV3hlUQzZSR7ge3HWMw";
+
+  function startMeeting(signature, meetingNumber, passWord, username) {
+    let meetingSDKElement = document.getElementById("meetingSDKElement");
+     console.log("Signature", signature);
+    // console.log("meetingNumber", meetingNumber);
+    // console.log("Password", passWord);
+    // console.log("userName", username);
+
+    client.init({
+      zoomAppRoot: meetingSDKElement,
+      language: "en-US",
+      patchJsMedia: true,
+      leaveOnPageUnload: true,
+    }).then(() => {
+      client.join({
+        signature: signature,
+        sdkKey: sdkKey,
+        meetingNumber: Number(meetingNumber),
+        password: Number(passWord),
+        userName: username
+      }).then(() => {
+        console.log("Joined meeting successfully");
+      }).catch((error) => {
+        console.error("Error joining meeting:", error);
+      });
+    }).catch((error) => {
+      console.error("Error initializing Zoom SDK", error);
+    });
+  }
+
+  // Handle form change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  };
-
+  }
   const onSubmit = async (e) => {
     e.preventDefault();
+    console.log("formData", formData);
     setLoading(true);
 
     try {
@@ -37,6 +69,7 @@ function ZoomClasses() {
         body: JSON.stringify({ meetingNumber: formData.meetingNumber }),
       });
 
+      // Handle the case where no content is returned
       if (response.status === 204) {
         console.log("No meeting found for this meeting number.");
         return;
@@ -46,7 +79,10 @@ function ZoomClasses() {
         throw new Error(`Network response was not ok. Status code: ${response.status}`);
       }
 
+      // Parse the response data
       const data = await response.json();
+      console.log("Meeting_Data", data.meetingData);
+
       if (data.meetingData) {
         let jdata = data.meetingData;
 
@@ -73,53 +109,8 @@ function ZoomClasses() {
     } catch (error) {
       console.error("Error joining meeting:", error);
     } finally {
-      setLoading(false);
+      setLoading(false); // Reset the loading state in both success and failure scenarios
     }
-  };
-  
-  var userEmail = ''
-  var registrantToken = ''
-  var zakToken = ''
-  const startMeeting = (signature, meetingNumber, password, username) => {
-    document.getElementById('zmmtg-root').style.display = 'block';
-
-    console.log("Starting meeting with details:", {
-      signature,
-      meetingNumber,
-      password,
-      userName: username
-    });
-
-    
-    ZoomMtg.init({
-      leaveUrl: 'https://zenstudy-delta.vercel.app/',
-      patchJsMedia: true,
-      leaveOnPageUnload: true,
-      success: (success) => {
-        console.log(success)
-
-        ZoomMtg.join({
-          signature: signature,
-          sdkKey: process.env.REACT_APP_ZOOM_SDK_KEY,
-          meetingNumber: meetingNumber,
-          passWord: password,
-          userName: username,
-          userEmail: userEmail,
-          tk: registrantToken,
-          zak: zakToken,
-          success: (success) => {
-            console.log(success)
-          },
-          error: (error) => {
-            console.log(error)
-          }
-        })
-
-      },
-      error: (error) => {
-        console.log(error)
-      }
-    })
   };
 
   return (
@@ -135,36 +126,46 @@ function ZoomClasses() {
             >
               <TextField
                 className="w-full"
+                id="outlined-basic"
                 name="meetingNumber"
                 label="Enter Meeting"
                 value={formData.meetingNumber}
                 onChange={handleChange}
                 variant="outlined"
               />
+
               <TextField
                 className="w-full"
+                id="outlined-basic"
                 name="userId"
                 value={formData.userId}
                 onChange={handleChange}
                 label="Enter UserId"
                 variant="outlined"
               />
+
+
             </Box>
+
             <button
               type="submit"
               className="bg-blue-600 text-white py-2 px-4 rounded-md"
-              disabled={loading}
+              disabled={Loading}
             >
-              {loading ? "Please wait..." : "Join Meet"}
+              {Loading ? "Please wait..." : "Join Meet"}
             </button>
           </form>
-          <div id="zmmtg-root">
+          {/* For Component View */}
+          <div id="meetingSDKElement">
             {/* Zoom Meeting SDK Component View Rendered Here */}
           </div>
+
+          {/* <button onClick={getSignature}>Join Meeting</button> */}
         </main>
       </div>
     </div>
   );
-}
+};
 
-export default ZoomClasses;
+
+export default ZoomClassesNew;
