@@ -33,43 +33,155 @@
 
 /* Custom styles for the previous arrow */
 .slick-prev {
-  left: 0px !important; /* Adjust position as needed */
+  left: 0px !important; 
   z-index: 1 !important;
-  background-color: hsla(0, 0%, 47%, 0.5); /* Semi-transparent background */
+  background-color: hsla(0, 0%, 47%, 0.5); 
   border-radius: 50% !important;
-  width: 40px !important; /* Adjust width as needed */
-  height: 40px !important; /* Adjust height as needed */
+  width: 40px !important; 
+  height: 40px !important; 
 }
 
 
 .slick-prev:before {
-  font-size: 40px !important; /* Adjust size as needed */
-  color: black !important; /* Arrow color */
-  content: '←'; /* Custom arrow icon, you can use any character or Unicode */
+  font-size: 40px !important; 
+  color: black !important; 
+  content: '←'; 
 }
 
 
 /* Custom styles for the next arrow */
 .slick-next {
-  right: 0px !important; /* Adjust position as needed */
+  right: 0px !important; 
   z-index: 1 !important;
-  background-color: hsla(0, 0%, 47%, 0.5); /* Semi-transparent background */
+  background-color: hsla(0, 0%, 47%, 0.5); 
   border-radius: 50% !important;
-  width: 40px !important; /* Adjust width as needed */
-  height: 40px !important; /* Adjust height as needed */
+  width: 40px !important; 
+  height: 40px !important; 
 
 
 }
 
 
 .slick-next:before {
-  font-size: 40px !important; /* Adjust size as needed */
-  color: black !important ;/* Arrow color */
+  font-size: 40px !important; 
+  color: black !important ;
   content: '→';
-  /* Custom arrow icon, you can use any character or Unicode */
+  
 }
 
 #zmmtg-root{
   display: none;
   min-width: 0 !important;
 }
+
+.Link_module_link_5efef3b8 .VimeoLogoLink_module_vimeoLogo3af3d0e7 .shared_module_focusable_285596c9{
+  display: none !important;
+}
+
+/* Button base styles */
+.custom-btn {
+  border: 2px solid #054BB4; 
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  background-color: white; 
+  border-radius: 9999px; 
+  padding: 0.5rem 1.5rem; 
+  position: relative;
+  cursor: pointer; 
+}
+
+/* Background animation span */
+.custom-btn-bg {
+  width: 14rem; 
+  height: 12rem; 
+  border-radius: 0.5rem; 
+  background-color: #054BB4;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translateX(100%) translateY(100%);
+  transition: all 0.5s ease; 
+  z-index: 0; 
+}
+
+/* Hover state for background animation */
+.custom-btn:hover .custom-btn-bg {
+  transform: translateX(0) translateY(0); 
+  margin-left: 0; 
+  margin-bottom: 0; 
+}
+
+/* Button text styles */
+.custom-btn-text {
+  position: relative;
+  z-index: 1; 
+  width: 100%;
+  text-align: left;
+  color: #054BB4; 
+  transition: color 0.3s ease; 
+}
+
+/* Hover state for the text color */
+.custom-btn:hover .custom-btn-text {
+  color: white; 
+}
+
+/* Base button styles */
+.custom-btn-2 {
+  border: 2px solid #054BB4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  background-color: #054BB4;
+  border-radius: 9999px; 
+  padding: 0.5rem 1.5rem; 
+  position: relative;
+  cursor: pointer;
+}
+
+/* Background span inside the button */
+.custom-btn-2-bg {
+  width: 14rem; 
+  height: 12rem; 
+  background-color: white;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-radius: 0.5rem; 
+  transform: translateX(100%) translateY(100%);
+  transition: all 0.5s ease-out;
+  margin-bottom: 2.25rem; 
+  margin-left: 2.25rem; 
+  z-index: 0; 
+}
+
+/* Hover effect for the background span */
+.custom-btn-2:hover .custom-btn-2-bg {
+  transform: translateX(0) translateY(0); 
+  margin-left: 0; 
+  margin-bottom: 0; 
+}
+
+/* Button text styling */
+.custom-btn-2-text {
+  position: relative;
+  width: 100%;
+  text-align: left;
+  color: white; 
+  transition: color 0.3s ease-in-out;
+  z-index: 1; 
+}
+
+/* Hover effect for button text */
+.custom-btn-2:hover .custom-btn-2-text {
+  color: #054BB4; 
+}
+
+

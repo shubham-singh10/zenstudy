@@ -18,11 +18,11 @@ const navLink = [
     link: "/about",
     className: "hover:text-[#054BB4]"
   },
-  // {
-  //   label: "Article",
-  //   link: "/article",
-  //   className: "hover:text-[#054BB4]"
-  // },
+  {
+    label: "Article",
+    link: "https://blog.zenstudy.in/",
+    className: "hover:text-[#054BB4]"
+  },
   // {
   //   label: "UPSC",
   //   link: "/upsc",
@@ -158,12 +158,20 @@ const NavBar = () => {
 
                 </ul>
                 {!isLoggedIn ? (
-                  <button
+                  <div className="flex gap-2"><button
                     className="px-4 py-1 border-2 border-solid border-white text-lg rounded-full hover:text-[#054BB4] hover:bg-[#F9F9F9] transition-all duration-300 cursor-pointer"
                     onClick={() => { navigate("/sign-Up"); setHamBurger(false); }}
                   >
-                    Login/SignUp
+                    Sign Up
                   </button>
+
+                  <button
+                    className="px-4 py-1 border-2 border-solid border-white text-lg rounded-full hover:text-[#054BB4] hover:bg-[#F9F9F9] transition-all duration-300 cursor-pointer"
+                    onClick={() => { navigate("/sign-In"); setHamBurger(false); }}
+                  >
+                    Log In  
+                  </button>
+                  </div>
                 ) : (
                   <div className="flex flex-col space-y-4">
                     <button
