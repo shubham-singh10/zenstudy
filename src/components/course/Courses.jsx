@@ -55,7 +55,7 @@ const CourseCard = ({ course }) => {
         ) : (<button
           className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
           onClick={() =>
-            navigate("/course-details", { state: { courseId: course._id } })
+            navigate(`/course-details/${course._id}`)
           }
         >
           View Details

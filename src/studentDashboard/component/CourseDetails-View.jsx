@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { GrLanguage } from "react-icons/gr";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import he from "he";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
@@ -25,7 +25,8 @@ const CourseDetailsView = () => {
   const { width, height } = useWindowSize();
   const navigate = useNavigate();
   const location = useLocation();
-  const { courseId } = location.state || {};
+  const { courseId } = useParams();
+ 
 
   useEffect(() => {
     if (discount) {
@@ -94,6 +95,7 @@ const CourseDetailsView = () => {
   }
 
   if (error) {
+    navigate('/course-details-student');
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-4xl font-bold text-red-600">

@@ -1,7 +1,7 @@
 import React, {Fragment, useEffect, useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { GrLanguage } from "react-icons/gr";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import he from "he";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
@@ -21,7 +21,7 @@ const CourseDetailsView = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const { courseId } = location.state || {};
+  const { courseId } = useParams();
   const [currentUser, setCurrentUser] = useState(false);
 
   const token = Cookies.get("access_tokennew");
@@ -81,6 +81,7 @@ const CourseDetailsView = () => {
       return data; // Optionally return the response data
     } catch (error) {
       console.error("Error applying coupon:", error);
+
       setCouponLoading(false);
     }
   };
@@ -148,6 +149,7 @@ const CourseDetailsView = () => {
   }
 
   if (error) {
+    navigate('/courses')
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-4xl font-bold text-red-600">

@@ -37,7 +37,7 @@ function App() {
             <Route path="/about" element={<About />} />            
             <Route path="/courses" element={<Courses />} />
             <Route path="/coursesNew" element={<CoursesNew />} />
-            <Route path="/course-details" element={<CourseDetails />} />
+            <Route path="/course-details/:courseId" element={<CourseDetails />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/sign-Up" element={<SignUp />} />
             <Route path="/login" element={<SignInDynamic />} />
@@ -47,7 +47,7 @@ function App() {
           <Route element={<PrivateRoute element={<StudentLayout />} />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/course-details-student" element={<CourseDetailsStudent />} />
-            <Route path="/course-details-view" element={<CourseDetailsStudentView />} />
+            <Route path="/course-details-view/:courseId" element={<CourseDetailsStudentView />} />
             <Route path="/mycourse" element={<MyCourses />} />
             <Route path="/upsc-student" element={<UPSCStudent />} />
             <Route path="/watch-course/:id" element={<WatchCourse />} />
