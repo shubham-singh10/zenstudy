@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 const WatchCourse = () => {
   const [selectedTab, setSelectedTab] = useState("About Video");
-  const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [courses, setCourses] = useState([]);
   const [url, setUrl] = useState(null);
   const [selectedVideoTitle, setSelectedVideoTitle] = useState(null);
   const [selectedVideoDesc, setSelectedVideoDesc] = useState(null);
-  const { id } = location.state || {};
+  const { id } = useParams()
   const navigate = useNavigate()
   // const tabs = ["About Video", "Q&A", "Reviews"];
   const tabs = ["About Video"];
-
+  console.log("Id: ", id)
 
   useEffect(() => {
     const myCourse = async () => {
@@ -94,19 +93,10 @@ const WatchCourse = () => {
       <div className="flex flex-col lg:flex-row lg:space-x-8">
         {/* Video Section */}
         <div className="lg:w-2/3">
-          {/* <div>
-            <iframe
-              src={`${url}`}
-              title="zenstudy"
-              className="top-0 left-0 h-[70vh] w-[100%]"
-              allowFullScreen
-              allow="encrypted-media"
-            ></iframe>
-          </div> */}
           <div>
             <iframe
               src={`${url}`}
-              frameborder="0"
+              frameBorder="0"
               className="top-0 left-0 h-[70vh] w-[100%]"
               allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
               title="zenstudy"></iframe>

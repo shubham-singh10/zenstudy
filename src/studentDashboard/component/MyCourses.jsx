@@ -48,7 +48,7 @@ const CourseCard = ({ course }) => {
                         <div style={{ width: `progress %` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
                     </div>
                 </div>
-                <button className="bg-blue-600 hover:bg-blue-700 mt-2 text-white font-bold py-1 px-3 rounded-full" onClick={() => navigate("/watch-course", { state: { id: course._id } })}>Continue Learning</button>
+                <button className="bg-blue-600 hover:bg-blue-700 mt-2 text-white font-bold py-1 px-3 rounded-full" onClick={() => navigate(`/watch-course/${course._id}`)}>Continue Learning</button>
             </div>
         </div>
     );
