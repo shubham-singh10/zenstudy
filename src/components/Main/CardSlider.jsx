@@ -104,9 +104,7 @@ function CardSlider({ courseData }) {
                     <button className="custom-btn"
                       
                       onClick={() =>
-                        navigate("/course-details", {
-                          state: { courseId: d._id },
-                        })
+                        navigate(`/course-details/${d._id}`)
                       }
                     >
                 <span className="custom-btn-bg"></span>
