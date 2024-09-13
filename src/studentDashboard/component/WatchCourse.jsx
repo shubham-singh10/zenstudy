@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ZoomMtg } from "@zoom/meetingsdk";
-import "./main.css";
+import Cookies from "js-cookie";
 
-ZoomMtg.preLoadWasm();
-ZoomMtg.prepareWebSDK();
+// ZoomMtg.preLoadWasm();
+// ZoomMtg.prepareWebSDK();
 
 const WatchCourse = () => {
   const [selectedTab, setSelectedTab] = useState("About Video");
@@ -17,56 +17,57 @@ const WatchCourse = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const tabs = ["About Video"];
-
-  const [formData, setFormData] = useState({
-    meetingNumber: "",
-  });
+  const [isMeetingStarted, setIsMeetingStarted] = useState(false);
+  const [meetingId, setmeetingId] = useState(null)
   const [meetloading, setMeetLoading] = useState(false);
+  const token = Cookies.get("access_tokennew");
 
-  console.log("meet", formData);
-  
   useEffect(() => {
     const myCourse = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API}zenstudy/api/payment/watchCourse`,
+          `${process.env.REACT_APP_API2}zenstudy/api/payment/watchCourse`,
           {
             method: "POST",
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ id }),
+            body: JSON.stringify({ id }),  // id from useParams
           }
         );
+  
         if (response.status === 204) {
-          setCourses([]);
-          setLoading(false);
+          // Redirect if no courses found
+          navigate("/mycourse");
           return;
         }
-
+  
         if (!response.ok) {
+          // Handle network errors or invalid response
           throw new Error("Network response was not ok");
         }
+  
         const data = await response.json();
-        console.log("MyCourse_purchase", data.response);
+        // console.log("MyCourse_purchase", data.response);
+
         setCourses(data.response?.modules);
+        setmeetingId(data.response.course.meetingId);
         setLoading(false);
-        setFormData({...formData, meetingNumber:data.response.course.meetingId.meetingNumber})
+        
       } catch (error) {
-        //console.log("Error:", error);
-        setLoading(false);
+        console.error("Error:", error);
+        // Redirect to mycourse on error
         navigate("/mycourse");
       }
     };
-
+  
     myCourse();
-  }, [id]);
+  }, [id, navigate]);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  //************************************ Meeting Function Start ***************************************************************//
+  const onSubmit = async (id) => {
     setMeetLoading(true);
-
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API2}zenstudy/api/meeting/join`,
@@ -76,7 +77,7 @@ const WatchCourse = () => {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ meetingNumber: formData.meetingNumber }),
+          body: JSON.stringify({ id }),
         }
       );
 
@@ -106,7 +107,7 @@ const WatchCourse = () => {
             },
             body: JSON.stringify({
               meetingId: jdata._id,
-              participantsuser: formData.userId,
+              participantsuser: token,
             }),
           }
         );
@@ -138,12 +139,12 @@ const WatchCourse = () => {
   const startMeeting = (signature, meetingNumber, password, username) => {
     document.getElementById("zmmtg-root").style.display = "block";
 
-    console.log("Starting meeting with details:", {
-      signature,
-      meetingNumber,
-      password,
-      userName: username,
-    });
+    // console.log("Starting meeting with details:", {
+    //   signature,
+    //   meetingNumber,
+    //   password,
+    //   userName: username,
+    // });
 
     ZoomMtg.init({
       leaveUrl: "https://zenstudy-delta.vercel.app/",
@@ -151,7 +152,7 @@ const WatchCourse = () => {
       leaveOnPageUnload: true,
       success: (success) => {
         console.log(success);
-
+        setIsMeetingStarted(true)
         ZoomMtg.join({
           signature: signature,
           sdkKey: process.env.REACT_APP_ZOOM_SDK_KEY,
@@ -163,6 +164,7 @@ const WatchCourse = () => {
           zak: zakToken,
           success: (success) => {
             console.log(success);
+
           },
           error: (error) => {
             console.log(error);
@@ -174,6 +176,8 @@ const WatchCourse = () => {
       },
     });
   };
+
+  //************************************ Meeting Function End   ***************************************************************//
 
   useEffect(() => {
     if (courses.length > 0) {
@@ -229,11 +233,10 @@ const WatchCourse = () => {
               {tabs.map((tab) => (
                 <button
                   key={tab}
-                  className={`text-lg p-2 ${
-                    selectedTab === tab
-                      ? "border-b-2 border-blue-500 text-blue-500"
-                      : "text-gray-500"
-                  }`}
+                  className={`text-lg p-2 ${selectedTab === tab
+                    ? "border-b-2 border-blue-500 text-blue-500"
+                    : "text-gray-500"
+                    }`}
                   onClick={() => setSelectedTab(tab)}
                 >
                   {tab}
@@ -274,11 +277,10 @@ const WatchCourse = () => {
                   {module.videos.map((video, index) => (
                     <div
                       key={index}
-                      className={`flex items-center p-2 border-t ${
-                        selectedVideoTitle === video.videoTitle
-                          ? "text-blue-500"
-                          : ""
-                      }`}
+                      className={`flex items-center p-2 border-t ${selectedVideoTitle === video.videoTitle
+                        ? "text-blue-500"
+                        : ""
+                        }`}
                       onClick={() =>
                         handleVideoClick(
                           video.videoUrl,
@@ -297,20 +299,23 @@ const WatchCourse = () => {
             ))}
         </div>
       </div>
-      
 
-      <Link
-        to="https://wa.me/919810246095"
-        target="blank"
-        className="flex justify-end bg-blue-600  hover:bg-blue-700  text-white z-50 rounded-full fixed bottom-0 right-10 mb-6 text-xl animate-bounce ..."
+      {/* Meeting join button */}
+      {!isMeetingStarted && (
+        <button
+        onClick={() => onSubmit(meetingId)}
+        disabled={meetloading}
+        className={`flex justify-end ${meetloading ? "bg-red-500 hover:bg-red-700" : "bg-blue-600 hover:bg-blue-700 animate-glow"} text-white z-50 rounded-full fixed bottom-0 right-10 mb-6 text-xl py-2 px-8`}
       >
-        <button className="py-2 px-8">Join Live</button>
-      </Link>
+        {meetloading ? "Please wait...." : "Join Live"}
+      </button>
+      
+      )}
 
       <div id="zmmtg-root">
         {/* Zoom Meeting SDK Component View Rendered Here */}
       </div>
-      
+      {/* Meeting join button */}
     </div>
   );
 };

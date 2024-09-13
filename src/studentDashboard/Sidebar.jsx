@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FiUser, FiBook, FiCircle, FiPlayCircle } from 'react-icons/fi';
+import { FiUser, FiBook, FiCircle } from 'react-icons/fi';
 import { RiMenuFoldLine, RiMenuUnfoldLine } from "react-icons/ri";
 import { FaHome } from "react-icons/fa";
 
@@ -24,12 +24,7 @@ const links = [
         label: "My Courses",
         link: "/mycourse",
         icon: <FiCircle />,
-    },
-    {
-        label: "Live Classes",
-        link: "/live-class",
-        icon: <FiPlayCircle />,
-    },
+    }
 
 ];
 
