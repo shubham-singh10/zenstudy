@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 import { ZoomMtg } from "@zoom/meetingsdk";
@@ -36,32 +36,32 @@ const WatchCourse = () => {
             body: JSON.stringify({ id }),  // id from useParams
           }
         );
-  
+
         if (response.status === 204) {
           // Redirect if no courses found
           navigate("/mycourse");
           return;
         }
-  
+
         if (!response.ok) {
           // Handle network errors or invalid response
           throw new Error("Network response was not ok");
         }
-  
+
         const data = await response.json();
         // console.log("MyCourse_purchase", data.response);
 
         setCourses(data.response?.modules);
         setmeetingId(data.response.course.meetingId);
         setLoading(false);
-        
+
       } catch (error) {
         console.error("Error:", error);
         // Redirect to mycourse on error
         navigate("/mycourse");
       }
     };
-  
+
     myCourse();
   }, [id, navigate]);
 
@@ -301,16 +301,45 @@ const WatchCourse = () => {
       </div>
 
       {/* Meeting join button */}
-      {!isMeetingStarted && (
+      {!isMeetingStarted && meetingId && (
         <button
-        onClick={() => onSubmit(meetingId)}
-        disabled={meetloading}
-        className={`flex justify-end ${meetloading ? "bg-red-500 hover:bg-red-700" : "bg-blue-600 hover:bg-blue-700 animate-glow"} text-white z-50 rounded-full fixed bottom-0 right-10 mb-6 text-xl py-2 px-8`}
-      >
-        {meetloading ? "Please wait...." : "Join Live"}
-      </button>
-      
+          onClick={() => onSubmit(meetingId)}
+          disabled={meetloading}
+          className={`flex justify-end ${meetloading
+            ? "bg-red-500 hover:bg-red-700"
+            : "bg-blue-600 hover:bg-blue-700 animate-glow"
+            } text-white z-50 rounded-full fixed bottom-0 right-10 mb-6 text-xl py-2 px-8`}
+        >
+          {meetloading ? (
+            <Fragment>
+              <svg
+                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8h8a8 8 0 11-16 0z"
+                ></path>
+              </svg>
+              Please wait...
+            </Fragment>
+          ) : (
+            "Join Live"
+          )}
+        </button>
       )}
+
 
       <div id="zmmtg-root">
         {/* Zoom Meeting SDK Component View Rendered Here */}
