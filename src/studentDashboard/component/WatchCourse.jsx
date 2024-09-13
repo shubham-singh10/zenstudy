@@ -306,8 +306,8 @@ const WatchCourse = () => {
           onClick={() => onSubmit(meetingId)}
           disabled={meetloading}
           className={`flex justify-end ${meetloading
-            ? "bg-red-500 hover:bg-red-700"
-            : "bg-blue-600 hover:bg-blue-700 animate-glow"
+              ? "bg-red-500 hover:bg-red-700"
+              : "bg-blue-600 hover:bg-blue-700 animate-glow"
             } text-white z-50 rounded-full fixed bottom-0 right-10 mb-6 text-xl py-2 px-8`}
         >
           {meetloading ? (
