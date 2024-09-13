@@ -28,7 +28,7 @@ function ZoomClasses() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/meeting/join`, {
+      const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/meeting/join`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -52,7 +52,7 @@ function ZoomClasses() {
 
         // Add participant to the meeting
         const participantResponse = await fetch(
-          `${process.env.REACT_APP_API2}zenstudy/api/meeting/addParticipant`,
+          `${process.env.REACT_APP_API}zenstudy/api/meeting/addParticipant`,
           {
             method: "POST",
             headers: {

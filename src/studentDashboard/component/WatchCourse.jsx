@@ -26,7 +26,7 @@ const WatchCourse = () => {
     const myCourse = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API2}zenstudy/api/payment/watchCourse`,
+          `${process.env.REACT_APP_API}zenstudy/api/payment/watchCourse`,
           {
             method: "POST",
             headers: {
@@ -70,7 +70,7 @@ const WatchCourse = () => {
     setMeetLoading(true);
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API2}zenstudy/api/meeting/join`,
+        `${process.env.REACT_APP_API}zenstudy/api/meeting/join`,
         {
           method: "POST",
           headers: {
@@ -98,7 +98,7 @@ const WatchCourse = () => {
 
         // Add participant to the meeting
         const participantResponse = await fetch(
-          `${process.env.REACT_APP_API2}zenstudy/api/meeting/addParticipant`,
+          `${process.env.REACT_APP_API}zenstudy/api/meeting/addParticipant`,
           {
             method: "POST",
             headers: {
@@ -147,7 +147,7 @@ const WatchCourse = () => {
     // });
 
     ZoomMtg.init({
-      leaveUrl: "https://zenstudy-delta.vercel.app/",
+      leaveUrl: "https://zenstudy.in/",
       patchJsMedia: true,
       leaveOnPageUnload: true,
       success: (success) => {
