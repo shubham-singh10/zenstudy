@@ -75,7 +75,8 @@ const SignIn = () => {
             localStorage.setItem("userData", JSON.stringify(resData));
 
             const from = location.state?.from || '/course-details-student';
-            navigate(from); // Redirect back to the previous page or to the default page
+            // navigate(from); 
+            window.location.pathname = from
 
         } catch (error) {
             Swal.fire({

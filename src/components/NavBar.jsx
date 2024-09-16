@@ -19,7 +19,7 @@ const navLink = [
     className: "hover:text-[#054BB4]"
   },
   {
-    label: "Article",
+    label: "Blogs",
     link: "https://blog.zenstudy.in/",
     className: "hover:text-[#054BB4]"
   },
@@ -56,6 +56,7 @@ const NavBar = () => {
   const handleLogout = () => {
     Cookies.remove('access_tokennew');
     navigate('/');
+    window.location.reload();
   };
 
   return (

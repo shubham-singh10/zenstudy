@@ -3,7 +3,7 @@ import { IoClose } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FiUser, FiBook, FiCircle, FiLogOut } from "react-icons/fi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaRegUserCircle } from "react-icons/fa";
 import Cookies from "js-cookie";
 
 const links = [
@@ -140,7 +140,7 @@ const StudentDashNavbar = () => {
       <div className="flex items-center justify-between gap-7">
         {/* <IoNotifications className="lg:text-2xl md:text-xl text-lg text-[#054BB4]" /> */}
         <div className="relative">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={toggleDropdown}>
+          <div className="flex items-center gap-4 cursor-pointer" onClick={toggleDropdown}>
             <div className="flex flex-col items-end">
               <p className="text-[#054BB4] font-semibold sm:text-sm md:text-lg lg:text-lg">
                 {userData?.name}
@@ -149,11 +149,14 @@ const StudentDashNavbar = () => {
                 // <p className="text-[#CADEFB] text-sm">Student</p>
             }
             </div>
-            <img
-              src={userData?.avatar || "https://i.ibb.co/GcKk9fh/images-2.jpg"}
-              alt="Profile"
-              className="lg:w-14 md:w-12 w-10 m-2 rounded-full"
-            />
+            {
+            // <img
+            //   src={userData?.avatar || "https://i.ibb.co/GcKk9fh/images-2.jpg"}
+            //   alt="Profile"
+            //   className="lg:w-14 md:w-12 w-10 m-2 rounded-full"
+            // />
+            }
+            <FaRegUserCircle  className="text-3xl text-blue-800 hover:text-blue-600"/>
           </div>
           {isDropdownOpen && (
             <div

@@ -1,5 +1,5 @@
 import { Fragment, Suspense, lazy } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import Loading from "./Loading.jsx";
 import MainLayout from "./MainLayout.jsx";
 import StudentLayout from "./studentDashboard/StudentLayout.jsx";
@@ -7,6 +7,7 @@ import PrivateRoute from "./PrivateRoute.jsx";
 import { Toaster } from "react-hot-toast";
 import CoursesNew from "./components/course/CoursesNew.jsx";
 import SignInDynamic from "./components/auth/Sign-inDynamic.jsx";
+import Cookies from "js-cookie";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -26,6 +27,11 @@ const UPSCStudent = lazy(() => import("./studentDashboard/component/Upse.jsx"))
 const WatchCourse = lazy(() => import("./studentDashboard/component/WatchCourse.jsx"))
 // const ZoomClasses = lazy(() => import("./studentDashboard/component/ZoomClasses.jsx"))
 
+function isAuthenticated() {
+  
+  return !!Cookies.get('access_tokennew');
+}
+
 function App() {
   return (
     <Fragment>
@@ -39,9 +45,18 @@ function App() {
             <Route path="/coursesNew" element={<CoursesNew />} />
             <Route path="/course-details/:courseId" element={<CourseDetails />} />
             <Route path="/contact" element={<ContactUs />} />
-            <Route path="/sign-Up" element={<SignUp />} />
-            <Route path="/login" element={<SignInDynamic />} />
-            <Route path="/sign-In" element={<SignIn />} />
+            <Route 
+            path="/sign-Up" 
+            element={isAuthenticated() ? <Navigate to="/" /> : <SignUp />} 
+          />
+          <Route 
+            path="/login/:courseId" 
+            element={isAuthenticated() ? <Navigate to="/" /> : <SignInDynamic />} 
+          />
+          <Route 
+            path="/sign-In" 
+            element={isAuthenticated() ? <Navigate to="/" /> : <SignIn />} 
+          />
             <Route path="/reset-password" element={<ResetPassword />} />
           </Route>
           <Route element={<PrivateRoute element={<StudentLayout />} />}>

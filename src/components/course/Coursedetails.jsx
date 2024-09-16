@@ -1,7 +1,7 @@
 import React, {Fragment, useEffect, useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { GrLanguage } from "react-icons/gr";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import he from "he";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
@@ -20,7 +20,6 @@ const CourseDetailsView = () => {
   const [couponLoading, setCouponLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const location = useLocation();
   const { courseId } = useParams();
   const [currentUser, setCurrentUser] = useState(false);
 
@@ -443,9 +442,7 @@ const CourseDetailsView = () => {
             ) : (
               <button
                 onClick={() =>
-                  navigate("/login", {
-                    state: { courseId: courseId },
-                  })
+                  navigate(`/login/${courseId}`)
                 }
                 className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
               >

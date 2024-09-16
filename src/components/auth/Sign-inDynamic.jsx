@@ -2,13 +2,9 @@ import React, { useState } from "react";
 import {
   FiEye,
   FiEyeOff,
-  FiFacebook,
-  FiInstagram,
-  FiTwitter,
-  FiYoutube,
 } from "react-icons/fi";
 import { Box, TextField, InputAdornment } from "@mui/material";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { MdPhone } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
@@ -26,9 +22,8 @@ const SignInDynamic = () => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const location = useLocation();
-  const { courseId } = location.state || {};
-  console.log("CourseId", courseId);
+  const { courseId } = useParams()
+ 
   // Intersection Observers
   const { ref: slideUpRef, inView: slideUpInView } = useInView({
     triggerOnce: true,
@@ -91,7 +86,7 @@ const SignInDynamic = () => {
       setLoading(false);
       Cookies.set("access_tokennew", resData._id);
       localStorage.setItem("userData", JSON.stringify(resData));
-      navigate("/course-details", { state: { courseId: courseId } });
+      navigate(`/course-details/${courseId}`);
     } catch (error) {
       Swal.fire({
         icon: "error",

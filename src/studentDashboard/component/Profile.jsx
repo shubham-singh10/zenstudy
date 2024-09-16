@@ -126,18 +126,20 @@ const Profile = () => {
 
     return (
         <form className="w-full mx-auto p-4 space-y-4" onSubmit={(e) => e.preventDefault()}>
-            <div className="flex flex-col items-center mt-0">
-                <img src={image} alt="Profile" className="rounded-full w-44 mb-4" />
-                <label className="flex bg-[#054BB4] text-white w-full md:w-1/3 items-center justify-center py-2 cursor-pointer">
-                    <input
-                        type="file"
-                        className="hidden"
-                        onChange={handleImageChange}
-                    />
-                    <span className="px-4">Choose File</span>
-                    <FiUpload className="text-2xl" />
-                </label>
-            </div>
+            {
+            //     <div className="flex flex-col items-center mt-0">
+            //     <img src={image} alt="Profile" className="rounded-full w-44 mb-4" />
+            //     <label className="flex bg-[#054BB4] text-white w-full md:w-1/3 items-center justify-center py-2 cursor-pointer">
+            //         <input
+            //             type="file"
+            //             className="hidden"
+            //             onChange={handleImageChange}
+            //         />
+            //         <span className="px-4">Choose File</span>
+            //         <FiUpload className="text-2xl" />
+            //     </label>
+            // </div>
+        }
             <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
                 <TextField
                     label="Name"
