@@ -29,7 +29,9 @@ const CourseCard = ({ course }) => {
           src={imageSrc}
           crossOrigin="anonymous"
           alt="Thumbnail"
-          className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${loading ? "opacity-0" : "opacity-100"}`}
+          className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${
+            loading ? "opacity-0" : "opacity-100"
+          }`}
           onLoad={() => {
             setLoading(false);
             setImageSrc(course.imageUrl);
@@ -37,29 +39,32 @@ const CourseCard = ({ course }) => {
         />
       </div>
 
-      <div className="px-6 py-4">
-        <div className="font-bold text-lg mb-1 h-20 text-blue-600">
+      <div className="px-6 py-4 h-28">
+        <div className="font-bold text-sm mb-1  text-blue-600">
           {course.title}
         </div>
 
         {isUpcoming ? (
-          <p className="text-gray-600 text-md mt-2">Expected: October 2024</p>
-        ) : (<p className="text-gray-600 text-md mt-1">
-          Created at: {formatDate(course.createdAt)}
-        </p>)}
+          <p className="text-gray-600 text-xs mt-2">Expected: October 2024</p>
+        ) : (
+          <p className="text-gray-600 text-xs mt-1">
+            Created at: {formatDate(course.createdAt)}
+          </p>
+        )}
       </div>
-      <div className="flex flex-row px-6 pt-4 pb-2 justify-between items-center border-t-2">
-        <p className="text-blue-600 font-bold text-2xl">₹ {course.price}</p>
+      <div className="flex flex-row px-6 pt-4  justify-between items-center border-t-2">
+        <p className="text-blue-600 font-bold text-xl">₹ {course.price}</p>
         {isUpcoming ? (
           <p className="text-red-600 font-bold">Coming Soon</p>
-        ) : (<button
-          className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
-          onClick={() =>
-            navigate(`/course-details/${course._id}`)
-          }
-        >
-          View Details
-        </button>)}
+        ) : (
+          <button
+            className="custom-btn"
+            onClick={() => navigate(`/course-details/${course._id}`)}
+          >
+            <span className="custom-btn-bg"></span>
+            <span className="custom-btn-text">View Details</span>
+          </button>
+        )}
       </div>
     </div>
   );
@@ -70,12 +75,12 @@ const Courses = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const userId = Cookies.get("access_tokennew")
-    let api
-    if (userId){
-      api = `getCoursesPurc/${userId}`
-    } else{
-      api = "getCoursesP"
+    const userId = Cookies.get("access_tokennew");
+    let api;
+    if (userId) {
+      api = `getCoursesPurc/${userId}`;
+    } else {
+      api = "getCoursesP";
     }
     const getcourse = async () => {
       try {
@@ -90,7 +95,6 @@ const Courses = () => {
           }
         );
 
-
         if (response.status === 204) {
           setCourse([]);
           setLoading(false);
@@ -103,10 +107,12 @@ const Courses = () => {
         const data = await response.json();
         // console.log("Course_data", data)
         // setCourse(data);
-        setCourse(data.map(course => ({
-          ...course,
-          imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`
-        })));
+        setCourse(
+          data.map((course) => ({
+            ...course,
+            imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`,
+          }))
+        );
         setLoading(false);
       } catch (error) {
         toast.error(`Oops!! Something went wrong`, {
@@ -118,14 +124,15 @@ const Courses = () => {
     getcourse();
   }, []);
 
-
   if (loading) {
-    return <Loading />
+    return <Loading />;
   }
   return (
     <div className="container mx-auto p-4">
       {courses.length === 0 ? (
-        <div className="flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl  h-screen text-gray-500">No courses found...</div>
+        <div className="flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl  h-screen text-gray-500">
+          No courses found...
+        </div>
       ) : (
         <Fragment>
           {" "}
@@ -140,6 +147,5 @@ const Courses = () => {
     </div>
   );
 };
-
 
 export default Courses;

@@ -265,7 +265,7 @@ const ResetPassword = () => {
                             {loading ? (
                                 <button disabled className="bg-red-600 text-white py-2 px-10 rounded-full">Please wait...</button>
                             ) : (
-                                <button type="submit" className="bg-blue-600 text-white py-2 px-10 rounded-full">Reset</button>
+                                <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-10 rounded-full">Reset</button>
                             )}
                         </div>
                     </form>
@@ -287,7 +287,7 @@ const ResetPassword = () => {
                             {otploading ? (
                                 <button disabled className="bg-red-600 text-white py-2 px-10 rounded-full">Please wait...</button>
                             ) : (
-                                <button type="submit" className="bg-blue-600 text-white py-2 px-10 rounded-full hover:bg-blue-800">Verify OTP</button>
+                                <button type="submit" className="bg-blue-600 text-white py-2 px-10 rounded-full hover:bg-blue-700">Verify OTP</button>
                             )}
                             {otpSent && <p className="text-gray-500 text-md mt-1">Resend OTP in <span className='text-blue-600'>{timer}</span> seconds</p>}
                             {!otpSent && <button onClick={resendOtp} className="w-full mt-2 py-2 px-4 bg-yellow-500 text-white rounded-full hover:bg-yellow-600">Resend OTP</button>}

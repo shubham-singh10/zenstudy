@@ -253,7 +253,7 @@ const ContactUs = () => {
 
             <button
               type="submit"
-              className="bg-blue-600 text-white py-2 px-4 rounded-md"
+              className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md"
               disabled={Loading}
             >
               {Loading ? "Please wait..." : "Submit"}

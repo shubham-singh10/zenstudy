@@ -315,7 +315,7 @@ const SignUp = () => {
                             {loading ? (
                                 <button disabled className="bg-red-600 text-white py-2 lg:py-2 lg:px-10 px-4 rounded-full">Please wait...</button>
                             ) : (
-                                <button type="submit" className="bg-blue-600 text-white py-2 lg:py-2 lg:px-10 px-4 rounded-full">Register</button>
+                                <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white py-2 lg:py-2 lg:px-10 px-4 rounded-full">Register</button>
                             )}
                         </div>
                     </animated.form>
