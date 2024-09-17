@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FiEye, FiEyeOff, FiFacebook, FiInstagram, FiTwitter, FiYoutube } from "react-icons/fi";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Box, TextField, InputAdornment } from '@mui/material';

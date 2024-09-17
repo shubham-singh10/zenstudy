@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { FiEye, FiEyeOff, FiFacebook, FiInstagram, FiTwitter, FiYoutube } from "react-icons/fi";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Box, TextField, InputAdornment } from '@mui/material';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { MdPhone } from 'react-icons/md';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
@@ -14,7 +14,6 @@ const SignIn = () => {
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const navigate = useNavigate();
     const location = useLocation();
 
     // Intersection Observers

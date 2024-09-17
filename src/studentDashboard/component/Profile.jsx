@@ -3,7 +3,7 @@ import { FiUpload } from 'react-icons/fi';
 import { TextField, Button } from '@mui/material';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';// Add this package
-
+import axios from "axios"
 const Profile = () => {
     const [userData, setUserData] = useState({
         name: '',
@@ -16,8 +16,9 @@ const Profile = () => {
         Pincode: '',
         avatar: ""
     });
-    const [image, setImage] = useState('https://i.ibb.co/GcKk9fh/images-2.jpg');
+    const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [Dloading, setDLoading] = useState(true);
     const token = Cookies.get("access_tokennew");
     let userId = null;
 
@@ -32,10 +33,12 @@ const Profile = () => {
     // Handel Image Update
     const handleImageChange = (e) => {
         const file = e.target.files[0];
+        setUserData({...userData, avatar : file})
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImage(reader.result);
+                
             };
             reader.readAsDataURL(file);
         }
@@ -43,6 +46,7 @@ const Profile = () => {
 
     //Get User Data API
     const getUserData = async (userId) => {
+        setDLoading(true)
         try {
             const response = await fetch(
                 `${process.env.REACT_APP_API}zenstudy/api/user/userdetail/${userId}`,
@@ -58,14 +62,24 @@ const Profile = () => {
                 throw new Error(errorData.message || "Failed to fetch user data");
             }
             const resData = await response.json();
-            ////console.log("User_ProfileData", resData)
-            setUserData(resData.userdetail || {});
+            // console.log("Responsiocve: ", resData.userdetail)
+           
+            const imageUrl = `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${resData.userdetail.avatar}`  
+            
+            const updatedUserDetail = {
+                ...resData.userdetail,
+                imageUrl
+              };
+            //   console.log("Image: ",updatedUserDetail )
+            setUserData(updatedUserDetail || {});
+            setDLoading(false)
         } catch (error) {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: `Error: ${error.message}`,
             });
+            setDLoading(false)
         }
     };
 
@@ -74,24 +88,18 @@ const Profile = () => {
         if (!userId) return;
 
         setLoading(true);
-        // //console.log("User_Data", userData)
+        // console.log("User_Data: ", userData)
         try {
-            const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/user/updatenew/${userId}`, {
-                method: 'PUT',
+            const response = await axios.put(`${process.env.REACT_APP_API}zenstudy/api/user/updatenew/${userId}`,
+                userData, {
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Content-Type': 'multipart/form-data',
                 },
                 body: JSON.stringify(userData)
             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Failed to update user');
-            }
-            const resData = await response.json()
-            // //console.log("Response_Data", resData)
-            if (resData.message === "Success") {
+            // console.log("Response_Data", response.data.user)
+            if (response.data.message === "Success") {
                 Swal.fire({
                     icon: 'success',
                     title: 'Success',
@@ -112,7 +120,9 @@ const Profile = () => {
 
     //User for set Image
     useEffect(() => {
-        if (userData?.avatar) {
+        if (userData?.imageUrl) {
+            setImage(userData.imageUrl);
+        } else {
             setImage(userData.avatar);
         }
     }, [userData])
@@ -124,22 +134,29 @@ const Profile = () => {
         }
     }, [userId]);
 
+    if(Dloading){
+        return(
+            <div>
+                <h2>Please wait.....</h2>
+            </div>
+        )
+    }
     return (
         <form className="w-full mx-auto p-4 space-y-4" onSubmit={(e) => e.preventDefault()}>
-            {
-            //     <div className="flex flex-col items-center mt-0">
-            //     <img src={image} alt="Profile" className="rounded-full w-44 mb-4" />
-            //     <label className="flex bg-[#054BB4] text-white w-full md:w-1/3 items-center justify-center py-2 cursor-pointer">
-            //         <input
-            //             type="file"
-            //             className="hidden"
-            //             onChange={handleImageChange}
-            //         />
-            //         <span className="px-4">Choose File</span>
-            //         <FiUpload className="text-2xl" />
-            //     </label>
-            // </div>
-        }
+
+            <div className="flex flex-col items-center mt-0">
+                <img src={image} crossOrigin="anonymous" alt="Profile" className="rounded-full max-w-44 mb-4" />
+                <label className="flex bg-[#054BB4] text-white w-full md:w-1/3 items-center justify-center py-2 cursor-pointer">
+                    <input
+                        type="file"
+                        className="hidden"
+                        onChange={handleImageChange}
+                    />
+                    <span className="px-4">Choose File</span>
+                    <FiUpload className="text-2xl" />
+                </label>
+            </div>
+
             <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
                 <TextField
                     label="Name"
