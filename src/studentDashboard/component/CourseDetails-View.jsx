@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { GrLanguage } from "react-icons/gr";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import he from "he";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
@@ -24,7 +24,6 @@ const CourseDetailsView = () => {
   const [showConfetti, setShowConfetti] = useState(true);
   const { width, height } = useWindowSize();
   const navigate = useNavigate();
-  const location = useLocation();
   const { courseId } = useParams();
  
 

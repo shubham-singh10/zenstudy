@@ -115,7 +115,7 @@ console.log(userId)
 
 
     getcourse();
-  }, []);
+  }, [userId]);
 
 
   const filteredData = courses.filter((course) => {

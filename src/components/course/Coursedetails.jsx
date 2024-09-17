@@ -322,7 +322,7 @@ const CourseDetailsView = () => {
                 <div key={firstModule.videos[0]._id}>
                   <iframe
                     src={firstModule.videos[0].videoUrl || "no videos"}
-                    frameborder="0"
+                    frameBorder="0"
                     className="top-0 left-0 h-[30vh] w-[100%] "
                     allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
                     title="zenstudy"

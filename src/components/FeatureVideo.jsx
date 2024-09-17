@@ -44,11 +44,11 @@ const FeatureVideo = () => {
     to: { x: inViewOtherVideos ? 0 : -100, opacity: inViewOtherVideos ? 1 : 0 },
     config: { duration: 500 },
   });
-  const slideRight = useSpring({
-    from: { x: 100, opacity: 0 },
-    to: { x: inViewOtherVideos ? 0 : 100, opacity: inViewOtherVideos ? 1 : 0 },
-    config: { duration: 500 },
-  });
+  // const slideRight = useSpring({
+  //   from: { x: 100, opacity: 0 },
+  //   to: { x: inViewOtherVideos ? 0 : 100, opacity: inViewOtherVideos ? 1 : 0 },
+  //   config: { duration: 500 },
+  // });
 
   return (
     <div className="w-full mt-10 min-h-[70vh] relative">
