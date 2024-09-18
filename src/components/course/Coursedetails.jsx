@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { GrLanguage } from "react-icons/gr";
 import { useNavigate, useParams } from "react-router-dom";
@@ -8,6 +8,8 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
+import { MdSlowMotionVideo } from "react-icons/md";
+import { FaLock, FaLockOpen } from "react-icons/fa";
 
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
@@ -127,7 +129,7 @@ const CourseDetailsView = () => {
         }
         const data = await response.json();
 
-        // console.log("Course_data", data);
+        //console.log("Course_data: ", data);
         setCoursePost(data.coursedetail);
         setLoading(false);
       } catch (error) {
@@ -148,7 +150,7 @@ const CourseDetailsView = () => {
   }
 
   if (error) {
-    navigate('/courses')
+    navigate("/courses");
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-4xl font-bold text-red-600">
@@ -293,24 +295,10 @@ const CourseDetailsView = () => {
           <h2 className="text-lg md:text-xl font-bold">About Course</h2>
           <ul className="mt-4 space-y-2 flex flex-col gap-4">
             <li className="flex items-start text-justify">
-              Scoring well in the UPSC mains exam requires a strategic approach,
-              and understanding the importance of previous years' questions
-              (PYQs) is crucial. PYQs help you identify the patterns, trends,
-              and types of questions frequently asked, which can guide your
-              preparation and focus on key areas. Developing the ability to
-              write effective answers, even with limited information, is
-              essential to maximize your marks. This skill helps you demonstrate
-              a comprehensive understanding of the subject and meet the exam's
-              demands.
+              {coursePost?.other1}
             </li>
             <li className="flex items-start text-justify">
-              Our course offers detailed explanations of PYQs, teaching you how
-              to tackle various question types and structure your answers
-              effectively. Mains performance is critical for making it onto the
-              list, while the interview stage determines your final rank. By
-              joining our course, you'll gain insights into the nuances of the
-              exam and learn how to address the questions holistically, ensuring
-              you cover every aspect and increase your chances of success.
+             {coursePost?.other2}
             </li>
           </ul>
         </div>
@@ -395,55 +383,50 @@ const CourseDetailsView = () => {
             </p>
 
             {currentUser ? (
-
               <button
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center"
-              onClick={() =>
-                handlePayment(
-                  discount
-                    ? Math.round(discount.discount) === 0
-                      ? 1
-                      : Math.round(discount.discount)
-                    : coursePost?.price
-                )
-              }
-              disabled={payloading}
-            >
-              {payloading ? (
-                <span className="flex items-center">
-                  <svg
-                    className="w-5 h-5 mr-2 animate-spin text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
-                    ></path>
-                  </svg>
-                  Please wait...
-                </span>
-              ) : (
-                "Pay Now"
-              )}
-            </button>
-
-              
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center"
+                onClick={() =>
+                  handlePayment(
+                    discount
+                      ? Math.round(discount.discount) === 0
+                        ? 1
+                        : Math.round(discount.discount)
+                      : coursePost?.price
+                  )
+                }
+                disabled={payloading}
+              >
+                {payloading ? (
+                  <span className="flex items-center">
+                    <svg
+                      className="w-5 h-5 mr-2 animate-spin text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
+                      ></path>
+                    </svg>
+                    Please wait...
+                  </span>
+                ) : (
+                  "Pay Now"
+                )}
+              </button>
             ) : (
               <button
-                onClick={() =>
-                  navigate(`/login/${courseId}`)
-                }
+                onClick={() => navigate(`/login/${courseId}`)}
                 className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
               >
                 Pay Now
@@ -455,33 +438,48 @@ const CourseDetailsView = () => {
 
       <div className="p-2 md:p-12 lg:p-12 bg-blue-100 ">
         {coursePost.modules.map((title, index) => (
-          <div
+          <details
             key={index}
             className="mb-4 bg-white rounded-2xl shadow overflow-hidden"
           >
-            <div className="flex items-center p-4 cursor-pointer">
+            <summary className="flex items-center p-4 cursor-pointer">
               <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center mr-4" />
 
               <span className="flex-1 font-semibold">{title.moduleTitle}</span>
-
-              {
-                //  <div className="transform rotate-0 transition-transform">
-                //         <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                //             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                //         </svg>
-                //     </div>
-              }
-            </div>
-            {
-              //     title.videos.length > 0 ? (title.videos.map(({ _id, videoTitle }) => (
-              //     <div className="pb-2 px-10 flex items-center justify-start" key={_id}>
-              //         <MdSlowMotionVideo className='text-blue-500' />
-              //         <p className='px-4 text-gray-500 bg-gray-50 w-full '>{videoTitle || "no videos"}</p>
-              //         <FaLock className='text-blue-400 ' />
-              //     </div>
-              // ))) : (<h2>No videos</h2>)
-            }
-          </div>
+              <div className="transform rotate-0 transition-transform">
+                <svg
+                  className="w-4 h-4 text-blue-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </div>
+            </summary>
+            {title.videos.length > 0 ? (
+              title.videos.map(({ _id, videoTitle, IsFree }) => (
+                <div
+                  className="pb-2 px-10 flex items-center justify-start"
+                  key={_id}
+                >
+                  <MdSlowMotionVideo className="text-blue-500" />
+                  <p className="px-4 text-gray-500 bg-gray-50 w-full ">
+                    {videoTitle || "no videos"}
+                  </p>
+                  {IsFree ? (<FaLockOpen className="text-blue-400 " />) : (<FaLock className="text-blue-400 " />)}
+                </div>
+              ))
+            ) : (
+              <h2>No videos</h2>
+            )}
+          </details>
         ))}
       </div>
     </div>
