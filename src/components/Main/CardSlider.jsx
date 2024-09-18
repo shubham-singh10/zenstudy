@@ -20,8 +20,8 @@ function CardSlider({ courseData }) {
   });
 
   const settings = {
-    dots: true,
-    infinite: true,
+    dots: false,
+    infinite: false,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
