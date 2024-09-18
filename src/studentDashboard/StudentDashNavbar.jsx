@@ -89,6 +89,7 @@ const StudentDashNavbar = () => {
     Cookies.remove("access_tokennew");
     navigate("/");
     setIsOpen(!isOpen);
+    window.location.reload()
   };
 
   const closeDropdown = () => {
