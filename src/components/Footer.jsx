@@ -164,7 +164,7 @@ const Footer = () => {
         {/* Lower Section */}
         <div className="w-full lg:w-1/2 mt-4 flex flex-wrap">
           <div className="w-full md:w-1/2 flex flex-col gap-7 text-sm mb-5 md:mb-0">
-            <div className="text-2xl font-semibold">Get In Touch</div>
+            <div className="text-2xl font-semibold">Contact with us</div>
             <div className="flex items-start gap-2">
               <IoCallSharp className="text-xl" />
               <p>+91- 9810246095</p>
@@ -183,7 +183,7 @@ const Footer = () => {
               onSubmit={onSubmit}
             >
               <p className=" text-2xl font-semibold text-center ">
-                Contact with us
+                Get In Touch
               </p>
               <div className="relative">
                 <input
