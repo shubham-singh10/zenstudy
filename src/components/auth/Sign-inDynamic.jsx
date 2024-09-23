@@ -86,7 +86,8 @@ const SignInDynamic = () => {
       setLoading(false);
       Cookies.set("access_tokennew", resData._id);
       localStorage.setItem("userData", JSON.stringify(resData));
-      navigate(`/course-details/${courseId}`);
+      const from = `course-details/${courseId}`
+      window.location.pathname= from
     } catch (error) {
       Swal.fire({
         icon: "error",
