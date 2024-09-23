@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import CoursesNew from "./components/course/CoursesNew.jsx";
 import SignInDynamic from "./components/auth/Sign-inDynamic.jsx";
 import Cookies from "js-cookie";
+import OurTeam from "./components/OurTeam.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -40,7 +41,8 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />            
+            <Route path="/about" element={<About />} />     
+            <Route path="/ourteam" element={<OurTeam />} />            
             <Route path="/courses" element={<Courses />} />
             <Route path="/coursesNew" element={<CoursesNew />} />
             <Route path="/course-details/:courseId" element={<CourseDetails />} />

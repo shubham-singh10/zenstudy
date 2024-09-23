@@ -6,7 +6,7 @@ import he from "he";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import { MdSlowMotionVideo } from "react-icons/md";
-import { FaLock } from "react-icons/fa6";
+import { FaLock, FaLockOpen } from "react-icons/fa";
 import toast from "react-hot-toast";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
@@ -68,13 +68,15 @@ const CourseDetailsView = () => {
         }
         const data = await response.json();
         // console.log("Course_data", data);
+        
+        setCoursePost(data.coursedetail);
 
-        const imageUrl = `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`;
-        setCoursePost({
-          ...data.coursedetail,
-          imageUrl, // Add the imageUrl to the state
-        });
-        // setCoursePost(data.coursedetail);
+        // const imageUrl = `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`;
+        // setCoursePost({
+        //   ...data.coursedetail,
+        //   imageUrl, // Add the imageUrl to the state
+        // });
+       
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -257,6 +259,8 @@ const CourseDetailsView = () => {
     }
   };
 
+  const firstModule = coursePost.modules[0];
+
   return (
     <div className="">
       {showConfetti && discount && <Confetti width={width} height={height} />}
@@ -297,18 +301,23 @@ const CourseDetailsView = () => {
           </ul>
         </div>
         <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
-          <img
-            src={imageSrc}
-            crossOrigin="anonymous"
-            alt={coursePost?.title}
-            className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${
-              Iloading ? "opacity-0" : "opacity-100"
-            }`}
-            onLoad={() => {
-              setILoading(false);
-              setImageSrc(coursePost?.imageUrl);
-            }}
-          />
+           {firstModule && (
+            <div key={0}>
+              {firstModule.videos.length > 0 ? (
+                <div key={firstModule.videos[0]._id}>
+                  <iframe
+                    src={firstModule.videos[0].videoUrl || "no videos"}
+                    frameBorder="0"
+                    className="top-0 left-0 h-[30vh] w-[100%] "
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                    title="zenstudy"
+                  ></iframe>
+                </div>
+              ) : (
+                <div>No videos</div>
+              )}
+            </div>
+          )}
 
           <div className="px-6 py-4">
             <div className="font-bold text-xl mb-2 text-blue-600">
@@ -435,7 +444,7 @@ const CourseDetailsView = () => {
               </div>
             </summary>
             {title.videos.length > 0 ? (
-              title.videos.map(({ _id, videoTitle }) => (
+              title.videos.map(({ _id, videoTitle, IsFree }) => (
                 <div
                   className="pb-2 px-10 flex items-center justify-start"
                   key={_id}
@@ -444,7 +453,7 @@ const CourseDetailsView = () => {
                   <p className="px-4 text-gray-500 bg-gray-50 w-full ">
                     {videoTitle || "no videos"}
                   </p>
-                  <FaLock className="text-blue-400 " />
+                  {IsFree ? (<FaLockOpen className="text-blue-400 " />) : (<FaLock className="text-blue-400 " />)}
                 </div>
               ))
             ) : (
