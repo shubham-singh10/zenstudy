@@ -5,8 +5,8 @@ import OurTeamSlider from "./OurTeamSlider";
 const OurTeam = () => {
   return (
     <div>
-    <div className="mb-5"><h3 className="text-[#054BB4] font-bold text-2xl px-14 mt-10">Our Team</h3></div>
-    <div className="flex flex-col lg:flex-row items-center lg:justify-between px-6 lg:px-16 py-10 lg:py-20">
+    
+    <div className="flex flex-col lg:flex-row items-center lg:justify-between px-6 lg:px-16 py-20 lg:py-20">
     
        <div className="bg-blue-50 p-8 rounded-2xl shadow-lg flex flex-col items-center w-full md:w-[1/2] lg:w-[1/2]">
         {/* Profile Image */}
@@ -64,7 +64,7 @@ const OurTeam = () => {
     </div>
 
     <div>
-    <h3 className="text-3xl lg:text-left md:text-left text-center px-20 font-bold">Meet Our Team</h3>
+    <h3 className="text-3xl -mb-14 lg:mb-0 md:mb-0 lg:text-left md:text-left text-center px-20 font-bold">Meet Our Team</h3>
     <OurTeamSlider/>
     
     </div>

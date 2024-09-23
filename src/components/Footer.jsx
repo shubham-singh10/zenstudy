@@ -18,9 +18,7 @@ const Footer = () => {
     email: "",
     message: "",
   });
-  const [errors, setErrors] = useState({
-    email: "",
-  });
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,9 +27,7 @@ const Footer = () => {
       [name]: value,
     }));
 
-    if (name === "email") {
-      setErrors({ email: "" });
-    }
+  
   };
 
   const onSubmit = async (e) => {
