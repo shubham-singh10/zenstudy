@@ -70,7 +70,9 @@ function App() {
             <Route path="/watch-course/:id" element={<WatchCourse />} />
             {/* <Route path="/live-class" element={<ZoomClasses />} /> */}
           </Route>
-          <Route path="*" element={<div>Page Not Found</div>} />
+          <Route path="*" element={<div className="text-red-600 lg:text-4xl md:text-3xl text-2xl font-bold flex items-center justify-center h-screen ">
+            <div>Page Not Found</div>
+            </div>} />
         </Routes>
       </Suspense>
     </Fragment>

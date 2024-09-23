@@ -23,11 +23,11 @@ const navLink = [
     link: "https://blog.zenstudy.in/",
     className: "hover:text-[#054BB4]"
   },
-  // {
-  //   label: "UPSC",
-  //   link: "/upsc",
-  //   className: "hover:text-[#054BB4]"
-  // },
+  {
+    label: "Our Team",
+    link: "/ourteam",
+    className: "hover:text-[#054BB4]"
+  },
   {
     label: "Courses",
     link: "/courses",
