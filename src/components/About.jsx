@@ -3,7 +3,6 @@ import { ImQuotesLeft, ImQuotesRight } from "react-icons/im";
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer"; // Correct import
 const About = () => {
-
   const { ref: refSlideLeft, inView: inViewSlideLeft } = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -61,20 +60,11 @@ const About = () => {
 
   return (
     <div className="flex flex-col items-center bg-white gap-2">
-      {
-        //  <animated.h1
-        //   style={SlideUp}
-        //   ref={refSlideUp}
-        //   className="text-2xl mt-10 md:text-3xl lg:text-4xl mb-8 text-center text-[#054BB4] font-semibold"
-        // >
-        //   A<span className="border-b-4 border-[#054BB4]">bout U</span>s
-        // </animated.h1>
-      }
-      <div className="flex flex-col lg:flex-row items-center lg:items-start lg:px-12 md:px-6 px-4 py-4 lg:py-10">
+      <div className="flex flex-col-reverse lg:flex-row items-center lg:gap-0 gap-4 lg:items-start lg:px-12 md:px-6 px-4 py-4 lg:py-10">
         <animated.div
           style={SlideLeft}
           ref={refSlideLeft}
-          className="relative mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
+          className="relative lg:w-[50%] w-[100%] mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
         >
           <animated.img
             src="/assets/about1.webp"
@@ -87,7 +77,7 @@ const About = () => {
         <animated.div
           style={SlideRight}
           ref={refSlideRight}
-          className="flex flex-col items-start"
+          className="flex flex-col items-start lg:w-[50%] w-[100%]"
         >
           <div className="text-2xl mt-10 md:text-3xl lg:text-4xl mb-8 text-center text-[#054BB4] font-semibold">
             A<span className="border-b-4 border-[#054BB4]">bout U</span>s
@@ -125,42 +115,30 @@ const About = () => {
           </div>
         </animated.div>
       </div>
+
       <animated.div
         style={ScaleUp}
         ref={refScaleUp}
-        className="flex w-[100%] h-[120px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bg-blue-600 text-center justify-center items-center"
+        className="flex w-[100%] h-[90px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bg-blue-600 text-center justify-center items-center"
       >
-        <div className="h-full mt-20">
-          <ImQuotesLeft />{" "}
-        </div>
-        <p className="newfont lg:text-3xl md:text-2xl text-xl">
-          Making Education Imaginative.{" "}
-        </p>
-        <div className="h-full mt-20">
-          <ImQuotesRight />
-        </div>
+        <p className="newfont lg:text-3xl md:text-2xl text-xl">Our Mission </p>
       </animated.div>
 
-      <div className="flex flex-col-reverse lg:flex-row items-center lg:items-start lg:px-12 md:px-6 px-4 py-16">
+      <div className="flex flex-col lg:flex-row items-center lg:mt-0 lg:gap-0 gap-4 lg:items-center lg:px-12 md:px-6 px-4 py-10 ">
         <animated.div
           style={SlideLeft1}
           ref={refSlideLeft1}
-          className="flex flex-col items-start"
+          className="flex flex-col items-center justify-center"
         >
-        <div
-        className="text-2xl mt-10 md:text-3xl lg:text-4xl mb-8 text-center text-[#054BB4] font-semibold"
-      >
-        O<span className="border-b-4 border-[#054BB4]">ur Missio</span>n
-      </div>
           <div className="flex flex-col space-y-8">
             <div className="flex items-start">
               <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
-                  To create a dynamic and inclusive platform that leverages
-                  gamification to enhance learning experiences, ensuring that
-                  students from underserved urban and rural areas have access to
-                  high-quality education.
+                  At ZenStudy UPSC, after analyzing the UPSC pattern over the
+                  last decade and drawing from our team's 20 years of collective
+                  experience, we've learned that the UPSC syllabus is incredibly
+                  engaging for anyone eager to learn about India and the world.
                 </p>
               </div>
             </div>
@@ -168,8 +146,8 @@ const About = () => {
               <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
-                  We aim to foster creativity and imagination in learners,
-                  making education an engaging and a lifelong journey.
+                  However, students often struggle with outdated content, which
+                  doesn't feel rewarding during preparation.
                 </p>
               </div>
             </div>
@@ -177,9 +155,9 @@ const About = () => {
               <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
-                  Our goal is to expand across all sectors of education,
-                  providing comprehensive and adaptable solutions that meet the
-                  diverse needs of students and educators worldwide.
+                  At ZenStudy, we aim to evolve the process, making UPSC
+                  preparation more engaging, enhancing intellect, and enriching
+                  the learning experience about India and the world.
                 </p>
               </div>
             </div>
@@ -197,6 +175,191 @@ const About = () => {
           />
           <div className="absolute top-0 right-0 w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4  border-blue-600"></div>
           <div className="absolute bottom-0 left-0 w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></div>
+        </animated.div>
+      </div>
+
+      <animated.div
+        style={ScaleUp}
+        ref={refScaleUp}
+        className="flex w-[100%] h-[90px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bg-blue-600 text-center justify-center items-center"
+      >
+        <p className="newfont lg:text-3xl md:text-2xl text-xl">Our Vision</p>
+      </animated.div>
+
+      <div className="flex flex-col-reverse lg:flex-row items-center lg:gap-0 gap-4  lg:items-center lg:px-12 md:px-6 px-4 py-10 ">
+        <animated.div
+          style={SlideLeft}
+          ref={refSlideLeft}
+          className="relative mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
+        >
+          <animated.img
+            src="/assets/about1.webp"
+            alt="Team"
+            className="w-full h-auto object-cover"
+          />
+          <animated.div className="absolute top-0 right-0 lg:w-[150px] lg:h-[150px] w-[100px] h-[100px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4 border-blue-600"></animated.div>
+          <animated.div className="absolute bottom-0 left-0 lg:w-[150px] lg:h-[150px] w-[100px] h-[100px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></animated.div>
+        </animated.div>
+        <animated.div
+          style={SlideLeft1}
+          ref={refSlideLeft1}
+          className="flex flex-col items-center justify-center"
+        >
+          <div className="flex flex-col space-y-8">
+            <div className="flex items-start">
+              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="ml-4">
+                <p>
+                  Education has been an integral part of a child's upbringing.
+                  But when we ask any child that is he or she enjoying the
+                  education process, seldom we get the answer in affirmation.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start">
+              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="ml-4">
+                <p>
+                  We at Zen Study is trying to change it through, keeping the
+                  substance of the education same, but the evolving way of
+                  educating our children in a much more intuitive way, that
+                  would be much like enjoying watching a movie or watching or
+                  playing a game.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start">
+              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="ml-4">
+                <p>
+                  Our ultimate aim is to make education imaginative and to truly
+                  aid into the cognitive development of a child.
+                </p>
+              </div>
+            </div>
+          </div>
+        </animated.div>
+      </div>
+
+      <animated.div
+        style={ScaleUp}
+        ref={refScaleUp}
+        className="flex w-[100%] h-[90px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bg-blue-600 text-center justify-center items-center"
+      >
+        <p className="newfont lg:text-3xl md:text-2xl text-xl">Who we are 
+        </p>
+      </animated.div>
+
+      <div className="flex flex-col-reverse lg:flex-row items-center lg:gap-0 gap-4  lg:items-center lg:px-12 md:px-6 px-4 py-10 ">
+        <animated.div
+          style={SlideLeft1}
+          ref={refSlideLeft1}
+          className="flex flex-col items-center justify-center"
+        >
+          <div className="flex flex-col space-y-8">
+            <div className="flex items-start">
+              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="ml-4">
+                <p>
+                  We are an emerging ed-tech company, currently specializing in
+                  services for UPSC aspirants. At this stage, we are focused on
+                  addressing the key challenges faced by candidates, leveraging
+                  our team's vast experience in learning and developing
+                  effective strategies to crack the UPSC exam.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start">
+              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="ml-4">
+                <p>
+                  Since the UPSC syllabus covers a large portion of school
+                  education in India, we plan to take a bold step forward by
+                  enhancing the learning process for UPSC aspirants. In the
+                  future, we aim to apply this experience to make education more
+                  imaginative and engaging for school students across India.
+                </p>
+              </div>
+            </div>
+          </div>
+        </animated.div>
+        <animated.div
+          style={SlideRight1}
+          ref={refSlideRight1}
+          className="relative mb-8 lg:mb-0 lg:ml-16 p-6 lg:p-10 md:p-8"
+        >
+          <img
+            src="/assets/about2.webp"
+            alt="Team"
+            className="w-full h-auto object-cover"
+          />
+          <div className="absolute top-0 right-0 w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4  border-blue-600"></div>
+          <div className="absolute bottom-0 left-0 w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></div>
+        </animated.div>
+      </div>
+
+      <animated.div
+        style={ScaleUp}
+        ref={refScaleUp}
+        className="flex w-[100%] h-[90px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bg-blue-600 text-center justify-center items-center"
+      >
+        <p className="newfont lg:text-3xl md:text-2xl text-xl">
+          Why choose us{" "}
+        </p>
+      </animated.div>
+
+      <div className="flex flex-col-reverse lg:flex-row items-center lg:gap-0 gap-4 lg:items-center lg:px-12 md:px-6 px-4 py-10 ">
+        <animated.div
+          style={SlideLeft}
+          ref={refSlideLeft}
+          className="relative lg:w-[50%] w-[100%] mt-4 lg:mt-0 mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
+        >
+          <animated.img
+            src="/assets/about1.webp"
+            alt="Team"
+            className="w-full h-auto object-cover"
+          />
+          <animated.div className="absolute top-0 right-0 lg:w-[150px] lg:h-[150px] w-[100px] h-[100px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4 border-blue-600"></animated.div>
+          <animated.div className="absolute bottom-0 left-0 lg:w-[150px] lg:h-[150px] w-[100px] h-[100px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></animated.div>
+        </animated.div>
+        <animated.div
+          style={SlideLeft1}
+          ref={refSlideLeft1}
+          className="flex  lg:w-[50%] w-[100%] flex-col items-center justify-center"
+        >
+          <div className="flex flex-col space-y-8">
+            <div className="flex items-start">
+              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="ml-4">
+                <p>
+                  We've always been told that choosing friends is one of the
+                  most important decisions in life. But when it comes to
+                  choosing our teachers, we often have limited information,
+                  relying on societal norms or the internet. At ZenStudy, we are
+                  creating a unique teaching approach for UPSC aspirants. With
+                  our extensive experience as former aspirants, we've gained
+                  deep insights into the UPSC syllabus and process. Through
+                  analysis, we've found that much of the content available is
+                  outdated and doesn't meet the current demands of the exam.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start">
+              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="ml-4">
+                <p>
+                  Our vision is to make learning more intuitive and engaging,
+                  enabling students to learn faster, think sharper, and stay
+                  better informed about India and the world. If you're seeking a
+                  great teaching assistant, we believe ZenStudy can enhance your
+                  learning experience and guide you toward success. For us, your
+                  success brings fulfillment, as our approach is fresh and
+                  innovative, especially in the UPSC field. Join us, and let's
+                  make your UPSC preparation an enriching journey. Best of luck!
+                </p>
+              </div>
+            </div>
+          </div>
         </animated.div>
       </div>
     </div>
