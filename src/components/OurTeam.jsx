@@ -17,8 +17,8 @@ const OurTeam = () => {
         />
         
         {/* Name and Role */}
-        <h3 className="text-xl font-bold text-[#054BB4] mb-1">Founder's Name</h3>
-        <p className="text-gray-500 text-sm mb-4">Lorem | Lorem</p>
+        <h3 className="text-xl font-bold text-[#054BB4] mb-1">Kumud Kishore</h3>
+        <p className="text-gray-500 text-sm mb-4">Founder</p>
 
         {/* Social Icons */}
         <div className="flex space-x-20 mt-4">
@@ -41,24 +41,21 @@ const OurTeam = () => {
       {/* Founder Bio */}
       <div className="mt-10 lg:mt-0 lg:ml-12 text-center lg:text-right  w-full md:w-[1/2] lg:w-[1/2]">
         <h3 className="text-3xl font-bold">Meet Our Founder</h3>
-        <p className="text-gray-600 mt-4  text-center lg:text-right">
-          Lorem Ipsum has been the industry’s standard dummy text ever since the
-          1500s, when an unknown printer took a galley of type and scrambled it
-          to make a type specimen book.
+        <p className="text-gray-600 mt-4   text-sm text-center lg:text-right">
+        He is a passionate individual who strives to simplify all aspects of life. This drive for simplification leads him to explore and experiment in various fields.
+
         </p>
-        <p className="text-gray-600 mt-4  text-center lg:text-right">
-          Lorem Ipsum has been the industry’s standard dummy text ever since the
-          1500s, when an unknown printer took a galley of type and scrambled it
-          to make a type specimen book.
+        <p className="text-gray-600 mt-4  text-sm text-center lg:text-right">
+        Currently, he is working on his vision and startup idea to simplify education, making it easier and more enjoyable for students to learn. His approach involves creating educational content that is supported by 3D technology and emotionally engaging. The 3D element can be enhanced through technologies like graphics and virtual reality, while emotional engagement can be achieved by infusing educational content with artistic, poetic, and musical elements.
+
         </p>
-        <p className="text-gray-600 mt-4  text-center lg:text-right">
-          Lorem Ipsum has been the industry’s standard dummy text ever since the
-          1500s, when an unknown printer took a galley of type and scrambled it
-          to make a type specimen book.
+        <p className="text-gray-600 mt-4  text-sm text-center lg:text-right">
+        His desire for simplicity also extends to his thoughts, which he expresses through poetry and storytelling. This allows him to release his deepest emotions, including love, care, happiness, sadness, spirituality, and more.
+
         </p>
        
-        <blockquote className="text-blue-600  text-2xl md:text-3xl lg:text-4xl  font-bold italic mt-4">
-          “Lorem Ipsum has been the industry’s standard dummy text ever”
+        <blockquote className="text-blue-600  text-lg md:text-xl lg:text-xl  font-bold italic mt-4">
+          “The method of education should be ignite the mind, to befriend the heart, and together, they both embark on a journey to discover their soul.”
         </blockquote>
       </div>
     </div>

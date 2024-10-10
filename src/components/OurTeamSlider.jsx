@@ -76,54 +76,61 @@ function OurTeamSlider() {
     ],
   };
 
-  const courseData = [
+  const facultyData = [
     {
       id: 1,
-      title: "John Doe",
-      role: "Frontend Developer",
+      title: "Krittika Mishra",
+      role: "GS Faculty",
       description:
-        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+        "An insightful educator, thinker, and keen observer. With a strong academic background, she holds a B.Tech in Biotechnology from the prestigious National Institute of Technology (NIT), Durgapur. Following her engineering studies, she ventured into the development sector, where her hands-on experiences sparked a deeper interest in understanding societal structures and national issues. Her career evolved as she transitioned into the educational sphere, where she now focuses on developing lectures for General Studies. Her areas of expertise include Society, Ethics, Economy, and Environmental Education. Passionate about teaching, Krittika is known for her engaging and thoughtful approach, as well as her ability to foster teamwork and collaboration within academic environments.",
       thumbnail:
-        "https://img.freepik.com/premium-photo/artist-digital-avatar-generative-ai_934475-9261.jpg",
+        "",
     },
     {
       id: 2,
-      title: "John Doe",
-      role: "Frontend Developer",
+      title: "Sachin Srivastava",
+      role: "GS Faculty",
       description:
-        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+        "He is a senior teacher with over 10 years of experience in teaching UPSC aspirants. He graduated from Allahabad University and completed his post-graduation in Geography. He has excellent communication skills and explains topics with ease. Under his guidance, many students have successfully cleared the UPSC examination.",
       thumbnail:
-        "https://img.freepik.com/premium-photo/artist-digital-avatar-generative-ai_934475-9261.jpg",
+        "",
     },
     {
       id: 3,
       title: "John Doe",
-      role: "Frontend Developer",
+      role: "GS Faculty",
       description:
-        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+        "",
       thumbnail:
         "https://img.freepik.com/premium-photo/artist-digital-avatar-generative-ai_934475-9261.jpg",
     },
     {
       id: 4,
       title: "John Doe",
-      role: "Frontend Developer",
+      role: "GS Faculty",
       description:
-        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+        "He is a senior teacher who has more than 10 years of experience in teaching UPSC aspirants. He graduated from allahabad university and did his post graduation in geography. He has amazing communication skills and explain topics easily. Under his guidance many students have cleared the UPSC examination.",
       thumbnail:
         "https://img.freepik.com/premium-photo/artist-digital-avatar-generative-ai_934475-9261.jpg",
     },
-    {
-      id: 5,
-      title: "John Doe",
-      role: "Frontend Developer",
-      description:
-        "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-      thumbnail:
-        "https://img.freepik.com/premium-photo/artist-digital-avatar-generative-ai_934475-9261.jpg",
-    },
-    // Add more profiles as needed...
   ];
+
+  const [showFullText, setShowFullText] = useState({});
+
+  // Function to toggle the read more
+  const toggleReadMore = (id) => {
+    setShowFullText((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
+  const truncateText = (text, wordLimit) => {
+    const words = text.split(" ");
+    return words.length > wordLimit
+      ? words.slice(0, wordLimit).join(" ") + "..."
+      : text;
+  };
 
   return (
     <div>
@@ -134,7 +141,7 @@ function OurTeamSlider() {
       >
         <div className="mx-4 mb-10 lg:mb-20 lg:mx-20 md:mx-15 relative">
           <Slider {...settings}>
-            {courseData.map((course, index) => (
+            {facultyData.map((faculty, index) => (
               <div
                 key={index}
                 className={`flex flex-col items-center justify-between rounded-2xl overflow-hidden shadow-lg shadow-slate-500 my-20 p-6 transition-transform duration-500 bg-white ${
@@ -145,7 +152,7 @@ function OurTeamSlider() {
               >
                 <div className="relative flex justify-center">
                   <img
-                    src={course.thumbnail}
+                    src={faculty.thumbnail}
                     alt="Profile"
                     className="w-24 h-24 rounded-full border-4 border-white z-50 shadow-md"
                   />
@@ -155,23 +162,34 @@ function OurTeamSlider() {
 
                 <div className="text-center mt-4">
                   <h2 className="text-xl font-bold text-blue-600">
-                    {course.title}
+                    {faculty.title}
                   </h2>
-                  <p className="italic text-gray-500">{course.role}</p>
+                  <p className="italic text-gray-500">{faculty.role}</p>
                 </div>
 
                 <div className="text-center mt-4 px-6">
                   <p className="text-gray-700 text-sm">
-                    {course.description}
+                    {/* Conditionally render the full description or truncated version */}
+                    {showFullText[faculty.id]
+                      ? faculty.description
+                      : truncateText(faculty.description, 20)}
                   </p>
+                  <button
+                    className="text-blue-600 mt-2"
+                    onClick={() => toggleReadMore(faculty.id)}
+                  >
+                    {showFullText[faculty.id] ? "Read Less" : "Read More"}
+                  </button>
                 </div>
 
-                <div className="flex w-full justify-end mt-6 space-x-4">
-                  <FaLinkedin className="text-blue-600 w-6 h-6 cursor-pointer" />
-                  <FaInstagram className="text-blue-600 w-6 h-6 cursor-pointer" />
-                  <FaFacebook className="text-blue-600 w-6 h-6 cursor-pointer" />
-                  <FaTwitter className="text-blue-600 w-6 h-6 cursor-pointer" />
-                </div>
+                {
+                //   <div className="flex w-full justify-end mt-6 space-x-4">
+                //   <FaLinkedin className="text-blue-600 w-6 h-6 cursor-pointer" />
+                //   <FaInstagram className="text-blue-600 w-6 h-6 cursor-pointer" />
+                //   <FaFacebook className="text-blue-600 w-6 h-6 cursor-pointer" />
+                //   <FaTwitter className="text-blue-600 w-6 h-6 cursor-pointer" />
+                // </div>
+              }
               </div>
             ))}
           </Slider>
