@@ -67,12 +67,12 @@ const About = () => {
           className="relative lg:w-[50%] w-[100%] mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
         >
           <animated.img
-            src="/assets/about1.webp"
+            src="/assets/aboutUs.png"
             alt="Team"
             className="w-full h-auto object-cover"
           />
-          <animated.div className="absolute top-0 right-0 lg:w-[150px] lg:h-[150px] w-[100px] h-[100px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4 border-blue-600"></animated.div>
-          <animated.div className="absolute bottom-0 left-0 lg:w-[150px] lg:h-[150px] w-[100px] h-[100px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></animated.div>
+          <animated.div className="absolute rounded-xl top-0 right-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4 border-blue-600"></animated.div>
+          <animated.div className="absolute rounded-xl bottom-0 left-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></animated.div>
         </animated.div>
         <animated.div
           style={SlideRight}
@@ -115,6 +115,10 @@ const About = () => {
           </div>
         </animated.div>
       </div>
+
+      {
+        // our mission
+      }
 
       <animated.div
         style={ScaleUp}
@@ -169,14 +173,18 @@ const About = () => {
           className="relative mb-8 lg:mb-0 lg:ml-16 p-6 lg:p-10 md:p-8"
         >
           <img
-            src="/assets/about2.webp"
+            src="/assets/mission.png"
             alt="Team"
             className="w-full h-auto object-cover"
           />
-          <div className="absolute top-0 right-0 w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4  border-blue-600"></div>
-          <div className="absolute bottom-0 left-0 w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></div>
+          <div className="absolute rounded-xl top-0 left-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-t-8 lg:border-l-8 border-t-4 border-l-4  border-blue-600"></div>
+          <div className="absolute rounded-xl bottom-0 right-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-b-8 lg:border-r-8 border-b-4 border-r-4 border-blue-600"></div>
         </animated.div>
       </div>
+
+      {
+        // Our vision
+      }
 
       <animated.div
         style={ScaleUp}
@@ -193,12 +201,12 @@ const About = () => {
           className="relative mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
         >
           <animated.img
-            src="/assets/about1.webp"
+            src="/assets/vision.png"
             alt="Team"
             className="w-full h-auto object-cover"
           />
-          <animated.div className="absolute top-0 right-0 lg:w-[150px] lg:h-[150px] w-[100px] h-[100px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4 border-blue-600"></animated.div>
-          <animated.div className="absolute bottom-0 left-0 lg:w-[150px] lg:h-[150px] w-[100px] h-[100px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></animated.div>
+          <animated.div className="absolute rounded-xl top-0 right-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4 border-blue-600"></animated.div>
+          <animated.div className="absolute rounded-xl bottom-0 left-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></animated.div>
         </animated.div>
         <animated.div
           style={SlideLeft1}
@@ -241,6 +249,10 @@ const About = () => {
         </animated.div>
       </div>
 
+      {
+        // who we are 
+      }
+
       <animated.div
         style={ScaleUp}
         ref={refScaleUp}
@@ -250,7 +262,7 @@ const About = () => {
         </p>
       </animated.div>
 
-      <div className="flex flex-col-reverse lg:flex-row items-center lg:gap-0 gap-4  lg:items-center lg:px-12 md:px-6 px-4 py-10 ">
+      <div className="flex flex-col lg:flex-row items-center lg:gap-0 gap-4  lg:items-center lg:px-12 md:px-6 px-4 py-10 ">
         <animated.div
           style={SlideLeft1}
           ref={refSlideLeft1}
@@ -289,14 +301,18 @@ const About = () => {
           className="relative mb-8 lg:mb-0 lg:ml-16 p-6 lg:p-10 md:p-8"
         >
           <img
-            src="/assets/about2.webp"
+            src="/assets/wwa.png"
             alt="Team"
             className="w-full h-auto object-cover"
           />
-          <div className="absolute top-0 right-0 w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4  border-blue-600"></div>
-          <div className="absolute bottom-0 left-0 w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></div>
+          <div className="absolute rounded-xl top-0 left-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-t-8 lg:border-l-8 border-t-4 border-l-4  border-blue-600"></div>
+          <div className="absolute rounded-xl bottom-0 right-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-b-8 lg:border-r-8 border-b-4 border-r-4 border-blue-600"></div>
         </animated.div>
       </div>
+
+{
+      // Why choose us
+}
 
       <animated.div
         style={ScaleUp}
@@ -315,12 +331,12 @@ const About = () => {
           className="relative lg:w-[50%] w-[100%] mt-4 lg:mt-0 mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
         >
           <animated.img
-            src="/assets/about1.webp"
+            src="/assets/whywe.png"
             alt="Team"
             className="w-full h-auto object-cover"
           />
-          <animated.div className="absolute top-0 right-0 lg:w-[150px] lg:h-[150px] w-[100px] h-[100px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4 border-blue-600"></animated.div>
-          <animated.div className="absolute bottom-0 left-0 lg:w-[150px] lg:h-[150px] w-[100px] h-[100px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></animated.div>
+          <animated.div className="absolute rounded-xl top-0 right-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4 border-blue-600"></animated.div>
+          <animated.div className="absolute rounded-xl bottom-0 left-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></animated.div>
         </animated.div>
         <animated.div
           style={SlideLeft1}
@@ -362,6 +378,8 @@ const About = () => {
           </div>
         </animated.div>
       </div>
+
+
     </div>
   );
 };

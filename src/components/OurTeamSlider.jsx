@@ -11,7 +11,7 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 const NextArrow = ({ onClick }) => {
   return (
     <button
-      className="absolute z-10 right-4 top-[480px]  transform -translate-y-1/2 bg-blue-600 text-white p-2 rounded-full shadow-md"
+      className="absolute z-10 right-4 lg:top-[600px] md:top-[620px] top-[620px] transform -translate-y-1/2 bg-blue-600 text-white p-2 rounded-full shadow-md"
       onClick={onClick}
     >
       <FaArrowRight />
@@ -23,7 +23,7 @@ const NextArrow = ({ onClick }) => {
 const PrevArrow = ({ onClick }) => {
   return (
     <button
-      className="absolute z-10 right-16 top-[480px] transform -translate-y-1/2 bg-blue-600 text-white p-2 rounded-full shadow-md"
+      className="absolute z-10 right-16 lg:top-[600px] md:top-[620px] top-[620px] transform -translate-y-1/2 bg-blue-600 text-white p-2 rounded-full shadow-md"
       onClick={onClick}
     >
       <FaArrowLeft />
@@ -77,41 +77,41 @@ function OurTeamSlider() {
   };
 
   const facultyData = [
+    
     {
       id: 1,
-      title: "Krittika Mishra",
-      role: "GS Faculty",
-      description:
-        "An insightful educator, thinker, and keen observer. With a strong academic background, she holds a B.Tech in Biotechnology from the prestigious National Institute of Technology (NIT), Durgapur. Following her engineering studies, she ventured into the development sector, where her hands-on experiences sparked a deeper interest in understanding societal structures and national issues. Her career evolved as she transitioned into the educational sphere, where she now focuses on developing lectures for General Studies. Her areas of expertise include Society, Ethics, Economy, and Environmental Education. Passionate about teaching, Krittika is known for her engaging and thoughtful approach, as well as her ability to foster teamwork and collaboration within academic environments.",
-      thumbnail:
-        "",
-    },
-    {
-      id: 2,
       title: "Sachin Srivastava",
       role: "GS Faculty",
       description:
         "He is a senior teacher with over 10 years of experience in teaching UPSC aspirants. He graduated from Allahabad University and completed his post-graduation in Geography. He has excellent communication skills and explains topics with ease. Under his guidance, many students have successfully cleared the UPSC examination.",
       thumbnail:
-        "",
+        "/assets/sachin.png",
     },
     {
-      id: 3,
-      title: "John Doe",
+      id: 2,
+      title: "Krittika Mishra",
       role: "GS Faculty",
       description:
-        "",
+        "An insightful educator, thinker, and keen observer. With a strong academic background, she holds a B.Tech in Biotechnology from the prestigious National Institute of Technology (NIT), Durgapur. Following her engineering studies, she ventured into the development sector, where her hands-on experiences sparked a deeper interest in understanding societal structures and national issues. Her career evolved as she transitioned into the educational sphere, where she now focuses on developing lectures for General Studies. Her areas of expertise include Society, Ethics, Economy, and Environmental Education. Passionate about teaching, Krittika is known for her engaging and thoughtful approach, as well as her ability to foster teamwork and collaboration within academic environments.",
+      thumbnail:'/assets/krittika.png',
+    },
+    
+    {
+      id: 3,
+      title: "Sachin Srivastava",
+      role: "GS Faculty",
+      description:
+        "He is a senior teacher with over 10 years of experience in teaching UPSC aspirants. He graduated from Allahabad University and completed his post-graduation in Geography. He has excellent communication skills and explains topics with ease. Under his guidance, many students have successfully cleared the UPSC examination.",
       thumbnail:
-        "https://img.freepik.com/premium-photo/artist-digital-avatar-generative-ai_934475-9261.jpg",
+        "/assets/sachin.png",
     },
     {
       id: 4,
-      title: "John Doe",
+      title: "Krittika Mishra",
       role: "GS Faculty",
       description:
-        "He is a senior teacher who has more than 10 years of experience in teaching UPSC aspirants. He graduated from allahabad university and did his post graduation in geography. He has amazing communication skills and explain topics easily. Under his guidance many students have cleared the UPSC examination.",
-      thumbnail:
-        "https://img.freepik.com/premium-photo/artist-digital-avatar-generative-ai_934475-9261.jpg",
+        "An insightful educator, thinker, and keen observer. With a strong academic background, she holds a B.Tech in Biotechnology from the prestigious National Institute of Technology (NIT), Durgapur. Following her engineering studies, she ventured into the development sector, where her hands-on experiences sparked a deeper interest in understanding societal structures and national issues. Her career evolved as she transitioned into the educational sphere, where she now focuses on developing lectures for General Studies. Her areas of expertise include Society, Ethics, Economy, and Environmental Education. Passionate about teaching, Krittika is known for her engaging and thoughtful approach, as well as her ability to foster teamwork and collaboration within academic environments.",
+      thumbnail:'/assets/krittika.png',
     },
   ];
 
@@ -150,14 +150,12 @@ function OurTeamSlider() {
                     : "opacity-70"
                 }`}
               >
-                <div className="relative flex justify-center">
+                <div className=" flex justify-center">
                   <img
                     src={faculty.thumbnail}
                     alt="Profile"
-                    className="w-24 h-24 rounded-full border-4 border-white z-50 shadow-md"
+                    className="w-45 h-45"
                   />
-
-                  <div className="w-24 h-24 mt-1 bg-blue-700 rounded-full absolute"></div>
                 </div>
 
                 <div className="text-center mt-4">
