@@ -16,7 +16,9 @@ const WatchCourse = () => {
   const [selectedVideoDesc, setSelectedVideoDesc] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
-  const tabs = ["About Video"];
+  const tabs = ["About Video"
+    // , "Q&A", "Reviews"
+    ];
   const [isMeetingStarted, setIsMeetingStarted] = useState(false);
   const [meetingId, setmeetingId] = useState(null)
   const [meetloading, setMeetLoading] = useState(false);

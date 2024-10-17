@@ -179,10 +179,10 @@ const Footer = () => {
           </div>
           <div className="w-full md:w-1/2 flex flex-col lg:items-center md:items-start items-start">
             <form
-              className="flex w-full flex-col gap-4 p-4 shadow-md shadow-[#648ecd] rounded-lg max-w-md mx-auto"
+              className="flex w-full flex-col gap-4 px-4 pb-4 shadow-md shadow-[#648ecd] rounded-lg max-w-md mx-auto"
               onSubmit={onSubmit}
             >
-              <p className=" text-2xl font-semibold text-center ">
+              <p className=" text-2xl font-semibold mb-2 ">
                 Get In Touch
               </p>
               <div className="relative">
@@ -191,7 +191,7 @@ const Footer = () => {
                   placeholder={!nameFocused ? "Enter your name" : ""}
                   name="fullName"
                   value={formData.fullName}
-                  className="p-2 border w-full text-[#000000] bg-[#fcfcfc] border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 placeholder-gray-400"
+                  className="p-2 border w-full text-gray-600 bg-[#cadefb] border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 placeholder-gray-500"
                   onFocus={() => setNameFocused(true)}
                   onBlur={() => setNameFocused(false)}
                   onChange={(e) => handleChange(e)}
@@ -204,7 +204,7 @@ const Footer = () => {
                   name="email"
                   value={formData.email}
                   placeholder={!emailFocused ? "Enter your email" : ""}
-                  className="p-2 border w-full text-[#000000] bg-[#fcfcfc] border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 placeholder-gray-400"
+                  className="p-2 border w-full text-gray-600 bg-[#cadefb] border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 placeholder-gray-500"
                   onFocus={() => setEmailFocused(true)}
                   onBlur={() => setEmailFocused(false)}
                   onChange={(e) => handleChange(e)}
@@ -216,7 +216,7 @@ const Footer = () => {
                   placeholder={!messageFocused ? "Message..." : ""}
                   name="message"
                   value={formData.message}
-                  className="p-2 border w-full text-[#000000] bg-[#fcfcfc] border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 h-20 resize-none transition duration-200 placeholder-gray-400"
+                  className="p-2 border w-full text-gray-600 bg-[#cadefb] border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 h-20 resize-none transition duration-200 placeholder-gray-500"
                   onFocus={() => setMessageFocused(true)}
                   onBlur={() => setMessageFocused(false)}
                   onChange={(e) => handleChange(e)}
