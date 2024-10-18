@@ -1,5 +1,4 @@
 import React from "react";
-import { ImQuotesLeft, ImQuotesRight } from "react-icons/im";
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer"; // Correct import
 const About = () => {

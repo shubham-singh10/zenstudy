@@ -4,7 +4,7 @@ import {
   FiEyeOff,
 } from "react-icons/fi";
 import { Box, TextField, InputAdornment } from "@mui/material";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { MdPhone } from "react-icons/md";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
@@ -21,7 +21,7 @@ const SignInDynamic = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { courseId } = useParams()
  
   // Intersection Observers
