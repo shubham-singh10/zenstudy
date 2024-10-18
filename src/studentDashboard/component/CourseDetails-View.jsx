@@ -15,8 +15,6 @@ const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [couponLoading, setCouponLoading] = useState(false);
-  const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`);
-  const [Iloading, setILoading] = useState(true);
   const [payloading, setPayLoading] = useState(false);
   const [error, setError] = useState(null);
   const [discount, setDiscount] = useState(null);
@@ -25,7 +23,7 @@ const CourseDetailsView = () => {
   const { width, height } = useWindowSize();
   const navigate = useNavigate();
   const { courseId } = useParams();
- 
+
 
   useEffect(() => {
     if (discount) {
@@ -68,7 +66,7 @@ const CourseDetailsView = () => {
         }
         const data = await response.json();
         // console.log("Course_data", data);
-        
+
         setCoursePost(data.coursedetail);
 
         // const imageUrl = `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`;
@@ -76,7 +74,7 @@ const CourseDetailsView = () => {
         //   ...data.coursedetail,
         //   imageUrl, // Add the imageUrl to the state
         // });
-       
+
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -301,7 +299,7 @@ const CourseDetailsView = () => {
           </ul>
         </div>
         <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
-           {firstModule && (
+          {firstModule && (
             <div key={0}>
               {firstModule.videos.length > 0 ? (
                 <div key={firstModule.videos[0]._id}>
