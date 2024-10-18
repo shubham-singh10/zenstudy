@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function PrivacyPolicy() {
   return (
@@ -9,7 +10,7 @@ function PrivacyPolicy() {
        
         <div className='lg:mt-8 mt-2 space-y-5 p-4'>
           
-            <p>Any type of personal information that you transmit to Zenstudy Private Limited and its subdomains will be used only for purposes of processing your application and for the assessment and processing of any other administration relevant to Zenstudy Private Limited. This privacy policy applies to the services made available at https://zenstudy.in/ and its subdomains alongside the mobile application Zenstudy hosted on Google Play and App Store. Mobile application is hosted by “Zenstudy” and email id of the developer is: grgaurav73@gmail.com</p>
+            <p>Any type of personal information that you transmit to Zenstudy Private Limited and its subdomains will be used only for purposes of processing your application and for the assessment and processing of any other administration relevant to Zenstudy Private Limited. This privacy policy applies to the services made available at <span><Link to="https://zenstudy.in" className='text-blue-500'>https://zenstudy.in</Link> </span> and its subdomains alongside the mobile application Zenstudy hosted on Google Play and App Store. Mobile application is hosted by “Zenstudy” and email id of the developer is: grgaurav73@gmail.com</p>
            
             <p>The website and our mobile application will be from now onwards collectively referred to as Platform.</p>
            
