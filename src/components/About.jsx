@@ -67,7 +67,7 @@ const About = () => {
           className="relative lg:w-[50%] w-[100%] mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
         >
           <animated.img
-            src="/assets/aboutUs.png"
+            src="/assets/aboutUs.webp"
             alt="Team"
             className="w-full h-auto object-cover"
           />
@@ -173,7 +173,7 @@ const About = () => {
           className="relative mb-8 lg:mb-0 lg:ml-16 p-6 lg:p-10 md:p-8"
         >
           <img
-            src="/assets/mission.png"
+            src="/assets/mission.webp"
             alt="Team"
             className="w-full h-auto object-cover"
           />
@@ -201,7 +201,7 @@ const About = () => {
           className="relative mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
         >
           <animated.img
-            src="/assets/vision.png"
+            src="/assets/vision.webp"
             alt="Team"
             className="w-full h-auto object-cover"
           />
@@ -301,7 +301,7 @@ const About = () => {
           className="relative mb-8 lg:mb-0 lg:ml-16 p-6 lg:p-10 md:p-8"
         >
           <img
-            src="/assets/wwa.png"
+            src="/assets/wwa.webp"
             alt="Team"
             className="w-full h-auto object-cover"
           />
@@ -331,7 +331,7 @@ const About = () => {
           className="relative lg:w-[50%] w-[100%] mt-4 lg:mt-0 mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
         >
           <animated.img
-            src="/assets/whywe.png"
+            src="/assets/whywe.webp"
             alt="Team"
             className="w-full h-auto object-cover"
           />

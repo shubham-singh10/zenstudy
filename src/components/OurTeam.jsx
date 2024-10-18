@@ -12,7 +12,7 @@ const OurTeam = () => {
       {/* Profile Image */}
       <div className="relative lg:-mt-36 md:-mt-30 -mt-28">
         <img
-          src="/assets/kumud.png"
+          src="/assets/kumud.webp"
           alt="Founder"
           className="w-60 h-60 rounded-full object-cover shadow-lg z-10"
         />
