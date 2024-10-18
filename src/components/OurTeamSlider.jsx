@@ -92,11 +92,9 @@ function OurTeamSlider() {
       role: "GS Faculty",
       description:
         "An insightful educator, thinker, and keen observer. With a strong academic background, she holds a B.Tech in Biotechnology from the prestigious National Institute of Technology (NIT), Durgapur. Following her engineering studies, she ventured into the development sector, where her hands-on experiences sparked a deeper interest in understanding societal structures and national issues. Her career evolved as she transitioned into the educational sphere, where she now focuses on developing lectures for General Studies. Her areas of expertise include Society, Ethics, Economy, and Environmental Education. Passionate about teaching, Krittika is known for her engaging and thoughtful approach, as well as her ability to foster teamwork and collaboration within academic environments.",
-<<<<<<< HEAD
+
       thumbnail:'/assets/kritika.webp',
-=======
-      thumbnail: '/assets/krittika.png',
->>>>>>> e54c32a6cdf268f58268ee8354226ff9a47a9161
+
     },
 
     {
@@ -105,11 +103,8 @@ function OurTeamSlider() {
       role: "Designing Head",
       description:
         "Ansh Arora, Designing Head of Zenstudy. With a unique fusion of creativity and strategic insight, Ansh excels as both a designer and business developer. With over 3 years of experience in branding, digital design, and product development. He creates innovative design solutions that not only captivate but also drive business growth. Ansh has a proven track record in identifying market opportunities and developing tailored strategies that align with business goals. Ansh believes that effective design should tell a story and enhance user experience while contributing to overall business objectives. When not crafting impactful designs or strategizing new ventures, he enjoys socialising and staying up-to-date with the latest industry trends.",
-<<<<<<< HEAD
       thumbnail:'/assets/ansh.webp',
-=======
-      thumbnail: '/assets/ansh.png',
->>>>>>> e54c32a6cdf268f58268ee8354226ff9a47a9161
+
     },
     {
       id: 4,
@@ -117,11 +112,7 @@ function OurTeamSlider() {
       role: "CTO",
       description:
         "Gaurav Rai, CTO of Zenstudy, is a seasoned full-stack developer with a passion for Edtech. With a BTech in Computer Science, he has built a strong foundation in technology. His experience at Prutor.ai and various freelance projects has honed his skills and fueled his entrepreneurial spirit. At Zenstudy, Gaurav leverages his expertise to develop innovative learning platforms. His leadership, technical acumen, and dedication to creating impactful educational experiences make him a valuable asset to the edtech industry.",
-<<<<<<< HEAD
       thumbnail:'/assets/gaurav.webp',
-=======
-      thumbnail: '/assets/gaurav.png',
->>>>>>> e54c32a6cdf268f58268ee8354226ff9a47a9161
     },
   ];
 
