@@ -1,6 +1,7 @@
 import React from "react";
 import { FaFacebookF, FaInstagram, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 import OurTeamSlider from "./OurTeamSlider";
+import { Link } from "react-router-dom";
 
 const OurTeam = () => {
   return (
@@ -22,19 +23,35 @@ const OurTeam = () => {
           <p className="text-gray-500 text-sm mb-4">Founder</p>
 
           {/* Social Icons */}
-          <div className="flex space-x-20 mt-4">
-            <a href="#" className="text-[#054BB4] hover:text-blue-800">
-              <FaFacebookF size={24} />
-            </a>
-            <a href="#" className="text-[#054BB4] hover:text-blue-800">
-              <FaInstagram size={24} />
-            </a>
-            <a href="#" className="text-[#054BB4] hover:text-blue-800">
-              <FaTwitter size={24} />
-            </a>
-            <a href="#" className="text-[#054BB4] hover:text-blue-800">
-              <FaLinkedinIn size={24} />
-            </a>
+          <div className="flex space-x-10 mt-4">
+            <Link
+              to="https://www.facebook.com/kumud.kishore2"
+              target="blank"
+              className="hover:bg-[#4267B2] rounded-full p-1"
+            >
+              <FaFacebookF size={25} className="hover:text-white" />
+            </Link>
+            <Link
+              to="https://www.instagram.com/kumud_dreamer/"
+              target="blank"
+              className="hover:bg-gradient-to-br from-[#405DE6] via-[#5B51D8] to-[#E1306C] rounded-full p-1"
+            >
+              <FaInstagram size={25} className="hover:text-white" />
+            </Link>
+            <Link
+              to="https://twitter.com/ZenstudyZ"
+              target="blank"
+              className="hover:bg-[#1DA1F2] rounded-full p-1"
+            >
+              <FaTwitter size={25} className="hover:text-white" />
+            </Link>
+            <Link
+              to="https://www.linkedin.com/in/kumud-kishore-34517514"
+              target="blank"
+              className="hover:bg-[#1DA1F2] rounded-full p-1"
+            >
+              <FaLinkedinIn size={25} className="hover:text-white" />
+            </Link>
           </div>
         </div>
 

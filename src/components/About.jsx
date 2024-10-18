@@ -1,68 +1,123 @@
 import React from "react";
 import { useSpring, animated } from "@react-spring/web";
-import { useInView } from "react-intersection-observer"; // Correct import
+import { useInView } from "react-intersection-observer";
+
 const About = () => {
-  const { ref: refSlideLeft, inView: inViewSlideLeft } = useInView({
+  // Intersection observer hooks to track in-view state
+  const { ref: refAboutUs, inView: inViewAboutUs } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+  const { ref: refMission, inView: inViewMission } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+  const { ref: refVision, inView: inViewVision } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+  const { ref: refWhoWeAre, inView: inViewWhoWeAre } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+  const { ref: refWhyChooseUs, inView: inViewWhyChooseUs } = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
-  const { ref: refSlideRight, inView: inViewSlideRight } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const { ref: refSlideLeft1, inView: inViewSlideLeft1 } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const { ref: refSlideRight1, inView: inViewSlideRight1 } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const { ref: refScaleUp, inView: inViewScaleUp } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const SlideLeft = useSpring({
+  // Animations
+  const slideFromLeftAboutUs = useSpring({
     from: { x: -100, opacity: 0 },
-    to: { x: inViewSlideLeft ? 0 : -100, opacity: inViewSlideLeft ? 1 : 0 },
+    to: { x: inViewAboutUs ? 0 : -100, opacity: inViewAboutUs ? 1 : 0 },
     config: { duration: 500 },
   });
 
-  const SlideRight = useSpring({
+  const slideFromRightAboutUs = useSpring({
     from: { x: 100, opacity: 0 },
-    to: { x: inViewSlideRight ? 0 : 100, opacity: inViewSlideRight ? 1 : 0 },
+    to: { x: inViewAboutUs ? 0 : 100, opacity: inViewAboutUs ? 1 : 0 },
     config: { duration: 500 },
   });
 
-  const SlideLeft1 = useSpring({
+  const slideFromLeftMission = useSpring({
     from: { x: -100, opacity: 0 },
-    to: { x: inViewSlideLeft1 ? 0 : -100, opacity: inViewSlideLeft1 ? 1 : 0 },
+    to: { x: inViewMission ? 0 : -100, opacity: inViewMission ? 1 : 0 },
     config: { duration: 500 },
   });
 
-  const SlideRight1 = useSpring({
+  const slideFromRightMission = useSpring({
     from: { x: 100, opacity: 0 },
-    to: { x: inViewSlideRight1 ? 0 : 100, opacity: inViewSlideRight1 ? 1 : 0 },
+    to: { x: inViewMission ? 0 : 100, opacity: inViewMission ? 1 : 0 },
     config: { duration: 500 },
   });
 
-  const ScaleUp = useSpring({
+  const slideFromLeftVision = useSpring({
+    from: { x: -100, opacity: 0 },
+    to: { x: inViewVision ? 0 : -100, opacity: inViewVision ? 1 : 0 },
+    config: { duration: 500 },
+  });
+
+  const slideFromRightVision = useSpring({
+    from: { x: 100, opacity: 0 },
+    to: { x: inViewVision ? 0 : 100, opacity: inViewVision ? 1 : 0 },
+    config: { duration: 500 },
+  });
+
+  const slideFromLeftWhoWeAre = useSpring({
+    from: { x: -100, opacity: 0 },
+    to: { x: inViewWhoWeAre ? 0 : -100, opacity: inViewWhoWeAre ? 1 : 0 },
+    config: { duration: 500 },
+  });
+
+  const slideFromRightWhoWeAre = useSpring({
+    from: { x: 100, opacity: 0 },
+    to: { x: inViewWhoWeAre ? 0 : 100, opacity: inViewWhoWeAre ? 1 : 0 },
+    config: { duration: 500 },
+  });
+
+  const slideFromLeftWhyChooseUs = useSpring({
+    from: { x: -100, opacity: 0 },
+    to: { x: inViewWhyChooseUs ? 0 : -100, opacity: inViewWhyChooseUs ? 1 : 0 },
+    config: { duration: 500 },
+  });
+
+  const slideFromRightWhyChooseUs = useSpring({
+    from: { x: 100, opacity: 0 },
+    to: { x: inViewWhyChooseUs ? 0 : 100, opacity: inViewWhyChooseUs ? 1 : 0 },
+    config: { duration: 500 },
+  });
+
+  const scaleUpMission = useSpring({
     from: { scale: 0, opacity: 0 },
-    to: { scale: inViewScaleUp ? 1 : 0, opacity: inViewScaleUp ? 1 : 0 },
+    to: { scale: inViewMission ? 1 : 0, opacity: inViewMission ? 1 : 0 },
+    config: { duration: 500 },
+  });
+
+  const scaleUpVision = useSpring({
+    from: { scale: 0, opacity: 0 },
+    to: { scale: inViewVision ? 1 : 0, opacity: inViewVision ? 1 : 0 },
+    config: { duration: 500 },
+  });
+
+  const scaleUpWhoWeAre = useSpring({
+    from: { scale: 0, opacity: 0 },
+    to: { scale: inViewWhoWeAre ? 1 : 0, opacity: inViewWhoWeAre ? 1 : 0 },
+    config: { duration: 500 },
+  });
+
+  const scaleUpWhyChooseUs = useSpring({
+    from: { scale: 0, opacity: 0 },
+    to: { scale: inViewWhyChooseUs ? 1 : 0, opacity: inViewWhyChooseUs ? 1 : 0 },
     config: { duration: 500 },
   });
 
   return (
+
     <div className="flex flex-col items-center bg-white gap-2">
+      {/* About Us Section */}
       <div className="flex flex-col-reverse lg:flex-row items-center lg:gap-0 gap-4 lg:items-start lg:px-12 md:px-6 px-4 py-4 lg:py-10">
         <animated.div
-          style={SlideLeft}
-          ref={refSlideLeft}
+          style={slideFromLeftAboutUs}
+          ref={refAboutUs}
           className="relative lg:w-[50%] w-[100%] mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
         >
           <animated.img
@@ -74,13 +129,13 @@ const About = () => {
           <animated.div className="absolute rounded-xl bottom-0 left-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></animated.div>
         </animated.div>
         <animated.div
-          style={SlideRight}
-          ref={refSlideRight}
+          style={slideFromRightAboutUs}
           className="flex flex-col items-start lg:w-[50%] w-[100%]"
         >
           <div className="text-2xl mt-10 md:text-3xl lg:text-4xl mb-8 text-center text-[#054BB4] font-semibold">
             A<span className="border-b-4 border-[#054BB4]">bout U</span>s
           </div>
+
           <div className="flex flex-col space-y-8">
             <div className="flex items-start">
               <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
@@ -112,25 +167,22 @@ const About = () => {
               </div>
             </div>
           </div>
+
         </animated.div>
       </div>
 
-      {
-        // our mission
-      }
-
+      {/* Our Mission Section */}
       <animated.div
-        style={ScaleUp}
-        ref={refScaleUp}
+        style={scaleUpMission}
+        ref={refMission}
         className="flex w-[100%] h-[90px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bg-blue-600 text-center justify-center items-center"
       >
-        <p className="newfont lg:text-3xl md:text-2xl text-xl">Our Mission </p>
+        <p className="lg:text-3xl md:text-2xl text-xl">Our Mission</p>
       </animated.div>
-
       <div className="flex flex-col lg:flex-row items-center lg:mt-0 lg:gap-0 gap-4 lg:items-center lg:px-12 md:px-6 px-4 py-10 ">
         <animated.div
-          style={SlideLeft1}
-          ref={refSlideLeft1}
+          style={slideFromLeftMission}
+          ref={refMission}
           className="flex flex-col items-center justify-center"
         >
           <div className="flex flex-col space-y-8">
@@ -165,15 +217,15 @@ const About = () => {
               </div>
             </div>
           </div>
+
         </animated.div>
         <animated.div
-          style={SlideRight1}
-          ref={refSlideRight1}
+          style={slideFromRightMission}
           className="relative mb-8 lg:mb-0 lg:ml-16 p-6 lg:p-10 md:p-8"
         >
           <img
             src="/assets/mission.webp"
-            alt="Team"
+            alt="Mission"
             className="w-full h-auto object-cover"
           />
           <div className="absolute rounded-xl top-0 left-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-t-8 lg:border-l-8 border-t-4 border-l-4  border-blue-600"></div>
@@ -181,22 +233,19 @@ const About = () => {
         </animated.div>
       </div>
 
-      {
-        // Our vision
-      }
-
+      {/* Our Vision Section */}
       <animated.div
-        style={ScaleUp}
-        ref={refScaleUp}
+        style={scaleUpVision}
+        ref={refVision}
         className="flex w-[100%] h-[90px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bg-blue-600 text-center justify-center items-center"
       >
-        <p className="newfont lg:text-3xl md:text-2xl text-xl">Our Vision</p>
+        <p className="lg:text-3xl md:text-2xl text-xl">Our Vision</p>
       </animated.div>
 
-      <div className="flex flex-col-reverse lg:flex-row items-center lg:gap-0 gap-4  lg:items-center lg:px-12 md:px-6 px-4 py-10 ">
+      <div className="flex flex-col-reverse lg:flex-row items-center lg:gap-0 gap-4 lg:items-center lg:px-12 md:px-6 px-4 py-10">
         <animated.div
-          style={SlideLeft}
-          ref={refSlideLeft}
+          style={slideFromLeftVision}
+          ref={refVision}
           className="relative mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
         >
           <animated.img
@@ -208,8 +257,7 @@ const About = () => {
           <animated.div className="absolute rounded-xl bottom-0 left-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></animated.div>
         </animated.div>
         <animated.div
-          style={SlideLeft1}
-          ref={refSlideLeft1}
+          style={slideFromRightVision}
           className="flex flex-col items-center justify-center"
         >
           <div className="flex flex-col space-y-8">
@@ -245,26 +293,22 @@ const About = () => {
               </div>
             </div>
           </div>
+
         </animated.div>
       </div>
 
-      {
-        // who we are 
-      }
-
+      {/* Who Are We Section */}
       <animated.div
-        style={ScaleUp}
-        ref={refScaleUp}
+        style={scaleUpWhoWeAre}
+        ref={refWhoWeAre}
         className="flex w-[100%] h-[90px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bg-blue-600 text-center justify-center items-center"
       >
-        <p className="newfont lg:text-3xl md:text-2xl text-xl">Who we are 
-        </p>
+        <p className="lg:text-3xl md:text-2xl text-xl">Who Are We</p>
       </animated.div>
-
-      <div className="flex flex-col lg:flex-row items-center lg:gap-0 gap-4  lg:items-center lg:px-12 md:px-6 px-4 py-10 ">
+      <div className="flex flex-col lg:flex-row items-center lg:gap-0 gap-4 lg:items-center lg:px-12 md:px-6 px-4 py-10">
         <animated.div
-          style={SlideLeft1}
-          ref={refSlideLeft1}
+          style={slideFromLeftWhoWeAre}
+          ref={refWhoWeAre}
           className="flex flex-col items-center justify-center"
         >
           <div className="flex flex-col space-y-8">
@@ -295,38 +339,29 @@ const About = () => {
           </div>
         </animated.div>
         <animated.div
-          style={SlideRight1}
-          ref={refSlideRight1}
+          style={slideFromRightWhoWeAre}
           className="relative mb-8 lg:mb-0 lg:ml-16 p-6 lg:p-10 md:p-8"
         >
           <img
             src="/assets/wwa.webp"
-            alt="Team"
+            alt="Who We Are"
             className="w-full h-auto object-cover"
           />
-          <div className="absolute rounded-xl top-0 left-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-t-8 lg:border-l-8 border-t-4 border-l-4  border-blue-600"></div>
-          <div className="absolute rounded-xl bottom-0 right-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-b-8 lg:border-r-8 border-b-4 border-r-4 border-blue-600"></div>
         </animated.div>
       </div>
 
-{
-      // Why choose us
-}
-
+      {/* Why Choose Us Section */}
       <animated.div
-        style={ScaleUp}
-        ref={refScaleUp}
+        style={scaleUpWhyChooseUs}
+        ref={refWhyChooseUs}
         className="flex w-[100%] h-[90px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bg-blue-600 text-center justify-center items-center"
       >
-        <p className="newfont lg:text-3xl md:text-2xl text-xl">
-          Why choose us{" "}
-        </p>
+        <p className="lg:text-3xl md:text-2xl text-xl">Why Choose Us</p>
       </animated.div>
-
-      <div className="flex flex-col-reverse lg:flex-row items-center lg:gap-0 gap-4 lg:items-center lg:px-12 md:px-6 px-4 py-10 ">
+      <div className="flex flex-col-reverse lg:flex-row items-center lg:gap-0 gap-4 lg:items-center lg:px-12 md:px-6 px-4 py-10">
         <animated.div
-          style={SlideLeft}
-          ref={refSlideLeft}
+          style={slideFromLeftWhyChooseUs}
+          ref={refWhyChooseUs}
           className="relative lg:w-[50%] w-[100%] mt-4 lg:mt-0 mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
         >
           <animated.img
@@ -338,8 +373,7 @@ const About = () => {
           <animated.div className="absolute rounded-xl bottom-0 left-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></animated.div>
         </animated.div>
         <animated.div
-          style={SlideLeft1}
-          ref={refSlideLeft1}
+          style={slideFromRightWhyChooseUs}
           className="flex  lg:w-[50%] w-[100%] flex-col items-center justify-center"
         >
           <div className="flex flex-col space-y-8">
@@ -375,11 +409,10 @@ const About = () => {
               </div>
             </div>
           </div>
+
         </animated.div>
       </div>
-
-
-    </div>
+    </div >
   );
 };
 
