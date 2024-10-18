@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import { IoCallSharp } from "react-icons/io5";
 import { FaSearchLocation, FaWhatsapp } from "react-icons/fa";
 import { FiFacebook, FiInstagram, FiTwitter, FiYoutube } from "react-icons/fi";
@@ -156,6 +154,9 @@ const Footer = () => {
               </Link>
               <Link to="/contact" className="hover:text-white">
                 <li>Contact</li>
+              </Link>
+              <Link to="/privacyPolicy" className="hover:text-white">
+                <li>Privacy Policy</li>
               </Link>
             </ul>
           </div>
