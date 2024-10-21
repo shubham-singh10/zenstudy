@@ -347,6 +347,8 @@ const About = () => {
             alt="Who We Are"
             className="w-full h-auto object-cover"
           />
+          <div className="absolute rounded-xl top-0 left-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-t-8 lg:border-l-8 border-t-4 border-l-4  border-blue-600"></div>
+          <div className="absolute rounded-xl bottom-0 right-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-b-8 lg:border-r-8 border-b-4 border-r-4 border-blue-600"></div>
         </animated.div>
       </div>
 
