@@ -45,7 +45,7 @@ const Sidebar = () => {
                     ZenStudy<span className="text-[#054BB4] text-4xl">.</span>
                 </Link>
                 <button onClick={toggleSidebar} className="text-2xl focus:outline-none">
-                    {isCollapsed ? <RiMenuUnfoldLine  size={25} /> : <RiMenuFoldLine size={25} />}
+                    {isCollapsed ? <RiMenuUnfoldLine size={25} /> : <RiMenuFoldLine size={25} />}
                 </button>
             </div>
             <div className={`flex flex-col mt-36 items-center justify-center gap-4 font-medium text-xl ${isCollapsed ? 'mt-8' : 'mt-16'}`}>

@@ -35,19 +35,11 @@ const CourseCard = ({ course }) => {
                 />
             </div>
             <div className="px-4 py-2">
-                <div className="font-bold text-lg h-20 mb-1">{course.course_id.title}</div>
+                <div className="font-bold text-lg h-auto mb-1">{course.course_id.title}</div>
                 <p className="text-gray-600 text-xs">Created at: {formatDate(course.course_id.createdAt)}</p>
                 <p className="text-gray-600 text-xs">{course.course_id.day}</p>
             </div>
             <div className="px-4 pt-2 pb-2">
-                <div className="relative pt-1">
-                    <div className="flex mb-2 items-center justify-between">
-                        <div className="text-xs text-gray-500">progress % Completed</div>
-                    </div>
-                    <div className="overflow-hidden h-2 mb-2 text-xs flex rounded bg-gray-200">
-                        <div style={{ width: `progress %` }} className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"></div>
-                    </div>
-                </div>
                 <button className="bg-blue-600 hover:bg-blue-700 mt-2 text-white font-bold py-1 px-3 rounded-full" onClick={() => navigate(`/watch-course/${course._id}`)}>Continue Learning</button>
             </div>
         </div>

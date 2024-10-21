@@ -38,7 +38,7 @@ const CourseCard = ({ course }) => {
       </div>
 
       <div className="px-6 py-4">
-        <div className="font-bold text-lg h-20 mb-1 text-blue-600">
+        <div className="font-bold text-lg h-auto mb-1 text-blue-600">
           {course.title}
         </div>
 
@@ -73,8 +73,8 @@ const CourseDeatils = () => {
   const itemperpage = 6;
   const [searchText, setSearchText] = useState("");
 
-const userId = Cookies.get("access_tokennew")
-console.log(userId)
+  const userId = Cookies.get("access_tokennew")
+
   useEffect(() => {
     const getcourse = async () => {
       try {
@@ -99,13 +99,13 @@ console.log(userId)
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-         console.log("Course_data", data);
+        //  console.log("Course_data", data);
         // setCourse(data);
         setCourse(data.filter(course => course.other1 !== "upcoming").map(course => ({
           ...course,
           imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`
         })));
-       
+
         setLoading(false);
       } catch (error) {
         //console.log("Error:", error);
