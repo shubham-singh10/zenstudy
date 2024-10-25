@@ -429,7 +429,7 @@ const CourseDetailsView = () => {
                 onClick={() => navigate(`/login/${courseId}`)}
                 className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
               >
-                Pay Now
+                Login to purchase
               </button>
             )}
           </div>

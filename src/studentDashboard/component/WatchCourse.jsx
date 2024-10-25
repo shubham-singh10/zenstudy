@@ -3,6 +3,8 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 import { ZoomMtg } from "@zoom/meetingsdk";
 import Cookies from "js-cookie";
+import he from "he";
+
 
 // ZoomMtg.preLoadWasm();
 // ZoomMtg.prepareWebSDK();
@@ -190,6 +192,7 @@ const WatchCourse = () => {
     setSelectedVideoDesc(videoDesc);
   };
 
+
   return (
     <div className="container mx-auto px-4 py-6">
       <button
@@ -225,7 +228,7 @@ const WatchCourse = () => {
             <div className="mt-4">
               {selectedTab === "About Video" && (
                 <div>
-                  <p className="text-gray-700">{selectedVideoDesc}</p>
+                  <p className="text-gray-700" >{selectedVideoDesc}</p>
                 </div>
               )}
             </div>

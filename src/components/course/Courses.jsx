@@ -51,6 +51,7 @@ const CourseCard = ({ course }) => {
             Created at: {formatDate(course.createdAt)}
           </p>
         )}
+        
       </div>
       <div className="flex flex-row px-6 pt-4  justify-between items-center border-t-2">
         <p className="text-blue-600 font-bold text-xl">₹ {course.price}</p>

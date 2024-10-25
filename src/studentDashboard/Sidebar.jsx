@@ -16,7 +16,7 @@ const links = [
         icon: <FiUser />,
     },
     {
-        label: "Course Details",
+        label: "Courses",
         link: "/course-details-student",
         icon: <FiBook />,
     },
