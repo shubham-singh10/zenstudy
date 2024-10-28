@@ -76,7 +76,7 @@ function ZoomClasses() {
       setLoading(false);
     }
   };
-  
+
   var userEmail = ''
   var registrantToken = ''
   var zakToken = ''
@@ -90,7 +90,7 @@ function ZoomClasses() {
       userName: username
     });
 
-    
+
     ZoomMtg.init({
       leaveUrl: 'https://zenstudy-delta.vercel.app/',
       patchJsMedia: true,
