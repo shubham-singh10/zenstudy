@@ -135,6 +135,12 @@ const WatchCourse = () => {
     }
   };
 
+
+  const onSubmit2 = async (id) => {
+    setMeetLoading(true);
+    window.location.replace(`http://localhost:3000?key=${id}&user=${token}`)
+  };
+
   var userEmail = "";
   var registrantToken = "";
   var zakToken = "";
@@ -305,7 +311,7 @@ const WatchCourse = () => {
       {/* Meeting join button */}
       {!isMeetingStarted && meetingId && (
         <button
-          onClick={() => onSubmit(meetingId)}
+          onClick={() => onSubmit2(meetingId)}
           disabled={meetloading}
           className={`flex justify-end ${meetloading
               ? "bg-red-500 hover:bg-red-700"
