@@ -38,18 +38,18 @@ const CourseCard = ({ course }) => {
       </div>
 
       <div className="px-6 py-4">
-        <div className="font-bold text-lg h-auto mb-1 text-blue-600">
+        <div className="font-bold text-sm h-auto mb-1 text-blue-600">
           {course.title}
         </div>
 
         {isUpcoming ? (
-          <p className="text-gray-600 text-md mt-2">Expected: October 2024</p>
-        ) : (<p className="text-gray-600 text-md">
+          <p className="text-gray-600 text-sm mt-2">Expected: October 2024</p>
+        ) : (<p className="text-gray-600 text-sm">
           Created at: {formatDate(course.createdAt)}
         </p>)}
       </div>
       <div className="flex flex-row px-6 pt-4 pb-2 justify-between items-center border-t-2">
-        <p className="text-blue-600 font-bold text-2xl">₹ {course.price}</p>
+        <p className="text-blue-600 font-bold text-xl">₹ {course.price}</p>
         {isUpcoming ? (
           <p className="text-red-600 font-bold">Coming Soon</p>
         ) : (<button

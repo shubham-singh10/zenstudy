@@ -129,6 +129,12 @@ const NavBar = () => {
                     User Dashboard
                   </button>
                   <button
+                    className="block w-full text-left px-4 py-2 rounded-t-md  text-gray-800 hover:bg-blue-600 hover:text-white"
+                    onClick={() => navigate("/mycourse")}
+                  >
+                    My Courses
+                  </button>
+                  <button
                     className="block w-full bg-red-600 rounded-b-md text-white text-left px-4 py-2 hover:bg-red-700 hover:text-white"
                     onClick={handleLogout}
                   >

@@ -109,9 +109,9 @@ function OurTeamSlider() {
     {
       id: 4,
       title: "Gaurav Rai",
-      role: "CTO",
+      role: "Chief Technical Officer",
       description:
-        "Gaurav Rai, CTO of Zenstudy, is a seasoned full-stack developer with a passion for Edtech. With a BTech in Computer Science, he has built a strong foundation in technology. His experience at Prutor.ai and various freelance projects has honed his skills and fueled his entrepreneurial spirit. At Zenstudy, Gaurav leverages his expertise to develop innovative learning platforms. His leadership, technical acumen, and dedication to creating impactful educational experiences make him a valuable asset to the edtech industry.",
+        "Gaurav Rai, Chief Technical Officer of Zenstudy, is a seasoned full-stack developer with a passion for Edtech. With a BTech in Computer Science, he has built a strong foundation in technology. His experience at Prutor.ai and various freelance projects has honed his skills and fueled his entrepreneurial spirit. At Zenstudy, Gaurav leverages his expertise to develop innovative learning platforms. His leadership, technical acumen, and dedication to creating impactful educational experiences make him a valuable asset to the edtech industry.",
       thumbnail:'/assets/gaurav.webp',
     },
   ];
