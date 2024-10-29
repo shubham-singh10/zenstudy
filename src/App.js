@@ -27,10 +27,9 @@ const CourseDetailsStudentView = lazy(() => import("./studentDashboard/component
 const MyCourses = lazy(() => import("./studentDashboard/component/MyCourses.jsx"))
 const UPSCStudent = lazy(() => import("./studentDashboard/component/Upse.jsx"))
 const WatchCourse = lazy(() => import("./studentDashboard/component/WatchCourse.jsx"))
-// const ZoomClasses = lazy(() => import("./studentDashboard/component/ZoomClasses.jsx"))
 
 function isAuthenticated() {
-  
+
   return !!Cookies.get('access_tokennew');
 }
 
@@ -42,25 +41,25 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />     
-            <Route path="/ourteam" element={<OurTeam />} />            
+            <Route path="/about" element={<About />} />
+            <Route path="/ourteam" element={<OurTeam />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
             <Route path="/coursesNew" element={<CoursesNew />} />
             <Route path="/course-details/:courseId" element={<CourseDetails />} />
             <Route path="/contact" element={<ContactUs />} />
-            <Route 
-            path="/sign-Up" 
-            element={isAuthenticated() ? <Navigate to="/" /> : <SignUp />} 
-          />
-          <Route 
-            path="/login/:courseId" 
-            element={isAuthenticated() ? <Navigate to="/" /> : <SignInDynamic />} 
-          />
-          <Route 
-            path="/sign-In" 
-            element={isAuthenticated() ? <Navigate to="/" /> : <SignIn />} 
-          />
+            <Route
+              path="/sign-Up"
+              element={isAuthenticated() ? <Navigate to="/" /> : <SignUp />}
+            />
+            <Route
+              path="/login/:courseId"
+              element={isAuthenticated() ? <Navigate to="/" /> : <SignInDynamic />}
+            />
+            <Route
+              path="/sign-In"
+              element={isAuthenticated() ? <Navigate to="/" /> : <SignIn />}
+            />
             <Route path="/reset-password" element={<ResetPassword />} />
           </Route>
           <Route element={<PrivateRoute element={<StudentLayout />} />}>
@@ -70,11 +69,10 @@ function App() {
             <Route path="/mycourse" element={<MyCourses />} />
             <Route path="/upsc-student" element={<UPSCStudent />} />
             <Route path="/watch-course/:id" element={<WatchCourse />} />
-            {/* <Route path="/live-class" element={<ZoomClasses />} /> */}
           </Route>
           <Route path="*" element={<div className="text-red-600 lg:text-4xl md:text-3xl text-2xl font-bold flex items-center justify-center h-screen ">
             <div>Page Not Found</div>
-            </div>} />
+          </div>} />
         </Routes>
       </Suspense>
     </Fragment>

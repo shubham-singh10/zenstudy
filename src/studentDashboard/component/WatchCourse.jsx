@@ -1,11 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
-import { ZoomMtg } from "@zoom/meetingsdk";
 import Cookies from "js-cookie";
-
-// ZoomMtg.preLoadWasm();
-// ZoomMtg.prepareWebSDK();
 
 const WatchCourse = () => {
   const [selectedTab, setSelectedTab] = useState("About Video");
@@ -18,8 +14,7 @@ const WatchCourse = () => {
   const navigate = useNavigate();
   const tabs = ["About Video"
     // , "Q&A", "Reviews"
-    ];
-  const [isMeetingStarted, setIsMeetingStarted] = useState(false);
+  ];
   const [meetingId, setmeetingId] = useState(null)
   const [meetloading, setMeetLoading] = useState(false);
   const token = Cookies.get("access_tokennew");
@@ -68,72 +63,6 @@ const WatchCourse = () => {
   }, [id, navigate]);
 
   //************************************ Meeting Function Start ***************************************************************//
-  const onSubmit = async (id) => {
-    setMeetLoading(true);
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API}zenstudy/api/meeting/join`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id }),
-        }
-      );
-
-      if (response.status === 204) {
-        console.log("No meeting found for this meeting number.");
-        return;
-      }
-
-      if (!response.ok) {
-        throw new Error(
-          `Network response was not ok. Status code: ${response.status}`
-        );
-      }
-
-      const data = await response.json();
-      if (data.meetingData) {
-        let jdata = data.meetingData;
-
-        // Add participant to the meeting
-        const participantResponse = await fetch(
-          `${process.env.REACT_APP_API}zenstudy/api/meeting/addParticipant`,
-          {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              meetingId: jdata._id,
-              participantsuser: token,
-            }),
-          }
-        );
-
-        if (!participantResponse.ok) {
-          throw new Error(
-            `Failed to add participant. Status code: ${participantResponse.status}`
-          );
-        }
-        const participant = await participantResponse.json();
-        console.log("Participant", participant.participantName);
-        startMeeting(
-          jdata.signature,
-          jdata.meetingNumber,
-          jdata.password,
-          participant.participantName
-        );
-      }
-    } catch (error) {
-      console.error("Error joining meeting:", error);
-    } finally {
-      setMeetLoading(false);
-    }
-  };
 
 
   const onSubmit2 = async (id) => {
@@ -141,49 +70,6 @@ const WatchCourse = () => {
     window.location.replace(`http://localhost:3000?key=${id}&user=${token}`)
   };
 
-  var userEmail = "";
-  var registrantToken = "";
-  var zakToken = "";
-  const startMeeting = (signature, meetingNumber, password, username) => {
-    document.getElementById("zmmtg-root").style.display = "block";
-
-    // console.log("Starting meeting with details:", {
-    //   signature,
-    //   meetingNumber,
-    //   password,
-    //   userName: username,
-    // });
-
-    ZoomMtg.init({
-      leaveUrl: "https://zenstudy.in/",
-      patchJsMedia: true,
-      leaveOnPageUnload: true,
-      success: (success) => {
-        console.log(success);
-        setIsMeetingStarted(true)
-        ZoomMtg.join({
-          signature: signature,
-          sdkKey: process.env.REACT_APP_ZOOM_SDK_KEY,
-          meetingNumber: meetingNumber,
-          passWord: password,
-          userName: username,
-          userEmail: userEmail,
-          tk: registrantToken,
-          zak: zakToken,
-          success: (success) => {
-            console.log(success);
-
-          },
-          error: (error) => {
-            console.log(error);
-          },
-        });
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-  };
 
   //************************************ Meeting Function End   ***************************************************************//
 
@@ -309,13 +195,13 @@ const WatchCourse = () => {
       </div>
 
       {/* Meeting join button */}
-      {!isMeetingStarted && meetingId && (
+      {meetingId && (
         <button
           onClick={() => onSubmit2(meetingId)}
           disabled={meetloading}
           className={`flex justify-end ${meetloading
-              ? "bg-red-500 hover:bg-red-700"
-              : "bg-blue-600 hover:bg-blue-700 animate-glow"
+            ? "bg-red-500 hover:bg-red-700"
+            : "bg-blue-600 hover:bg-blue-700 animate-glow"
             } text-white z-50 rounded-full fixed bottom-0 right-10 mb-6 text-xl py-2 px-8`}
         >
           {meetloading ? (

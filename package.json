@@ -14,8 +14,6 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@zoom/meetingsdk": "^3.8.5",
-    "@zoomus/websdk": "^2.18.3",
     "axios": "^1.7.7",
     "firebase": "^10.12.3",
     "framer-motion": "^11.3.2",
