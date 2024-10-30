@@ -68,7 +68,8 @@ const WatchCourse = () => {
   const onSubmit2 = async (id) => {
     setMeetLoading(true);
     // window.location.replace(`http://localhost:3001?key=${id}&user=${token}`)
-    window.location.replace(`https://live.zenstudy.in/?key=${id}&user=${token}`)
+    // window.location.replace(`https://live.zenstudy.in/?key=${id}&user=${token}`)
+    window.location.replace(`https://live-zenstudy.vercel.app/?key=${id}&user=${token}`)
   };
 
 
