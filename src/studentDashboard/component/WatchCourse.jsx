@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
+import he from 'he';
 
 const WatchCourse = () => {
   const [selectedTab, setSelectedTab] = useState("About Video");
@@ -98,11 +99,13 @@ const WatchCourse = () => {
     );
   }
 
+
   const handleVideoClick = (videoUrl, videoTitle, videoDesc) => {
     setUrl(videoUrl);
     setSelectedVideoTitle(videoTitle);
     setSelectedVideoDesc(videoDesc);
   };
+
 
   return (
     <div className="container mx-auto p-4">
@@ -142,7 +145,7 @@ const WatchCourse = () => {
             <div className="mt-4">
               {selectedTab === "About Video" && (
                 <div>
-                  <p className="text-gray-700">{selectedVideoDesc}</p>
+                  <p className="text-gray-700">{he.decode(selectedVideoDesc)}</p>
                 </div>
               )}
               {selectedTab === "Q&A" && <div>Q&A Content</div>}
