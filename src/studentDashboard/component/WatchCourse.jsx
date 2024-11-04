@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 const WatchCourse = () => {
   const [selectedTab, setSelectedTab] = useState("About Video");
@@ -122,12 +123,54 @@ const WatchCourse = () => {
     );
   }
 
-
   const handleVideoClick = (videoUrl, videoTitle, videoDesc) => {
     setUrl(videoUrl);
     setSelectedVideoTitle(videoTitle);
     setSelectedVideoDesc(videoDesc);
   };
+
+
+
+  const submitReview = async (e) => {
+    e.preventDefault();
+    // console.log('Course_Id: ', id)
+    // console.log('User_Id: ', token)
+    // console.log('Rating: ', rating)
+    // console.log('Comment: ', reviewContent)
+    try {
+      await axios.post(`${process.env.REACT_APP_API2}zenstudy/api/course/${courseId}/reviews`, {
+        userId: token,
+        reviewContent,
+        rating
+      });
+      alert("Review submitted successfully");
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    }
+  };
+ 
+  const renderStars = () => { 
+    return [...Array(5)].map((_, index) => {
+      const starValue = index + 1;
+      return (
+        <svg
+          key={index}
+          className={`w-8 h-8 cursor-pointer ${starValue <= (hoverRating || rating)
+            ? "text-yellow-400"
+            : "text-gray-300"
+            } ${rating > 0 ? "cursor-default" : ""}`}
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          onClick={() => rating === 0 && setRating(starValue)}
+          onMouseEnter={() => rating === 0 && setHoverRating(starValue)}
+          onMouseLeave={() => rating === 0 && setHoverRating(0)}
+        >
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.118 3.43a1 1 0 00.95.69h3.584c.969 0 1.371 1.24.588 1.81l-2.897 2.11a1 1 0 00-.364 1.118l1.118 3.43c.3.921-.755 1.688-1.54 1.118l-2.897-2.11a1 1 0 00-1.176 0l-2.897 2.11c-.784.57-1.838-.197-1.539-1.118l1.118-3.43a1 1 0 00-.364-1.118l-2.897-2.11c-.783-.57-.38-1.81.588-1.81h3.584a1 1 0 00.95-.69l1.118-3.43z" />
+        </svg>
+      );
+    });
+  };
+
 
   return (
     <div className="container mx-auto p-4">
@@ -167,7 +210,7 @@ const WatchCourse = () => {
             <div className="mt-4">
               {selectedTab === "About Video" && (
                 <div>
-                  <p className="text-gray-700">{he.decode(selectedVideoDesc)}</p>
+                  <p className="text-gray-700">{selectedVideoDesc}</p>
                 </div>
               )}
               {selectedTab === "Q&A" && <div>Q&A Content</div>}
