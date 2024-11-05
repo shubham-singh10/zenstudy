@@ -18,7 +18,7 @@ const CourseCard = ({ course }) => {
   };
   const isUpcoming = course.other1 === "upcoming";
   return (
-    <div className="max-w-xs rounded-2xl overflow-hidden shadow-lg m-4 p-4">
+    <div className="max-w-xs space-y-1 rounded-2xl overflow-hidden shadow-lg m-4 p-4">
       <div className="relative">
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
@@ -39,7 +39,7 @@ const CourseCard = ({ course }) => {
         />
       </div>
 
-      <div className="px-6 py-4 h-28">
+      <div className="px-6 py-4 ">
         <div className="font-bold text-sm mb-1  text-blue-600">
           {course.title}
         </div>
@@ -56,14 +56,14 @@ const CourseCard = ({ course }) => {
       <div className="flex flex-row px-6 pt-4  justify-between items-center border-t-2">
         <p className="text-blue-600 font-bold text-xl">₹ {course.price}</p>
         {isUpcoming ? (
-          <p className="text-red-600 font-bold">Coming Soon</p>
+          <p className="text-red-600 font-bold text-sm">Coming Soon</p>
         ) : (
           <button
             className="custom-btn"
             onClick={() => navigate(`/course-details/${course._id}`)}
           >
             <span className="custom-btn-bg"></span>
-            <span className="custom-btn-text">View Details</span>
+            <span className="custom-btn-text text-sm">View Details</span>
           </button>
         )}
       </div>

@@ -322,8 +322,8 @@ const CourseDetailsView = () => {
             </div>
           )}
 
-          <div className="px-6 py-4">
-            <div className="font-bold text-xl mb-2 text-blue-600">
+          <div className="px-6 py-4 ">
+            <div className="font-bold text-sm mb-2 text-blue-600">
               {coursePost?.title}
             </div>
             {
@@ -332,18 +332,16 @@ const CourseDetailsView = () => {
             <p className="text-gray-600 text-xs mt-4">
               Created at - {formatDate(coursePost?.createdAt)}
             </p>
-            {
-              // <p className="text-gray-600">course day</p>
-            }
+            
           </div>
 
           {currentUser && (
-            <div className="mb-4 w-[100%] flex flex-wrap justify-center  px-4">
+            <div className="mb-4 w-[100%] flex flex-wrap  justify-between  px-4">
               <input
                 type="text"
                 id="coupon"
                 onChange={(e) => setCode(e.target.value)}
-                className="border p-1 outline-none"
+                className="border p-1 outline-none rounded-lg"
                 placeholder="Enter Coupon Code"
               />
               <span>
@@ -354,7 +352,7 @@ const CourseDetailsView = () => {
                 ) : (
                   <button
                     onClick={() => ApplyCoupon(coursePost?.price)}
-                    className="bg-blue-600 hover:bg-blue-700 text- text-white px-4 py-2 "
+                    className="bg-blue-600 hover:bg-blue-700 rounded-lg text-sm text-white px-8 py-2 "
                   >
                     Apply
                   </button>
@@ -363,11 +361,11 @@ const CourseDetailsView = () => {
             </div>
           )}
 
-          <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center  border-t-2">
-            <p className="text-blue-600 font-bold text-2xl">
+          <div className=" flex flex-row px-2 pt-4 pb-2 justify-between items-center  border-t-2">
+            <p className="text-blue-600 font-bold text-xl">
               {discount ? (
                 <Fragment>
-                  <span className="line-through text-gray-400 mr-2 text-lg">
+                  <span className="line-through text-gray-400 mr-2 text-sm">
                     ₹ {Math.round(coursePost?.price)}
                   </span>
                   <span>
@@ -384,7 +382,7 @@ const CourseDetailsView = () => {
 
             {currentUser ? (
               <button
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center"
+                className="bg-blue-600 w-[60%] hover:bg-blue-700 text-sm text-white font-bold py-2 px-6 rounded-full flex items-center justify-center"
                 onClick={() =>
                   handlePayment(
                     discount
@@ -427,7 +425,7 @@ const CourseDetailsView = () => {
             ) : (
               <button
                 onClick={() => navigate(`/login/${courseId}`)}
-                className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full"
+                className="bg-blue-600 text-sm text-white font-bold py-2 px-4 rounded-full"
               >
                 Login to purchase
               </button>

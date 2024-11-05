@@ -216,7 +216,7 @@ const WatchCourse = () => {
               {selectedTab === "Q&A" && <div>Q&A Content</div>}
               {selectedTab === "Reviews" && (
                 <form onSubmit={submitReview} className="p-6 bg-white rounded-lg shadow-md max-w-lg mx-auto space-y-4">
-                  <h2 className="text-xl font-semibold text-gray-700">Leave a Review</h2>
+                {rating === 0 ? <h2 className="text-lg font-semibold text-gray-700">Leave a Review</h2>:  <h2 className="text-lg font-semibold text-gray-700">Thankyou for your review !</h2>}
                   {/* Star Rating */}
                   <div className="flex items-center space-x-1">
                     {renderStars()}

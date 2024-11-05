@@ -36,7 +36,7 @@ const CourseCard = ({ course }) => {
     }, [courseId]);
 
     return (
-        <div className="max-w-xs rounded overflow-hidden shadow-lg p-4 bg-white">
+        <div className="max-w-xs space-y-2 rounded overflow-hidden shadow-lg p-4 bg-white">
             <div className="relative">
                 {loading && (
                     <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
@@ -54,55 +54,61 @@ const CourseCard = ({ course }) => {
                     }}
                 />
             </div>
-            <div className="px-4 py-2 h-24 border-b-2">
+            <div className="px-4 py-2 border-b-2">
+ 
                 <div className="font-bold text-lg h-auto mb-1">{course.course_id.title}</div>
-                <div className="flex items-center space-x-1">
-                    {/* <span className="text-lg font-semibold text-yellow-500">{averageRating?.toFixed(1)} / 5</span> */}
-                    <div className="flex items-center space-x-1">
-                        {[...Array(5)].map((_, index) => {
-                            const fullStars = Math.floor(averageRating);
-                            const hasHalfStar = averageRating % 1 !== 0;
-
-                            if (index < fullStars) {
-                                // Full star
-                                return (
-                                    <svg key={index} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.118 3.43a1 1 0 00.95.69h3.584c.969 0 1.371 1.24.588 1.81l-2.897 2.11a1 1 0 00-.364 1.118l1.118 3.43c.3.921-.755 1.688-1.54 1.118l-2.897-2.11a1 1 0 00-1.176 0l-2.897 2.11c-.784.57-1.838-.197-1.539-1.118l1.118-3.43a1 1 0 00-.364-1.118l-2.897-2.11c-.783-.57-.38-1.81.588-1.81h3.584a1 1 0 00.95-.69l1.118-3.43z" />
-                                    </svg>
-                                );
-                            } else if (index === fullStars && hasHalfStar) {
-                                // Half star
-                                return (
-                                    <svg key={index} className="w-5 h-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                        <defs>
-                                            <linearGradient id="half">
-                                                <stop offset="50%" stopColor="currentColor" />
-                                                <stop offset="50%" stopColor="transparent" />
-                                            </linearGradient>
-                                        </defs>
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.118 3.43a1 1 0 00.95.69h3.584c.969 0 1.371 1.24.588 1.81l-2.897 2.11a1 1 0 00-.364 1.118l1.118 3.43c.3.921-.755 1.688-1.54 1.118l-2.897-2.11a1 1 0 00-1.176 0l-2.897 2.11c-.784.57-1.838-.197-1.539-1.118l1.118-3.43a1 1 0 00-.364-1.118l-2.897-2.11c-.783-.57-.38-1.81.588-1.81h3.584a1 1 0 00.95-.69l1.118-3.43z"
-                                            fill="url(#half)"
-                                        />
-                                    </svg>
-                                );
-                            } else {
-                                // Empty star
-                                return (
-                                    <svg key={index} className="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.118 3.43a1 1 0 00.95.69h3.584c.969 0 1.371 1.24.588 1.81l-2.897 2.11a1 1 0 00-.364 1.118l1.118 3.43c.3.921-.755 1.688-1.54 1.118l-2.897-2.11a1 1 0 00-1.176 0l-2.897 2.11c-.784.57-1.838-.197-1.539-1.118l1.118-3.43a1 1 0 00-.364-1.118l-2.897-2.11c-.783-.57-.38-1.81.588-1.81h3.584a1 1 0 00.95-.69l1.118-3.43z" />
-                                    </svg>
-                                );
-                            }
-                        })}
-                    </div>
-                    <span className="text-gray-500">({reviewsCount} reviews)</span>
-                </div>
+          
                 <p className="text-gray-600 text-xs">Created at: {formatDate(course.course_id.createdAt)}</p>
                 <p className="text-gray-600 text-xs">{course.course_id.day}</p>
+
+                <div className="flex items-center space-x-1 mt-1">
+                {/* <span className="text-lg font-semibold text-yellow-500">{averageRating?.toFixed(1)} / 5</span> */}
+                <div className="flex items-center space-x-1">
+                    {[...Array(5)].map((_, index) => {
+                        const fullStars = Math.floor(averageRating);
+                        const hasHalfStar = averageRating % 1 !== 0;
+
+                        if (index < fullStars) {
+                            // Full star
+                            return (
+                                <svg key={index} className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.118 3.43a1 1 0 00.95.69h3.584c.969 0 1.371 1.24.588 1.81l-2.897 2.11a1 1 0 00-.364 1.118l1.118 3.43c.3.921-.755 1.688-1.54 1.118l-2.897-2.11a1 1 0 00-1.176 0l-2.897 2.11c-.784.57-1.838-.197-1.539-1.118l1.118-3.43a1 1 0 00-.364-1.118l-2.897-2.11c-.783-.57-.38-1.81.588-1.81h3.584a1 1 0 00.95-.69l1.118-3.43z" />
+                                </svg>
+                            );
+                        } else if (index === fullStars && hasHalfStar) {
+                            // Half star
+                            return (
+                                <svg key={index} className="w-5 h-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <defs>
+                                        <linearGradient id="half">
+                                            <stop offset="50%" stopColor="currentColor" />
+                                            <stop offset="50%" stopColor="lightGray" />
+                                        </linearGradient>
+                                    </defs>
+                                    <path
+                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.118 3.43a1 1 0 00.95.69h3.584c.969 0 1.371 1.24.588 1.81l-2.897 2.11a1 1 0 00-.364 1.118l1.118 3.43c.3.921-.755 1.688-1.54 1.118l-2.897-2.11a1 1 0 00-1.176 0l-2.897 2.11c-.784.57-1.838-.197-1.539-1.118l1.118-3.43a1 1 0 00-.364-1.118l-2.897-2.11c-.783-.57-.38-1.81.588-1.81h3.584a1 1 0 00.95-.69l1.118-3.43z"
+                                        fill="url(#half)"
+                                    />
+                                </svg>
+                            );
+                        } else {
+                            // Empty star
+                            return (
+                                <svg key={index} className="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.118 3.43a1 1 0 00.95.69h3.584c.969 0 1.371 1.24.588 1.81l-2.897 2.11a1 1 0 00-.364 1.118l1.118 3.43c.3.921-.755 1.688-1.54 1.118l-2.897-2.11a1 1 0 00-1.176 0l-2.897 2.11c-.784.57-1.838-.197-1.539-1.118l1.118-3.43a1 1 0 00-.364-1.118l-2.897-2.11c-.783-.57-.38-1.81.588-1.81h3.584a1 1 0 00.95-.69l1.118-3.43z" />
+                                </svg>
+                            );
+                        }
+                    })}
+                </div>
+                <div className=" text-gray-500 text-xs ">{averageRating}/5 ({reviewsCount} reviews)</div>
             </div>
-            <div className="px-4 pt-2 pb-2">
-                <button className="bg-blue-600 hover:bg-blue-700 mt-2 text-white font-bold py-2 px-4 rounded-full" onClick={() => navigate(`/watch-course/${course._id}`)}>Continue Learning</button>
+        
+       
+
+            </div>
+            <div className="px-4">
+                <button className="bg-blue-600 text-sm hover:bg-blue-700 mt-2 text-white font-bold py-2 px-4 rounded-full" onClick={() => navigate(`/watch-course/${course._id}`)}>Continue Learning</button>
             </div>
         </div>
     );
