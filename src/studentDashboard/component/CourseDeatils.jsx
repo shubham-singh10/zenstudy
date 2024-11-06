@@ -52,14 +52,17 @@ const CourseCard = ({ course }) => {
         <p className="text-blue-600 font-bold text-xl">₹ {course.price}</p>
         {isUpcoming ? (
           <p className="text-red-600 font-bold">Coming Soon</p>
-        ) : (<button
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-          onClick={() =>
-            navigate(`/course-details-view/${course._id}`)
-          }
-        >
-          View Details
-        </button>)}
+        ) : (
+        <button
+        className="custom-btn"
+        onClick={() =>
+          navigate(`/course-details-view/${course._id}`)
+        }
+      >
+        <span className="custom-btn-bg"></span>
+        <span className="custom-btn-text text-sm">View Details</span>
+      </button>
+    )}
       </div>
     </div>
   );
