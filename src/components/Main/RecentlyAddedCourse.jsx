@@ -54,7 +54,7 @@ const RecentlyAddedCourse = () => {
     return (
         <div>
             <div className="relative lg:mt-20 lg:mb-20 md:mt-15 md:mb-15 mt-10 mb-10">
-                <div className="absolute -z-50 lg:top-[-100px] lg:left-[0px] top-[-30px] left-[0px] lg:w-[300px] lg:h-[300px] w-[200px] h-[200px] bg-gray-100 text-white flex items-center justify-end px-4 rounded-full"></div>
+                
                 <animated.h1
                     ref={slideUpRef}
                     style={slideUpStyles}

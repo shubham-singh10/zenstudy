@@ -317,44 +317,69 @@ const CourseDetailsView = () => {
             </div>
           )}
 
-          <div className="px-6 py-4">
-            <div className="font-bold text-xl mb-2 text-blue-600">
+          <div className="px-6 py-4 ">
+            <div className="font-bold text-sm mb-2 text-blue-600">
               {coursePost?.title}
             </div>
 
-            <p className="text-gray-600 mt-2 text-xs">
-              created at: {formatDate(coursePost?.createdAt)}
+            <p className="text-gray-600 text-xs mt-4">
+              Created at - {formatDate(coursePost?.createdAt)}
             </p>
           </div>
 
-          <div className="mb-4 w-[100%] flex flex-wrap justify-center  px-4">
-            <input
-              type="text"
-              id="coupon"
-              onChange={(e) => setCode(e.target.value)}
-              className="border p-1 outline-none"
-              placeholder="Enter Coupon Code"
-            />
-            <span>
-              {couponLoading ? (
-                <button className="bg-red-600 text- text-white px-4 py-2 ">
-                  Wait..
-                </button>
-              ) : (
-                <button
-                  onClick={() => ApplyCoupon(coursePost?.price)}
-                  className="bg-blue-600 hover:bg-blue-700 text- text-white px-4 py-2 "
-                >
-                  Apply
-                </button>
-              )}
-            </span>
-          </div>
-          <div className=" flex flex-row px-6 pt-4 pb-2 justify-between items-center border-t-2">
-            <p className="text-blue-600 font-bold text-2xl">
+        
+            <div className="mb-4 w-[100%] flex flex-wrap  justify-between  px-4">
+              <input
+                type="text"
+                id="coupon"
+                onChange={(e) => setCode(e.target.value)}
+                className="border p-1 outline-none rounded-lg"
+                placeholder="Enter Coupon Code"
+              />
+              <span>
+                {couponLoading ? (
+                  <button className="bg-red-600 text-sm rounded-lg text-white px-5 py-2 ">
+                    <span className="flex items-center">
+                      <svg
+                        className="w-5 h-5 mr-2 animate-spin text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
+                        ></path>
+                      </svg>
+                      wait...
+                    </span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => ApplyCoupon(coursePost?.price)}
+                    className="bg-blue-600 hover:bg-blue-700 rounded-lg text-sm text-white px-8 py-2 "
+                  >
+                    Apply
+                  </button>
+                )}
+              </span>
+            </div>
+        
+
+          <div className=" flex flex-row px-2 pt-4 pb-2 justify-between items-center  border-t-2">
+            <p className="text-blue-600 font-bold text-xl">
               {discount ? (
                 <Fragment>
-                  <span className="line-through text-gray-400 mr-2 text-lg">
+                  <span className="line-through text-gray-400 mr-2 text-sm">
                     ₹ {Math.round(coursePost?.price)}
                   </span>
                   <span>
@@ -365,51 +390,53 @@ const CourseDetailsView = () => {
                   </span>
                 </Fragment>
               ) : (
-                <span>₹{Math.round(coursePost?.price)}</span>
+                <span>₹ {Math.round(coursePost?.price)}</span>
               )}
             </p>
 
-            <button
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center"
-              onClick={() =>
-                handlePayment(
-                  discount
-                    ? Math.round(discount.discount) === 0
-                      ? 1
-                      : Math.round(discount.discount)
-                    : coursePost?.price
-                )
-              }
-              disabled={payloading}
-            >
-              {payloading ? (
-                <span className="flex items-center">
-                  <svg
-                    className="w-5 h-5 mr-2 animate-spin text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
-                    ></path>
-                  </svg>
-                  Please wait...
-                </span>
-              ) : (
-                "Pay Now"
-              )}
-            </button>
+          
+              <button
+                className="bg-blue-600 w-[60%] hover:bg-blue-700 text-sm text-white font-bold py-2 px-6 rounded-full flex items-center justify-center"
+                onClick={() =>
+                  handlePayment(
+                    discount
+                      ? Math.round(discount.discount) === 0
+                        ? 1
+                        : Math.round(discount.discount)
+                      : coursePost?.price
+                  )
+                }
+                disabled={payloading}
+              >
+                {payloading ? (
+                  <span className="flex items-center">
+                    <svg
+                      className="w-5 h-5 mr-2 animate-spin text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
+                      ></path>
+                    </svg>
+                    Please wait...
+                  </span>
+                ) : (
+                  "Pay Now"
+                )}
+              </button>
+            
           </div>
         </div>
       </div>

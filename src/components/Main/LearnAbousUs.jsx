@@ -54,7 +54,6 @@ const LearnAbousUs = () => {
   return (
     <div>
       <div className="w-full min-h-[30vh] relative ">
-        <div className="absolute -z-50 lg:top-[-70px] lg:right-[0px] top-[-10px] right-[0px] lg:w-[300px] lg:h-[300px] w-[200px] h-[200px] bg-gray-100 text-white flex items-center justify-end px-4 rounded-full"></div>
         <div className="px-4 lg:px-12 flex flex-col mt-20 lg:mt-20 gap-6 lg:gap-10 ">
           <div>
             <animated.p

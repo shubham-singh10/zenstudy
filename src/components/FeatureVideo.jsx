@@ -52,7 +52,7 @@ const FeatureVideo = () => {
 
   return (
     <div className="w-full mt-10 min-h-[70vh] relative">
-      <div className="absolute -z-50 lg:top-[-70px] lg:left-[0px] top-[-30px] left-[0px] lg:w-[300px] lg:h-[300px] w-[200px] h-[200px] bg-gray-100 text-white flex items-center justify-end px-4 rounded-full"></div>
+      
 
       <div className="px-4 md:px-10 lg:px-12">
         <animated.div style={slideUp}>

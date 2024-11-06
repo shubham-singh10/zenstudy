@@ -67,7 +67,7 @@ function CardSlider({ courseData }) {
             {courseData.map((d, index) => (
               <div
                 key={index}
-                className=" flex flex-col justify-between rounded-2xl overflow-hidden shadow-lg m-4 p-4 h-[100%]"
+                className="space-y-1 flex flex-col justify-between rounded-2xl overflow-hidden shadow-lg m-4 p-4 h-[100%]"
               >
                 <div className="relative">
                   <img
@@ -78,7 +78,7 @@ function CardSlider({ courseData }) {
                   />
                 </div>
 
-                <div className="flex-grow px-6 h-28 py-4">
+                <div className="flex-grow px-6 py-4">
                   <div className="font-bold text-sm mb-2 text-blue-600">
                     {d.title}
                   </div>

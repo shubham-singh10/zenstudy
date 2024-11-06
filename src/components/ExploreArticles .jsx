@@ -122,10 +122,6 @@ const ExploreArticles = () => {
 
   return (
     <div className="w-full min-h-screen md:mb-10 lg:mb-20 relative">
-      <div className="absolute -z-50 lg:top-[-70px] lg:right-[0px] top-[-10px] right-[0px] lg:w-[300px] lg:h-[300px] w-[200px] h-[200px] bg-gray-100 text-white flex items-center justify-end px-4 rounded-full"></div>
-
-
-
 
       <div className="lg:px-12 md:p-4 p-4">
         <animated.div ref={refSlideUp} style={SlideUp}>

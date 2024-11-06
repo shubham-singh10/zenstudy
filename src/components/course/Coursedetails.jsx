@@ -270,7 +270,7 @@ const CourseDetailsView = () => {
       <div className="p-4 lg:p-12 bg-blue-100 w-full md:p-8 rounded-md flex flex-col justify-start items-start">
         <button
           className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-4 flex items-center lg:-mt-10 md:-mt-6 sm:mt-0"
-          onClick={() => navigate('/courses')}
+          onClick={() => navigate("/courses")}
         >
           <FiArrowLeft className="w-5 h-5 mr-2" />
           Back
@@ -298,7 +298,7 @@ const CourseDetailsView = () => {
               {coursePost?.other1}
             </li>
             <li className="flex items-start text-justify">
-             {coursePost?.other2}
+              {coursePost?.other2}
             </li>
           </ul>
         </div>
@@ -326,13 +326,10 @@ const CourseDetailsView = () => {
             <div className="font-bold text-sm mb-2 text-blue-600">
               {coursePost?.title}
             </div>
-            {
-              //<p className="text-gray-700 text-base">Tutor</p>
-            }
+
             <p className="text-gray-600 text-xs mt-4">
               Created at - {formatDate(coursePost?.createdAt)}
             </p>
-            
           </div>
 
           {currentUser && (
@@ -346,8 +343,30 @@ const CourseDetailsView = () => {
               />
               <span>
                 {couponLoading ? (
-                  <button className="bg-red-600 text- text-white px-4 py-2 ">
-                    Wait..
+                  <button className="bg-red-600 text-sm rounded-lg text-white px-5 py-2 ">
+                    <span className="flex items-center">
+                      <svg
+                        className="w-5 h-5 mr-2 animate-spin text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
+                        ></path>
+                      </svg>
+                      wait...
+                    </span>
                   </button>
                 ) : (
                   <button
@@ -471,7 +490,11 @@ const CourseDetailsView = () => {
                   <p className="px-4 text-gray-500 bg-gray-50 w-full ">
                     {videoTitle || "no videos"}
                   </p>
-                  {IsFree ? (<FaLockOpen className="text-blue-400 " />) : (<FaLock className="text-blue-400 " />)}
+                  {IsFree ? (
+                    <FaLockOpen className="text-blue-400 " />
+                  ) : (
+                    <FaLock className="text-blue-400 " />
+                  )}
                 </div>
               ))
             ) : (
