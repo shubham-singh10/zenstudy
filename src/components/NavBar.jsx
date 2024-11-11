@@ -35,7 +35,7 @@ const navLink = [
   },
   {
     label: "Events",
-    link: "/https://blog.zenstudy.in/category/events/",
+    link: "https://blog.zenstudy.in/category/events/",
     className: "hover:text-[#054BB4]"
   },
   {
