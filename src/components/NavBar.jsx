@@ -34,6 +34,11 @@ const navLink = [
     className: "hover:text-[#054BB4]"
   },
   {
+    label: "Events",
+    link: "/https://blog.zenstudy.in/category/events/",
+    className: "hover:text-[#054BB4]"
+  },
+  {
     label: "Contact",
     link: "/contact",
     className: "hover:text-[#054BB4]"
