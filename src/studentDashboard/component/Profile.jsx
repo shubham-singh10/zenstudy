@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FiUpload } from "react-icons/fi";
+import { FiUpload, FiUploadCloud } from "react-icons/fi";
 import { TextField, Button } from "@mui/material";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie"; // Add this package
@@ -17,7 +17,9 @@ const Profile = () => {
     avatar: "",
   });
   const [image, setImage] = useState(null);
+  const [imager, setImager] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [Imgloading, setImgLoading] = useState(false);
   const [Dloading, setDLoading] = useState(true);
   const token = Cookies.get("access_tokennew");
   let userId = null;
@@ -38,11 +40,11 @@ const Profile = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result);
+        setImager(reader.result);
       };
       reader.readAsDataURL(file);
     }
   };
-
   //Get User Data API
   const getUserData = async (userId) => {
     setDLoading(true);
@@ -90,6 +92,44 @@ const Profile = () => {
     // console.log("User_Data: ", userData)
     try {
       const response = await axios.put(
+        `${process.env.REACT_APP_API}zenstudy/api/user/updateUserN/${userId}`,
+        userData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        }
+      );
+
+      // console.log("Response_Data", response.data.user)
+      if (response.data.message === "Success") {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "User updated successfully",
+        });
+      }
+    } catch (error) {
+      // console.log('Error: ', error)
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Error: User update failed.`,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Update User Image API
+  const submitImageData = async () => {
+    if (!userId) return;
+
+    setImgLoading(true);
+    // console.log("User_Data: ", userData)
+    try {
+      const response = await axios.put(
         `${process.env.REACT_APP_API}zenstudy/api/user/updatenew/${userId}`,
         userData,
         {
@@ -105,17 +145,19 @@ const Profile = () => {
         Swal.fire({
           icon: "success",
           title: "Success",
-          text: "User updated successfully",
+          text: "Image updated successfully",
         });
+        setImager(null)
       }
     } catch (error) {
+      // console.log('Error: ', error)
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: `Error: User update failed.`,
       });
     } finally {
-      setLoading(false);
+      setImgLoading(false);
     }
   };
 
@@ -137,9 +179,9 @@ const Profile = () => {
 
   if (Dloading) {
     return (
-        <div className="flex items-center justify-center h-screen">
-            <div className="text-4xl font-bold animate-pulse">ZenStudy.</div>
-        </div>
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-4xl font-bold animate-pulse">ZenStudy.</div>
+      </div>
     );
   }
   return (
@@ -155,10 +197,17 @@ const Profile = () => {
           className="rounded-full h-52 w-52 mb-4"
         />
         <label className="flex bg-[#054BB4] text-white w-full md:w-1/3 items-center justify-center py-2 cursor-pointer">
-          <input type="file" className="hidden" onChange={handleImageChange} />
+          <input type="file" className="hidden" accept="image/png, image/jpeg, image/jpg" onChange={handleImageChange} />
           <span className="px-4">Choose File</span>
           <FiUpload className="text-2xl" />
         </label>
+        {imager && (<button
+          className="flex gap-2 bg-[#76b641] text-white m-2 p-2 rounded"
+          onClick={() => submitImageData()}
+          disabled={Imgloading}
+        >
+          {Imgloading ? "Updating..." : "Update"} <FiUploadCloud />
+        </button>)}
       </div>
 
       <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">

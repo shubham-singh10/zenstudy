@@ -24,7 +24,7 @@ const CourseCard = ({ course }) => {
     const fetchAverageRating = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API2}zenstudy/api/course/${courseId}/getReviews`
+          `${process.env.REACT_APP_API}zenstudy/api/course/${courseId}/getReviews`
         );
         // console.log('Response: ', response.data)
         setAverageRating(response.data.averageRating);

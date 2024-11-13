@@ -71,7 +71,7 @@ const WatchCourse = () => {
 
     const fetchReviews = async (courseId) => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API2}zenstudy/api/course/${courseId}/getReviews`);
+        const response = await axios.get(`${process.env.REACT_APP_API}zenstudy/api/course/${courseId}/getReviews`);
         const reviews = response.data.reviews;
         // console.log("All reviews:", reviews);
 
@@ -138,7 +138,7 @@ const WatchCourse = () => {
     // console.log('Rating: ', rating)
     // console.log('Comment: ', reviewContent)
     try {
-      await axios.post(`${process.env.REACT_APP_API2}zenstudy/api/course/${courseId}/reviews`, {
+      await axios.post(`${process.env.REACT_APP_API}zenstudy/api/course/${courseId}/reviews`, {
         userId: token,
         reviewContent,
         rating
