@@ -69,7 +69,7 @@ const CourseCard = ({ course }) => {
         <p className="text-gray-600 text-xs">{course.course_id.day}</p>
 
         <div className="flex items-center space-x-1 mt-1">
-          {/* <span className="text-lg font-semibold text-yellow-500">{averageRating?.toFixed(1)} / 5</span> */}
+          
           <div className="flex items-center space-x-1">
             {[...Array(5)].map((_, index) => {
               const fullStars = Math.floor(averageRating);

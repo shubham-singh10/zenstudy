@@ -14,13 +14,12 @@ const WatchCourse = () => {
   const [selectedVideoDesc, setSelectedVideoDesc] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
-  const tabs = ["About Video"
-    , "Q&A", "Reviews"
-  ];
-  const [meetingId, setmeetingId] = useState(null)
+  const tabs = ["About Video", "Q&A", "Reviews"];
+  const [meetingId, setmeetingId] = useState(null);
   const [meetloading, setMeetLoading] = useState(false);
   const token = Cookies.get("access_tokennew");
   const [reviewContent, setReviewContent] = useState("");
+  const [AllReview, setAllReview] = useState([]);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
 
@@ -35,7 +34,7 @@ const WatchCourse = () => {
               Accept: "application/json",
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ id }),  // id from useParams
+            body: JSON.stringify({ id }), // id from useParams
           }
         );
 
@@ -53,7 +52,7 @@ const WatchCourse = () => {
         const data = await response.json();
         // console.log("MyCourse_purchase", data.response);
 
-        setCourseId(data?.response?.course._id)
+        setCourseId(data?.response?.course._id);
         setCourses(data.response?.modules);
         setmeetingId(data.response.course.meetingId);
         setLoading(false);
@@ -61,7 +60,6 @@ const WatchCourse = () => {
         if (data?.response?.course._id) {
           fetchReviews(data.response.course._id);
         }
-
       } catch (error) {
         console.error("Error:", error);
         // Redirect to mycourse on error
@@ -71,14 +69,16 @@ const WatchCourse = () => {
 
     const fetchReviews = async (courseId) => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API}zenstudy/api/course/${courseId}/getReviews`);
+        const response = await axios.get(
+          `${process.env.REACT_APP_API}zenstudy/api/course/${courseId}/getReviews`
+        );
         const reviews = response.data.reviews;
-        // console.log("All reviews:", reviews);
-
+         console.log("All reviews:", reviews);
+        setAllReview(reviews);
         const userReview = reviews.find((review) => review.userId === token);
         // console.log("User-specific rating:", userReview);
-        setRating(userReview?.rating)
-        setReviewContent(userReview?.reviewContent)
+        setRating(userReview?.rating || 0);
+        setReviewContent(userReview?.reviewContent || "");
       } catch (error) {
         console.log("Error fetching reviews");
       }
@@ -89,14 +89,14 @@ const WatchCourse = () => {
 
   //************************************ Meeting Function Start ***************************************************************//
 
-
   const onSubmit2 = async (id) => {
     setMeetLoading(true);
     // window.location.replace(`http://localhost:3001?key=${id}&user=${token}`)
-    window.location.replace(`https://live.zenstudy.in/?key=${id}&user=${token}`)
+    window.location.replace(
+      `https://live.zenstudy.in/?key=${id}&user=${token}`
+    );
     // window.location.replace(`https://live-zenstudy.vercel.app/?key=${id}&user=${token}`)
   };
-
 
   //************************************ Meeting Function End   ***************************************************************//
 
@@ -129,8 +129,6 @@ const WatchCourse = () => {
     setSelectedVideoDesc(videoDesc);
   };
 
-
-
   const submitReview = async (e) => {
     e.preventDefault();
     // console.log('Course_Id: ', id)
@@ -138,27 +136,31 @@ const WatchCourse = () => {
     // console.log('Rating: ', rating)
     // console.log('Comment: ', reviewContent)
     try {
-      await axios.post(`${process.env.REACT_APP_API}zenstudy/api/course/${courseId}/reviews`, {
-        userId: token,
-        reviewContent,
-        rating
-      });
+      await axios.post(
+        `${process.env.REACT_APP_API}zenstudy/api/course/${courseId}/reviews`,
+        {
+          userId: token,
+          reviewContent,
+          rating,
+        }
+      );
       alert("Review submitted successfully");
     } catch (error) {
       console.error("Error submitting review:", error);
     }
   };
- 
-  const renderStars = () => { 
+
+  const renderStars = () => {
     return [...Array(5)].map((_, index) => {
       const starValue = index + 1;
       return (
         <svg
           key={index}
-          className={`w-8 h-8 cursor-pointer ${starValue <= (hoverRating || rating)
-            ? "text-yellow-400"
-            : "text-gray-300"
-            } ${rating > 0 ? "cursor-default" : ""}`}
+          className={`w-8 h-8 cursor-pointer ${
+            starValue <= (hoverRating || rating)
+              ? "text-yellow-400"
+              : "text-gray-300"
+          } ${rating > 0 ? "cursor-default" : ""}`}
           fill="currentColor"
           viewBox="0 0 20 20"
           onClick={() => rating === 0 && setRating(starValue)}
@@ -171,6 +173,25 @@ const WatchCourse = () => {
     });
   };
 
+  const UserStars = (userStar) => {
+    return [...Array(5)].map((_, index) => {
+      const starValue = index + 1;
+      return (
+        <svg
+          key={index}
+          className={`w-5 h-5  ${
+            starValue <= ( userStar)
+              ? "text-yellow-400"
+              : "text-gray-300"
+          }`}
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.118 3.43a1 1 0 00.95.69h3.584c.969 0 1.371 1.24.588 1.81l-2.897 2.11a1 1 0 00-.364 1.118l1.118 3.43c.3.921-.755 1.688-1.54 1.118l-2.897-2.11a1 1 0 00-1.176 0l-2.897 2.11c-.784.57-1.838-.197-1.539-1.118l1.118-3.43a1 1 0 00-.364-1.118l-2.897-2.11c-.783-.57-.38-1.81.588-1.81h3.584a1 1 0 00.95-.69l1.118-3.43z" />
+        </svg>
+      );
+    });
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -197,10 +218,11 @@ const WatchCourse = () => {
               {tabs.map((tab) => (
                 <button
                   key={tab}
-                  className={`text-lg p-2 ${selectedTab === tab
-                    ? "border-b-2 border-blue-500 text-blue-500"
-                    : "text-gray-500"
-                    }`}
+                  className={`text-lg p-2 ${
+                    selectedTab === tab
+                      ? "border-b-2 border-blue-500 text-blue-500"
+                      : "text-gray-500"
+                  }`}
                   onClick={() => setSelectedTab(tab)}
                 >
                   {tab}
@@ -214,16 +236,32 @@ const WatchCourse = () => {
                 </div>
               )}
               {selectedTab === "Q&A" && <div>Q&A Content</div>}
-              {selectedTab === "Reviews" && (
-                <form onSubmit={submitReview} className="p-6 bg-white rounded-lg shadow-md max-w-lg mx-auto space-y-4">
-                {rating === 0 ? <h2 className="text-lg font-semibold text-gray-700">Leave a Review</h2>:  <h2 className="text-lg font-semibold text-gray-700">Thankyou for your review !</h2>}
+
+              {selectedTab === "Reviews" && 
+                (
+                rating === 0 ? (<form
+                  onSubmit={submitReview}
+                  className="p-6 bg-white rounded-lg shadow-md max-w-lg mx-auto space-y-4"
+                >
+                  {rating === 0 ? (
+                    <h2 className="text-lg font-semibold text-gray-700">
+                      Leave a Review
+                    </h2>
+                  ) : (
+                    <h2 className="text-lg font-semibold text-gray-700">
+                      Thankyou for your review !
+                    </h2>
+                  )}
                   {/* Star Rating */}
                   <div className="flex items-center space-x-1">
                     {renderStars()}
                   </div>
                   {/* Review Content */}
                   <div>
-                    <label htmlFor="reviewContent" className="block text-sm font-medium text-gray-600">
+                    <label
+                      htmlFor="reviewContent"
+                      className="block text-sm font-medium text-gray-600"
+                    >
                       Your Review
                     </label>
                     <textarea
@@ -238,14 +276,39 @@ const WatchCourse = () => {
                     />
                   </div>
                   {/* Submit Button */}
-                  {rating === 0 && (<button
-                    type="submit"
-                    className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
-                  >
-                    Submit Review
-                  </button>)}
-                </form>
-              )}
+                  {rating === 0 && (
+                    <button
+                      type="submit"
+                      className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
+                    >
+                      Submit Review
+                    </button>
+                  )}
+                </form>) : (
+                  <div className="space-y-4">
+                    <h3 className="text-2xl font-bold">All Reviews</h3>
+                    <div className="space-y-4">
+                    {AllReview.map((comment) => (
+                        <div key={comment._id} className="flex items-start space-x-4 border-b pb-4">
+                            <img
+                                src={'https://sm.ign.com/ign_pk/cover/a/avatar-gen/avatar-generations_rpge.jpg'}
+                                alt={`${comment.name} avatar`}
+                                className="w-12 h-12 rounded-full object-cover"
+                            />
+                            <div>
+                            <div className="flex gap-2 items-center"><h3 className="font-semibold text-gray-800">user name</h3>
+                            <div className="flex">{UserStars(comment.rating)}</div>
+                            </div>
+                                <p className="text-gray-600 text-sm">{comment.reviewContent}</p>
+                            </div>
+                        </div>
+                    ))}
+                    {AllReview.length === 0 && <p className="text-gray-500">No comments yet.</p>}
+                </div>
+                  </div>
+                )
+              ) 
+            }
             </div>
           </div>
         </div>
@@ -272,10 +335,11 @@ const WatchCourse = () => {
                   {module.videos.map((video, index) => (
                     <div
                       key={index}
-                      className={`flex items-center p-2 border-t ${selectedVideoTitle === video.videoTitle
-                        ? "text-blue-500"
-                        : ""
-                        }`}
+                      className={`flex items-center p-2 border-t ${
+                        selectedVideoTitle === video.videoTitle
+                          ? "text-blue-500"
+                          : ""
+                      }`}
                       onClick={() =>
                         handleVideoClick(
                           video.videoUrl,
@@ -300,10 +364,11 @@ const WatchCourse = () => {
         <button
           onClick={() => onSubmit2(meetingId)}
           disabled={meetloading}
-          className={`flex justify-end ${meetloading
-            ? "bg-red-500 hover:bg-red-700"
-            : "bg-blue-600 hover:bg-blue-700 animate-glow"
-            } text-white z-50 rounded-full fixed bottom-0 right-10 mb-6 text-xl py-2 px-8`}
+          className={`flex justify-end ${
+            meetloading
+              ? "bg-red-500 hover:bg-red-700"
+              : "bg-blue-600 hover:bg-blue-700 animate-glow"
+          } text-white z-50 rounded-full fixed bottom-0 right-10 mb-6 text-xl py-2 px-8`}
         >
           {meetloading ? (
             <Fragment>
