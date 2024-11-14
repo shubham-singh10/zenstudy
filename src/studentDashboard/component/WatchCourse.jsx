@@ -3,10 +3,12 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const WatchCourse = () => {
   const [selectedTab, setSelectedTab] = useState("About Video");
   const [loading, setLoading] = useState(true);
+  const [btnLoading, setBtnLoading] = useState(false);
   const [courses, setCourses] = useState([]);
   const [courseId, setCourseId] = useState(null);
   const [url, setUrl] = useState(null);
@@ -93,7 +95,7 @@ const WatchCourse = () => {
     };
 
     myCourse();
-  }, [id, navigate, token]);
+  }, [id, navigate, token, btnLoading]);
 
   //************************************ Meeting Function Start ***************************************************************//
 
@@ -139,6 +141,7 @@ const WatchCourse = () => {
 
   const submitReview = async (e) => {
     e.preventDefault();
+    setBtnLoading(true);
     try {
       await axios.post(
         `${process.env.REACT_APP_API}zenstudy/api/course/${courseId}/reviews`,
@@ -148,7 +151,13 @@ const WatchCourse = () => {
           rating,
         }
       );
-      alert("Review submitted successfully");
+      Swal.fire({
+        icon: "success",
+        title: "Comment successfully!",
+        timer: 2000,
+      }).then(()=>
+        setBtnLoading(false)
+      );
     } catch (error) {
       console.error("Error submitting review:", error);
     }
@@ -271,12 +280,38 @@ const WatchCourse = () => {
                     </div>
                     {/* Submit Button */}
                     {rating !== undefined && (
-                      <button
+                      (btnLoading ? (
+                        <button
+                        disabled={true}
+                        className="w-full bg-red-700 flex justify-center items-center text-white font-semibold py-2 rounded-md"
+                      >
+                      <svg
+                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8h8a8 8 0 11-16 0z"
+                ></path>
+              </svg>
+                        Please Wait...
+                      </button>) : (<button
                         type="submit"
                         className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
                       >
                         Submit Review
-                      </button>)}
+                      </button>)))}
                   </form>
                 ) : (
                   <div className="space-y-4">
