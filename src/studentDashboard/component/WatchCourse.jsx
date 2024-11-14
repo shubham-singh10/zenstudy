@@ -25,7 +25,9 @@ const WatchCourse = () => {
   const [AllReview, setAllReview] = useState([]);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+
   useEffect(() => {
+
     const myCourse = async () => {
       try {
         const response = await fetch(
@@ -69,6 +71,7 @@ const WatchCourse = () => {
       }
     };
 
+    //Fetch Reviews
     const fetchReviews = async (courseId) => {
       try {
         const response = await axios.get(
@@ -110,6 +113,7 @@ const WatchCourse = () => {
 
   //************************************ Meeting Function End   ***************************************************************//
 
+  //Module Change Effect
   useEffect(() => {
     if (courses.length > 0) {
       const introductionModule = courses.find(
@@ -139,6 +143,7 @@ const WatchCourse = () => {
     setSelectedVideoDesc(videoDesc);
   };
 
+  // Review Submit API
   const submitReview = async (e) => {
     e.preventDefault();
     setBtnLoading(true);
@@ -155,7 +160,7 @@ const WatchCourse = () => {
         icon: "success",
         title: "Comment successfully!",
         timer: 2000,
-      }).then(()=>
+      }).then(() =>
         setBtnLoading(false)
       );
     } catch (error) {
@@ -163,6 +168,7 @@ const WatchCourse = () => {
     }
   };
 
+  // Star Render 
   const renderStars = () => {
     return [...Array(5)].map((_, index) => {
       const starValue = index + 1;
@@ -175,9 +181,9 @@ const WatchCourse = () => {
             } ${rating > 0 ? "cursor-default" : ""}`}
           fill="currentColor"
           viewBox="0 0 20 20"
-          onClick={() => rating === undefined && setRating(starValue)}
-          onMouseEnter={() => rating === undefined && setHoverRating(starValue)}
-          onMouseLeave={() => rating === undefined && setHoverRating(0)}
+          onClick={() => setRating(starValue)}
+          onMouseEnter={() => setHoverRating(starValue)}
+          onMouseLeave={() => setHoverRating(0)}
         >
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.118 3.43a1 1 0 00.95.69h3.584c.969 0 1.371 1.24.588 1.81l-2.897 2.11a1 1 0 00-.364 1.118l1.118 3.43c.3.921-.755 1.688-1.54 1.118l-2.897-2.11a1 1 0 00-1.176 0l-2.897 2.11c-.784.57-1.838-.197-1.539-1.118l1.118-3.43a1 1 0 00-.364-1.118l-2.897-2.11c-.783-.57-.38-1.81.588-1.81h3.584a1 1 0 00.95-.69l1.118-3.43z" />
         </svg>
@@ -185,6 +191,7 @@ const WatchCourse = () => {
     });
   };
 
+  //User Star Render
   const UserStars = (userStar) => {
     return [...Array(5)].map((_, index) => {
       const starValue = index + 1;
@@ -282,36 +289,36 @@ const WatchCourse = () => {
                     {rating !== undefined && (
                       (btnLoading ? (
                         <button
-                        disabled={true}
-                        className="w-full bg-red-700 flex justify-center items-center text-white font-semibold py-2 rounded-md"
-                      >
-                      <svg
-                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8v8h8a8 8 0 11-16 0z"
-                ></path>
-              </svg>
-                        Please Wait...
-                      </button>) : (<button
-                        type="submit"
-                        className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
-                      >
-                        Submit Review
-                      </button>)))}
+                          disabled={true}
+                          className="w-full bg-red-700 flex justify-center items-center text-white font-semibold py-2 rounded-md"
+                        >
+                          <svg
+                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8v8h8a8 8 0 11-16 0z"
+                            ></path>
+                          </svg>
+                          Please Wait...
+                        </button>) : (<button
+                          type="submit"
+                          className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
+                        >
+                          Submit Review
+                        </button>)))}
                   </form>
                 ) : (
                   <div className="space-y-4">
