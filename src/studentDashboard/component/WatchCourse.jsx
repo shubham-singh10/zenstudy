@@ -19,10 +19,10 @@ const WatchCourse = () => {
   const [meetloading, setMeetLoading] = useState(false);
   const token = Cookies.get("access_tokennew");
   const [reviewContent, setReviewContent] = useState("");
+  const [reviewForm, setReviewForm] = useState(undefined);
   const [AllReview, setAllReview] = useState([]);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
-
   useEffect(() => {
     const myCourse = async () => {
       try {
@@ -73,7 +73,6 @@ const WatchCourse = () => {
           `${process.env.REACT_APP_API}zenstudy/api/course/${courseId}/getReviews`
         );
         const reviews = response.data.reviews;
-        console.log("All reviews:", reviews);
 
         const userCommentImage = reviews.map((review) => ({
           ...review,
@@ -82,13 +81,12 @@ const WatchCourse = () => {
             : `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${review.userId.avatar}`,
         }));
 
-        console.log("All :", userCommentImage);
-
         setAllReview(userCommentImage);
-        const userReview = reviews.find((review) => review.userId === token);
+        const userReview = reviews.find((review) => review.userId._id === token);
         // console.log("User-specific rating:", userReview);
-        setRating(userReview?.rating || 0);
-        setReviewContent(userReview?.reviewContent || "");
+        setRating(userReview?.rating);
+        setReviewForm(userReview?.rating)
+        setReviewContent(userReview?.reviewContent);
       } catch (error) {
         console.log("Error fetching reviews");
       }
@@ -162,16 +160,15 @@ const WatchCourse = () => {
       return (
         <svg
           key={index}
-          className={`w-8 h-8 cursor-pointer ${
-            starValue <= (hoverRating || rating)
-              ? "text-yellow-400"
-              : "text-gray-300"
-          } ${rating > 0 ? "cursor-default" : ""}`}
+          className={`w-8 h-8 cursor-pointer ${starValue <= (hoverRating || rating)
+            ? "text-yellow-400"
+            : "text-gray-300"
+            } ${rating > 0 ? "cursor-default" : ""}`}
           fill="currentColor"
           viewBox="0 0 20 20"
-          onClick={() => rating === 0 && setRating(starValue)}
-          onMouseEnter={() => rating === 0 && setHoverRating(starValue)}
-          onMouseLeave={() => rating === 0 && setHoverRating(0)}
+          onClick={() => rating === undefined && setRating(starValue)}
+          onMouseEnter={() => rating === undefined && setHoverRating(starValue)}
+          onMouseLeave={() => rating === undefined && setHoverRating(0)}
         >
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.118 3.43a1 1 0 00.95.69h3.584c.969 0 1.371 1.24.588 1.81l-2.897 2.11a1 1 0 00-.364 1.118l1.118 3.43c.3.921-.755 1.688-1.54 1.118l-2.897-2.11a1 1 0 00-1.176 0l-2.897 2.11c-.784.57-1.838-.197-1.539-1.118l1.118-3.43a1 1 0 00-.364-1.118l-2.897-2.11c-.783-.57-.38-1.81.588-1.81h3.584a1 1 0 00.95-.69l1.118-3.43z" />
         </svg>
@@ -185,9 +182,8 @@ const WatchCourse = () => {
       return (
         <svg
           key={index}
-          className={`w-5 h-5  ${
-            starValue <= userStar ? "text-yellow-400" : "text-gray-300"
-          }`}
+          className={`w-5 h-5  ${starValue <= userStar ? "text-yellow-400" : "text-gray-300"
+            }`}
           fill="currentColor"
           viewBox="0 0 20 20"
         >
@@ -222,11 +218,10 @@ const WatchCourse = () => {
               {tabs.map((tab) => (
                 <button
                   key={tab}
-                  className={`text-lg p-2 ${
-                    selectedTab === tab
-                      ? "border-b-2 border-blue-500 text-blue-500"
-                      : "text-gray-500"
-                  }`}
+                  className={`text-lg p-2 ${selectedTab === tab
+                    ? "border-b-2 border-blue-500 text-blue-500"
+                    : "text-gray-500"
+                    }`}
                   onClick={() => setSelectedTab(tab)}
                 >
                   {tab}
@@ -242,20 +237,16 @@ const WatchCourse = () => {
               {selectedTab === "Q&A" && <div>Q&A Content</div>}
 
               {selectedTab === "Reviews" &&
-                (rating === 0 ? (
+                (reviewForm === undefined ? (
                   <form
                     onSubmit={submitReview}
                     className="p-6 bg-white rounded-lg shadow-md max-w-lg mx-auto space-y-4"
                   >
-                    {rating === 0 ? (
-                      <h2 className="text-lg font-semibold text-gray-700">
-                        Leave a Review
-                      </h2>
-                    ) : (
-                      <h2 className="text-lg font-semibold text-gray-700">
-                        Thankyou for your review !
-                      </h2>
-                    )}
+
+                    <h2 className="text-lg font-semibold text-gray-700">
+                      Leave a Review
+                    </h2>
+
                     {/* Star Rating */}
                     <div className="flex items-center space-x-1">
                       {renderStars()}
@@ -271,7 +262,6 @@ const WatchCourse = () => {
                       <textarea
                         id="reviewContent"
                         value={reviewContent}
-                        disabled={reviewContent}
                         onChange={(e) => setReviewContent(e.target.value)}
                         className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
                         placeholder="Share your experience with this course"
@@ -280,14 +270,13 @@ const WatchCourse = () => {
                       />
                     </div>
                     {/* Submit Button */}
-                    {rating === 0 && (
+                    {rating !== undefined && (
                       <button
                         type="submit"
                         className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
                       >
                         Submit Review
-                      </button>
-                    )}
+                      </button>)}
                   </form>
                 ) : (
                   <div className="space-y-4">
@@ -326,7 +315,7 @@ const WatchCourse = () => {
 
                       {AllReview.map(
                         (comment) =>
-                          comment.userId._id != token && (
+                          comment.userId._id !== token && (
                             <div
                               key={comment._id}
                               className="flex items-start space-x-4 border-b pb-4"
@@ -387,11 +376,10 @@ const WatchCourse = () => {
                   {module.videos.map((video, index) => (
                     <div
                       key={index}
-                      className={`flex items-center p-2 border-t ${
-                        selectedVideoTitle === video.videoTitle
-                          ? "text-blue-500"
-                          : ""
-                      }`}
+                      className={`flex items-center p-2 border-t ${selectedVideoTitle === video.videoTitle
+                        ? "text-blue-500"
+                        : ""
+                        }`}
                       onClick={() =>
                         handleVideoClick(
                           video.videoUrl,
@@ -416,11 +404,10 @@ const WatchCourse = () => {
         <button
           onClick={() => onSubmit2(meetingId)}
           disabled={meetloading}
-          className={`flex justify-end ${
-            meetloading
-              ? "bg-red-500 hover:bg-red-700"
-              : "bg-blue-600 hover:bg-blue-700 animate-glow"
-          } text-white z-50 rounded-full fixed bottom-0 right-10 mb-6 text-xl py-2 px-8`}
+          className={`flex justify-end ${meetloading
+            ? "bg-red-500 hover:bg-red-700"
+            : "bg-blue-600 hover:bg-blue-700 animate-glow"
+            } text-white z-50 rounded-full fixed bottom-0 right-10 mb-6 text-xl py-2 px-8`}
         >
           {meetloading ? (
             <Fragment>

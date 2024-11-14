@@ -4,11 +4,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
-import { useNavigate } from "react-router-dom";
 import CommonCard from "../CommonCard";
 
 function CardSlider({ courseData }) {
-  const navigate = useNavigate();
   const { ref: slideLeftRef, inView: slideLeftInView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -48,13 +46,6 @@ function CardSlider({ courseData }) {
     ],
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
 
   return (
     <div>

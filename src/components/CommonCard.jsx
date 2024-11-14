@@ -43,7 +43,7 @@ function CommonCard({ course, link, differentClass }) {
     const isUpcoming = course.other1 === "upcoming";
 
     return (
-        <div className={` ${differentClass ? '${differentClass} space-y-1 rounded-2xl overflow-hidden shadow-lg m-4 p-4' : 'max-w-xs space-y-1 rounded-2xl overflow-hidden shadow-lg m-4 p-4'}`}>
+        <div className={` ${differentClass ? `${differentClass} space-y-1 rounded-2xl overflow-hidden shadow-lg m-4 p-4` : 'max-w-xs space-y-1 rounded-2xl overflow-hidden shadow-lg m-4 p-4'}`}>
             <div className="relative">
                 {loading && (
                     <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
