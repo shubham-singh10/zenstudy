@@ -73,8 +73,18 @@ const WatchCourse = () => {
           `${process.env.REACT_APP_API}zenstudy/api/course/${courseId}/getReviews`
         );
         const reviews = response.data.reviews;
-         console.log("All reviews:", reviews);
-        setAllReview(reviews);
+        console.log("All reviews:", reviews);
+
+        const userCommentImage = reviews.map((review) => ({
+          ...review,
+          imageUrl: review.userId.avatar.startsWith("http")
+            ? review.userId.avatar
+            : `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${review.userId.avatar}`,
+        }));
+
+        console.log("All :", userCommentImage);
+
+        setAllReview(userCommentImage);
         const userReview = reviews.find((review) => review.userId === token);
         // console.log("User-specific rating:", userReview);
         setRating(userReview?.rating || 0);
@@ -131,10 +141,6 @@ const WatchCourse = () => {
 
   const submitReview = async (e) => {
     e.preventDefault();
-    // console.log('Course_Id: ', id)
-    // console.log('User_Id: ', token)
-    // console.log('Rating: ', rating)
-    // console.log('Comment: ', reviewContent)
     try {
       await axios.post(
         `${process.env.REACT_APP_API}zenstudy/api/course/${courseId}/reviews`,
@@ -180,9 +186,7 @@ const WatchCourse = () => {
         <svg
           key={index}
           className={`w-5 h-5  ${
-            starValue <= ( userStar)
-              ? "text-yellow-400"
-              : "text-gray-300"
+            starValue <= userStar ? "text-yellow-400" : "text-gray-300"
           }`}
           fill="currentColor"
           viewBox="0 0 20 20"
@@ -237,78 +241,126 @@ const WatchCourse = () => {
               )}
               {selectedTab === "Q&A" && <div>Q&A Content</div>}
 
-              {selectedTab === "Reviews" && 
-                (
-                rating === 0 ? (<form
-                  onSubmit={submitReview}
-                  className="p-6 bg-white rounded-lg shadow-md max-w-lg mx-auto space-y-4"
-                >
-                  {rating === 0 ? (
-                    <h2 className="text-lg font-semibold text-gray-700">
-                      Leave a Review
-                    </h2>
-                  ) : (
-                    <h2 className="text-lg font-semibold text-gray-700">
-                      Thankyou for your review !
-                    </h2>
-                  )}
-                  {/* Star Rating */}
-                  <div className="flex items-center space-x-1">
-                    {renderStars()}
-                  </div>
-                  {/* Review Content */}
-                  <div>
-                    <label
-                      htmlFor="reviewContent"
-                      className="block text-sm font-medium text-gray-600"
-                    >
-                      Your Review
-                    </label>
-                    <textarea
-                      id="reviewContent"
-                      value={reviewContent}
-                      disabled={reviewContent}
-                      onChange={(e) => setReviewContent(e.target.value)}
-                      className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                      placeholder="Share your experience with this course"
-                      rows="4"
-                      required
-                    />
-                  </div>
-                  {/* Submit Button */}
-                  {rating === 0 && (
-                    <button
-                      type="submit"
-                      className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
-                    >
-                      Submit Review
-                    </button>
-                  )}
-                </form>) : (
+              {selectedTab === "Reviews" &&
+                (rating === 0 ? (
+                  <form
+                    onSubmit={submitReview}
+                    className="p-6 bg-white rounded-lg shadow-md max-w-lg mx-auto space-y-4"
+                  >
+                    {rating === 0 ? (
+                      <h2 className="text-lg font-semibold text-gray-700">
+                        Leave a Review
+                      </h2>
+                    ) : (
+                      <h2 className="text-lg font-semibold text-gray-700">
+                        Thankyou for your review !
+                      </h2>
+                    )}
+                    {/* Star Rating */}
+                    <div className="flex items-center space-x-1">
+                      {renderStars()}
+                    </div>
+                    {/* Review Content */}
+                    <div>
+                      <label
+                        htmlFor="reviewContent"
+                        className="block text-sm font-medium text-gray-600"
+                      >
+                        Your Review
+                      </label>
+                      <textarea
+                        id="reviewContent"
+                        value={reviewContent}
+                        disabled={reviewContent}
+                        onChange={(e) => setReviewContent(e.target.value)}
+                        className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                        placeholder="Share your experience with this course"
+                        rows="4"
+                        required
+                      />
+                    </div>
+                    {/* Submit Button */}
+                    {rating === 0 && (
+                      <button
+                        type="submit"
+                        className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
+                      >
+                        Submit Review
+                      </button>
+                    )}
+                  </form>
+                ) : (
                   <div className="space-y-4">
                     <h3 className="text-2xl font-bold">All Reviews</h3>
                     <div className="space-y-4">
-                    {AllReview.map((comment) => (
-                        <div key={comment._id} className="flex items-start space-x-4 border-b pb-4">
+                      {AllReview.map((comment) =>
+                        comment.userId._id === token ? (
+                          <div
+                            key={comment._id}
+                            className="flex items-start space-x-4 border-b pb-4"
+                          >
                             <img
-                                src={'https://sm.ign.com/ign_pk/cover/a/avatar-gen/avatar-generations_rpge.jpg'}
-                                alt={`${comment.name} avatar`}
-                                className="w-12 h-12 rounded-full object-cover"
+                              src={comment.imageUrl}
+                              crossOrigin="anonymous"
+                              alt={`${comment.name} avatar`}
+                              className="w-12 h-12 rounded-full object-cover"
                             />
                             <div>
-                            <div className="flex gap-2 items-center"><h3 className="font-semibold text-gray-800">user name</h3>
-                            <div className="flex">{UserStars(comment.rating)}</div>
+                              <div className="flex gap-2 items-center">
+                                <h3 className="font-semibold text-gray-800">
+                                  {comment.userId.name}
+                                </h3>
+                                <div className="flex">
+                                  {UserStars(comment.rating)}
+                                </div>
+                              </div>
+                              <p className="text-gray-600 text-sm">
+                                {comment.reviewContent}
+                              </p>
                             </div>
-                                <p className="text-gray-600 text-sm">{comment.reviewContent}</p>
+                          </div>
+                        ) : (
+                          ""
+                        )
+                      )}
+
+                      {AllReview.map(
+                        (comment) =>
+                          comment.userId._id != token && (
+                            <div
+                              key={comment._id}
+                              className="flex items-start space-x-4 border-b pb-4"
+                            >
+                              <img
+                                src={
+                                  comment.imageUrl
+                                }
+                                crossOrigin="anonymous"
+                                alt={`${comment.name} avatar`}
+                                className="w-12 h-12 rounded-full object-cover"
+                              />
+                              <div>
+                                <div className="flex gap-2 items-center">
+                                  <h3 className="font-semibold text-gray-800">
+                                    {comment.userId.name}
+                                  </h3>
+                                  <div className="flex">
+                                    {UserStars(comment.rating)}
+                                  </div>
+                                </div>
+                                <p className="text-gray-600 text-sm">
+                                  {comment.reviewContent}
+                                </p>
+                              </div>
                             </div>
-                        </div>
-                    ))}
-                    {AllReview.length === 0 && <p className="text-gray-500">No comments yet.</p>}
-                </div>
+                          )
+                      )}
+                      {AllReview.length === 0 && (
+                        <p className="text-gray-500">No comments yet.</p>
+                      )}
+                    </div>
                   </div>
-                )
-              ) 
-            }
+                ))}
             </div>
           </div>
         </div>
