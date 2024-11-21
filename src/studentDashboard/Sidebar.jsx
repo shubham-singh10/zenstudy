@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FiUser, FiBook, FiCircle } from 'react-icons/fi';
-import { RiMenuFoldLine, RiMenuUnfoldLine } from "react-icons/ri";
+import { RiMenuFoldLine, RiMenuUnfoldLine, RiLiveLine } from "react-icons/ri";
+import { FaBookOpenReader } from "react-icons/fa6";
 import { FaHome } from "react-icons/fa";
 
 const links = [
@@ -18,12 +19,17 @@ const links = [
     {
         label: "Courses",
         link: "/course-details-student",
-        icon: <FiBook />,
+        icon: <FiBook  />,
     },
     {
         label: "My Courses",
         link: "/mycourse",
-        icon: <FiCircle />,
+        icon: <FaBookOpenReader />,
+    },
+    {
+        label: "Live Classes",
+        link: "/liveClass",
+        icon: <RiLiveLine />,
     }
 
 ];

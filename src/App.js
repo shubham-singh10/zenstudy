@@ -10,6 +10,7 @@ import SignInDynamic from "./components/auth/Sign-inDynamic.jsx";
 import Cookies from "js-cookie";
 import OurTeam from "./components/OurTeam.jsx";
 import PrivacyPolicy from "./components/PrivacyPolicy.jsx";
+import LiveClass from "./studentDashboard/component/LiveClass.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -67,6 +68,7 @@ function App() {
             <Route path="/course-details-student" element={<CourseDetailsStudent />} />
             <Route path="/course-details-view/:courseId" element={<CourseDetailsStudentView />} />
             <Route path="/mycourse" element={<MyCourses />} />
+            <Route path="/liveClass" element={<LiveClass />} />
             <Route path="/upsc-student" element={<UPSCStudent />} />
             <Route path="/watch-course/:id" element={<WatchCourse />} />
           </Route>
