@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import CommonCard from "../../components/CommonCard";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 function LiveClass() {
   const [meetingData, setMeetingData] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true); // State for loading indicator
+  const [loading, setLoading] = useState(true);
   const [imgloading, setimgLoading] = useState(true);
+  const [loadingMeetingId, setLoadingMeetingId] = useState(null); // Track the specific meeting loading
+  const token = Cookies.get("access_tokennew");
 
   useEffect(() => {
     const fetchMeetingDetails = async () => {
@@ -29,7 +31,6 @@ function LiveClass() {
         }));
 
         setMeetingData(imageData);
-        console.log(imageData); // Update state with the transformed data
       } catch (error) {
         let errorMessage = "An error occurred. Please try again.";
         if (error.response) {
@@ -42,24 +43,41 @@ function LiveClass() {
         }
         setError(errorMessage);
       } finally {
-        setLoading(false); // Stop loading indicator
+        setLoading(false);
       }
     };
 
     fetchMeetingDetails();
   }, []);
 
+  const onSubmit2 = async (id) => {
+    setLoadingMeetingId(id); // Set the current meeting as loading
+    try {
+      window.location.replace(
+        `https://live.zenstudy.in/?key=${id}&user=${token}`
+      );
+    } catch (error) {
+      console.error("Error redirecting:", error);
+    } finally {
+      setLoadingMeetingId(null); // Reset loading state if needed
+    }
+  };
+
   return (
     <div>
       {loading ? (
-        <p>Loading meetings...</p> // Display a loading message while fetching
+        <div className="flex items-center justify-center h-screen">
+          <div className="text-4xl font-bold animate-pulse">ZenStudy.</div>
+        </div>
       ) : error ? (
-        <p className="error-message">{error}</p> // Display error message if an error occurred
+        <p className="error-message">{error}</p>
       ) : meetingData.length === 0 ? (
-        <p className="no-meetings">No meetings scheduled.</p> // Display friendly message if no meetings
+        <p className="flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl text-gray-500">
+          No meetings scheduled.
+        </p>
       ) : (
         <div className="flex flex-row flex-wrap items-center justify-center">
-        {meetingData
+          {meetingData
             .sort((a, b) => {
               const currentTime = new Date();
               const isLiveA =
@@ -68,18 +86,18 @@ function LiveClass() {
               const isLiveB =
                 currentTime >= new Date(b.startTime) &&
                 currentTime <= new Date(b.endTime);
-          
-              // Sort live meetings first
+
               if (isLiveA && !isLiveB) return -1;
               if (!isLiveA && isLiveB) return 1;
-              return 0; // Keep the order if both are the same
+              return 0;
             })
             .map((meeting) => {
               const currentTime = new Date();
               const startTime = new Date(meeting.startTime);
               const endTime = new Date(meeting.endTime);
-              const isLive = currentTime >= startTime && currentTime <= endTime;
-          
+              const isLive =
+                currentTime >= startTime && currentTime <= endTime;
+
               return (
                 <div
                   className="max-w-xs space-y-4 rounded-2xl overflow-hidden shadow-lg m-4 p-4"
@@ -101,8 +119,8 @@ function LiveClass() {
                       onLoad={() => setimgLoading(false)}
                     />
                   </div>
-          
-                  <div className="px-2 ">
+
+                  <div className="px-2">
                     <div className="font-bold text-sm text-blue-600">
                       {meeting.courseId.title}
                     </div>
@@ -113,7 +131,7 @@ function LiveClass() {
                         dateStyle: "medium",
                       })}
                     </div>
-          
+
                     <div className="font-bold text-sm">
                       {new Date(meeting.startTime).toLocaleString("en-US", {
                         timeStyle: "short",
@@ -124,12 +142,24 @@ function LiveClass() {
                       })}
                     </div>
                   </div>
-          
+
                   <div>
                     {isLive ? (
-                      <button className="w-full bg-blue-600 animate-glow text-white text-center py-2 rounded-lg">
-                        Join Live
-                      </button>
+                      loadingMeetingId === meeting._id ? (
+                        <button
+                          disabled
+                          className="w-full bg-red-600 cursor-not-allowed text-white text-center py-2 rounded-lg"
+                        >
+                          Please Wait...
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => onSubmit2(meeting._id)}
+                          className="w-full bg-blue-600 animate-glow text-white text-center py-2 rounded-lg"
+                        >
+                          Join Live
+                        </button>
+                      )
                     ) : (
                       <div className="disabled w-full bg-red-600 text-white text-center py-2 rounded-lg">
                         Not Started
@@ -139,7 +169,6 @@ function LiveClass() {
                 </div>
               );
             })}
-          
         </div>
       )}
     </div>
