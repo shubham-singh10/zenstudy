@@ -13,7 +13,7 @@ function LiveClass() {
     async (purchasedCourses) => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API2}zenstudy/api/meeting/getMeeting`,
+          `${process.env.REACT_APP_API}zenstudy/api/meeting/getMeeting`,
           {
             headers: {
               Accept: "application/json",
