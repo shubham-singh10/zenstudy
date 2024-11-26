@@ -184,4 +184,28 @@
   color: #054BB4; 
 }
 
+/* Custom scrollbar for WebKit browsers */
+::-webkit-scrollbar {
+  width: 6px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Background of the scrollbar track */
+  border-radius: 8px; /* Rounded corners for the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #dbeafe; /* Color of the scrollbar thumb */
+  border-radius: 8px; /* Rounded corners for the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #dbeafe; /* Color on hover */
+}
+
+/* For Firefox (experimental) */
+.scrollable-content {
+  scrollbar-width: thin; /* Thin scrollbar */
+  scrollbar-color: #dbeafe #f1f1f1; /* Thumb and track colors */
+}
 

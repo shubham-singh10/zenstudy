@@ -364,7 +364,8 @@ const WatchCourse = () => {
         {/* Course Content Section */}
         <div className="lg:w-1/3 mt-8 lg:mt-0">
           <h2 className="text-2xl font-bold mb-4">Course Content</h2>
-          <div className="bg-white shadow-lg rounded-lg overflow-y-auto max-h-[60vh]">
+          <div className="bg-white shadow-lg rounded-lg overflow-y-auto max-h-[60vh] scrollable-content">
+
             {courses.length > 0 &&
               courses.map((module, index) => (
                 <details
