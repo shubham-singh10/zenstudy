@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
 function LiveClass() {
   const [meetingData, setMeetingData] = useState([]);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [imgloading, setimgLoading] = useState(true);
-  const [loadingMeetingId, setLoadingMeetingId] = useState(null); // Track the specific meeting loading
+  const [loadingMeetingId, setLoadingMeetingId] = useState(null);
   const token = Cookies.get("access_tokennew");
 
-  useEffect(() => {
-    const fetchMeetingDetails = async () => {
+  const fetchMeetingDetails = useCallback(
+    async (purchasedCourses) => {
       try {
         const response = await axios.get(
           `${process.env.REACT_APP_API2}zenstudy/api/meeting/getMeeting`,
@@ -22,45 +21,84 @@ function LiveClass() {
             },
           }
         );
-
-        const data = response.data;
-
-        const imageData = data?.map((meeting) => ({
+  
+        const meetingData = response.data;
+  
+        // Filter meetings based on purchased course IDs
+        const filteredMeetings = meetingData?.filter((meeting) =>
+          purchasedCourses.some(
+            (course) => course.course_id?._id === meeting.courseId._id
+          )
+        );
+  
+        // Add image URLs for filtered meetings
+        const imageData = filteredMeetings?.map((meeting) => ({
           ...meeting,
           imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${meeting.courseId.thumbnail}`,
         }));
-
-        setMeetingData(imageData);
+  
+        setMeetingData(imageData || []);
       } catch (error) {
-        let errorMessage = "An error occurred. Please try again.";
-        if (error.response) {
-          errorMessage = error.response.data.message || errorMessage;
-        } else if (error.request) {
-          errorMessage =
-            "No response from server. Please check your internet connection.";
-        } else {
-          errorMessage = error.message;
+        console.error("Error fetching meetings:", error);
+      }
+    },
+    [] // No external dependencies needed
+  );
+  
+  const getPurchasedCourses = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API}zenstudy/api/payment/purchaseCourse`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user_id: token }),
         }
-        setError(errorMessage);
+      );
+  
+      if (response.status === 204) {
+        return [];
+      }
+  
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+  
+      const data = await response.json();
+      return data.purchaseCourses || [];
+    } catch (error) {
+      console.error("Error fetching purchased courses:", error);
+      return [];
+    }
+  }, [token]);
+  
+  useEffect(() => {
+    const initializeData = async () => {
+      setLoading(true);
+      try {
+        const purchasedCourses = await getPurchasedCourses();
+        await fetchMeetingDetails(purchasedCourses);
       } finally {
         setLoading(false);
       }
     };
+  
+    initializeData();
+  }, [fetchMeetingDetails, getPurchasedCourses]);
 
-    fetchMeetingDetails();
-  }, []);
 
   const onSubmit2 = async (id) => {
-    setLoadingMeetingId(id); // Set the current meeting as loading
+    setLoadingMeetingId(id);
     try {
       window.location.replace(
         `https://live.zenstudy.in/?key=${id}&user=${token}`
       );
     } catch (error) {
       console.error("Error redirecting:", error);
-    } finally {
-      setLoadingMeetingId(null); // Reset loading state if needed
-    }
+    } 
   };
 
   return (
@@ -69,8 +107,6 @@ function LiveClass() {
         <div className="flex items-center justify-center h-screen">
           <div className="text-4xl font-bold animate-pulse">ZenStudy.</div>
         </div>
-      ) : error ? (
-        <p className="error-message">{error}</p>
       ) : meetingData.length === 0 ? (
         <p className="flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl text-gray-500">
           No meetings scheduled.
@@ -113,9 +149,8 @@ function LiveClass() {
                       src={meeting?.imageUrl || "../assets/about1.webp"}
                       crossOrigin="anonymous"
                       alt="Thumbnail"
-                      className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${
-                        imgloading ? "opacity-0" : "opacity-100"
-                      }`}
+                      className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${imgloading ? "opacity-0" : "opacity-100"
+                        }`}
                       onLoad={() => setimgLoading(false)}
                     />
                   </div>

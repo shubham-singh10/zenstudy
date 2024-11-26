@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FiUser, FiBook, FiCircle } from 'react-icons/fi';
+import { FiUser, FiBook } from 'react-icons/fi';
 import { RiMenuFoldLine, RiMenuUnfoldLine, RiLiveLine } from "react-icons/ri";
 import { FaBookOpenReader } from "react-icons/fa6";
 import { FaHome } from "react-icons/fa";

@@ -143,8 +143,8 @@ const StudentDashNavbar = () => {
                     to={link}
                     key={label}
                     className={`w-full flex items-center py-3 px-12 ${location.pathname === link
-                        ? "bg-[#054BB4] text-white"
-                        : "text-black hover:bg-gray-200"
+                      ? "bg-[#054BB4] text-white"
+                      : "text-black hover:bg-gray-200"
                       } transition-colors duration-200`}
                     onClick={handleClick}
                   >
@@ -162,16 +162,23 @@ const StudentDashNavbar = () => {
       <div className="flex items-center justify-between gap-7">
         <div className="relative">
           <div
-            className="flex items-center gap-4 cursor-pointer"
+            className="flex items-center gap-6 cursor-pointer p-2 rounded-lg bg-blue-50 hover:bg-blue-100 transition"
             onClick={toggleDropdown}
+            onMouseEnter={() => setIsDropdownOpen(true)}
+            onMouseLeave={() => setIsDropdownOpen(false)}
           >
+            {/* User Info Section */}
             <div className="flex flex-col items-end">
-              <p className="text-[#054BB4] font-semibold sm:text-sm md:text-lg lg:text-lg">
-                {userData?.name}
+              <p className="text-blue-800 font-semibold text-sm sm:text-base md:text-lg lg:text-lg truncate">
+                {userData?.name || "User Name"}
               </p>
+              <span className="text-gray-500 text-xs sm:text-sm">View Profile</span>
             </div>
-            <FaRegUserCircle className="text-3xl text-blue-800 hover:text-blue-600" />
+
+            {/* User Icon */}
+            <FaRegUserCircle className="text-4xl text-blue-600 hover:text-blue-800 transition" />
           </div>
+
           {isDropdownOpen && (
             <div
               ref={dropdownRef}

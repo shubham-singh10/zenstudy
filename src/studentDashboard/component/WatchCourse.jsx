@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -7,8 +7,10 @@ import Swal from "sweetalert2";
 
 const WatchCourse = () => {
   const [selectedTab, setSelectedTab] = useState("About Video");
-  const [loading, setLoading] = useState(true);
-  const [btnLoading, setBtnLoading] = useState(false);
+  const [loadingState, setLoadingState] = useState({
+    pageLoading: true,
+    buttonLoading: false,
+  });
   const [courses, setCourses] = useState([]);
   const [courseId, setCourseId] = useState(null);
   const [url, setUrl] = useState(null);
@@ -16,9 +18,12 @@ const WatchCourse = () => {
   const [selectedVideoDesc, setSelectedVideoDesc] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
-  const tabs = ["About Video", "Q&A", "Reviews"];
-  const [meetingId, setmeetingId] = useState(null);
-  const [meetloading, setMeetLoading] = useState(false);
+  const TABS = {
+    ABOUT: "About Video",
+    QA: "Q&A",
+    REVIEWS: "Reviews",
+  };
+  const tabs = [TABS.ABOUT, TABS.QA, TABS.REVIEWS];
   const token = Cookies.get("access_tokennew");
   const [reviewContent, setReviewContent] = useState("");
   const [reviewForm, setReviewForm] = useState(undefined);
@@ -27,7 +32,6 @@ const WatchCourse = () => {
   const [hoverRating, setHoverRating] = useState(0);
 
   useEffect(() => {
-
     const myCourse = async () => {
       try {
         const response = await fetch(
@@ -58,8 +62,6 @@ const WatchCourse = () => {
 
         setCourseId(data?.response?.course._id);
         setCourses(data.response?.modules);
-        setmeetingId(data.response.course.meetingId);
-        setLoading(false);
 
         if (data?.response?.course._id) {
           fetchReviews(data.response.course._id);
@@ -68,6 +70,8 @@ const WatchCourse = () => {
         console.error("Error:", error);
         // Redirect to mycourse on error
         navigate("/mycourse");
+      } finally {
+        setLoadingState((prev) => ({ ...prev, pageLoading: false }));
       }
     };
 
@@ -77,43 +81,30 @@ const WatchCourse = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_API}zenstudy/api/course/${courseId}/getReviews`
         );
-        const reviews = response.data.reviews;
-
-        const userCommentImage = reviews.map((review) => ({
+        const reviews = response.data.reviews.map((review) => ({
           ...review,
           imageUrl: review.userId.avatar.startsWith("http")
             ? review.userId.avatar
             : `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${review.userId.avatar}`,
         }));
 
-        setAllReview(userCommentImage);
         const userReview = reviews.find((review) => review.userId._id === token);
-        // console.log("User-specific rating:", userReview);
-        setRating(userReview?.rating);
-        setReviewForm(userReview?.rating)
-        setReviewContent(userReview?.reviewContent);
+        setAllReview(reviews);
+        setRating(userReview?.rating || 0);
+        setReviewForm(userReview?.rating || undefined);
+        setReviewContent(userReview?.reviewContent || "");
       } catch (error) {
         console.log("Error fetching reviews");
       }
     };
 
+
     myCourse();
-  }, [id, navigate, token, btnLoading]);
+  }, [id, navigate, token, loadingState.buttonLoading]);
 
-  //************************************ Meeting Function Start ***************************************************************//
 
-  const onSubmit2 = async (id) => {
-    setMeetLoading(true);
-    // window.location.replace(`http://localhost:3001?key=${id}&user=${token}`)
-    window.location.replace(
-      `https://live.zenstudy.in/?key=${id}&user=${token}`
-    );
-    // window.location.replace(`https://live-zenstudy.vercel.app/?key=${id}&user=${token}`)
-  };
+  //********************* Module Change Effect ***********************************************//
 
-  //************************************ Meeting Function End   ***************************************************************//
-
-  //Module Change Effect
   useEffect(() => {
     if (courses.length > 0) {
       const introductionModule = courses.find(
@@ -129,7 +120,7 @@ const WatchCourse = () => {
     }
   }, [courses]);
 
-  if (loading) {
+  if (loadingState.pageLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-4xl font-bold animate-pulse">ZenStudy.</div>
@@ -146,7 +137,7 @@ const WatchCourse = () => {
   // Review Submit API
   const submitReview = async (e) => {
     e.preventDefault();
-    setBtnLoading(true);
+    setLoadingState((prev) => ({ ...prev, buttonLoading: true }))
     try {
       await axios.post(
         `${process.env.REACT_APP_API}zenstudy/api/course/${courseId}/reviews`,
@@ -160,11 +151,11 @@ const WatchCourse = () => {
         icon: "success",
         title: "Comment successfully!",
         timer: 2000,
-      }).then(() =>
-        setBtnLoading(false)
-      );
+      })
     } catch (error) {
       console.error("Error submitting review:", error);
+    } finally {
+      setLoadingState((prev) => ({ ...prev, buttonLoading: false }))
     }
   };
 
@@ -224,19 +215,19 @@ const WatchCourse = () => {
             <iframe
               src={`${url}`}
               frameBorder="0"
-              className="top-0 left-0 h-[70vh] w-[100%]"
+              className="w-full aspect-video rounded-md"
               allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
               title="zenstudy"
             ></iframe>
           </div>
           <div className="mt-4">
-            <div className="flex space-x-8 border-b">
+            <div className="flex flex-wrap justify-start md:justify-center gap-4 md:gap-8 border-b border-gray-200">
               {tabs.map((tab) => (
                 <button
                   key={tab}
-                  className={`text-lg p-2 ${selectedTab === tab
-                    ? "border-b-2 border-blue-500 text-blue-500"
-                    : "text-gray-500"
+                  className={`px-4 py-2 rounded-t-lg text-sm md:text-lg font-medium transition-colors duration-300 ${selectedTab === tab
+                    ? "bg-blue-100 text-blue-600 border-b-2 border-blue-500"
+                    : "bg-gray-100 text-gray-500 hover:bg-blue-50 hover:text-blue-500"
                     }`}
                   onClick={() => setSelectedTab(tab)}
                 >
@@ -244,13 +235,22 @@ const WatchCourse = () => {
                 </button>
               ))}
             </div>
+
             <div className="mt-4">
               {selectedTab === "About Video" && (
-                <div>
-                  <p className="text-gray-700">{selectedVideoDesc}</p>
+                <div className="bg-gray-50 border border-gray-200 text-gray-800 p-4 rounded-lg shadow-md">
+                  <p className="text-lg font-semibold">About This Video</p>
+                  <p className="text-sm mt-2">{selectedVideoDesc || "No description available for this video."}</p>
                 </div>
               )}
-              {selectedTab === "Q&A" && <div>Q&A Content</div>}
+
+              {selectedTab === "Q&A" && (
+                <div className="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-lg shadow-md">
+                  <p className="text-lg font-semibold">Our Q&A feature is under development!</p>
+                  <p className="text-sm mt-2">It will be live soon. Thanks for your patience!</p>
+                </div>
+              )}
+
 
               {selectedTab === "Reviews" &&
                 (reviewForm === undefined ? (
@@ -287,7 +287,7 @@ const WatchCourse = () => {
                     </div>
                     {/* Submit Button */}
                     {rating !== undefined && (
-                      (btnLoading ? (
+                      (loadingState.buttonLoading ? (
                         <button
                           disabled={true}
                           className="w-full bg-red-700 flex justify-center items-center text-white font-semibold py-2 rounded-md"
@@ -321,166 +321,96 @@ const WatchCourse = () => {
                         </button>)))}
                   </form>
                 ) : (
-                  <div className="space-y-4">
-                    <h3 className="text-2xl font-bold">All Reviews</h3>
-                    <div className="space-y-4">
-                      {AllReview.map((comment) =>
-                        comment.userId._id === token ? (
+                  <div className="space-y-4 bg-gray-50 border border-gray-200 text-gray-800 p-4 rounded-lg shadow-md">
+                    <h3 className="text-3xl font-bold text-gray-800">All Reviews</h3>
+
+                    {AllReview.length > 0 ? (
+                      <div className="space-y-2">
+                        {AllReview.map((comment) => (
                           <div
                             key={comment._id}
-                            className="flex items-start space-x-4 border-b pb-4"
+                            className="bg-white border border-gray-200 p-4 rounded-lg shadow-md flex items-start gap-4"
                           >
                             <img
                               src={comment.imageUrl}
                               crossOrigin="anonymous"
-                              alt={`${comment.name} avatar`}
-                              className="w-12 h-12 rounded-full object-cover"
+                              alt={`${comment.userId.name} avatar`}
+                              className="w-14 h-14 rounded-full object-cover border border-gray-300"
                             />
-                            <div>
-                              <div className="flex gap-2 items-center">
-                                <h3 className="font-semibold text-gray-800">
+                            <div className="flex-1">
+                              <div className="flex items-center justify-between">
+                                <h4 className="font-semibold text-lg text-gray-800">
                                   {comment.userId.name}
-                                </h3>
-                                <div className="flex">
-                                  {UserStars(comment.rating)}
-                                </div>
+                                </h4>
+                                <div className="flex">{UserStars(comment.rating)}</div>
                               </div>
-                              <p className="text-gray-600 text-sm">
-                                {comment.reviewContent}
-                              </p>
+                              <p className="text-gray-600 text-sm mt-2">{comment.reviewContent}</p>
                             </div>
                           </div>
-                        ) : (
-                          ""
-                        )
-                      )}
-
-                      {AllReview.map(
-                        (comment) =>
-                          comment.userId._id !== token && (
-                            <div
-                              key={comment._id}
-                              className="flex items-start space-x-4 border-b pb-4"
-                            >
-                              <img
-                                src={
-                                  comment.imageUrl
-                                }
-                                crossOrigin="anonymous"
-                                alt={`${comment.name} avatar`}
-                                className="w-12 h-12 rounded-full object-cover"
-                              />
-                              <div>
-                                <div className="flex gap-2 items-center">
-                                  <h3 className="font-semibold text-gray-800">
-                                    {comment.userId.name}
-                                  </h3>
-                                  <div className="flex">
-                                    {UserStars(comment.rating)}
-                                  </div>
-                                </div>
-                                <p className="text-gray-600 text-sm">
-                                  {comment.reviewContent}
-                                </p>
-                              </div>
-                            </div>
-                          )
-                      )}
-                      {AllReview.length === 0 && (
-                        <p className="text-gray-500">No comments yet.</p>
-                      )}
-                    </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="bg-gray-50 border border-gray-200 p-6 rounded-lg shadow-md">
+                        <p className="text-gray-500 text-center">No reviews yet. Be the first to share your thoughts!</p>
+                      </div>
+                    )}
                   </div>
+
                 ))}
             </div>
           </div>
         </div>
+
         {/* Course Content Section */}
         <div className="lg:w-1/3 mt-8 lg:mt-0">
           <h2 className="text-2xl font-bold mb-4">Course Content</h2>
-          {courses.length > 0 &&
-            courses.map((module, index) => (
-              <details
-                key={index}
-                className="mb-4 bg-white shadow rounded-lg"
-                open={
-                  module.moduleTitle.toLowerCase() === "introduction" ||
-                  (index === 0 &&
-                    !courses.some(
-                      (m) => m.moduleTitle.toLowerCase() === "introduction"
-                    ))
-                }
-              >
-                <summary className="w-full text-left bg-blue-600 text-white font-bold p-4 cursor-pointer rounded-t-lg">
-                  {module.moduleTitle}
-                </summary>
-                <div className="border-t border-gray-200 rounded-b-lg overflow-hidden">
-                  {module.videos.map((video, index) => (
-                    <div
-                      key={index}
-                      className={`flex items-center p-2 border-t ${selectedVideoTitle === video.videoTitle
-                        ? "text-blue-500"
-                        : ""
-                        }`}
-                      onClick={() =>
-                        handleVideoClick(
-                          video.videoUrl,
-                          video.videoTitle,
-                          video?.videoDescription
-                        )
-                      }
-                    >
-                      <span className="hover:cursor-pointer">
-                        {video.videoTitle}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </details>
-            ))}
+          <div className="bg-white shadow-lg rounded-lg overflow-y-auto max-h-[60vh]">
+            {courses.length > 0 &&
+              courses.map((module, index) => (
+                <details
+                  key={index}
+                  className="mb-4"
+                  open={
+                    module.moduleTitle.toLowerCase() === "introduction" ||
+                    (index === 0 &&
+                      !courses.some(
+                        (m) => m.moduleTitle.toLowerCase() === "introduction"
+                      ))
+                  }
+                >
+                  <summary className="w-full text-left bg-blue-600 text-white font-semibold p-4 cursor-pointer hover:bg-blue-700 transition duration-200 rounded-t-lg">
+                    {module.moduleTitle}
+                  </summary>
+                  <div className="bg-gray-50 border-t border-gray-200">
+                    {module.videos.map((video, index) => (
+                      <div
+                        key={index}
+                        className={`flex items-center justify-between p-3 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer transition ${selectedVideoTitle === video.videoTitle
+                            ? "bg-blue-100 text-blue-600"
+                            : "text-gray-700"
+                          }`}
+                        onClick={() =>
+                          handleVideoClick(
+                            video.videoUrl,
+                            video.videoTitle,
+                            video?.videoDescription
+                          )
+                        }
+                      >
+                        <span className="truncate">{video.videoTitle}</span>
+                        {selectedVideoTitle === video.videoTitle && (
+                          <span className="text-blue-500 font-semibold">Playing</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </details>
+              ))}
+          </div>
         </div>
-      </div>
 
-      {/* Meeting join button */}
-      {meetingId && (
-        <button
-          onClick={() => onSubmit2(meetingId)}
-          disabled={meetloading}
-          className={`flex justify-end ${meetloading
-            ? "bg-red-500 hover:bg-red-700"
-            : "bg-blue-600 hover:bg-blue-700 animate-glow"
-            } text-white z-50 rounded-full fixed bottom-0 right-10 mb-6 text-xl py-2 px-8`}
-        >
-          {meetloading ? (
-            <Fragment>
-              <svg
-                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8v8h8a8 8 0 11-16 0z"
-                ></path>
-              </svg>
-              Please wait...
-            </Fragment>
-          ) : (
-            "Join Live"
-          )}
-        </button>
-      )}
-      {/* Meeting join button */}
+
+      </div>
     </div>
   );
 };
