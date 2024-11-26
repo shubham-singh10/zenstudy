@@ -165,7 +165,6 @@ const StudentDashNavbar = () => {
             className="flex items-center gap-6 cursor-pointer p-2 rounded-lg bg-blue-50 hover:bg-blue-100 transition"
             onClick={toggleDropdown}
             onMouseEnter={() => setIsDropdownOpen(true)}
-            // onMouseLeave={() => setIsDropdownOpen(false)}
           >
             {/* User Info Section */}
             <div className="flex flex-col items-end">
