@@ -1,219 +1,239 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FaUserAlt } from "react-icons/fa";
 import { IoMdArrowDropup } from "react-icons/io";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 const navLink = [
-  {
-    label: "Home",
-    link: "/",
-    className: "hover:text-[#054BB4]"
-  },
-  {
-    label: "About",
-    link: "/about",
-    className: "hover:text-[#054BB4]"
-  },
-  {
-    label: "Blogs",
-    link: "https://blog.zenstudy.in/",
-    className: "hover:text-[#054BB4]"
-  },
-  {
-    label: "Our Team",
-    link: "/ourteam",
-    className: "hover:text-[#054BB4]"
-  },
-  {
-    label: "Courses",
-    link: "/courses",
-    className: "hover:text-[#054BB4]"
-  },
-  {
-    label: "Events",
-    link: "https://blog.zenstudy.in/category/events/",
-    className: "hover:text-[#054BB4]"
-  },
-  {
-    label: "Contact",
-    link: "/contact",
-    className: "hover:text-[#054BB4]"
-  },
+  { label: "Home", link: "/" },
+  { label: "About", link: "/about" },
+  { label: "Courses", link: "/courses" },
+  { label: "Our Team", link: "/ourteam" },
+  { label: "Blogs", link: "https://blog.zenstudy.in/" },
+  { label: "Events", link: "https://blog.zenstudy.in/category/events/" },
+  { label: "Contact", link: "/contact" },
 ];
 
 const NavBar = () => {
   const [hamBurger, setHamBurger] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [showMore, setShowMore] = useState(false);
+
   const location = useLocation();
   const navigate = useNavigate();
-  const isLoggedIn = !!Cookies.get('access_tokennew');
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const [userData, setUserData] = useState(null);
+  const isLoggedIn = !!Cookies.get("access_tokennew");
   // Toggle body scroll based on hamburger menu state
   useEffect(() => {
-    if (hamBurger) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+    document.body.style.overflow = hamBurger ? "hidden" : "auto";
     return () => {
-      document.body.style.overflow = "auto"; // reset when component unmounts
+      document.body.style.overflow = "auto";
     };
   }, [hamBurger]);
 
-  function handleClick() {
-    setHamBurger(!hamBurger);
-  }
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
 
   const handleLogout = () => {
-    Cookies.remove('access_tokennew');
-    navigate('/');
+    localStorage.removeItem("userData")
+    Cookies.remove("access_tokennew");
+    navigate("/");
     window.location.reload();
   };
 
+  const handleMoreToggle = () => setShowMore(!showMore);
+
   return (
     <>
-      <div className="w-full h-[15vh] flex items-center justify-between px-12">
-        <div className="flex items-center justify-between w-full">
-          <Link to={"/"} className="flex items-center flex-col">
-            <p className="text-3xl font-bold">
-              ZenStudy<span className="text-[#054BB4] text-4xl">.</span>
-            </p>
-            <p className="text-[10px] font-medium text-[#054BB4]">
-              Making Education Imaginative 
-            </p>
-          </Link>
-          <div className="lg:block hidden">
-            <ul className="flex items-center justify-between gap-8 cursor-pointer">
-              {navLink.map((item) => (
-                <Fragment key={item.label}>
-                  <li
-                    className={`${location.pathname === item.link
-                      ? "px-5 py-[2px] text-[#054BB4] rounded-full border-2 border-solid border-[#054BB4] font-medium"
-                      : item.className
-                    } transition-all duration-300 ease-in-out`}
+      {/* Navbar Container */}
+      <div className="w-full h-[15vh] flex items-center justify-between px-6 lg:px-12 shadow-md">
+        {/* Logo */}
+        <Link to={"/"} className="flex flex-col items-start">
+          <p className="text-3xl font-bold">
+            ZenStudy<span className="text-[#054BB4] text-4xl">.</span>
+          </p>
+          <p className="text-[10px] font-medium text-[#054BB4]">
+            Making Education Imaginative
+          </p>
+        </Link>
+
+        {/* Links - Desktop */}
+        <div className="hidden lg:flex items-center space-x-6">
+          {navLink.slice(0, 4).map((item) => (
+            <Link
+              key={item.label}
+              to={item.link}
+              className={`px-3 py-2 rounded-md font-medium transition-all duration-300 ${location.pathname === item.link
+                  ? "text-[#054BB4] border-b-2 border-[#054BB4]"
+                  : "hover:text-[#054BB4] text-gray-700"
+                }`}
+            >
+              {item.label}
+            </Link>
+          ))}
+
+          {/* More Dropdown */}
+          <div className="relative">
+            <button
+              className="px-3 py-2 rounded-md font-medium text-gray-700 hover:text-[#054BB4] flex items-center"
+              onClick={handleMoreToggle}
+            >
+              More <IoMdArrowDropdown />
+            </button>
+            {showMore && (
+              <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-lg border border-gray-200 z-10">
+                {navLink.slice(4).map((item) => (
+                  <Link
+                    key={item.label}
+                    to={item.link}
+                    className="block px-4 py-2 text-gray-700 hover:bg-[#054BB4] hover:text-white transition-all"
+                    onClick={() => setShowMore(false)}
                   >
-                    <Link to={item.link}>{item.label}</Link>
-                  </li>
-                </Fragment>
-              ))}
-            </ul>
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
+        </div>
+
+        {/* Auth Buttons - Desktop */}
+        <div className="hidden lg:flex items-center space-x-4">
           {!isLoggedIn ? (
-            <div className="lg:block hidden space-x-4">
+            <div className="flex items-center gap-4">
               <button
-                className="px-5 py-2 bg-[#054BB4] text-white rounded-full hover:bg-[#063e92] transition-colors duration-200"
+                className="px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-full shadow-lg hover:from-blue-600 hover:to-blue-800 hover:shadow-xl transition-all duration-300"
                 onClick={() => navigate("/sign-In")}
               >
                 Login
               </button>
               <button
-                className="px-5 py-2 bg-[#054BB4] text-white rounded-full hover:bg-[#063e92] transition-colors duration-200"
+                className="px-6 py-2 bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold rounded-full shadow-lg hover:from-green-600 hover:to-green-800 hover:shadow-xl transition-all duration-300"
                 onClick={() => navigate("/sign-Up")}
               >
                 Sign Up
               </button>
             </div>
           ) : (
-            <div className="lg:block hidden relative">
+            <div className="relative">
+              {/* Button to Toggle Dropdown */}
               <button
-                className="p-2 flex gap-2 bg-[#054BB4] text-white rounded-full hover:bg-[#063e92] transition-colors duration-200"
+                className="px-4 py-2 bg-[#054BB4] text-white rounded-full flex items-center gap-2 shadow-lg hover:bg-[#063e92] transition-all"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
-                <FaUserAlt />{dropdownOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
+                <FaUserAlt className="text-lg" />
+                <span className="text-sm font-medium">{userData?.name || "User"}</span>
+                {dropdownOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
               </button>
+
+              {/* Dropdown Menu */}
               {dropdownOpen && (
-                <div className="absolute z-50 -right-10 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
-                  <button
-                    className="block w-full text-left px-4 py-2 rounded-t-md  text-gray-800 hover:bg-blue-600 hover:text-white"
-                    onClick={() => navigate("/profile")}
-                  >
-                    User Dashboard
-                  </button>
-                  <button
-                    className="block w-full text-left px-4 py-2 rounded-t-md  text-gray-800 hover:bg-blue-600 hover:text-white"
-                    onClick={() => navigate("/mycourse")}
-                  >
-                    My Courses
-                  </button>
-                  <button
-                    className="block w-full bg-red-600 rounded-b-md text-white text-left px-4 py-2 hover:bg-red-700 hover:text-white"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </button>
+                <div className="absolute right-0 mt-2 w-60 bg-white shadow-lg rounded-lg border border-gray-200 z-10">
+                  {/* Welcome Section */}
+                  <div className="px-4 py-3 bg-gray-100 rounded-t-lg border-b border-gray-200">
+                    <p className="text-sm text-gray-600">Welcome,</p>
+                    <p className="text-base font-semibold text-[#054BB4]">{userData?.name}</p>
+                  </div>
+
+                  {/* Links Section */}
+                  <div className="flex flex-col">
+                    <button
+                      className="flex items-center gap-2 px-4 py-3 text-sm text-gray-800 hover:bg-blue-100 hover:text-blue-600 transition-all"
+                      onClick={() => navigate("/profile")}
+                    >
+                      <FaUserAlt className="text-blue-600" />
+                      <span>Profile</span>
+                    </button>
+                    <button
+                      className="flex items-center gap-2 px-4 py-3 text-sm text-gray-800 hover:bg-blue-100 hover:text-blue-600 transition-all"
+                      onClick={() => navigate("/mycourse")}
+                    >
+                      <FaUserAlt className="text-blue-600" />
+                      <span>My Courses</span>
+                    </button>
+                    <button
+                      className="flex items-center gap-2 px-4 py-3 text-sm text-white bg-red-600 hover:bg-red-700 transition-all rounded-b-lg"
+                      onClick={handleLogout}
+                    >
+                      <FaUserAlt className="text-white" />
+                      <span>Logout</span>
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
           )}
+        </div>
 
-          <div className="lg:hidden text-2xl flex items-center relative z-30 text-[#054BB4]">
-            {!hamBurger ? (
-              <RxHamburgerMenu onClick={handleClick} className="cursor-pointer" />
-            ) : (
-              <RxCross2 onClick={handleClick} className="text-[#054BB4] cursor-pointer" />
-            )}
-          </div>
+        {/* Hamburger Menu - Mobile */}
+        <div className="lg:hidden flex items-center">
+          {!hamBurger ? (
+            <RxHamburgerMenu
+              className="text-2xl text-[#054BB4] cursor-pointer"
+              onClick={() => setHamBurger(true)}
+            />
+          ) : (
+            <RxCross2
+              className="text-2xl text-[#054BB4] cursor-pointer"
+              onClick={() => setHamBurger(false)}
+            />
+          )}
         </div>
       </div>
-      <AnimatePresence>
-        {hamBurger && (
-          <div className="lg:hidden w-full bg-[#054BB4] text-white overflow-hidden">
-            <div className="w-full h-[120vh] bg-[#054BB4] relative top-[-160px] text-white">
-              <div className="w-full h-full absolute flex items-center justify-center flex-col gap-5">
-                <ul className="flex flex-col items-center justify-center text-lg w-full">
-                  {navLink.map((item) => (
-                    <li
-                      key={item.label}
-                      className={`w-full text-center border-b border-white py-4 transition-all duration-300 ease-in-out hover:text-[#054BB4] hover:bg-[#F9F9F9] cursor-pointer ${location.pathname === item.link ? "" : ""
-                      }`}
-                    >
-                      <Link to={item.link} onClick={() => setHamBurger(false)}>
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                {!isLoggedIn ? (
-                  <div className="flex gap-2">
-                    <button
-                      className="px-4 py-1 border-2 border-solid border-white text-lg rounded-full hover:text-[#054BB4] hover:bg-[#F9F9F9] transition-all duration-300 cursor-pointer"
-                      onClick={() => { navigate("/sign-Up"); setHamBurger(false); }}
-                    >
-                      Sign Up
-                    </button>
 
-                    <button
-                      className="px-4 py-1 border-2 border-solid border-white text-lg rounded-full hover:text-[#054BB4] hover:bg-[#F9F9F9] transition-all duration-300 cursor-pointer"
-                      onClick={() => { navigate("/sign-In"); setHamBurger(false); }}
-                    >
-                      Log In
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex flex-col space-y-4">
-                    <button
-                      className="px-4 py-1 border-2 border-solid border-white text-lg rounded-full hover:text-[#054BB4] hover:bg-[#F9F9F9] transition-all duration-300 cursor-pointer"
-                      onClick={() => { navigate("/profile"); setHamBurger(false); }}
-                    >
-                      User Dashboard
-                    </button>
-                    <button
-                      className="px-4 py-1 border-2 border-solid border-white text-lg rounded-full hover:text-[#054BB4] hover:bg-[#F9F9F9] transition-all duration-300 cursor-pointer"
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-      </AnimatePresence>
+      {/* Mobile Menu */}
+      {hamBurger && (
+        <div className="lg:hidden w-full bg-[#054BB4] text-white">
+          <ul className="flex flex-col items-center space-y-4 py-4">
+            {navLink.map((item) => (
+              <li key={item.label} className="w-full text-center">
+                <Link
+                  to={item.link}
+                  onClick={() => setHamBurger(false)}
+                  className="block w-full px-4 py-2 hover:bg-[#063e92] transition-all"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+            {!isLoggedIn ? (
+              <>
+                <button
+                  className="w-full px-4 py-2 bg-white text-[#054BB4] rounded-full hover:bg-gray-200"
+                  onClick={() => {
+                    navigate("/sign-In");
+                    setHamBurger(false);
+                  }}
+                >
+                  Login
+                </button>
+                <button
+                  className="w-full px-4 py-2 bg-white text-[#054BB4] rounded-full hover:bg-gray-200"
+                  onClick={() => {
+                    navigate("/sign-Up");
+                    setHamBurger(false);
+                  }}
+                >
+                  Sign Up
+                </button>
+              </>
+            ) : (
+              <button
+                className="w-full px-4 py-2 bg-red-600 text-white rounded-full hover:bg-red-700"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            )}
+          </ul>
+        </div>
+      )}
     </>
   );
 };
