@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { GrLanguage } from "react-icons/gr";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,8 +14,6 @@ import { FaLock, FaLockOpen } from "react-icons/fa";
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`);
-  const [imgloading, setImgLoading] = useState(true);
   const [payloading, setPayLoading] = useState(false);
   const [discount, setDiscount] = useState(null);
   const [code, setCode] = useState("");
@@ -46,7 +44,7 @@ const CourseDetailsView = () => {
         coursePrice: price,
         courseId: courseId,
       };
-      // console.log("Sending data:", sendData);
+      console.log("Sending data:", sendData);
 
       const response = await fetch(
         `${process.env.REACT_APP_API}zenstudy/api/coupon/applyCoupon`,
@@ -131,9 +129,7 @@ const CourseDetailsView = () => {
         }
         const data = await response.json();
 
-        // console.log("Course_data: ", data);
-        const ImgData = { ...data, imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}` }
-        setImageSrc(ImgData.imageUrl)
+        //console.log("Course_data: ", data);
         setCoursePost(data.coursedetail);
         setLoading(false);
       } catch (error) {
@@ -173,10 +169,10 @@ const CourseDetailsView = () => {
     return `${day}-${month}-${year}`;
   };
 
-  // const stripHtmlTags = (html) => {
-  //   const doc = new DOMParser().parseFromString(html, "text/html");
-  //   return doc.body.textContent || "";
-  // };
+  const stripHtmlTags = (html) => {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.body.textContent || "";
+  };
 
   //Payment Initiate
   const handlePayment = async (amount) => {
@@ -243,9 +239,6 @@ const CourseDetailsView = () => {
                 razorpay_signature: response.razorpay_signature,
                 user_id: userId,
                 course_id: courseId,
-                coursePrice: coursePost?.price || "0",
-                purchasePrice: discount?.discount || "0",
-                couponCode: code
               }),
             }
           );
@@ -286,13 +279,9 @@ const CourseDetailsView = () => {
           <h1 className="text-xl md:text-2xl lg:text-3xl font-bold">
             {coursePost?.title}
           </h1>
-          <p
-            className="mt-2 md:mt-4 text-sm md:text-base"
-            dangerouslySetInnerHTML={{
-              __html: he.decode(coursePost?.description),
-            }}
-          />
-
+          <p className="mt-2 md:mt-4 text-sm md:text-base">
+            {stripHtmlTags(he.decode(coursePost.description))}
+          </p>
           <div className="flex items-center mt-4">
             <div className="flex items-center mr-4">
               <GrLanguage />
@@ -305,97 +294,57 @@ const CourseDetailsView = () => {
         <div className=" border-l-8 border-blue-600 p-2  w-full md:w-1/2 lg:w-2/3">
           <h2 className="text-lg md:text-xl font-bold">About Course</h2>
           <ul className="mt-4 space-y-2 flex flex-col gap-4">
-            <li
-              className="flex items-start text-justify"
-              dangerouslySetInnerHTML={{
-                __html: he.decode(coursePost?.other1),
-              }}
-            />
-
-            <li
-              className="flex items-start text-justify"
-              dangerouslySetInnerHTML={{
-                __html: he.decode(coursePost?.other2),
-              }}
-            />
-
+            <li className="flex items-start text-justify">
+              {coursePost?.other1}
+            </li>
+            <li className="flex items-start text-justify">
+              {coursePost?.other2}
+            </li>
           </ul>
         </div>
 
         <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
-          {firstModule ? (
-            // First module exists
+          {firstModule && (
             <div key={0}>
-              {firstModule.videos && firstModule.videos.length > 0 ? (
-                // If the first module contains videos
+              {firstModule.videos.length > 0 ? (
                 <div key={firstModule.videos[0]._id}>
-                  {firstModule.videos[0].videoUrl ? (
-                    // Render the video iframe
-                    <iframe
-                      src={firstModule.videos[0].videoUrl}
-                      frameBorder="0"
-                      className="top-0 left-0 h-[30vh] w-[100%]"
-                      allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-                      title="ZenStudy Video"
-                    ></iframe>
-                  ) : (
-                    <div>No video URL provided</div>
-                  )}
+                  <iframe
+                    src={firstModule.videos[0].videoUrl || "no videos"}
+                    frameBorder="0"
+                    className="top-0 left-0 h-[30vh] w-[100%] "
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                    title="zenstudy"
+                  ></iframe>
                 </div>
               ) : (
-                // No videos in the module
-                <div>No videos available</div>
+                <div>No videos</div>
               )}
-            </div>
-          ) : (
-            // No firstModule; render fallback image with loading state
-            <div className="relative">
-              {imgloading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
-                  <div className="w-24 h-24 bg-gray-400 rounded-full"></div>
-                </div>
-              )}
-              <img
-                src={imageSrc}
-                crossOrigin="anonymous"
-                alt="Course Thumbnail"
-                className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${imgloading ? "opacity-0" : "opacity-100"
-                  }`}
-                onLoad={() => setImgLoading(false)}
-              />
             </div>
           )}
 
-          <div className="p-6 rounded-lg space-y-6">
-            {/* Course Title */}
-            <div className="text-center">
-              <h2 className="text-lg font-bold text-blue-600">{coursePost?.title}</h2>
-              <p className="text-gray-500 text-xs mt-2">
-                Created at: {formatDate(coursePost?.createdAt)}
-              </p>
+          <div className="px-6 py-4 ">
+            <div className="font-bold text-sm mb-2 text-blue-600">
+              {coursePost?.title}
             </div>
 
-            {/* Coupon Input (Input and Button on Same Line) */}
-            {currentUser && (
-              <div className="flex items-center gap-4">
-                <input
-                  type="text"
-                  id="coupon"
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  className="flex-grow border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
-                  placeholder="Enter Coupon Code"
-                />
-                <button
-                  onClick={() => ApplyCoupon(coursePost?.price)}
-                  disabled={!code.trim() || couponLoading} // Disable button if no input or loading
-                  className={`${couponLoading || !code.trim()
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700"
-                    } text-sm text-white font-bold px-6 py-2 rounded-lg transition-all`}
-                >
-                  {couponLoading ? (
-                    <span className="flex items-center justify-center">
+            <p className="text-gray-600 text-xs mt-4">
+              Created at - {formatDate(coursePost?.createdAt)}
+            </p>
+          </div>
+
+          {currentUser && (
+            <div className="mb-4 w-[100%] flex flex-wrap  justify-between  px-4">
+              <input
+                type="text"
+                id="coupon"
+                onChange={(e) => setCode(e.target.value)}
+                className="border p-1 outline-none rounded-lg"
+                placeholder="Enter Coupon Code"
+              />
+              <span>
+                {couponLoading ? (
+                  <button className="bg-red-600 text-sm rounded-lg text-white px-5 py-2 ">
+                    <span className="flex items-center">
                       <svg
                         className="w-5 h-5 mr-2 animate-spin text-white"
                         xmlns="http://www.w3.org/2000/svg"
@@ -416,93 +365,91 @@ const CourseDetailsView = () => {
                           d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
                         ></path>
                       </svg>
-                      Applying...
+                      wait...
                     </span>
-                  ) : (
-                    <span className="text-xs">Apply Coupon</span>
-                  )}
-                </button>
-              </div>
-            )}
-
-            {/* Price and Payment Section */}
-            <div className="border-t pt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-              {/* Pricing */}
-              <div className="text-xl font-bold text-blue-600">
-                {discount ? (
-                  <div className="flex items-center">
-                    <span className="line-through text-gray-400 text-sm mr-2">
-                      ₹ {Math.round(coursePost?.price)}
-                    </span>
-                    <span>
-                      ₹{" "}
-                      {Math.round(discount.discount) === 0
-                        ? 1
-                        : Math.round(discount.discount)}
-                    </span>
-                  </div>
-                ) : (
-                  <span>₹ {Math.round(coursePost?.price)}</span>
-                )}
-              </div>
-
-              {/* Payment Button */}
-              <div className="mt-4 sm:mt-0">
-                {currentUser ? (
-                  <button
-                    className={`w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg flex items-center justify-center ${payloading ? "cursor-not-allowed" : ""
-                      }`}
-                    onClick={() =>
-                      handlePayment(
-                        discount
-                          ? Math.round(discount.discount) === 0
-                            ? 1
-                            : Math.round(discount.discount)
-                          : coursePost?.price
-                      )
-                    }
-                    disabled={payloading}
-                  >
-                    {payloading ? (
-                      <span className="flex items-center">
-                        <svg
-                          className="w-5 h-5 mr-2 animate-spin text-white"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                          ></circle>
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
-                          ></path>
-                        </svg>
-                        Processing...
-                      </span>
-                    ) : (
-                      "Pay Now"
-                    )}
                   </button>
                 ) : (
                   <button
-                    onClick={() => navigate(`/login/${courseId}`)}
-                    className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg"
+                    onClick={() => ApplyCoupon(coursePost?.price)}
+                    className="bg-blue-600 hover:bg-blue-700 rounded-lg text-sm text-white px-8 py-2 "
                   >
-                    Login to Purchase
+                    Apply
                   </button>
                 )}
-              </div>
+              </span>
             </div>
-          </div>
+          )}
 
+          <div className=" flex flex-row px-2 pt-4 pb-2 justify-between items-center  border-t-2">
+            <p className="text-blue-600 font-bold text-xl">
+              {discount ? (
+                <Fragment>
+                  <span className="line-through text-gray-400 mr-2 text-sm">
+                    ₹ {Math.round(coursePost?.price)}
+                  </span>
+                  <span>
+                    ₹{" "}
+                    {Math.round(discount.discount) === 0
+                      ? 1
+                      : Math.round(discount.discount)}
+                  </span>
+                </Fragment>
+              ) : (
+                <span>₹ {Math.round(coursePost?.price)}</span>
+              )}
+            </p>
+
+            {currentUser ? (
+              <button
+                className="bg-blue-600 w-[60%] hover:bg-blue-700 text-sm text-white font-bold py-2 px-6 rounded-full flex items-center justify-center"
+                onClick={() =>
+                  handlePayment(
+                    discount
+                      ? Math.round(discount.discount) === 0
+                        ? 1
+                        : Math.round(discount.discount)
+                      : coursePost?.price
+                  )
+                }
+                disabled={payloading}
+              >
+                {payloading ? (
+                  <span className="flex items-center">
+                    <svg
+                      className="w-5 h-5 mr-2 animate-spin text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
+                      ></path>
+                    </svg>
+                    Please wait...
+                  </span>
+                ) : (
+                  "Pay Now"
+                )}
+              </button>
+            ) : (
+              <button
+                onClick={() => navigate(`/login/${courseId}`)}
+                className="bg-blue-600 text-sm text-white font-bold py-2 px-4 rounded-full"
+              >
+                Login to purchase
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
