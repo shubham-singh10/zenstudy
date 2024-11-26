@@ -256,17 +256,23 @@ const WatchCourse = () => {
                 (reviewForm === undefined ? (
                   <form
                     onSubmit={submitReview}
-                    className="p-6 bg-white rounded-lg shadow-md max-w-lg mx-auto space-y-4"
+                    className="p-6 bg-gray-100 rounded-lg shadow-lg max-w-lg mx-auto space-y-6 border border-gray-200"
                   >
-
-                    <h2 className="text-lg font-semibold text-gray-700">
-                      Leave a Review
+                    {/* Form Header */}
+                    <h2 className="text-2xl font-bold text-gray-800 border-b pb-2">
+                      Share Your Review
                     </h2>
 
                     {/* Star Rating */}
-                    <div className="flex items-center space-x-1">
-                      {renderStars()}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600">
+                        Your Rating
+                      </label>
+                      <div className="flex items-center space-x-2 mt-2">
+                        {renderStars()}
+                      </div>
                     </div>
+
                     {/* Review Content */}
                     <div>
                       <label
@@ -279,46 +285,53 @@ const WatchCourse = () => {
                         id="reviewContent"
                         value={reviewContent}
                         onChange={(e) => setReviewContent(e.target.value)}
-                        className="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                        placeholder="Share your experience with this course"
-                        rows="4"
+                        className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
+                        placeholder="Write about your experience with this course..."
+                        rows="5"
                         required
                       />
                     </div>
+
                     {/* Submit Button */}
                     {rating !== undefined && (
-                      (loadingState.buttonLoading ? (
-                        <button
-                          disabled={true}
-                          className="w-full bg-red-700 flex justify-center items-center text-white font-semibold py-2 rounded-md"
-                        >
-                          <svg
-                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
+                      <div>
+                        {loadingState.buttonLoading ? (
+                          <button
+                            disabled={true}
+                            className="w-full bg-red-600 flex justify-center items-center text-white font-semibold py-3 rounded-lg shadow-md"
                           >
-                            <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                            ></circle>
-                            <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8v8h8a8 8 0 11-16 0z"
-                            ></path>
-                          </svg>
-                          Please Wait...
-                        </button>) : (<button
-                          type="submit"
-                          className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
-                        >
-                          Submit Review
-                        </button>)))}
+                            <svg
+                              className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                              ></circle>
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8v8h8a8 8 0 11-16 0z"
+                              ></path>
+                            </svg>
+                            Submitting...
+                          </button>
+                        ) : (
+                          <button
+                            type="submit"
+                            className="w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-3 rounded-lg hover:from-blue-600 hover:to-blue-800 shadow-lg hover:shadow-xl transition-all duration-300"
+                          >
+                            Submit Review
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </form>
                 ) : (
                   <div className="space-y-4 bg-gray-50 border border-gray-200 text-gray-800 p-4 rounded-lg shadow-md">
@@ -387,8 +400,8 @@ const WatchCourse = () => {
                       <div
                         key={index}
                         className={`flex items-center justify-between p-3 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer transition ${selectedVideoTitle === video.videoTitle
-                            ? "bg-blue-100 text-blue-600"
-                            : "text-gray-700"
+                          ? "bg-blue-100 text-blue-600"
+                          : "text-gray-700"
                           }`}
                         onClick={() =>
                           handleVideoClick(

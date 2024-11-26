@@ -5,6 +5,8 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { FaUserAlt } from "react-icons/fa";
 import { IoMdArrowDropup } from "react-icons/io";
 import Cookies from "js-cookie";
+import { FaBookOpenReader } from "react-icons/fa6";
+import { FiLogOut } from "react-icons/fi";
 
 const navLink = [
   { label: "Home", link: "/" },
@@ -70,8 +72,8 @@ const NavBar = () => {
               key={item.label}
               to={item.link}
               className={`px-3 py-2 rounded-md font-medium transition-all duration-300 ${location.pathname === item.link
-                  ? "text-[#054BB4] border-b-2 border-[#054BB4]"
-                  : "hover:text-[#054BB4] text-gray-700"
+                ? "text-[#054BB4] border-b-2 border-[#054BB4]"
+                : "hover:text-[#054BB4] text-gray-700"
                 }`}
             >
               {item.label}
@@ -154,14 +156,14 @@ const NavBar = () => {
                       className="flex items-center gap-2 px-4 py-3 text-sm text-gray-800 hover:bg-blue-100 hover:text-blue-600 transition-all"
                       onClick={() => navigate("/mycourse")}
                     >
-                      <FaUserAlt className="text-blue-600" />
+                      <FaBookOpenReader className="text-blue-600" />
                       <span>My Courses</span>
                     </button>
                     <button
                       className="flex items-center gap-2 px-4 py-3 text-sm text-white bg-red-600 hover:bg-red-700 transition-all rounded-b-lg"
                       onClick={handleLogout}
                     >
-                      <FaUserAlt className="text-white" />
+                      <FiLogOut className="text-white" />
                       <span>Logout</span>
                     </button>
                   </div>

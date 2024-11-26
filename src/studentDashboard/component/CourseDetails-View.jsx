@@ -113,10 +113,10 @@ const CourseDetailsView = () => {
     return `${day}-${month}-${year}`;
   };
 
-  const stripHtmlTags = (html) => {
-    const doc = new DOMParser().parseFromString(html, "text/html");
-    return doc.body.textContent || "";
-  };
+  // const stripHtmlTags = (html) => {
+  //   const doc = new DOMParser().parseFromString(html, "text/html");
+  //   return doc.body.textContent || "";
+  // };
 
   //Payment Initiate
   const handlePayment = async (amount) => {
@@ -275,9 +275,12 @@ const CourseDetailsView = () => {
           <h1 className="text-xl md:text-2xl lg:text-3xl font-bold">
             {coursePost?.title}
           </h1>
-          <p className="mt-2 md:mt-4 text-sm md:text-base">
-            {stripHtmlTags(he.decode(coursePost.description))}
-          </p>
+          <p
+            className="mt-2 md:mt-4 text-sm md:text-base"
+            dangerouslySetInnerHTML={{
+              __html: he.decode(coursePost?.description),
+            }}
+          />
           <div className="flex items-center mt-4">
             <div className="flex items-center mr-4">
               <GrLanguage />
@@ -290,12 +293,19 @@ const CourseDetailsView = () => {
         <div className=" border-l-8 border-blue-600 p-2  w-full md:w-1/2 lg:w-2/3">
           <h2 className="text-lg md:text-xl font-bold">About Course</h2>
           <ul className="mt-4 space-y-2 flex flex-col gap-4">
-            <li className="flex items-start text-justify">
-              {coursePost?.other1}
-            </li>
-            <li className="flex items-start text-justify">
-              {coursePost?.other2}
-            </li>
+            <li
+              className="flex items-start text-justify"
+              dangerouslySetInnerHTML={{
+                __html: he.decode(coursePost?.other1),
+              }}
+            />
+
+            <li
+              className="flex items-start text-justify"
+              dangerouslySetInnerHTML={{
+                __html: he.decode(coursePost?.other2),
+              }}
+            />
           </ul>
         </div>
         <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
@@ -327,88 +337,18 @@ const CourseDetailsView = () => {
             </p>
           </div>
 
-        
-            <div className="mb-4 w-[100%] flex flex-wrap  justify-between  px-4">
-              <input
-                type="text"
-                id="coupon"
-                onChange={(e) => setCode(e.target.value)}
-                className="border p-1 outline-none rounded-lg"
-                placeholder="Enter Coupon Code"
-              />
-              <span>
-                {couponLoading ? (
-                  <button className="bg-red-600 text-sm rounded-lg text-white px-5 py-2 ">
-                    <span className="flex items-center">
-                      <svg
-                        className="w-5 h-5 mr-2 animate-spin text-white"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
-                        ></path>
-                      </svg>
-                      wait...
-                    </span>
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => ApplyCoupon(coursePost?.price)}
-                    className="bg-blue-600 hover:bg-blue-700 rounded-lg text-sm text-white px-8 py-2 "
-                  >
-                    Apply
-                  </button>
-                )}
-              </span>
-            </div>
-        
 
-          <div className=" flex flex-row px-2 pt-4 pb-2 justify-between items-center  border-t-2">
-            <p className="text-blue-600 font-bold text-xl">
-              {discount ? (
-                <Fragment>
-                  <span className="line-through text-gray-400 mr-2 text-sm">
-                    ₹ {Math.round(coursePost?.price)}
-                  </span>
-                  <span>
-                    ₹{" "}
-                    {Math.round(discount.discount) === 0
-                      ? 1
-                      : Math.round(discount.discount)}
-                  </span>
-                </Fragment>
-              ) : (
-                <span>₹ {Math.round(coursePost?.price)}</span>
-              )}
-            </p>
-
-          
-              <button
-                className="bg-blue-600 w-[60%] hover:bg-blue-700 text-sm text-white font-bold py-2 px-6 rounded-full flex items-center justify-center"
-                onClick={() =>
-                  handlePayment(
-                    discount
-                      ? Math.round(discount.discount) === 0
-                        ? 1
-                        : Math.round(discount.discount)
-                      : coursePost?.price
-                  )
-                }
-                disabled={payloading}
-              >
-                {payloading ? (
+          <div className="mb-4 w-[100%] flex flex-wrap  justify-between  px-4">
+            <input
+              type="text"
+              id="coupon"
+              onChange={(e) => setCode(e.target.value)}
+              className="border p-1 outline-none rounded-lg"
+              placeholder="Enter Coupon Code"
+            />
+            <span>
+              {couponLoading ? (
+                <button className="bg-red-600 text-sm rounded-lg text-white px-5 py-2 ">
                   <span className="flex items-center">
                     <svg
                       className="w-5 h-5 mr-2 animate-spin text-white"
@@ -430,13 +370,83 @@ const CourseDetailsView = () => {
                         d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
                       ></path>
                     </svg>
-                    Please wait...
+                    wait...
                   </span>
-                ) : (
-                  "Pay Now"
-                )}
-              </button>
-            
+                </button>
+              ) : (
+                <button
+                  onClick={() => ApplyCoupon(coursePost?.price)}
+                  className="bg-blue-600 hover:bg-blue-700 rounded-lg text-sm text-white px-8 py-2 "
+                >
+                  Apply
+                </button>
+              )}
+            </span>
+          </div>
+
+
+          <div className=" flex flex-row px-2 pt-4 pb-2 justify-between items-center  border-t-2">
+            <p className="text-blue-600 font-bold text-xl">
+              {discount ? (
+                <Fragment>
+                  <span className="line-through text-gray-400 mr-2 text-sm">
+                    ₹ {Math.round(coursePost?.price)}
+                  </span>
+                  <span>
+                    ₹{" "}
+                    {Math.round(discount.discount) === 0
+                      ? 1
+                      : Math.round(discount.discount)}
+                  </span>
+                </Fragment>
+              ) : (
+                <span>₹ {Math.round(coursePost?.price)}</span>
+              )}
+            </p>
+
+
+            <button
+              className="bg-blue-600 w-[60%] hover:bg-blue-700 text-sm text-white font-bold py-2 px-6 rounded-full flex items-center justify-center"
+              onClick={() =>
+                handlePayment(
+                  discount
+                    ? Math.round(discount.discount) === 0
+                      ? 1
+                      : Math.round(discount.discount)
+                    : coursePost?.price
+                )
+              }
+              disabled={payloading}
+            >
+              {payloading ? (
+                <span className="flex items-center">
+                  <svg
+                    className="w-5 h-5 mr-2 animate-spin text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
+                    ></path>
+                  </svg>
+                  Please wait...
+                </span>
+              ) : (
+                "Pay Now"
+              )}
+            </button>
+
           </div>
         </div>
       </div>
