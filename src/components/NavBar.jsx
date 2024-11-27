@@ -191,7 +191,7 @@ const NavBar = () => {
 
       {/* Mobile Menu */}
       {hamBurger && (
-        <div className="lg:hidden w-full bg-[#054BB4] text-white">
+        <div className="lg:hidden h-[100vh] w-full bg-[#054BB4] text-white">
           <ul className="flex flex-col items-center space-y-4 py-4">
             {navLink.map((item) => (
               <li key={item.label} className="w-full text-center">
@@ -202,6 +202,7 @@ const NavBar = () => {
                 >
                   {item.label}
                 </Link>
+
               </li>
             ))}
             {!isLoggedIn ? (
