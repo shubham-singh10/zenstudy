@@ -203,7 +203,7 @@ const Profile = () => {
           <span className="">Browse </span>
           <FiUpload className="text-2xl" />
         </label>
-        {!imager && (<button
+        {imager && (<button
           className="flex gap-2 items-center bg-[#76b641] hover:bg-[#6ba63a] text-white m-2 px-4 py-2 rounded "
           onClick={() => submitImageData()}
           disabled={Imgloading}

@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
+import { RxHamburgerMenu, RxCross2, RxDashboard } from "react-icons/rx";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FaUserAlt } from "react-icons/fa";
@@ -227,12 +227,29 @@ const NavBar = () => {
                 </button>
               </>
             ) : (
-              <button
-                className="w-full px-4 py-2 bg-red-600 text-white rounded-full hover:bg-red-700"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
+              <>
+                {/* Dashboard Option */}
+                <button
+                  className="flex items-center justify-center w-[50%] px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-full shadow-md hover:from-blue-600 hover:to-blue-800 hover:shadow-lg transition-all"
+                  onClick={() => {
+                    navigate("/profile");
+                    setHamBurger(false);
+                  }}
+                >
+                  <RxDashboard className="text-xl mr-2" />
+                  My Dashboard
+                </button>
+
+                {/* Logout Option */}
+                <button
+                  className="flex items-center justify-center w-[50%] px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white font-semibold rounded-full shadow-md hover:from-red-600 hover:to-red-800 hover:shadow-lg transition-all"
+                  onClick={handleLogout}
+                >
+                  <FiLogOut className="text-xl mr-2" />
+                  Logout
+                </button>
+              </>
+
             )}
           </ul>
         </div>
