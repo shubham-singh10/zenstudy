@@ -78,6 +78,7 @@ const StudentDashNavbar = () => {
           <div
             className="flex items-center gap-4 cursor-pointer p-2 rounded-md bg-blue-50 hover:bg-blue-100 transition"
             onClick={toggleDropdown}
+            onMouseEnter={()=> setIsDropdownOpen(true)}
           >
             <div className="text-right">
               <p className="text-blue-800 font-semibold text-sm truncate">
@@ -94,7 +95,7 @@ const StudentDashNavbar = () => {
       {isDropdownOpen && (
         <div
           ref={dropdownRef}
-          className="absolute right-4 top-16 bg-white w-48 shadow-lg rounded-lg border border-gray-200 z-50"
+          className="absolute right-10 top-18 bg-white w-48 shadow-lg rounded-lg border border-gray-200 z-50"
         >
           <Link
             to="/profile"
@@ -105,7 +106,7 @@ const StudentDashNavbar = () => {
           </Link>
           <hr className="my-2 border-gray-300" />
           <button
-            className="flex items-center justify-center w-full px-4 py-3 text-white bg-blue-600 hover:bg-blue-700 rounded-md"
+            className="flex items-center justify-center text-sm w-full px-4 py-3 text-white bg-red-600 hover:bg-red-700 rounded-lg"
             onClick={handleLogout}
           >
             <FiLogOut className="mr-2" /> Logout
