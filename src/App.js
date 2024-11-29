@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import OurTeam from "./components/OurTeam.jsx";
 import PrivacyPolicy from "./components/PrivacyPolicy.jsx";
 import LiveClass from "./studentDashboard/component/LiveClass.jsx";
+import SignupTest from "./components/auth/SignupTest.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -52,6 +53,10 @@ function App() {
             <Route
               path="/sign-Up"
               element={isAuthenticated() ? <Navigate to="/" /> : <SignUp />}
+            />
+            <Route
+              path="/signtest"
+              element={isAuthenticated() ? <Navigate to="/" /> : <SignupTest />}
             />
             <Route
               path="/login/:courseId"

@@ -15,14 +15,28 @@ const Profile = () => {
     Country: "",
     Pincode: "",
     avatar: "",
+    otp: "",
   });
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [image, setImage] = useState(null);
   const [imager, setImager] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [otploading, setOtpLoading] = useState({
+    sendOtp: false,
+    verifyOtp: false,
+  });
   const [Imgloading, setImgLoading] = useState(false);
   const [Dloading, setDLoading] = useState(true);
   const token = Cookies.get("access_tokennew");
   let userId = null;
+
+  const handleVerify = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   if (token) {
     try {
@@ -71,7 +85,7 @@ const Profile = () => {
         ...resData.userdetail,
         imageUrl,
       };
-      //   console.log("Image: ",updatedUserDetail )
+       console.log("Image: ",updatedUserDetail )
       setUserData(updatedUserDetail || {});
       setDLoading(false);
     } catch (error) {
@@ -147,7 +161,7 @@ const Profile = () => {
           title: "Success",
           text: "Image updated successfully",
         });
-        setImager(null)
+        setImager(null);
       }
     } catch (error) {
       // console.log('Error: ', error)
@@ -184,6 +198,67 @@ const Profile = () => {
       </div>
     );
   }
+
+  const sendOtp = async (email) => {
+    setOtpLoading((prev) => ({ ...prev, sendOtp: true }));
+    try {
+      const sendData = {
+        email: email,
+        userId: token,
+      };
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_API2}zenstudy/api/email/send-otp`,
+        sendData
+      );
+
+      // Accessing data from axios response
+      const data = response.data;
+
+      console.log(data);
+
+      if (data.message === "OTP sent successfully") {
+        setIsModalOpen(true);
+      } else {
+        console.error("Failed to send OTP:", data.message);
+      }
+    } catch (error) {
+      console.error("Error sending OTP:", error.message);
+    } finally {
+      setOtpLoading((prev) => ({ ...prev, sendOtp: false }));
+    }
+  };
+
+  const verifyEmail = async (email) => {
+    setOtpLoading((prev) => ({ ...prev, verifyOtp: true }));
+
+    try {
+      const sendData = {
+        email: email,
+        userId: token,
+        enteredOtp: userData.otp,
+      };
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_API2}zenstudy/api/email/verify-email`,
+        sendData
+      );
+      const data = response.data;
+
+      console.log(data);
+
+      if (data.message === "OTP verified successfully") {
+        setIsModalOpen(false);
+      } else {
+        console.error("Failed to verify OTP:", data.message);
+      }
+    } catch (error) {
+      console.error("Error verifying OTP:", error.message);
+    }finally{
+      setOtpLoading((prev) => ({ ...prev, verifyOtp: false }))
+    }
+  };
+
   return (
     <form
       className="w-full mx-auto p-4 space-y-4"
@@ -196,25 +271,31 @@ const Profile = () => {
           alt="Profile"
           className="rounded-full lg:h-52 lg:w-52 md:h-40 md:w-40 h-32 w-32 mb-4"
         />
-        
-        <div className="flex flex-col items-center">
-        <label className="flex gap-2 bg-blue-700 hover:bg-blue-800 rounded text-white w-full items-center justify-center py-2 px-4 cursor-pointer">
-          <input type="file" className="hidden" accept="image/png, image/jpeg, image/jpg" onChange={handleImageChange} />
-          <span className="">Browse </span>
-          <FiUpload className="text-2xl" />
-        </label>
-        {imager && (<button
-          className="flex gap-2 items-center bg-[#76b641] hover:bg-[#6ba63a] text-white m-2 px-4 py-2 rounded "
-          onClick={() => submitImageData()}
-          disabled={Imgloading}
-        >
-          {Imgloading ? "Updating.." : "Update"} <FiUploadCloud />
-        </button>)}
-        </div>
-        </div>
-      
 
-      <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+        <div className="flex flex-col items-center">
+          <label className="flex gap-2 bg-blue-700 hover:bg-blue-800 rounded text-white w-full items-center justify-center py-2 px-4 cursor-pointer">
+            <input
+              type="file"
+              className="hidden"
+              accept="image/png, image/jpeg, image/jpg"
+              onChange={handleImageChange}
+            />
+            <span className="">Browse </span>
+            <FiUpload className="text-2xl" />
+          </label>
+          {imager && (
+            <button
+              className="flex gap-2 items-center bg-[#76b641] hover:bg-[#6ba63a] text-white m-2 px-4 py-2 rounded "
+              onClick={() => submitImageData()}
+              disabled={Imgloading}
+            >
+              {Imgloading ? "Updating.." : "Update"} <FiUploadCloud />
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 rounded-lg">
         <TextField
           label="Name"
           variant="outlined"
@@ -223,6 +304,7 @@ const Profile = () => {
           onChange={(e) =>
             setUserData((prev) => ({ ...prev, name: e.target.value }))
           }
+          className="flex-1"
         />
         <TextField
           label="Email"
@@ -232,8 +314,72 @@ const Profile = () => {
           onChange={(e) =>
             setUserData((prev) => ({ ...prev, email: e.target.value }))
           }
+          className="flex-1"
         />
+        <button
+          className={`${
+            otploading.sendOtp
+              ? "bg-red-600 cursor-not-allowed"
+              : "bg-green-400 hover:bg-green-500"
+          } px-6 py-2 text-white rounded-md shadow focus:ring-2 focus:ring-green-300 focus:outline-none transition`}
+          onClick={() => sendOtp(userData.email)}
+          aria-label="Verify user details"
+        >
+          {otploading.sendOtp ? "Please Wait..." : "Verify Email"}
+        </button>
+
+        {isModalOpen && (
+          <div
+            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+            role="dialog"
+            aria-labelledby="verify-email-title"
+            aria-modal="true"
+          >
+            <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+              <div className="flex justify-between items-center mb-4">
+                <h2 id="verify-email-title" className="text-xl font-semibold">
+                  Verify Email
+                </h2>
+                {
+                  // <button
+                  //   onClick={closeModal}
+                  //   className="text-gray-600 hover:text-gray-800 focus:outline-none"
+                  //   aria-label="Close modal"
+                  // >
+                  //   &#10005;
+                  // </button>
+                }
+              </div>
+              <p className="text-gray-700 mb-4">
+                An email verification code has been sent to{" "}
+                <span className="font-bold">
+                  {userData.email || "your email"}
+                </span>
+                . Please check your inbox and enter the verification code below
+                to verify your email address.
+              </p>
+              <TextField
+                label="Enter verification code"
+                variant="outlined"
+                fullWidth
+                className="mb-4"
+                onChange={(e) =>
+                  setUserData((prev) => ({ ...prev, otp: e.target.value }))
+                }
+              />
+              {/* Placeholder for error message */}
+              {/* <p className="text-sm text-red-500">Invalid verification code. Please try again.</p> */}
+              <button
+                className="text-white mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-300 w-full"
+                onClick={() => verifyEmail(userData.email)} // Replace with your verification logic
+              >
+                {otploading.verifyOtp ? "Please wait..." : "Verify"}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
+
       <TextField
         label="Phone"
         variant="outlined"
