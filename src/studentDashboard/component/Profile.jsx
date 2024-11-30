@@ -4,6 +4,8 @@ import { TextField, Button } from "@mui/material";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie"; // Add this package
 import axios from "axios";
+import { MdVerified } from "react-icons/md";
+
 const Profile = () => {
   const [userData, setUserData] = useState({
     name: "",
@@ -295,7 +297,8 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 rounded-lg">
+   
+      <div className="flex flex-col md:flex-row items-center md:space-x-4 space-y-4 md:space-y-0">
         <TextField
           label="Name"
           variant="outlined"
@@ -304,89 +307,64 @@ const Profile = () => {
           onChange={(e) =>
             setUserData((prev) => ({ ...prev, name: e.target.value }))
           }
-          className="flex-1"
+          className="flex-1 bg-white"
         />
-        <TextField
-          label="Email"
-          variant="outlined"
-          value={userData.email || ""}
-          fullWidth
-          onChange={(e) =>
-            setUserData((prev) => ({ ...prev, email: e.target.value }))
-          }
-          className="flex-1"
-        />
-        <button
-          className={`${
-            otploading.sendOtp
-              ? "bg-red-600 cursor-not-allowed"
-              : "bg-green-400 hover:bg-green-500"
-          } px-6 py-2 text-white rounded-md shadow focus:ring-2 focus:ring-green-300 focus:outline-none transition`}
-          onClick={() => sendOtp(userData.email)}
-          aria-label="Verify user details"
-        >
-          {otploading.sendOtp ? "Please Wait..." : "Verify Email"}
-        </button>
-
-        {isModalOpen && (
-          <div
-            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
-            role="dialog"
-            aria-labelledby="verify-email-title"
-            aria-modal="true"
-          >
-            <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
-              <div className="flex justify-between items-center mb-4">
-                <h2 id="verify-email-title" className="text-xl font-semibold">
-                  Verify Email
-                </h2>
-                {
-                  // <button
-                  //   onClick={closeModal}
-                  //   className="text-gray-600 hover:text-gray-800 focus:outline-none"
-                  //   aria-label="Close modal"
-                  // >
-                  //   &#10005;
-                  // </button>
-                }
-              </div>
-              <p className="text-gray-700 mb-4">
-                An email verification code has been sent to{" "}
-                <span className="font-bold">
-                  {userData.email || "your email"}
-                </span>
-                . Please check your inbox and enter the verification code below
-                to verify your email address.
-              </p>
-              <TextField
-                label="Enter verification code"
-                variant="outlined"
-                fullWidth
-                className="mb-4"
-                onChange={(e) =>
-                  setUserData((prev) => ({ ...prev, otp: e.target.value }))
-                }
-              />
-              {/* Placeholder for error message */}
-              {/* <p className="text-sm text-red-500">Invalid verification code. Please try again.</p> */}
-              <button
-                className="text-white mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-300 w-full"
-                onClick={() => verifyEmail(userData.email)} // Replace with your verification logic
-              >
-                {otploading.verifyOtp ? "Please wait..." : "Verify"}
-              </button>
+    
+        <div className="relative w-full flex-1">
+          <TextField
+            label="Email"
+            variant="outlined"
+            value={userData.email || ""}
+            fullWidth
+            onChange={(e) =>
+              setUserData((prev) => ({ ...prev, email: e.target.value }))
+            }
+            className="bg-white"
+            disabled={userData.status === "verified"}
+          />
+          {userData.status === "verified" && (
+            <div className="absolute right-3 bottom-4 flex items-center gap-1">
+              <MdVerified color="green" size={20} />
+              <span className="text-sm text-green-600">Verified</span>
             </div>
-          </div>
+          )}
+        </div>
+     
+    
+      <div className="flex items-center justify-between md:justify-start md:gap-6">
+        {userData.status !== "verified" && (
+          <button
+            className={`px-6 py-4 text-white rounded-md shadow-md focus:outline-none transition 
+              ${
+                otploading.sendOtp
+                  ? "bg-red-600 cursor-not-allowed"
+                  : "bg-red-500 hover:bg-red-600 focus:ring-2 focus:ring-red-300"
+              }`}
+            onClick={() => sendOtp(userData.email)}
+            aria-label="Verify user details"
+          >
+            {otploading.sendOtp ? "Please Wait..." : "Verify Email"}
+          </button>
         )}
       </div>
+    </div>
+    
+    
+    <div className="relative w-full flex-1">
+    <TextField
+    label="Phone"
+    variant="outlined"
+    value={userData.phone || ""}
+    fullWidth
+    disabled
+    />
+    <div className="absolute right-3 bottom-4 flex items-center gap-1">
+              <MdVerified color="green" size={20} />
+              <span className="text-sm text-green-600">Verified</span>
+            </div>
+    </div>
+    
 
-      <TextField
-        label="Phone"
-        variant="outlined"
-        value={userData.phone || ""}
-        fullWidth
-        disabled
-      />
       <TextField
         label="Address"
         variant="outlined"
