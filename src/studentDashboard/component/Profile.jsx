@@ -19,6 +19,7 @@ const Profile = () => {
     avatar: "",
     otp: "",
   });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [image, setImage] = useState(null);
   const [imager, setImager] = useState(null);
@@ -62,6 +63,7 @@ const Profile = () => {
     }
   };
   //Get User Data API
+
   const getUserData = async (userId) => {
     setDLoading(true);
     try {
@@ -80,14 +82,18 @@ const Profile = () => {
       }
       const resData = await response.json();
       // console.log("Responsiocve: ", resData.userdetail)
+      const { userdetail } = resData;
 
-      const imageUrl = `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${resData.userdetail.avatar}`;
+      // Construct the `imageUrl` conditionally
+      const imageUrl = userdetail.avatar.startsWith("http")
+        ? userdetail.avatar
+        : `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${userdetail.avatar}`;
 
       const updatedUserDetail = {
-        ...resData.userdetail,
-        imageUrl,
+        ...userdetail,
+        imageUrl
       };
-       console.log("Image: ",updatedUserDetail )
+      console.log("Image: ", updatedUserDetail);
       setUserData(updatedUserDetail || {});
       setDLoading(false);
     } catch (error) {
@@ -98,6 +104,12 @@ const Profile = () => {
       });
       setDLoading(false);
     }
+  };
+
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
   // Update User API
@@ -251,13 +263,14 @@ const Profile = () => {
 
       if (data.message === "OTP verified successfully") {
         setIsModalOpen(false);
+        getUserData(userId)
       } else {
         console.error("Failed to verify OTP:", data.message);
       }
     } catch (error) {
       console.error("Error verifying OTP:", error.message);
-    }finally{
-      setOtpLoading((prev) => ({ ...prev, verifyOtp: false }))
+    } finally {
+      setOtpLoading((prev) => ({ ...prev, verifyOtp: false }));
     }
   };
 
@@ -297,7 +310,6 @@ const Profile = () => {
         </div>
       </div>
 
-   
       <div className="flex flex-col md:flex-row items-center md:space-x-4 space-y-4 md:space-y-0">
         <TextField
           label="Name"
@@ -309,7 +321,7 @@ const Profile = () => {
           }
           className="flex-1 bg-white"
         />
-    
+
         <div className="relative w-full flex-1">
           <TextField
             label="Email"
@@ -319,7 +331,7 @@ const Profile = () => {
             onChange={(e) =>
               setUserData((prev) => ({ ...prev, email: e.target.value }))
             }
-            className="bg-white"
+            className="bg-white w-full"
             disabled={userData.status === "verified"}
           />
           {userData.status === "verified" && (
@@ -328,42 +340,96 @@ const Profile = () => {
               <span className="text-sm text-green-600">Verified</span>
             </div>
           )}
+
         </div>
-     
-    
-      <div className="flex items-center justify-between md:justify-start md:gap-6">
+   
         {userData.status !== "verified" && (
           <button
             className={`px-6 py-4 text-white rounded-md shadow-md focus:outline-none transition 
-              ${
-                otploading.sendOtp
-                  ? "bg-red-600 cursor-not-allowed"
-                  : "bg-red-500 hover:bg-red-600 focus:ring-2 focus:ring-red-300"
-              }`}
+            ${
+              otploading.sendOtp || !isValidEmail(userData.email)
+                ? "bg-red-400 opacity-4 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
+            }`}
             onClick={() => sendOtp(userData.email)}
+            disabled={otploading.sendOtp || !isValidEmail(userData.email)}
             aria-label="Verify user details"
           >
             {otploading.sendOtp ? "Please Wait..." : "Verify Email"}
           </button>
         )}
-      </div>
-    </div>
-    
-    
-    <div className="relative w-full flex-1">
-    <TextField
-    label="Phone"
-    variant="outlined"
-    value={userData.phone || ""}
-    fullWidth
-    disabled
-    />
-    <div className="absolute right-3 bottom-4 flex items-center gap-1">
-              <MdVerified color="green" size={20} />
-              <span className="text-sm text-green-600">Verified</span>
+      
+        {isModalOpen && (
+          <div
+            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+            role="dialog"
+            aria-labelledby="verify-email-title"
+            aria-modal="true"
+          >
+            <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+              <div className="flex justify-between items-center mb-4">
+                <h2 id="verify-email-title" className="text-xl font-semibold">
+                  Verify Email
+                </h2>
+                {
+                  // <button
+                  //   onClick={closeModal}
+                  //   className="text-gray-600 hover:text-gray-800 focus:outline-none"
+                  //   aria-label="Close modal"
+                  // >
+                  //   &#10005;
+                  // </button>
+                }
+              </div>
+              <p className="text-gray-700 mb-4">
+                An email verification code has been sent to{" "}
+                <span className="font-bold">
+                  {userData.email || "your email"}
+                </span>
+                . Please check your inbox and enter the verification code below
+                to verify your email address.
+              </p>
+              <p className="text-red-500 font-semibold mb-4">
+                If you haven't received the email, please check your spam or
+                junk folder. If it's still not there, wait for 2 minutes and
+                refresh this page to try again.
+              </p>
+
+              <TextField
+                label="Enter verification code"
+                variant="outlined"
+                fullWidth
+                className="mb-4"
+                onChange={(e) =>
+                  setUserData((prev) => ({ ...prev, otp: e.target.value }))
+                }
+              />
+              {/* Placeholder for error message */}
+              {/* <p className="text-sm text-red-500">Invalid verification code. Please try again.</p> */}
+              <button
+                className="text-white mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-300 w-full"
+                onClick={() => verifyEmail(userData.email)} // Replace with your verification logic
+              >
+                {otploading.verifyOtp ? "Please wait..." : "Verify"}
+              </button>
             </div>
-    </div>
-    
+          </div>
+        )}
+      </div>
+
+      <div className="relative w-full flex-1">
+        <TextField
+          label="Phone"
+          variant="outlined"
+          value={userData.phone || ""}
+          fullWidth
+          disabled
+        />
+        <div className="absolute right-3 bottom-4 flex items-center gap-1">
+          <MdVerified color="green" size={20} />
+          <span className="text-sm text-green-600">Verified</span>
+        </div>
+      </div>
 
       <TextField
         label="Address"
