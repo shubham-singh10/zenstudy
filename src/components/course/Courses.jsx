@@ -4,9 +4,11 @@ import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import CommonCard from "../CommonCard";
 
+
 const Courses = () => {
   const [courses, setCourse] = useState([]);
   const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     const userId = Cookies.get("access_tokennew");
@@ -61,6 +63,8 @@ const Courses = () => {
   if (loading) {
     return <Loading />;
   }
+
+
   return (
     <div className="container mx-auto p-4">
       {courses.length === 0 ? (

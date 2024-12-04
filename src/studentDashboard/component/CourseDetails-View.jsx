@@ -10,6 +10,7 @@ import { FaLock, FaLockOpen } from "react-icons/fa";
 import toast from "react-hot-toast";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
+import { VerifyEmailMsg } from "../../components/VerifyEmailMsg";
 
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
@@ -23,6 +24,7 @@ const CourseDetailsView = () => {
   const { width, height } = useWindowSize();
   const navigate = useNavigate();
   const { courseId } = useParams();
+  const { userStatus } = VerifyEmailMsg();
 
 
   useEffect(() => {
@@ -120,6 +122,16 @@ const CourseDetailsView = () => {
 
   //Payment Initiate
   const handlePayment = async (amount) => {
+    if (userStatus !== "verified") {
+      Swal.fire({
+        title: "Verify Your Email",
+        text: "Please verify your email to proceed with the payment.",
+        icon: "warning",
+      }).then(()=>{
+        navigate('/profile')
+      });
+      return;
+    }
     setPayLoading(true);
     console.log("am", amount);
     try {

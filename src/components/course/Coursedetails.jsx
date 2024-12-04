@@ -10,6 +10,7 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import { MdSlowMotionVideo } from "react-icons/md";
 import { FaLock, FaLockOpen } from "react-icons/fa";
+import { VerifyEmailMsg } from "../VerifyEmailMsg";
 
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
@@ -26,6 +27,8 @@ const CourseDetailsView = () => {
   const navigate = useNavigate();
   const { courseId } = useParams();
   const [currentUser, setCurrentUser] = useState(false);
+  const { userStatus } = VerifyEmailMsg();
+
 
   const token = Cookies.get("access_tokennew");
   let userId = null;
@@ -180,6 +183,16 @@ const CourseDetailsView = () => {
 
   //Payment Initiate
   const handlePayment = async (amount) => {
+    if (userStatus !== "verified") {
+      Swal.fire({
+        title: "Verify Your Email",
+        text: "Please verify your email to proceed with the payment.",
+        icon: "warning",
+      }).then(()=>{
+        navigate('/profile')
+      });
+      return;
+    }
     setPayLoading(true);
     try {
       const res = await fetch(

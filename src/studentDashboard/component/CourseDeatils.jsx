@@ -10,8 +10,7 @@ const CourseDeatils = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemperpage = 6;
   const [searchText, setSearchText] = useState("");
-
-  const userId = Cookies.get("access_tokennew")
+  const userId = Cookies.get("access_tokennew");
 
   useEffect(() => {
     const getcourse = async () => {
@@ -32,17 +31,20 @@ const CourseDeatils = () => {
           return;
         }
 
-
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
         //  console.log("Course_data", data);
         // setCourse(data);
-        setCourse(data.filter(course => course.other1 !== "upcoming").map(course => ({
-          ...course,
-          imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`
-        })));
+        setCourse(
+          data
+            .filter((course) => course.other1 !== "upcoming")
+            .map((course) => ({
+              ...course,
+              imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`,
+            }))
+        );
 
         setLoading(false);
       } catch (error) {
@@ -51,10 +53,8 @@ const CourseDeatils = () => {
       }
     };
 
-
     getcourse();
   }, [userId]);
-
 
   const filteredData = courses.filter((course) => {
     const titleMatch = course.title
@@ -62,7 +62,6 @@ const CourseDeatils = () => {
       .includes(searchText.toLowerCase());
     return titleMatch;
   });
-
 
   if (loading) {
     return (
@@ -77,10 +76,13 @@ const CourseDeatils = () => {
     (currentPage - 1) * itemperpage,
     currentPage * itemperpage
   );
+
   return (
     <div className="container mx-auto p-4 flex flex-col items-center gap-4">
       {courses.length === 0 ? (
-        <div className="flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl  text-gray-500">No courses found...</div>
+        <div className="flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl  text-gray-500">
+          No courses found...
+        </div>
       ) : (
         <Fragment>
           <div className="flex items-center justify-center bg-gray-100 border border-gray-300 shadow-sm rounded-full px-4 py-2 mb-4 w-full md:w-1/2 lg:w-1/2">
@@ -104,7 +106,11 @@ const CourseDeatils = () => {
                 {/* Display Course Cards */}
                 <div className="flex flex-wrap justify-center gap-10">
                   {paginatedData.map((course, index) => (
-                    <CommonCard key={index} course={course} link={"course-details-view"} />
+                    <CommonCard
+                      key={index}
+                      course={course}
+                      link={"course-details-view"}
+                    />
                   ))}
                 </div>
 
@@ -130,6 +136,5 @@ const CourseDeatils = () => {
     </div>
   );
 };
-
 
 export default CourseDeatils;
