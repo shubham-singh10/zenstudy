@@ -138,7 +138,10 @@ function CommonCard({ course, link, differentClass }) {
       )}
 
       <div className="flex flex-row px-6 pt-4 justify-between items-center border-t-2">
-        <p className="text-blue-600 font-bold text-xl">₹ {course.price}</p>
+      
+      {course.value ? (<p className="text-blue-600 font-bold text-xl"> <span className='line-through text-gray-400 text-sm mr-1'> ₹ {course.value}</span> ₹ {course.price}</p>):
+      ( <p className="text-blue-600 font-bold text-xl"> ₹ {course.price}</p>)}
+
         {isUpcoming ? (
           <p className="text-red-600 font-bold text-sm">Coming Soon</p>
         ) : (
