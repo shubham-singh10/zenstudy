@@ -185,7 +185,7 @@ const CourseDetailsView = () => {
 
   //Payment Initiate
   const handlePayment = async (amount) => {
-    if (userStatus !== "verified") {
+    if (userStatus.emailStatus !== "verified") {
       Swal.fire({
         title: "Verify Your Email",
         text: "Please verify your email to proceed with the payment.",
@@ -198,7 +198,7 @@ const CourseDetailsView = () => {
     setPayLoading(true);
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_API}zenstudy/api/payment/order`,
+        `${process.env.REACT_APP_API2}zenstudy/api/payment/order`,
         {
           method: "POST",
           headers: {
@@ -247,7 +247,7 @@ const CourseDetailsView = () => {
         setpageLoading(true);
         try {
           const res = await fetch(
-            `${process.env.REACT_APP_API}zenstudy/api/payment/verify`,
+            `${process.env.REACT_APP_API2}zenstudy/api/payment/verify`,
             {
               method: "POST",
               headers: {

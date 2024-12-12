@@ -33,14 +33,6 @@ const Profile = () => {
   const token = Cookies.get("access_tokennew");
   let userId = null;
 
-  const handleVerify = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   if (token) {
     try {
       userId = token;
@@ -93,7 +85,7 @@ const Profile = () => {
         ...userdetail,
         imageUrl
       };
-      console.log("Image: ", updatedUserDetail);
+      // console.log("Image: ", updatedUserDetail);
       setUserData(updatedUserDetail || {});
       setDLoading(false);
     } catch (error) {
@@ -237,7 +229,7 @@ const Profile = () => {
         console.error("Failed to send OTP:", data.message);
       }
     } catch (error) {
-      console.error("Error sending OTP:", error.message);
+      console.error("Error sending OTP:", error);
     } finally {
       setOtpLoading((prev) => ({ ...prev, sendOtp: false }));
     }
@@ -332,9 +324,9 @@ const Profile = () => {
               setUserData((prev) => ({ ...prev, email: e.target.value }))
             }
             className="bg-white w-full"
-            disabled={userData.status === "verified"}
+            disabled={userData.status.emailStatus === "verified"}
           />
-          {userData.status === "verified" && (
+          {userData.status.emailStatus === "verified" && (
             <div className="absolute right-3 bottom-4 flex items-center gap-1">
               <MdVerified color="green" size={20} />
               <span className="text-sm text-green-600">Verified</span>
@@ -342,15 +334,14 @@ const Profile = () => {
           )}
 
         </div>
-   
-        {userData.status !== "verified" && (
+
+        {userData.status.emailStatus !== "verified" && (
           <button
             className={`px-6 py-4 text-white rounded-md shadow-md focus:outline-none transition 
-            ${
-              otploading.sendOtp || !isValidEmail(userData.email)
+            ${otploading.sendOtp || !isValidEmail(userData.email)
                 ? "bg-red-400 opacity-4 cursor-not-allowed"
                 : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
-            }`}
+              }`}
             onClick={() => sendOtp(userData.email)}
             disabled={otploading.sendOtp || !isValidEmail(userData.email)}
             aria-label="Verify user details"
@@ -358,7 +349,7 @@ const Profile = () => {
             {otploading.sendOtp ? "Please Wait..." : "Verify Email"}
           </button>
         )}
-      
+
         {isModalOpen && (
           <div
             className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"

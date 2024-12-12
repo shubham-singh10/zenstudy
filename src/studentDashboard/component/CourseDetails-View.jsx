@@ -16,6 +16,8 @@ import { Loader } from "../../components/loader/Loader";
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [imgloading, setImgLoading] = useState(true);
+  const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`);
   const [couponLoading, setCouponLoading] = useState(false);
   const [payloading, setPayLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -70,14 +72,12 @@ const CourseDetailsView = () => {
         const data = await response.json();
         // console.log("Course_data", data);
 
+        const ImgData = {
+          ...data,
+          imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`,
+        };
+        setImageSrc(ImgData.imageUrl);
         setCoursePost(data.coursedetail);
-
-        // const imageUrl = `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`;
-        // setCoursePost({
-        //   ...data.coursedetail,
-        //   imageUrl, // Add the imageUrl to the state
-        // });
-
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -123,7 +123,7 @@ const CourseDetailsView = () => {
 
   //Payment Initiate
   const handlePayment = async (amount) => {
-    if (userStatus !== "verified") {
+    if (userStatus.emailStatus !== "verified") {
       Swal.fire({
         title: "Verify Your Email",
         text: "Please verify your email to proceed with the payment.",
@@ -137,7 +137,7 @@ const CourseDetailsView = () => {
     console.log("am", amount);
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_API}zenstudy/api/payment/order`,
+        `${process.env.REACT_APP_API2}zenstudy/api/payment/order`,
         {
           method: "POST",
           headers: {
@@ -186,7 +186,7 @@ const CourseDetailsView = () => {
         setpageLoading(true);
         try {
           const res = await fetch(
-            `${process.env.REACT_APP_API}zenstudy/api/payment/verify`,
+            `${process.env.REACT_APP_API2}zenstudy/api/payment/verify`,
             {
               method: "POST",
               headers: {
@@ -335,21 +335,46 @@ const CourseDetailsView = () => {
             </ul>
           </div>
           <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
-            {firstModule && (
+            {firstModule ? (
+              // First module exists
               <div key={0}>
-                {firstModule.videos.length > 0 ? (
+                {firstModule.videos && firstModule.videos.length > 0 ? (
+                  // If the first module contains videos
                   <div key={firstModule.videos[0]._id}>
-                    <iframe
-                      src={firstModule.videos[0].videoUrl || "no videos"}
-                      frameBorder="0"
-                      className="top-0 left-0 h-[30vh] w-[100%] "
-                      allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-                      title="zenstudy"
-                    ></iframe>
+                    {firstModule.videos[0].videoUrl ? (
+                      // Render the video iframe
+                      <iframe
+                        src={firstModule.videos[0].videoUrl}
+                        frameBorder="0"
+                        className="top-0 left-0 h-[30vh] w-[100%]"
+                        allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                        title="ZenStudy Video"
+                      ></iframe>
+                    ) : (
+                      <div>No video URL provided</div>
+                    )}
                   </div>
                 ) : (
-                  <div>No videos</div>
+                  // No videos in the module
+                  <div>No videos available</div>
                 )}
+              </div>
+            ) : (
+              // No firstModule; render fallback image with loading state
+              <div className="relative">
+                {imgloading && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
+                    <div className="w-24 h-24 bg-gray-400 rounded-full"></div>
+                  </div>
+                )}
+                <img
+                  src={imageSrc}
+                  crossOrigin="anonymous"
+                  alt="Course Thumbnail"
+                  className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${imgloading ? "opacity-0" : "opacity-100"
+                    }`}
+                  onLoad={() => setImgLoading(false)}
+                />
               </div>
             )}
 
@@ -375,13 +400,11 @@ const CourseDetailsView = () => {
                 <button
                   onClick={() => ApplyCoupon(coursePost?.price)}
                   disabled={!code || couponLoading} // Disable button if no input or loading
-                  className={`${
-                    couponLoading || !code
-                      ? `bg-gray-400 cursor-not-allowed w-[30%] ${
-                          couponLoading ? "py-3" : "py-1"
-                        }`
+                  className={`${couponLoading || !code
+                      ? `bg-gray-400 cursor-not-allowed w-[30%] ${couponLoading ? "py-3" : "py-1"
+                      }`
                       : "bg-blue-600 hover:bg-blue-700 w-[30%] py-1"
-                  } text-sm text-white font-bold px-6 rounded-lg transition-all`}
+                    } text-sm text-white font-bold px-6 rounded-lg transition-all`}
                 >
                   {couponLoading ? (
                     <span className="flex items-center justify-center">
@@ -432,9 +455,8 @@ const CourseDetailsView = () => {
                 </div>
 
                 <button
-                  className={`w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg flex items-center justify-center ${
-                    payloading ? "cursor-not-allowed" : ""
-                  }`}
+                  className={`w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg flex items-center justify-center ${payloading ? "cursor-not-allowed" : ""
+                    }`}
                   onClick={() =>
                     handlePayment(
                       discount
