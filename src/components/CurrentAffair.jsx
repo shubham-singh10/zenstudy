@@ -1,41 +1,6 @@
 import React, { Fragment, useState } from "react";
-import ReactDOM from "react-dom";
-import { Document, Page, Text, View, StyleSheet, PDFViewer } from "@react-pdf/renderer";
-
-// Create styles for the PDF document
-const styles = StyleSheet.create({
-  page: {
-    padding: 20,
-    flexDirection: "column",
-  },
-  section: {
-    marginBottom: 10,
-    padding: 10,
-    border: "1px solid #ccc",
-    borderRadius: 5,
-  },
-  title: {
-    fontSize: 18,
-    marginBottom: 5,
-    fontWeight: "bold",
-  },
-  description: {
-    fontSize: 12,
-    color: "#555",
-  },
-});
-
-// Component to render the PDF document
-const PDFDocument = ({ title, description }) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.section}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.description}>{description}</Text>
-      </View>
-    </Page>
-  </Document>
-);
+import { Worker, Viewer } from '@react-pdf-viewer/core';
+import '@react-pdf-viewer/core/lib/styles/index.css';
 
 // Main CurrentAffair component
 function CurrentAffair() {
@@ -43,14 +8,17 @@ function CurrentAffair() {
     {
       title: "Breaking News: Current Affairs",
       description: "Explore the details of today's breaking news.Explore the details of today's breaking news.",
+      link: "https://pdfobject.com/pdf/sample.pdf"
     },
     {
       title: "Global Updates: Current Affairs",
       description: "Stay informed about global events.",
+      link: "https://pdfobject.com/pdf/sample.pdf"
     },
     {
       title: "Today's Highlights",
       description: "Discover the most important updates of the day.",
+      link: "https://pdfobject.com/pdf/sample.pdf"
     },
   ];
 
@@ -90,12 +58,13 @@ function CurrentAffair() {
       {selectedData && (
         <div className="mt-8 bg-gray-100 p-4 border rounded-lg">
           <h2 className="text-xl font-bold text-gray-800 mb-4">PDF Viewer</h2>
-          <PDFViewer style={{ width: "100%", height: "500px" }}>
-            <PDFDocument
-              title={selectedData.title}
-              description={selectedData.description}
-            />
-          </PDFViewer>
+          <div style={{ height: 550 }}>
+            <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
+              <Viewer fileUrl="https://pdfobject.com/pdf/sample.pdf" />
+
+              ...
+            </Worker>
+          </div>
         </div>
       )}
     </Fragment>
