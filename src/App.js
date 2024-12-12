@@ -12,6 +12,7 @@ import OurTeam from "./components/OurTeam.jsx";
 import PrivacyPolicy from "./components/PrivacyPolicy.jsx";
 import LiveClass from "./studentDashboard/component/LiveClass.jsx";
 import SignupTest from "./components/auth/SignupTest.jsx";
+import CurrentAffair from "./components/CurrentAffair.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -57,6 +58,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/ourteam" element={<OurTeam />} />
             <Route path="/courses" element={<Courses />} />
+            <Route path="/currentAffair" element={<CurrentAffair />} />
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
             <Route path="/coursesNew" element={<CoursesNew />} />
             <Route
