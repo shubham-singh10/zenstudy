@@ -13,6 +13,7 @@ const navLink = [
   { label: "About", link: "/about" },
   { label: "Courses", link: "/courses" },
   { label: "Our Team", link: "/ourteam" },
+  { label: "Current Affairs", link: "/currentAffair" },
   { label: "Blogs", link: "https://blog.zenstudy.in/" },
   { label: "Events", link: "https://blog.zenstudy.in/category/events/" },
   { label: "Contact", link: "/contact" },
@@ -52,7 +53,7 @@ const NavBar = () => {
   const handleMoreToggle = () => setShowMore(!showMore);
 
   return (
-    <>
+    <Fragment>
       {/* Navbar Container */}
       <div className="w-full h-[15vh] flex items-center justify-between px-6 lg:px-12 shadow-md">
         {/* Logo */}
@@ -67,7 +68,7 @@ const NavBar = () => {
 
         {/* Links - Desktop */}
         <div className="hidden lg:flex items-center space-x-6">
-          {navLink.slice(0, 4).map((item) => (
+          {navLink.slice(0, 5).map((item) => (
             <Link
               key={item.label}
               to={item.link}
@@ -90,7 +91,7 @@ const NavBar = () => {
             </button>
             {showMore && (
               <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-lg border border-gray-200 z-10">
-                {navLink.slice(4).map((item) => (
+                {navLink.slice(5).map((item) => (
                   <Link
                     key={item.label}
                     to={item.link}
@@ -173,7 +174,9 @@ const NavBar = () => {
           )}
         </div>
 
-        {/* Hamburger Menu - Mobile */}
+        {
+        /* Hamburger Menu - Mobile */
+        }
         <div className="lg:hidden flex items-center">
           {!hamBurger ? (
             <RxHamburgerMenu
@@ -189,7 +192,10 @@ const NavBar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {
+      /* Mobile Menu */
+      }
+
       {hamBurger && (
         <div className="lg:hidden h-[100vh] w-full bg-[#054BB4] text-white">
           <ul className="flex flex-col items-center space-y-4 py-4">
@@ -206,7 +212,7 @@ const NavBar = () => {
               </li>
             ))}
             {!isLoggedIn ? (
-              <>
+              <Fragment>
                 <button
                   className="w-full px-4 py-2 bg-white text-[#054BB4] rounded-full hover:bg-gray-200"
                   onClick={() => {
@@ -225,10 +231,10 @@ const NavBar = () => {
                 >
                   Sign Up
                 </button>
-              </>
+              </Fragment>
             ) : (
-              <>
-                {/* Dashboard Option */}
+              <Fragment>
+              
                 <button
                   className="flex items-center justify-center w-[50%] px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-full shadow-md hover:from-blue-600 hover:to-blue-800 hover:shadow-lg transition-all"
                   onClick={() => {
@@ -248,13 +254,13 @@ const NavBar = () => {
                   <FiLogOut className="text-xl mr-2" />
                   Logout
                 </button>
-              </>
+              </Fragment>
 
             )}
           </ul>
         </div>
       )}
-    </>
+    </Fragment>
   );
 };
 
