@@ -209,3 +209,27 @@
   scrollbar-color: #dbeafe #f1f1f1; /* Thumb and track colors */
 }
 
+/* Perspective to enable 3D effect */
+.perspective {
+  perspective: 1000px; /* Adjust perspective for 3D depth */
+}
+
+.transform-style {
+  transform-style: preserve-3d; /* Ensure 3D children are preserved */
+}
+
+.group-hover\:rotate-y-180:hover {
+  transform: rotateY(180deg); /* Trigger the flip on hover */
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.backdrop-blur-md {
+  backdrop-filter: blur(8px); /* Adds a background blur effect */
+}
+
+.absolute {
+  backface-visibility: hidden; /* Hides the "back" when facing front */
+}

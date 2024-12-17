@@ -3,14 +3,14 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import axios from "axios";
-import { Loader } from "./loader/Loader";
+import { Loader } from "../loader/Loader";
 
-function CurrentAffair() {
+function Daily() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [currentAffairs, setCurrentAffairs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [view, setView] = useState("daily");  // Default to 'daily' view
+
 
   const formattedDate = selectedDate.toLocaleDateString("en-US", {
     weekday: "long",
@@ -59,31 +59,12 @@ function CurrentAffair() {
     };
 
     fetchCA();
-  }, [selectedDate, view]); // Trigger fetch when selectedDate or view changes
-
-  // Handle view change (Monthly/Daily)
-  const handleViewChange = (newView) => {
-    setView(newView);
-  };
+  }, [selectedDate]); // Trigger fetch when selectedDate or view changes
 
   return (
     <Fragment>
-      <div className="p-4 sm:p-6 md:p-12 min-h-screen bg-gray-50">
-        {/* View Buttons */}
-        <div className="flex flex-row gap-6 my-4 justify-center">
-          <button
-            className={`w-[50%] font-semibold rounded-md py-3 border-2 ${view === "monthly" ? "border-green-500 text-green-500" : "border-gray-500 text-gray-500"} bg-white shadow-lg hover:bg-green-500 hover:text-white transition-all duration-300 ease-in-out`}
-            onClick={() => handleViewChange("monthly")}
-          >
-            Monthly
-          </button>
-          <button
-            className={`w-[50%] font-semibold rounded-md py-3 border-2 ${view === "daily" ? "border-blue-500 text-blue-500" : "border-gray-500 text-gray-500"} bg-white shadow-lg hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out`}
-            onClick={() => handleViewChange("daily")}
-          >
-            Daily
-          </button>
-        </div>
+      <div>
+       
 
         {/* Current Affairs Content */}
         <div className="flex lg:flex-row flex-col-reverse md:flex-row lg:p-10 md:p-6 p-4 justify-between gap-6">
@@ -185,4 +166,4 @@ function CurrentAffair() {
   );
 }
 
-export default CurrentAffair;
+export default Daily;

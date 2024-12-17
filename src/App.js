@@ -18,6 +18,7 @@ import PdfViewer from "./components/PdfViewer.jsx";
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
 const Courses = lazy(() => import("./components/course/Courses.jsx"));
+const CurrentAffairn = lazy(() => import("./components/currentAffairs"));
 const CourseDetails = lazy(() =>
   import("./components/course/Coursedetails.jsx")
 );
@@ -60,6 +61,7 @@ function App() {
             <Route path="/ourteam" element={<OurTeam />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/currentAffair" element={<CurrentAffair />} />
+            <Route path="/currentAffairn" element={<CurrentAffairn />} />
             <Route path="/pdfViewer" element={<PdfViewer />} />
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
             <Route path="/coursesNew" element={<CoursesNew />} />
