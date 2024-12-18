@@ -14,6 +14,14 @@ const CurrentAffairsN = () => {
   return (
     <div className="p-4 sm:p-6 md:p-12 min-h-screen bg-white">
       <div className="flex flex-row gap-6 my-4 justify-center">
+      {/* Daily Button */}
+      <button
+        className={`w-[50%] font-semibold rounded-md py-3 border-2 ${selectedView === "daily" ? " border-blue-500 text-white bg-blue-500 shadow-lg" : " border-blue-500 text-blue-500 bg-white shadow-lg" } hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out`}
+        onClick={() => handleViewChange('daily')} // Set view to 'daily'
+      >
+        Daily
+      </button>
+      
         {/* Monthly Button */}
         <button
           className={`w-[50%] font-semibold rounded-md py-3 border-2 ${selectedView === "monthly" ? "bg-green-500  text-white" : "bg-white border-green-500 text-green-500 " }  shadow-lg hover:bg-green-500 hover:text-white transition-all duration-300 ease-in-out`}
@@ -22,13 +30,6 @@ const CurrentAffairsN = () => {
           Monthly
         </button>
 
-        {/* Daily Button */}
-        <button
-          className={`w-[50%] font-semibold rounded-md py-3 border-2 ${selectedView === "daily" ? " border-blue-500 text-white bg-blue-500 shadow-lg" : " border-blue-500 text-blue-500 bg-white shadow-lg" } hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out`}
-          onClick={() => handleViewChange('daily')} // Set view to 'daily'
-        >
-          Daily
-        </button>
       </div>
 
       {/* Display Daily or Monthly Component based on selected view */}
