@@ -68,7 +68,7 @@ function Daily() {
 
         {/* Current Affairs Content */}
         <div className="flex lg:flex-row flex-col-reverse md:flex-row lg:p-10 md:p-6 p-4 justify-between gap-6">
-          <div className="flex flex-col gap-4 w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 w-full">
             {isLoading ? (
               <Loader fill="black" />
             ) : currentAffairs && currentAffairs.length > 0 ? (
@@ -77,14 +77,16 @@ function Daily() {
                   {/* Card Wrapper */}
                   <div className="relative w-full min-h-full transition-transform duration-700 transform-style preserve-3d group-hover:rotate-y-180">
                     {/* Front Side */}
-                    <div className="backface-hidden  bg-white border-2 rounded-xl p-6 shadow-md flex flex-row gap-4">
-                      <div className="bg-green-500 flex justify-center items-center p-2 px-4 text-white font-semibold rounded-md shadow">
+                    <div className="backface-hidden justify-center bg-white border-2 rounded-xl p-2 shadow-md flex flex-row gap-4">
+                      <div className="bg-green-500 flex justify-center items-center w-full px-4 py-4 text-white font-semibold rounded-md shadow">
                         {formattedDate}
                       </div>
-                      <div className="flex flex-col justify-center">
-                        <h3 className="font-bold text-xl text-gray-800 mb-2">{data.title}</h3>
-                        <p className="text-gray-600">{data.description}</p>
-                      </div>
+                     {
+                      //  <div className="flex flex-col justify-center">
+                      //   <h3 className="font-bold text-xl text-gray-800 mb-2">{data.title}</h3>
+                      //   <p className="text-gray-600">{data.description}</p>
+                      // </div>
+                      }
                     </div>
 
                     {/* Back Side */}
