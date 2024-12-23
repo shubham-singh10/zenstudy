@@ -156,8 +156,9 @@ function Daily() {
                   }}
                   inline
                   className="rounded-md border-2 border-gray-300 shadow-md"
+                  maxDate={new Date()}
                 />
-              </div>
+              </div> 
             )}
           </div>
         </div>
