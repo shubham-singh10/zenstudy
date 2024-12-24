@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 import { MdEmail } from "react-icons/md";
 import axios from "axios";
+import Swal from "sweetalert2";
+import Cookies from "js-cookie";
 
 const InputField = ({ label, name, validation, register, errors, type = "text", icon }) => (
   <Box sx={{ "& > :not(style)": { mb: 2 } }}>
@@ -63,30 +65,47 @@ function DynamicSignUp() {
     }, 1000);
   };
 
-//   const handleRegister = (data) => {
-//     handleVerifyOtp();
-//     setLoading(true);
-//     setTimeout(() => {
-//       alert("Registration Successful!");
-//       setLoading(false);
-//     }, 1000);
-//   };
+  //   const handleRegister = (data) => {
+  //     handleVerifyOtp();
+  //     setLoading(true);
+  //     setTimeout(() => {
+  //       alert("Registration Successful!");
+  //       setLoading(false);
+  //     }, 1000);
+  //   };
 
-  const handleRegister = async()=>{
+  const handleRegister = async () => {
     handleVerifyOtp();
     setLoading(true);
     const sendData = {
-        email:email,
-        otp:"123456",
-        userType:"Reader"
+      email: email,
+      otp: "123456",
+      userType: "Reader"
     }
     console.log(sendData);
-    
+
     try {
-        const response = await axios.post(`${process.env.REACT_APP_API}zenstudy/api/auth/signUpDynamic`, sendData)
-        console.log(response) 
-    }catch (error) {
-        console.log(error);
+      const response = await axios.post(`${process.env.REACT_APP_API}zenstudy/api/auth/signUpDynamic`, sendData)
+
+      const { data } = response;
+      console.log(data)
+      if(data.message === "Success"){
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Registration Successful!",
+        });
+        Cookies.set("access_tokennew", data.user._id);
+        localStorage.setItem("userData", JSON.stringify(data.user));
+        window.location.pathname = "/course-details-student";
+      }
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response.data.message,
+      });
     }
   }
 
@@ -120,36 +139,36 @@ function DynamicSignUp() {
                 {step === 1
                   ? "Sign Up with Email"
                   : otpStep
-                  ? "Verify Your OTP"
-                  : "Complete Your Registration"}
+                    ? "Verify Your OTP"
+                    : "Complete Your Registration"}
               </h2>
 
               {step === 1 && (
                 <form onSubmit={handleSubmit(handleSendOtp)}>
-                <InputField
-                label="Enter Your Email"
-                name="email"
-                type="email"
-                register={register}
-                errors={errors}
-                icon={<MdEmail size={25} />}
-                validation={{
-                  required: "Email is required",
-                  pattern: {
-                    value:
-                      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i, // Enhanced Regex
-                    message:
-                      "Please enter a valid email address (e.g., example@domain.com)",
-                  },
-                  validate: {
-                    noSpaces: (value) =>
-                      !/\s/.test(value) || "Email address cannot contain spaces",
-                    maxLength: (value) =>
-                      value.length <= 320 || "Email cannot exceed 320 characters",
-                  },
-                }}
-              />
-              
+                  <InputField
+                    label="Enter Your Email"
+                    name="email"
+                    type="email"
+                    register={register}
+                    errors={errors}
+                    icon={<MdEmail size={25} />}
+                    validation={{
+                      required: "Email is required",
+                      pattern: {
+                        value:
+                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i, // Enhanced Regex
+                        message:
+                          "Please enter a valid email address (e.g., example@domain.com)",
+                      },
+                      validate: {
+                        noSpaces: (value) =>
+                          !/\s/.test(value) || "Email address cannot contain spaces",
+                        maxLength: (value) =>
+                          value.length <= 320 || "Email cannot exceed 320 characters",
+                      },
+                    }}
+                  />
+
                   {!otpStep && (
                     <Button
                       type="submit"
