@@ -68,7 +68,10 @@ function CommonCard({ course, link, differentClass }) {
     {course.title}
   </div>
   <div className="px-3 py-1 w-auto text-sm font-medium text-gray-700 bg-gray-100 rounded-full shadow-sm">
-    {course.language}
+    {
+      // course.language
+    }
+    English
   </div>
 </div>
 
