@@ -43,7 +43,6 @@ const SignUp = () => {
     formState: { errors: errors2 },
   } = useForm();
   const navigate = useNavigate();
-  const password = watch("password");
 
   // Intersection Observers
   const { ref: slideLeftRef, inView: slideLeftInView } = useInView({
