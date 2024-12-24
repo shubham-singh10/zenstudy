@@ -13,6 +13,7 @@ import PrivacyPolicy from "./components/PrivacyPolicy.jsx";
 import LiveClass from "./studentDashboard/component/LiveClass.jsx";
 import SignupTest from "./components/auth/SignupTest.jsx";
 import PdfViewer from "./components/PdfViewer.jsx";
+import DynamicSignUp from "./components/auth/Sign-upDynamic.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -74,6 +75,12 @@ function App() {
               path="/sign-Up"
               element={isAuthenticated() ? <Navigate to="/" /> : <SignUp />}
             />
+
+            <Route
+              path="/sign-Up-Dynamic"
+              element={isAuthenticated() ? <Navigate to="/" /> : <DynamicSignUp />}
+            />
+
             <Route
               path="/signtest"
               element={isAuthenticated() ? <Navigate to="/" /> : <SignupTest />}
