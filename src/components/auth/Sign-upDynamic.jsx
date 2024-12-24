@@ -7,18 +7,19 @@ import {
   CircularProgress,
   InputAdornment,
 } from "@mui/material";
-import { MdEmail } from "react-icons/md";
+import { MdEdit, MdEmail } from "react-icons/md";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 
-const InputField = ({ label, name, validation, register, errors, type = "text", icon }) => (
+const InputField = ({ label, name, disabled, validation, register, errors, type = "text", icon }) => (
   <Box sx={{ "& > :not(style)": { mb: 2 } }}>
     <TextField
       fullWidth
       label={label}
       variant="outlined"
       type={type}
+      disabled={disabled}
       {...register(name, validation)}
       error={!!errors[name]}
       helperText={errors[name]?.message}
@@ -38,8 +39,8 @@ function DynamicSignUp() {
   const [step, setStep] = useState(1);
   const [otpStep, setOtpStep] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
-
+  const [email, setEmail] = useState(null);
+    
   const {
     register,
     handleSubmit,
@@ -47,7 +48,7 @@ function DynamicSignUp() {
     reset,
   } = useForm();
 
-  const handleSendOtp = (data) => {
+  const handleSendOtp = async(data) => {
     setEmail(data.email);
     setLoading(true);
     setTimeout(() => {
@@ -56,26 +57,12 @@ function DynamicSignUp() {
     }, 1000);
   };
 
-  const handleVerifyOtp = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setOtpStep(false);
-      setLoading(false);
-      reset(); // Reset form for the next step
-    }, 1000);
-  };
-
-  //   const handleRegister = (data) => {
-  //     handleVerifyOtp();
-  //     setLoading(true);
-  //     setTimeout(() => {
-  //       alert("Registration Successful!");
-  //       setLoading(false);
-  //     }, 1000);
-  //   };
+  const handleEdit = async() => {
+    setOtpStep(false);
+    reset();
+  }
 
   const handleRegister = async () => {
-    handleVerifyOtp();
     setLoading(true);
     const sendData = {
       email: email,
@@ -100,12 +87,16 @@ function DynamicSignUp() {
         window.location.pathname = "/course-details-student";
       }
     } catch (error) {
+
       console.log(error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: error.response.data.message,
-      });
+      })
+      }finally{
+        setOtpStep(false);
+        setLoading(false);
     }
   }
 
@@ -151,7 +142,8 @@ function DynamicSignUp() {
                     type="email"
                     register={register}
                     errors={errors}
-                    icon={<MdEmail size={25} />}
+                    disabled={otpStep}
+                    icon={otpStep ? <MdEdit className="cursor-pointer hover:text-green-500" onClick={()=>handleEdit()} size={25}/> :<MdEmail size={25} />}
                     validation={{
                       required: "Email is required",
                       pattern: {
