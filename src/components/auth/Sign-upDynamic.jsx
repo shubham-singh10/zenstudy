@@ -11,7 +11,7 @@ import { MdEdit, MdEmail } from "react-icons/md";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const InputField = ({
   label,
@@ -47,6 +47,7 @@ function DynamicSignUp() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState(null);
   const navigation = useNavigate();
+  const courseId = useParams();
 
   const {
     register,
@@ -55,7 +56,38 @@ function DynamicSignUp() {
     reset,
   } = useForm();
 
+  const sendOtp = async (email) => {
+    setEmail(email);
+    setLoading(true)
+    try {
+      const sendData = {
+        email: email,
+      };
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_API2}zenstudy/api/email/send-otpNew`,
+        sendData
+      );
+
+      // Accessing data from axios response
+      const data = response.data;
+
+      console.log(data);
+
+      if (data.message === "OTP sent successfully") {
+        setOtpStep(true);
+      } else {
+        console.error("Failed to send OTP:", data.message);
+      }
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSendOtp = async (data) => {
+    setLoading(true);
     try {
       const sendData = {
         data: data.email,
@@ -71,34 +103,22 @@ function DynamicSignUp() {
           title: "Account Found!",
           text: "You already have an account. Please log in to continue and purchase the course.",
         }).then(() => {
-          navigation("/sign-In");
+          navigation(`/sign-In/${courseId}`);
         });
       }
     } catch (error) {
       if (error.response?.status === 404) {
-        Swal.fire({
-          icon: "info",
-          title: "Account Not Found",
-          text: "It looks like you haven't registered yet. Please sign up to create an account.",
-        }).then(() => {
-          navigation("/sign-up");
-        });
+        await sendOtp(data.email);
       } else if (error.response?.status === 403) {
         Swal.fire({
           icon: "warning",
           title: "Almost there!",
           text: "It seems you haven't set your password yet. Please create a password to complete your registration.",
         }).then(() => {
-          navigation("/sign-up");
+          navigation("/sign-In");
         });
       }
     }
-    setEmail(data.email);
-    setLoading(true);
-    setTimeout(() => {
-      setOtpStep(true);
-      setLoading(false);
-    }, 1000);
   };
 
   const handleEdit = async () => {
@@ -106,11 +126,11 @@ function DynamicSignUp() {
     reset();
   };
 
-  const handleRegister = async () => {
+  const handleRegister = async (data) => {
     setLoading(true);
     const sendData = {
       email: email,
-      otp: "123456",
+      otp: data.otp,
       userType: "Reader",
     };
     console.log(sendData);
@@ -122,7 +142,6 @@ function DynamicSignUp() {
       );
 
       const { data } = response;
-      console.log(data);
       if (data.message === "Success") {
         Swal.fire({
           icon: "success",
@@ -131,7 +150,7 @@ function DynamicSignUp() {
         });
         Cookies.set("access_tokennew", data.user._id);
         localStorage.setItem("userData", JSON.stringify(data.user));
-        window.location.pathname = "/course-details-student";
+        window.location.pathname = `/course-details/${courseId}`;
       }
     } catch (error) {
       console.log(error);
@@ -238,6 +257,13 @@ function DynamicSignUp() {
 
               {otpStep && (
                 <form onSubmit={handleSubmit(handleRegister)}>
+                  <p className="text-gray-600 text-sm mb-4">
+                    An OTP has been sent to your email address. Please enter it
+                    below to complete your registration. </p>
+                  <p className="text-gray-600 text-sm mb-4">
+                    Didn't receive the OTP? Click on the edit icon to change your email address.
+                  </p>
+                  
                   <InputField
                     label="Enter OTP"
                     name="otp"
@@ -253,6 +279,7 @@ function DynamicSignUp() {
                       },
                     }}
                   />
+
                   <Button
                     type="submit"
                     variant="contained"
