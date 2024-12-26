@@ -11,8 +11,18 @@ import { MdEdit, MdEmail } from "react-icons/md";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
-const InputField = ({ label, name, disabled, validation, register, errors, type = "text", icon }) => (
+const InputField = ({
+  label,
+  name,
+  disabled,
+  validation,
+  register,
+  errors,
+  type = "text",
+  icon,
+}) => (
   <Box sx={{ "& > :not(style)": { mb: 2 } }}>
     <TextField
       fullWidth
@@ -24,11 +34,7 @@ const InputField = ({ label, name, disabled, validation, register, errors, type 
       error={!!errors[name]}
       helperText={errors[name]?.message}
       InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            {icon}
-          </InputAdornment>
-        ),
+        endAdornment: <InputAdornment position="end">{icon}</InputAdornment>,
       }}
       aria-label={label}
     />
@@ -40,7 +46,8 @@ function DynamicSignUp() {
   const [otpStep, setOtpStep] = useState(false);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState(null);
-    
+  const navigation = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -48,7 +55,44 @@ function DynamicSignUp() {
     reset,
   } = useForm();
 
-  const handleSendOtp = async(data) => {
+  const handleSendOtp = async (data) => {
+    try {
+      const sendData = {
+        data: data.email,
+      };
+      const response = await axios.post(
+        `${process.env.REACT_APP_API2}zenstudy/api/auth/user-check`,
+        sendData
+      );
+      const resdata = response.data;
+      if (resdata.message === "Success") {
+        Swal.fire({
+          icon: "success",
+          title: "Account Found!",
+          text: "You already have an account. Please log in to continue and purchase the course.",
+        }).then(() => {
+          navigation("/sign-In");
+        });
+      }
+    } catch (error) {
+      if (error.response?.status === 404) {
+        Swal.fire({
+          icon: "info",
+          title: "Account Not Found",
+          text: "It looks like you haven't registered yet. Please sign up to create an account.",
+        }).then(() => {
+          navigation("/sign-up");
+        });
+      } else if (error.response?.status === 403) {
+        Swal.fire({
+          icon: "warning",
+          title: "Almost there!",
+          text: "It seems you haven't set your password yet. Please create a password to complete your registration.",
+        }).then(() => {
+          navigation("/sign-up");
+        });
+      }
+    }
     setEmail(data.email);
     setLoading(true);
     setTimeout(() => {
@@ -57,26 +101,29 @@ function DynamicSignUp() {
     }, 1000);
   };
 
-  const handleEdit = async() => {
+  const handleEdit = async () => {
     setOtpStep(false);
     reset();
-  }
+  };
 
   const handleRegister = async () => {
     setLoading(true);
     const sendData = {
       email: email,
       otp: "123456",
-      userType: "Reader"
-    }
+      userType: "Reader",
+    };
     console.log(sendData);
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API}zenstudy/api/auth/signUpDynamic`, sendData)
+      const response = await axios.post(
+        `${process.env.REACT_APP_API}zenstudy/api/auth/signUpDynamic`,
+        sendData
+      );
 
       const { data } = response;
-      console.log(data)
-      if(data.message === "Success"){
+      console.log(data);
+      if (data.message === "Success") {
         Swal.fire({
           icon: "success",
           title: "Success",
@@ -87,19 +134,17 @@ function DynamicSignUp() {
         window.location.pathname = "/course-details-student";
       }
     } catch (error) {
-
       console.log(error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: error.response.data.message,
-      })
-      }finally{
-        setOtpStep(false);
-        setLoading(false);
+      });
+    } finally {
+      setOtpStep(false);
+      setLoading(false);
     }
-  }
-
+  };
 
   return (
     <Fragment>
@@ -107,8 +152,8 @@ function DynamicSignUp() {
         {/* Main Container */}
         <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg p-6">
           {/* Headings Section */}
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-4 text-blue-600">
+          <div className="text-center mb-8 hidden md:block">
+            <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500">
               Join the ZenStudy Community
             </h2>
             <p className="text-xl text-gray-600">
@@ -118,20 +163,23 @@ function DynamicSignUp() {
 
           <div className="flex flex-col lg:flex-row">
             {/* Left Section */}
-            <div className="bg-blue-600 rounded-2xl text-center flex items-center justify-center text-white p-6 lg:p-12 lg:w-1/3">
-              <h1 className="text-3xl font-extrabold mb-4">
+            <div className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300">
+              <h1 className="text-4xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-400">
                 Welcome to ZenStudy
               </h1>
+              <p className="text-lg font-medium">
+                Unlock the power of learning with our vibrant community!
+              </p>
             </div>
 
             {/* Right Section */}
             <div className="flex-1 lg:p-12 md:p-6 p-4">
-              <h2 className="text-2xl font-semibold mb-6 text-blue-700">
+              <h2 className="text-2xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-blue-800 to-blue-300">
                 {step === 1
                   ? "Sign Up with Email"
                   : otpStep
-                    ? "Verify Your OTP"
-                    : "Complete Your Registration"}
+                  ? "Verify Your OTP"
+                  : "Complete Your Registration"}
               </h2>
 
               {step === 1 && (
@@ -143,7 +191,17 @@ function DynamicSignUp() {
                     register={register}
                     errors={errors}
                     disabled={otpStep}
-                    icon={otpStep ? <MdEdit className="cursor-pointer hover:text-green-500" onClick={()=>handleEdit()} size={25}/> :<MdEmail size={25} />}
+                    icon={
+                      otpStep ? (
+                        <MdEdit
+                          className="cursor-pointer hover:text-green-500"
+                          onClick={() => handleEdit()}
+                          size={25}
+                        />
+                      ) : (
+                        <MdEmail size={25} />
+                      )
+                    }
                     validation={{
                       required: "Email is required",
                       pattern: {
@@ -154,9 +212,11 @@ function DynamicSignUp() {
                       },
                       validate: {
                         noSpaces: (value) =>
-                          !/\s/.test(value) || "Email address cannot contain spaces",
+                          !/\s/.test(value) ||
+                          "Email address cannot contain spaces",
                         maxLength: (value) =>
-                          value.length <= 320 || "Email cannot exceed 320 characters",
+                          value.length <= 320 ||
+                          "Email cannot exceed 320 characters",
                       },
                     }}
                   />
@@ -167,7 +227,7 @@ function DynamicSignUp() {
                       variant="contained"
                       fullWidth
                       disabled={loading}
-                      className="hover:bg-blue-700 hover:scale-105 transition-all"
+                      className="hover:bg-blue-700 hover:scale-105 transition-all bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300"
                       aria-label="Send OTP"
                     >
                       {loading ? <CircularProgress size={24} /> : "Send OTP"}
@@ -198,7 +258,7 @@ function DynamicSignUp() {
                     variant="contained"
                     fullWidth
                     disabled={loading}
-                    className="hover:bg-blue-700 hover:scale-105 w-[50%] transition-all"
+                    className="hover:bg-blue-700 bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 hover:scale-105 w-[50%] transition-all"
                     aria-label="Verify OTP"
                   >
                     {loading ? <CircularProgress size={24} /> : "Verify OTP"}

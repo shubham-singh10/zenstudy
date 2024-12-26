@@ -235,24 +235,22 @@ const SignUp = () => {
         <animated.div
           ref={slideLeftRef}
           style={SlideLeft}
-          className="bg-blue-600 text-center text-white p-4 lg:p-16 rounded-3xl lg:w-1/4 w-full"
+          className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 text-center text-white p-4 lg:p-12 rounded-3xl lg:w-1/4 w-full"
         >
-          <h1 className="text-3xl font-bold mb-4">Welcome to ZenStudy</h1>
-          {
-            //     <h3 className="text-xl font-bold mb-4">Connect with us</h3>
-            // <div className="flex space-x-4 justify-center">
-            //     <Link href="#" className="hover:bg-red-500 rounded-full p-2"><FiYoutube size={25} className='hover:text-white' /></Link>
-            //     <Link href="#" className="hover:bg-gradient-to-br from-[#405DE6] via-[#5B51D8] to-[#E1306C] rounded-full p-2"><FiInstagram size={25} className='hover:text-white' /></Link>
-            //     <Link href="#" className="hover:bg-[#4267B2] rounded-full p-2"><FiFacebook size={25} className='hover:text-white' /></Link>
-            //     <Link href="#" className="hover:bg-[#1DA1F2] rounded-full p-2"><FiTwitter size={25} className='hover:text-white' /></Link>
-            // </div>
-          }
+        <h1 className="text-3xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-400">
+        Welcome to ZenStudy
+      </h1>
+      <p className="text-md font-medium">
+        Unlock the power of learning with our vibrant community!
+      </p>
         </animated.div>
         <div className="flex-1 p-2 lg:p-8 lg:w-3/4 w-full text-center lg:text-center">
+          
+          <div className="text-center mb-8 hidden md:block">
           <animated.h2
             ref={slideUpRef}
             style={SlideUp}
-            className="text-3xl font-bold mb-4 text-blue-600"
+            className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500"
           >
             Join the ZenStudy Community
           </animated.h2>
@@ -263,6 +261,8 @@ const SignUp = () => {
           >
             Sign up now to start your learning journey with us.
           </animated.p>
+          </div>
+
           <animated.form
             ref={slideRightRef}
             style={SlideRight}

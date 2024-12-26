@@ -77,7 +77,7 @@ function App() {
             />
 
             <Route
-              path="/sign-Up-Dynamic"
+              path="/sign-Up-Dynamic/:courseId"
               element={isAuthenticated() ? <Navigate to="/" /> : <DynamicSignUp />}
             />
 

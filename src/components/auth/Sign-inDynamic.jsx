@@ -202,7 +202,7 @@ const SignInDynamic = () => {
               <p>
                 New User?{" "}
                 <Link
-                  to="/sign-up"
+                  to={`/sign-Up-Dynamic/${courseId}`}
                   className="underline text-blue-500 hover:text-blue-700"
                 >
                   Sign Up

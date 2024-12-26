@@ -296,7 +296,7 @@ const CourseDetailsView = () => {
     <Fragment>
       {pageloading && (
         <div className="loading-overlay fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-          <Loader fill="white"/>
+          <Loader fill="white" />
         </div>
       )}
       <div className="">
@@ -323,12 +323,7 @@ const CourseDetailsView = () => {
             <div className="flex items-center mt-4">
               <div className="flex items-center mr-4">
                 <GrLanguage />
-                <span className="ml-2">
-                {
-                  // coursePost?.language
-                }
-                English
-                </span>
+                <span className="ml-2">{coursePost?.language}</span>
               </div>
             </div>
           </div>

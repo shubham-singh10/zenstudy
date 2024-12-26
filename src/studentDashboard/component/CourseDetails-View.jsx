@@ -283,7 +283,7 @@ const CourseDetailsView = () => {
     <Fragment>
       {pageloading && (
         <div className="loading-overlay fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-          <Loader fill="white"/>
+          <Loader fill="white" />
         </div>
       )}
       <div className="">
@@ -310,10 +310,7 @@ const CourseDetailsView = () => {
             <div className="flex items-center mt-4">
               <div className="flex items-center mr-4">
                 <GrLanguage />
-                <span className="ml-2">{
-                  // coursePost?.language
-                }
-                English</span>
+                <span className="ml-2"> {coursePost?.language}</span>
               </div>
             </div>
           </div>
@@ -374,8 +371,9 @@ const CourseDetailsView = () => {
                   src={imageSrc}
                   crossOrigin="anonymous"
                   alt="Course Thumbnail"
-                  className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${imgloading ? "opacity-0" : "opacity-100"
-                    }`}
+                  className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${
+                    imgloading ? "opacity-0" : "opacity-100"
+                  }`}
                   onLoad={() => setImgLoading(false)}
                 />
               </div>
@@ -403,11 +401,13 @@ const CourseDetailsView = () => {
                 <button
                   onClick={() => ApplyCoupon(coursePost?.price)}
                   disabled={!code || couponLoading} // Disable button if no input or loading
-                  className={`${couponLoading || !code
-                      ? `bg-gray-400 cursor-not-allowed w-[30%] ${couponLoading ? "py-3" : "py-1"
-                      }`
+                  className={`${
+                    couponLoading || !code
+                      ? `bg-gray-400 cursor-not-allowed w-[30%] ${
+                          couponLoading ? "py-3" : "py-1"
+                        }`
                       : "bg-blue-600 hover:bg-blue-700 w-[30%] py-1"
-                    } text-sm text-white font-bold px-6 rounded-lg transition-all`}
+                  } text-sm text-white font-bold px-6 rounded-lg transition-all`}
                 >
                   {couponLoading ? (
                     <span className="flex items-center justify-center">
@@ -458,8 +458,9 @@ const CourseDetailsView = () => {
                 </div>
 
                 <button
-                  className={`w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg flex items-center justify-center ${payloading ? "cursor-not-allowed" : ""
-                    }`}
+                  className={`w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg flex items-center justify-center ${
+                    payloading ? "cursor-not-allowed" : ""
+                  }`}
                   onClick={() =>
                     handlePayment(
                       discount
