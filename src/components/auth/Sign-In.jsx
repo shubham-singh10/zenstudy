@@ -8,7 +8,6 @@ import {
   InputAdornment,
 } from "@mui/material";
 import {
-  MdEdit,
   MdEmail,
   MdLock,
   MdPhone,
@@ -17,7 +16,7 @@ import {
 } from "react-icons/md";
 import axios from "axios";
 import Swal from "sweetalert2";
-import Cookies, { set } from "js-cookie";
+import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -173,7 +172,7 @@ function SignIn() {
         setresLoading(false);
       });
     } catch (error) {
-      console.error("Error sending OTP:", error);
+      //console.error("Error sending OTP:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -186,7 +185,7 @@ function SignIn() {
 
   const sendOtp = async (data) => {
     setLoading(true);
-    console.log("Sending OTP...", data);
+    //console.log("Sending OTP...", data);
     try {
       const sendData = {
         data: data.phone,
@@ -196,7 +195,7 @@ function SignIn() {
         sendData
       );
       const resdata = response.data;
-      console.log(resdata);
+      //console.log(resdata);
 
       if (resdata.message === "Success") {
         Swal.fire({
@@ -214,7 +213,7 @@ function SignIn() {
   };
 
   const handleRegister = async (data) => {
-    console.log("Registering...", data);
+    //console.log("Registering...", data);
 
     try {
       setLoading(true);
@@ -227,7 +226,7 @@ function SignIn() {
         password: data.password,
         email: data.email,
       };
-      console.log("sendData", sendData);
+      //console.log("sendData", sendData);
 
       const response = await fetch(
         `${process.env.REACT_APP_API2}zenstudy/api/auth/Signinverify`,
@@ -246,7 +245,7 @@ function SignIn() {
       }
 
       const resData = await response.json();
-      console.log("res", resData);
+      //console.log("res", resData);
 
       if (resData.message === "Success") {
         toast.success(
@@ -267,7 +266,7 @@ function SignIn() {
         // navigate("/sign-In");
       }
     } catch (error) {
-      console.error("Error verifying OTP:", error);
+      //console.error("Error verifying OTP:", error);
       setOtpError("Invalid OTP. Please try again.");
       setLoading(false);
       Swal.fire({
@@ -279,7 +278,7 @@ function SignIn() {
   };
 
   const handleLogin = async (data) => {
-    console.log("Logging in...", data);
+    //console.log("Logging in...", data);
     try {
       setLoading(true);
       const sendData = {

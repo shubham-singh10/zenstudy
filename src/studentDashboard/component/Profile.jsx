@@ -412,15 +412,18 @@ const Profile = () => {
         <TextField
           label="Phone"
           variant="outlined"
-          value={userData.phone || ""}
+          value={userData.phone === "1234567890" ? "" : userData.phone || ""}
           fullWidth
-          disabled
+          disabled={userData.status?.phoneStatus === "verified"}
         />
-        <div className="absolute right-3 bottom-4 flex items-center gap-1">
-          <MdVerified color="green" size={20} />
-          <span className="text-sm text-green-600">Verified</span>
-        </div>
+        {userData.status?.phoneStatus === "verified" && (
+          <div className="absolute right-3 bottom-4 flex items-center gap-1">
+            <MdVerified color="green" size={20} />
+            <span className="text-sm text-green-600">Verified</span>
+          </div>
+        )}
       </div>
+
 
       <TextField
         label="Address"

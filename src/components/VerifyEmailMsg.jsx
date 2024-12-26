@@ -13,7 +13,7 @@ function VerifyEmailMsg() {
     const userId = token;
 
     if (!userId) {
-      console.error("No user ID found in token.");
+      // console.error("No user ID found in token.");
       return;
     }
 

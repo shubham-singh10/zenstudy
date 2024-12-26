@@ -42,12 +42,12 @@ const InputField = ({
 );
 
 function DynamicSignUp() {
-  const [step, setStep] = useState(1);
+  const step = 1;
   const [otpStep, setOtpStep] = useState(false);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState(null);
   const navigation = useNavigate();
-  const courseId = useParams();
+  const { courseId } = useParams();
 
   const {
     register,
@@ -117,6 +117,15 @@ function DynamicSignUp() {
         }).then(() => {
           navigation("/sign-In");
         });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops!",
+          text: "Something went wrong. Please try again later.",
+        }).then(() => {
+          window.location.reload();
+        });
+
       }
     }
   };
@@ -133,11 +142,11 @@ function DynamicSignUp() {
       otp: data.otp,
       userType: "Reader",
     };
-    console.log(sendData);
+    // console.log(sendData);
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API}zenstudy/api/auth/signUpDynamic`,
+        `${process.env.REACT_APP_API2}zenstudy/api/auth/signUpDynamic`,
         sendData
       );
 
@@ -150,7 +159,7 @@ function DynamicSignUp() {
         });
         Cookies.set("access_tokennew", data.user._id);
         localStorage.setItem("userData", JSON.stringify(data.user));
-        window.location.pathname = `/course-details/${courseId}`;
+        navigation(`/course-details/${courseId}`);
       }
     } catch (error) {
       console.log(error);
@@ -197,8 +206,8 @@ function DynamicSignUp() {
                 {step === 1
                   ? "Sign Up with Email"
                   : otpStep
-                  ? "Verify Your OTP"
-                  : "Complete Your Registration"}
+                    ? "Verify Your OTP"
+                    : "Complete Your Registration"}
               </h2>
 
               {step === 1 && (
@@ -263,7 +272,7 @@ function DynamicSignUp() {
                   <p className="text-gray-600 text-sm mb-4">
                     Didn't receive the OTP? Click on the edit icon to change your email address.
                   </p>
-                  
+
                   <InputField
                     label="Enter OTP"
                     name="otp"
