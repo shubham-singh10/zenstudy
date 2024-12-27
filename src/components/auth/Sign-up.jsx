@@ -81,9 +81,7 @@ const SignUp = () => {
           "recaptcha-container",
           {
             size: "invisible",
-            callback: () => {
-              //console.log('Recaptcha verified');
-            },
+            callback: () => {},
           }
         );
       }
@@ -101,7 +99,6 @@ const SignUp = () => {
         text: `OTP has been sent to ${phoneNumber}`,
       });
     } catch (error) {
-      console.error("Error sending OTP:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -144,8 +141,8 @@ const SignUp = () => {
       }
     } catch (error) {
       await handlePhoneNumberAuth(`+91${data.phone}`);
-    } finally{
-        setLoading(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -200,8 +197,7 @@ const SignUp = () => {
       }
 
       const resData = await response.json();
-      console.log("res",resData);
-      
+
       if (resData.message === "Success") {
         Swal.fire({
           icon: "success",
@@ -211,7 +207,6 @@ const SignUp = () => {
         navigate("/sign-In");
       }
     } catch (error) {
-      console.error("Error verifying OTP:", error);
       setOtpError("Invalid OTP. Please try again.");
       setotpLoading(false);
       Swal.fire({
@@ -222,280 +217,282 @@ const SignUp = () => {
     }
   };
 
- 
   // Used to resend OTP
   const resendOtp = async () => {
     await handlePhoneNumberAuth(`+91${formData.phone}`);
   };
 
   return (
-    <div className="p-2 lg:p-12 md:p-10">
+    <div className="min-h-screen lg:p-12 md:p-6 p-4 bg-white flex items-center justify-center">
       <div id="recaptcha-container"></div>
-      <div className="flex flex-col items-center lg:flex-row p-4 lg:p-12 bg-white gap-10 w-full h-full">
-        <animated.div
-          ref={slideLeftRef}
-          style={SlideLeft}
-          className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 text-center text-white p-4 lg:p-12 rounded-3xl lg:w-1/4 w-full"
-        >
-        <h1 className="text-3xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-400">
-        Welcome to ZenStudy
-      </h1>
-      <p className="text-md font-medium">
-        Unlock the power of learning with our vibrant community!
-      </p>
-        </animated.div>
-        <div className="flex-1 p-2 lg:p-8 lg:w-3/4 w-full text-center lg:text-center">
-          
-          <div className="text-center mb-8 hidden md:block">
-          <animated.h2
-            ref={slideUpRef}
-            style={SlideUp}
-            className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500"
-          >
-            Join the ZenStudy Community
-          </animated.h2>
-          <animated.p
-            ref={slideUpRef}
-            style={SlideUp}
-            className="text-xl text-gray-600 mb-4"
-          >
-            Sign up now to start your learning journey with us.
-          </animated.p>
+      <div className="relative w-full max-w-5xl p-1  rounded-lg shadow-xl">
+        <div className="absolute inset-0 border-0 border-transparent rounded-lg animate-border bg-gradient-to-r from-blue-500 via-blue-900 to-blue-400 bg-clip-border"></div>
+        <div className="relative z-10 bg-white rounded-lg lg:p-10 p-4">
+          <div className="text-center hidden md:block">
+            <animated.h2
+              ref={slideUpRef}
+              style={SlideUp}
+              className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500"
+            >
+              Join the ZenStudy Community
+            </animated.h2>
+            <animated.p
+              ref={slideUpRef}
+              style={SlideUp}
+              className="text-xl text-gray-600 mb-4"
+            >
+              Sign up now to start your learning journey with us.
+            </animated.p>
           </div>
 
-          <animated.form
-            ref={slideRightRef}
-            style={SlideRight}
-            className={`space-y-4 ${showotpForm && "hidden"}`}
-            onSubmit={handleSubmit(OnSubmit)}
-          >
-            <Box
-              sx={{ "& > :not(style)": { m: 1 } }}
-              noValidate
-              autoComplete="off"
-            >
-              <TextField
-                className="w-full"
-                id="name"
-                label="Enter full name"
-                variant="outlined"
-                {...register("name", { required: "Name is required" })}
-                error={!!errors.name}
-                helperText={errors.name ? errors.name.message : ""}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <MdPerson size={25} />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <TextField
-                className="w-full"
-                id="phone"
-                label="Enter your phone no."
-                variant="outlined"
-                {...register("phone", {
-                  required: "Phone is required",
-                  minLength: {
-                    value: 10,
-                    message: "Phone number must be 10 digits",
-                  },
-                  maxLength: {
-                    value: 10,
-                    message: "Phone number must be 10 digits",
-                  },
-                  pattern: {
-                    value: /^\d{10}$/,
-                    message: "Phone number must be numeric",
-                  },
-                })}
-                error={!!errors.phone}
-                helperText={errors.phone ? errors.phone.message : ""}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <MdPhone size={25} />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-
-              <TextField
-                className="w-full"
-                id="email"
-                label="Enter your email"
-                variant="outlined"
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                    message: "Invalid email address",
-                  },
-                })}
-                error={!!errors.email}
-                helperText={errors.email ? errors.email.message : ""}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <MdEmail size={25} />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <TextField
-                className="w-full"
-                id="password"
-                label="Create password"
-                variant="outlined"
-                type={showPassword ? "text" : "password"}
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 8,
-                    message: "Password must be at least 8 characters long",
-                  },
-                })}
-                error={!!errors.password}
-                helperText={errors.password ? errors.password.message : ""}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      {showPassword ? (
-                        <FiEye
-                          className="cursor-pointer"
-                          size={25}
-                          onClick={() => setShowPassword(false)}
-                        />
-                      ) : (
-                        <FiEyeOff
-                          className="cursor-pointer"
-                          size={25}
-                          onClick={() => setShowPassword(true)}
-                        />
-                      )}
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <TextField
-                className="w-full"
-                id="cpassword"
-                label="Confirm password"
-                variant="outlined"
-                type={showCPassword ? "text" : "password"}
-                {...register("cpassword", {
-                  required: "Confirm password is required",
-                  validate: (value) =>
-                    value === watch("password") || "Passwords do not match",
-                })}
-                error={!!errors.cpassword}
-                helperText={errors.cpassword ? errors.cpassword.message : ""}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      {showCPassword ? (
-                        <FiEye
-                          className="cursor-pointer"
-                          size={25}
-                          onClick={() => setShowCPassword(false)}
-                        />
-                      ) : (
-                        <FiEyeOff
-                          className="cursor-pointer"
-                          size={25}
-                          onClick={() => setShowCPassword(true)}
-                        />
-                      )}
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Box>
-            <div className="flex justify-between">
-              <p>
-                Already have an account ?{" "}
-                <Link
-                  to="/sign-In"
-                  className="underline text-blue-500 hover:text-blue-700"
-                >
-                  Login
-                </Link>
+          <div className="flex flex-col items-center lg:flex-row p-4 lg:p-12 bg-white gap-6 w-full h-full">
+            <div className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300">
+              <h1 className="text-4xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-400">
+                Welcome to ZenStudy
+              </h1>
+              <p className="text-lg font-medium">
+                Unlock the power of learning with our vibrant community!
               </p>
-              {loading ? (
-                <button
-                  disabled
-                  className="bg-red-600 text-white py-2 lg:py-2 lg:px-10 px-4 rounded-full"
-                >
-                  Please wait...
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white py-2 lg:py-2 lg:px-10 px-4 rounded-full"
-                >
-                  Register
-                </button>
-              )}
             </div>
-          </animated.form>
 
-          {/* OTP Form */}
-          <form
-            className={`space-y-4 ${!showotpForm && "hidden"}`}
-            onSubmit={handleSubmit2(OnSubmitOTP)}
-          >
-            <Box
-              sx={{ "& > :not(style)": { m: 1 } }}
-              noValidate
-              autoComplete="off"
-            >
-              <TextField
-                className="w-full"
-                id="otp"
-                label="Enter OTP"
-                variant="outlined"
-                {...register2("otp", { required: "OTP is required" })}
-                error={!!errors2.otp || !!otpError}
-                helperText={errors2.otp ? errors2.otp.message : otpError}
-              />
-            </Box>
-            <div className="flex flex-col">
-              {otploading ? (
-                <button
-                  disabled
-                  className="bg-red-600 text-white py-2 px-10 rounded-full"
+            <div className="flex-1 p-2 lg:p-8 lg:w-3/4 w-full text-center lg:text-center">
+              <animated.form
+                ref={slideRightRef}
+                style={SlideRight}
+                className={`space-y-4 ${showotpForm && "hidden"}`}
+                onSubmit={handleSubmit(OnSubmit)}
+              >
+                <Box
+                  sx={{ "& > :not(style)": { m: 1 } }}
+                  noValidate
+                  autoComplete="off"
                 >
-                  Please wait...
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  className="bg-blue-600 text-white py-2 px-10 rounded-full hover:bg-blue-800"
+                  <TextField
+                    className="w-full"
+                    id="name"
+                    label="Enter full name"
+                    variant="outlined"
+                    {...register("name", { required: "Name is required" })}
+                    error={!!errors.name}
+                    helperText={errors.name ? errors.name.message : ""}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <MdPerson size={25} />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <TextField
+                    className="w-full"
+                    id="phone"
+                    label="Enter your phone no."
+                    variant="outlined"
+                    {...register("phone", {
+                      required: "Phone is required",
+                      minLength: {
+                        value: 10,
+                        message: "Phone number must be 10 digits",
+                      },
+                      maxLength: {
+                        value: 10,
+                        message: "Phone number must be 10 digits",
+                      },
+                      pattern: {
+                        value: /^\d{10}$/,
+                        message: "Phone number must be numeric",
+                      },
+                    })}
+                    error={!!errors.phone}
+                    helperText={errors.phone ? errors.phone.message : ""}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <MdPhone size={25} />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+
+                  <TextField
+                    className="w-full"
+                    id="email"
+                    label="Enter your email"
+                    variant="outlined"
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: "Invalid email address",
+                      },
+                    })}
+                    error={!!errors.email}
+                    helperText={errors.email ? errors.email.message : ""}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <MdEmail size={25} />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <TextField
+                    className="w-full"
+                    id="password"
+                    label="Create password"
+                    variant="outlined"
+                    type={showPassword ? "text" : "password"}
+                    {...register("password", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 8,
+                        message: "Password must be at least 8 characters long",
+                      },
+                    })}
+                    error={!!errors.password}
+                    helperText={errors.password ? errors.password.message : ""}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          {showPassword ? (
+                            <FiEye
+                              className="cursor-pointer"
+                              size={25}
+                              onClick={() => setShowPassword(false)}
+                            />
+                          ) : (
+                            <FiEyeOff
+                              className="cursor-pointer"
+                              size={25}
+                              onClick={() => setShowPassword(true)}
+                            />
+                          )}
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <TextField
+                    className="w-full"
+                    id="cpassword"
+                    label="Confirm password"
+                    variant="outlined"
+                    type={showCPassword ? "text" : "password"}
+                    {...register("cpassword", {
+                      required: "Confirm password is required",
+                      validate: (value) =>
+                        value === watch("password") || "Passwords do not match",
+                    })}
+                    error={!!errors.cpassword}
+                    helperText={
+                      errors.cpassword ? errors.cpassword.message : ""
+                    }
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          {showCPassword ? (
+                            <FiEye
+                              className="cursor-pointer"
+                              size={25}
+                              onClick={() => setShowCPassword(false)}
+                            />
+                          ) : (
+                            <FiEyeOff
+                              className="cursor-pointer"
+                              size={25}
+                              onClick={() => setShowCPassword(true)}
+                            />
+                          )}
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Box>
+                <div className="flex justify-between">
+                  <p>
+                    Already have an account ?{" "}
+                    <Link
+                      to="/sign-In"
+                      className="underline text-blue-500 hover:text-blue-700"
+                    >
+                      Login
+                    </Link>
+                  </p>
+                  {loading ? (
+                    <button
+                      disabled
+                      className="bg-red-600 text-white py-2 lg:py-2 lg:px-10 px-4 rounded-full"
+                    >
+                      Please wait...
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="bg-blue-600 hover:bg-blue-700 text-white py-2 lg:py-2 lg:px-10 px-4 rounded-full"
+                    >
+                      Register
+                    </button>
+                  )}
+                </div>
+              </animated.form>
+
+              {/* OTP Form */}
+              <form
+                className={`space-y-4 ${!showotpForm && "hidden"}`}
+                onSubmit={handleSubmit2(OnSubmitOTP)}
+              >
+                <Box
+                  sx={{ "& > :not(style)": { m: 1 } }}
+                  noValidate
+                  autoComplete="off"
                 >
-                  Verify OTP
-                </button>
-              )}
-              {otpSent && (
-                <p className="text-gray-500 text-md mt-1">
-                  Resend OTP in <span className="text-blue-600">{timer}</span>{" "}
-                  seconds
-                </p>
-              )}
-              {!otpSent && (
-                <button
-                  onClick={resendOtp}
-                  className="w-full mt-2 py-2 px-4 bg-yellow-500 text-white rounded-full hover:bg-yellow-600"
-                >
-                  Resend OTP
-                </button>
-              )}
+                  <TextField
+                    className="w-full"
+                    id="otp"
+                    label="Enter OTP"
+                    variant="outlined"
+                    {...register2("otp", { required: "OTP is required" })}
+                    error={!!errors2.otp || !!otpError}
+                    helperText={errors2.otp ? errors2.otp.message : otpError}
+                  />
+                </Box>
+                <div className="flex flex-col">
+                  {otploading ? (
+                    <button
+                      disabled
+                      className="bg-red-600 text-white py-2 px-10 rounded-full"
+                    >
+                      Please wait...
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="bg-blue-600 text-white py-2 px-10 rounded-full hover:bg-blue-800"
+                    >
+                      Verify OTP
+                    </button>
+                  )}
+                  {otpSent && (
+                    <p className="text-gray-500 text-md mt-1">
+                      Resend OTP in{" "}
+                      <span className="text-blue-600">{timer}</span> seconds
+                    </p>
+                  )}
+                  {!otpSent && (
+                    <button
+                      onClick={resendOtp}
+                      className="w-full mt-2 py-2 px-4 bg-yellow-500 text-white rounded-full hover:bg-yellow-600"
+                    >
+                      Resend OTP
+                    </button>
+                  )}
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
   );
-}; 
+};
 
 export default SignUp;

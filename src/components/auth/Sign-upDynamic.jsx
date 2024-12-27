@@ -58,7 +58,7 @@ function DynamicSignUp() {
 
   const sendOtp = async (email) => {
     setEmail(email);
-    setLoading(true)
+    setLoading(true);
     try {
       const sendData = {
         email: email,
@@ -71,8 +71,6 @@ function DynamicSignUp() {
 
       // Accessing data from axios response
       const data = response.data;
-
-      console.log(data);
 
       if (data.message === "OTP sent successfully") {
         setOtpStep(true);
@@ -125,7 +123,6 @@ function DynamicSignUp() {
         }).then(() => {
           window.location.reload();
         });
-
       }
     }
   };
@@ -142,7 +139,6 @@ function DynamicSignUp() {
       otp: data.otp,
       userType: "Reader",
     };
-    // console.log(sendData);
 
     try {
       const response = await axios.post(
@@ -162,7 +158,6 @@ function DynamicSignUp() {
         navigation(`/course-details/${courseId}`);
       }
     } catch (error) {
-      console.log(error);
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -178,129 +173,135 @@ function DynamicSignUp() {
     <Fragment>
       <div className="min-h-screen lg:p-12 md:p-6 p-4 bg-white flex items-center justify-center">
         {/* Main Container */}
-        <div className="w-full max-w-5xl bg-white rounded-lg shadow-lg p-6">
-          {/* Headings Section */}
-          <div className="text-center mb-8 hidden md:block">
-            <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500">
-              Join the ZenStudy Community
-            </h2>
-            <p className="text-xl text-gray-600">
-              Sign up now to start your learning journey with us.
-            </p>
-          </div>
 
-          <div className="flex flex-col lg:flex-row">
-            {/* Left Section */}
-            <div className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300">
-              <h1 className="text-4xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-400">
-                Welcome to ZenStudy
-              </h1>
-              <p className="text-lg font-medium">
-                Unlock the power of learning with our vibrant community!
+        <div className="relative w-full max-w-5xl p-1 rounded-lg shadow-xl">
+          <div className="absolute inset-0 border-0 border-transparent rounded-lg animate-border bg-gradient-to-r from-blue-500 via-blue-900 to-blue-400 bg-clip-border"></div>
+          <div className="relative z-10 bg-white rounded-lg lg:p-10 p-4">
+            {/* Headings Section */}
+            <div className="text-center mb-8 hidden md:block">
+              <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500">
+                Join the ZenStudy Community
+              </h2>
+              <p className="text-xl text-gray-600">
+                Sign up now to start your learning journey with us.
               </p>
             </div>
 
-            {/* Right Section */}
-            <div className="flex-1 lg:p-12 md:p-6 p-4">
-              <h2 className="text-2xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-blue-800 to-blue-300">
-                {step === 1
-                  ? "Sign Up with Email"
-                  : otpStep
+            <div className="flex flex-col lg:flex-row">
+              {/* Left Section */}
+              <div className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300">
+                <h1 className="text-4xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-400">
+                  Welcome to ZenStudy
+                </h1>
+                <p className="text-lg font-medium">
+                  Unlock the power of learning with our vibrant community!
+                </p>
+              </div>
+
+              {/* Right Section */}
+              <div className="flex-1 lg:p-12 md:p-6 p-4">
+                <h2 className="text-2xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-blue-800 to-blue-300">
+                  {step === 1
+                    ? "Sign Up with Email"
+                    : otpStep
                     ? "Verify Your OTP"
                     : "Complete Your Registration"}
-              </h2>
+                </h2>
 
-              {step === 1 && (
-                <form onSubmit={handleSubmit(handleSendOtp)}>
-                  <InputField
-                    label="Enter Your Email"
-                    name="email"
-                    type="email"
-                    register={register}
-                    errors={errors}
-                    disabled={otpStep}
-                    icon={
-                      otpStep ? (
-                        <MdEdit
-                          className="cursor-pointer hover:text-green-500"
-                          onClick={() => handleEdit()}
-                          size={25}
-                        />
-                      ) : (
-                        <MdEmail size={25} />
-                      )
-                    }
-                    validation={{
-                      required: "Email is required",
-                      pattern: {
-                        value:
-                          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i, // Enhanced Regex
-                        message:
-                          "Please enter a valid email address (e.g., example@domain.com)",
-                      },
-                      validate: {
-                        noSpaces: (value) =>
-                          !/\s/.test(value) ||
-                          "Email address cannot contain spaces",
-                        maxLength: (value) =>
-                          value.length <= 320 ||
-                          "Email cannot exceed 320 characters",
-                      },
-                    }}
-                  />
+                {step === 1 && (
+                  <form onSubmit={handleSubmit(handleSendOtp)}>
+                    <InputField
+                      label="Enter Your Email"
+                      name="email"
+                      type="email"
+                      register={register}
+                      errors={errors}
+                      disabled={otpStep}
+                      icon={
+                        otpStep ? (
+                          <MdEdit
+                            className="cursor-pointer hover:text-green-500"
+                            onClick={() => handleEdit()}
+                            size={25}
+                          />
+                        ) : (
+                          <MdEmail size={25} />
+                        )
+                      }
+                      validation={{
+                        required: "Email is required",
+                        pattern: {
+                          value:
+                            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i, // Enhanced Regex
+                          message:
+                            "Please enter a valid email address (e.g., example@domain.com)",
+                        },
+                        validate: {
+                          noSpaces: (value) =>
+                            !/\s/.test(value) ||
+                            "Email address cannot contain spaces",
+                          maxLength: (value) =>
+                            value.length <= 320 ||
+                            "Email cannot exceed 320 characters",
+                        },
+                      }}
+                    />
 
-                  {!otpStep && (
+                    {!otpStep && (
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        fullWidth
+                        disabled={loading}
+                        className="hover:bg-blue-700 hover:scale-105 transition-all bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300"
+                        aria-label="Send OTP"
+                      >
+                        {loading ? <CircularProgress size={24} /> : "Send OTP"}
+                      </Button>
+                    )}
+                  </form>
+                )}
+
+                {otpStep && (
+                  <form onSubmit={handleSubmit(handleRegister)}>
+                    <p className="text-green-600 text-xs  mt-2 mb-1">
+                      An OTP has been sent to your email address. Please enter
+                      it below to complete your registration.{" "}
+                    </p>
+                    <p className="text-green-600 text-xs mb-4">
+                     ( If didn't receive the OTP? Click on the edit icon to change
+                      your email address. )
+                    </p>
+
+                    <InputField
+                      label="Enter OTP"
+                      name="otp"
+                      type="text"
+                      register={register}
+                      errors={errors}
+                      icon={<MdEmail size={25} />}
+                      validation={{
+                        required: "OTP is required",
+                        minLength: {
+                          value: 6,
+                          message: "OTP must be at least 6 characters long",
+                        },
+                      }}
+                    />
+
                     <Button
                       type="submit"
                       variant="contained"
                       fullWidth
                       disabled={loading}
-                      className="hover:bg-blue-700 hover:scale-105 transition-all bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300"
-                      aria-label="Send OTP"
+                      className="hover:bg-blue-700 bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 hover:scale-105 w-[50%] transition-all"
+                      aria-label="Verify OTP"
                     >
-                      {loading ? <CircularProgress size={24} /> : "Send OTP"}
+                      {loading ? <CircularProgress size={24} /> : "Verify OTP"}
                     </Button>
-                  )}
-                </form>
-              )}
-
-              {otpStep && (
-                <form onSubmit={handleSubmit(handleRegister)}>
-                  <p className="text-gray-600 text-sm mb-4">
-                    An OTP has been sent to your email address. Please enter it
-                    below to complete your registration. </p>
-                  <p className="text-gray-600 text-sm mb-4">
-                    Didn't receive the OTP? Click on the edit icon to change your email address.
-                  </p>
-
-                  <InputField
-                    label="Enter OTP"
-                    name="otp"
-                    type="text"
-                    register={register}
-                    errors={errors}
-                    icon={<MdEmail size={25} />}
-                    validation={{
-                      required: "OTP is required",
-                      minLength: {
-                        value: 6,
-                        message: "OTP must be at least 6 characters long",
-                      },
-                    }}
-                  />
-
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    fullWidth
-                    disabled={loading}
-                    className="hover:bg-blue-700 bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 hover:scale-105 w-[50%] transition-all"
-                    aria-label="Verify OTP"
-                  >
-                    {loading ? <CircularProgress size={24} /> : "Verify OTP"}
-                  </Button>
-                </form>
-              )}
+                  </form>
+                )}
+              </div>
             </div>
           </div>
         </div>

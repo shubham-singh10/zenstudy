@@ -138,9 +138,7 @@ function SignInDynamic() {
     }, 1000);
   };
 
-  // Used to resend OTP
   const resendOtp = async () => {
-    // console.log("Resending OTP...", phone);
     setresLoading(true);
     await handlePhoneNumberAuth(`+91${phone}`);
   };
@@ -152,9 +150,7 @@ function SignInDynamic() {
           "recaptcha-container",
           {
             size: "invisible",
-            callback: () => {
-              //console.log('Recaptcha verified');
-            },
+            callback: () => {},
           }
         );
       }
@@ -174,7 +170,6 @@ function SignInDynamic() {
         setresLoading(false);
       });
     } catch (error) {
-      //console.error("Error sending OTP:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -187,7 +182,7 @@ function SignInDynamic() {
 
   const sendOtp = async (data) => {
     setLoading(true);
-    //console.log("Sending OTP...", data);
+
     try {
       const sendData = {
         data: data.phone,
@@ -197,7 +192,6 @@ function SignInDynamic() {
         sendData
       );
       const resdata = response.data;
-      //console.log(resdata);
 
       if (resdata.message === "Success") {
         Swal.fire({
@@ -215,8 +209,6 @@ function SignInDynamic() {
   };
 
   const handleRegister = async (data) => {
-    //console.log("Registering...", data);
-
     try {
       setLoading(true);
       const auth = getAuth();
@@ -228,7 +220,6 @@ function SignInDynamic() {
         password: data.password,
         email: data.email,
       };
-      //console.log("sendData", sendData);
 
       const response = await fetch(
         `${process.env.REACT_APP_API2}zenstudy/api/auth/Signinverify`,
@@ -247,7 +238,6 @@ function SignInDynamic() {
       }
 
       const resData = await response.json();
-      //console.log("res", resData);
 
       if (resData.message === "Success") {
         toast.success(
@@ -265,10 +255,8 @@ function SignInDynamic() {
 
         const from = location.state?.from || "/course-details-student";
         window.location.pathname = from;
-        // navigate("/sign-In");
       }
     } catch (error) {
-      //console.error("Error verifying OTP:", error);
       setOtpError("Invalid OTP. Please try again.");
       setLoading(false);
       Swal.fire({
@@ -280,7 +268,6 @@ function SignInDynamic() {
   };
 
   const handleLogin = async (data) => {
-    //console.log("Logging in...", data);
     try {
       setLoading(true);
       const sendData = {

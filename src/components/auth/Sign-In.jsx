@@ -103,7 +103,7 @@ function SignIn() {
         Swal.fire({
           icon: "info",
           title: "Account Not Found",
-          text: "It looks like you haven't registered yet. Please sign up to create an account."
+          text: "It looks like you haven't registered yet. Please sign up to create an account.",
         }).then(() => {
           navigation("/sign-up");
         });
@@ -136,9 +136,7 @@ function SignIn() {
     }, 1000);
   };
 
-  // Used to resend OTP
   const resendOtp = async () => {
-    // console.log("Resending OTP...", phone);
     setresLoading(true);
     await handlePhoneNumberAuth(`+91${phone}`);
   };
@@ -150,9 +148,7 @@ function SignIn() {
           "recaptcha-container",
           {
             size: "invisible",
-            callback: () => {
-              //console.log('Recaptcha verified');
-            },
+            callback: () => {},
           }
         );
       }
@@ -172,7 +168,6 @@ function SignIn() {
         setresLoading(false);
       });
     } catch (error) {
-      //console.error("Error sending OTP:", error);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -185,7 +180,7 @@ function SignIn() {
 
   const sendOtp = async (data) => {
     setLoading(true);
-    //console.log("Sending OTP...", data);
+
     try {
       const sendData = {
         data: data.phone,
@@ -195,7 +190,6 @@ function SignIn() {
         sendData
       );
       const resdata = response.data;
-      //console.log(resdata);
 
       if (resdata.message === "Success") {
         Swal.fire({
@@ -213,8 +207,6 @@ function SignIn() {
   };
 
   const handleRegister = async (data) => {
-    //console.log("Registering...", data);
-
     try {
       setLoading(true);
       const auth = getAuth();
@@ -226,7 +218,6 @@ function SignIn() {
         password: data.password,
         email: data.email,
       };
-      //console.log("sendData", sendData);
 
       const response = await fetch(
         `${process.env.REACT_APP_API2}zenstudy/api/auth/Signinverify`,
@@ -245,7 +236,6 @@ function SignIn() {
       }
 
       const resData = await response.json();
-      //console.log("res", resData);
 
       if (resData.message === "Success") {
         toast.success(
@@ -266,7 +256,6 @@ function SignIn() {
         // navigate("/sign-In");
       }
     } catch (error) {
-      //console.error("Error verifying OTP:", error);
       setOtpError("Invalid OTP. Please try again.");
       setLoading(false);
       Swal.fire({
@@ -278,7 +267,6 @@ function SignIn() {
   };
 
   const handleLogin = async (data) => {
-    //console.log("Logging in...", data);
     try {
       setLoading(true);
       const sendData = {
