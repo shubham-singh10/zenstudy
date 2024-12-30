@@ -18,7 +18,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   getAuth,
   signInWithCredential,
@@ -597,12 +597,14 @@ function SignIn() {
                           validation={{
                             required: "Password is required",
                             minLength: {
-                              value: 6,
+                              value: 8,
                               message:
-                                "Password must be at least 6 characters long",
+                                "Password must be at least 8 characters long",
                             },
                           }}
                         />
+                        <div className="-mt-2 mb-4"><Link to="/reset-password" className="text-blue-500
+                        hover:text-blue-700">Forgot password ? </Link></div>
                         <button
                           type="button"
                           onClick={togglePasswordVisibility}

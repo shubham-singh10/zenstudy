@@ -13,12 +13,12 @@ import {
 } from "firebase/auth";
 import Swal from "sweetalert2";
 import { useInView } from "react-intersection-observer";
+import Cookies from "js-cookie";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    email: "",
     password: "",
     cpassword: "",
   });
@@ -176,18 +176,19 @@ const SignUp = () => {
       const credential = PhoneAuthProvider.credential(verificationId, data.otp);
       await signInWithCredential(auth, credential);
 
-      const { phone, name, password, email } = formData;
+      const { phone, name, password } = formData;
       const sendData = {
         phone,
         name,
         password,
-        email,
         userType: "Reader",
         phoneStatus: "verified",
       };
+      console.log(sendData);
+      
 
       const response = await fetch(
-        `${process.env.REACT_APP_API}zenstudy/api/auth/signUp`,
+        `${process.env.REACT_APP_API2}zenstudy/api/auth/signUp`,
         {
           method: "POST",
           headers: {
@@ -210,7 +211,9 @@ const SignUp = () => {
           title: "Registration Successful!",
           text: `Welcome ${name}! Your account has been created successfully. Please log in to start exploring ZenStudy.`,
         });
-        navigate("/sign-In");
+          Cookies.set("access_tokennew", resData.user._id);
+          localStorage.setItem("userData", JSON.stringify(resData.user));
+        navigate("/course-details-student");
       }
     } catch (error) {
       setOtpError("Invalid OTP. Please try again.");
@@ -326,28 +329,6 @@ const SignUp = () => {
                     }}
                   />
 
-                  <TextField
-                    className="w-full"
-                    id="email"
-                    label="Enter your email"
-                    variant="outlined"
-                    {...register("email", {
-                      required: "Email is required",
-                      pattern: {
-                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                        message: "Invalid email address",
-                      },
-                    })}
-                    error={!!errors.email}
-                    helperText={errors.email ? errors.email.message : ""}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <MdEmail size={25} />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
                   <TextField
                     className="w-full"
                     id="password"
@@ -467,7 +448,7 @@ const SignUp = () => {
                     helperText={errors2.otp ? errors2.otp.message : otpError}
                   />
                 </Box>
-                <div className="flex flex-col">
+                <div className="flex flex-row justify-between items-center"> 
                   {otploading ? (
                     <button
                       disabled
@@ -484,7 +465,7 @@ const SignUp = () => {
                     </button>
                   )}
                   {otpSent && (
-                    <p className="text-gray-500 text-md mt-1">
+                    <p className="text-gray-500 text-md ">
                       Resend OTP in{" "}
                       <span className="text-blue-600">{timer}</span> seconds
                     </p>
@@ -492,7 +473,7 @@ const SignUp = () => {
                   {!otpSent && (
                     <button
                       onClick={resendOtp}
-                      className="w-full mt-2 py-2 px-4 bg-yellow-500 text-white rounded-full hover:bg-yellow-600"
+                      className=" py-2 px-4 bg-yellow-500 text-white rounded-full hover:bg-yellow-600"
                     >
                       Resend OTP
                     </button>
