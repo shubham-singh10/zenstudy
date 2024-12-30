@@ -3,7 +3,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Box, TextField, InputAdornment } from "@mui/material";
-import { MdPerson, MdPhone, MdEmail } from "react-icons/md";
+import { MdPerson, MdPhone } from "react-icons/md";
 import { firebase } from "../../Firebase"; // Adjust the import path as necessary
 import { useSpring, animated } from "@react-spring/web";
 import {
@@ -76,6 +76,7 @@ const SignUp = () => {
   // Handle OTP Sent to firebase
   const handlePhoneNumberAuth = async (phoneNumber) => {
     try {
+
       if (!window.recaptchaVerifier) {
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
           "recaptcha-container",
@@ -184,11 +185,9 @@ const SignUp = () => {
         userType: "Reader",
         phoneStatus: "verified",
       };
-      console.log(sendData);
-      
 
       const response = await fetch(
-        `${process.env.REACT_APP_API2}zenstudy/api/auth/signUp`,
+        `${process.env.REACT_APP_API3}zenstudy/api/auth/signUp`,
         {
           method: "POST",
           headers: {
@@ -199,6 +198,19 @@ const SignUp = () => {
       );
 
       if (!response.ok) {
+        if (response.status === 500) {
+          Swal.fire({
+            icon: "error",
+            title: "Registration failed",
+            text: "We encountered an issue while registering your account. Please try again.",
+            confirmButtonText: "Retry",
+            confirmButtonColor: "#d33",
+          }).then(() => {
+            window.location.reload();
+          });
+          return;
+        }
+
         const errorData = await response.json();
         throw new Error(errorData.message || "Registration failed");
       }
@@ -211,8 +223,8 @@ const SignUp = () => {
           title: "Registration Successful!",
           text: `Welcome ${name}! Your account has been created successfully. Please log in to start exploring ZenStudy.`,
         });
-          Cookies.set("access_tokennew", resData.user._id);
-          localStorage.setItem("userData", JSON.stringify(resData.user));
+        Cookies.set("access_tokennew", resData.user._id);
+        localStorage.setItem("userData", JSON.stringify(resData.user));
         navigate("/course-details-student");
       }
     } catch (error) {
@@ -225,6 +237,8 @@ const SignUp = () => {
         confirmButtonText: "Retry",
         confirmButtonColor: "#d33",
       });
+    } finally {
+      setotpLoading(false);
     }
   };
 
@@ -448,7 +462,7 @@ const SignUp = () => {
                     helperText={errors2.otp ? errors2.otp.message : otpError}
                   />
                 </Box>
-                <div className="flex flex-row justify-between items-center"> 
+                <div className="flex flex-row justify-between items-center">
                   {otploading ? (
                     <button
                       disabled
