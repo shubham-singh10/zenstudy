@@ -25,7 +25,9 @@ import {
   PhoneAuthProvider,
 } from "firebase/auth";
 import { firebase } from "../../Firebase";
-import { FiUser } from "react-icons/fi";
+import { FiArrowRight, FiLogIn, FiUser } from "react-icons/fi";
+import { useInView } from "react-intersection-observer";
+import { useSpring, animated } from "react-spring";
 
 const InputField = ({
   label,
@@ -72,6 +74,35 @@ function SignIn() {
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
+
+  // Intersection Observers
+  const { ref: slideLeftRef, inView: slideLeftInView } = useInView({
+    triggerOnce: true,
+  });
+  const { ref: slideUpRef, inView: slideUpInView } = useInView({
+    triggerOnce: true,
+  });
+  const { ref: slideRightRef, inView: slideRightInView } = useInView({
+    triggerOnce: true,
+  });
+
+  const SlideUp = useSpring({
+    from: { y: 100, opacity: 0 },
+    to: { y: slideUpInView ? 0 : 100, opacity: slideUpInView ? 1 : 0 },
+    config: { duration: 500 },
+  });
+
+  const SlideLeft = useSpring({
+    from: { x: -100, opacity: 0 },
+    to: { x: slideLeftInView ? 0 : -100, opacity: slideLeftInView ? 1 : 0 },
+    config: { duration: 100 },
+  });
+
+  const SlideRight = useSpring({
+    from: { x: 100, opacity: 0 },
+    to: { x: slideRightInView ? 0 : 100, opacity: slideRightInView ? 1 : 0 },
+    config: { duration: 500 },
+  });
 
   // useForm hook remains the same
   const {
@@ -148,11 +179,10 @@ function SignIn() {
           "recaptcha-container",
           {
             size: "invisible",
-            callback: () => {},
+            callback: () => { },
           }
         );
       }
-
       const appVerifier = window.recaptchaVerifier;
       const confirmationResult = await firebase
         .auth()
@@ -162,19 +192,24 @@ function SignIn() {
       startTimer();
       Swal.fire({
         icon: "success",
-        title: "OTP Sent",
-        text: `OTP has been sent to ${phoneNumber}`,
+        title: "OTP Sent Successfully",
+        text: `A verification OTP has been sent to your phone number: ${phoneNumber}. Please check your messages.`,
+        confirmButtonText: "Okay",
+        confirmButtonColor: "#28a745",
       }).then(() => {
         setresLoading(false);
       });
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Error",
-        text: "Failed to send OTP. Please try again.",
+        title: "Failed to Send OTP",
+        text: "We encountered an issue while sending the OTP. Please check your network connection and try again.",
+        confirmButtonText: "Retry",
+        confirmButtonColor: "#d33",
       }).then(() => {
         setresLoading(false);
       });
+
     }
   };
 
@@ -193,10 +228,13 @@ function SignIn() {
 
       if (resdata.message === "Success") {
         Swal.fire({
-          icon: "success",
-          title: "Provied Number already exist",
-          text: "Either login or reset password",
+          icon: "info",
+          title: "Data Already Registered",
+          text: "This Data is already associated with an account. Please log in or reset your password if needed.",
+          confirmButtonText: "Okay",
+          confirmButtonColor: "#3085d6",
         });
+
         setLoading(false);
       }
     } catch (error) {
@@ -239,14 +277,13 @@ function SignIn() {
 
       if (resData.message === "Success") {
         toast.success(
-          `Welcome back, ${resData.user.name}! You are now logged in.`,
+          `Welcome, ${resData.user.name}! Your account has been successfully created.`,
           {
             position: "top-right",
             duration: 4000,
-            icon: "👏",
+            icon: "🎉",
           }
         );
-
         setLoading(false);
         Cookies.set("access_tokennew", resData.user._id);
         localStorage.setItem("userData", JSON.stringify(resData.user));
@@ -260,9 +297,12 @@ function SignIn() {
       setLoading(false);
       Swal.fire({
         icon: "error",
-        title: "Oops...",
-        text: `Login failed: Invalid OTP. Please try again.`,
+        title: "Invalid OTP",
+        text: "The OTP you entered is incorrect or expired. Please check and try again.",
+        confirmButtonText: "Retry",
+        confirmButtonColor: "#d33",
       });
+
     }
   };
 
@@ -290,11 +330,12 @@ function SignIn() {
       }
       const resData = await response.json();
 
-      toast.success(`Welcome back, ${resData.name}! You are now logged in.`, {
+      toast.success(`Welcome back, ${resData.name}! You're successfully logged in.`, {
         position: "top-right",
         duration: 4000,
-        icon: "👏",
+        icon: "🎉",
       });
+
 
       setLoading(false);
       Cookies.set("access_tokennew", resData._id);
@@ -306,9 +347,14 @@ function SignIn() {
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Oops...",
-        text: `Login failed: ${error.message}`,
+        title: "Login Failed",
+        html: `<p style="font-size: 16px; line-height: 1.5;">We couldn’t log you in. <br>
+                <strong>${error.message}</strong></p>
+               <p style="font-size: 14px; color: #555;">Please check your credentials and try again.</p>`,
+        confirmButtonText: "Try Again",
+        confirmButtonColor: "#3085d6",
       });
+
       setLoading(false);
     }
   };
@@ -322,18 +368,26 @@ function SignIn() {
           <div className="absolute inset-0 border-0 border-transparent rounded-lg animate-border bg-gradient-to-r from-blue-500 via-blue-900 to-blue-400 bg-clip-border"></div>
           <div className="relative z-10 bg-white rounded-lg lg:p-10 p-4">
             {/* Headings Section */}
-            <div className="text-center mb-8 hidden md:block">
+            <animated.div
+              ref={slideUpRef}
+              style={SlideUp}
+              className="text-center mb-8 hidden md:block"
+            >
               <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500">
                 Welcome Back
               </h2>
               <p className="text-xl text-gray-600">
                 Sign in to continue your learning journey with ZenStudy.
               </p>
-            </div>
+            </animated.div>
 
             <div className="flex flex-col lg:flex-row">
               {/* Left Section */}
-              <div className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-400 rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300">
+              <div
+                ref={slideLeftRef}
+                style={SlideLeft}
+                className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-400 rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300"
+              >
                 <h1 className="lg:text-3xl md:text-2xl text-xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-400">
                   Welcome to ZenStudy
                 </h1>
@@ -348,15 +402,19 @@ function SignIn() {
                   {step === 1
                     ? "Login with your Email or Phone no."
                     : step === 2
-                    ? "Complete Your Registration"
-                    : step === 3
-                    ? `Enter the OTP sent to your phone number (${phone})`
-                    : "Enter Your Password"}
+                      ? "Complete Your Registration"
+                      : step === 3
+                        ? `Enter the OTP sent to your phone number (${phone})`
+                        : "Enter Your Password"}
                 </h2>
 
                 <div className="signup-container">
                   {step === 1 && (
-                    <form onSubmit={handleSubmit(handleChekUser)}>
+                    <animated.form
+                      ref={slideRightRef}
+                      style={SlideRight}
+                      onSubmit={handleSubmit(handleChekUser)}
+                    >
                       <InputField
                         label="Enter Your Phone No. or Email"
                         name="email"
@@ -383,10 +441,11 @@ function SignIn() {
                         fullWidth
                         disabled={loading}
                         className="hover:bg-blue-700 hover:scale-105 transition-all bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300"
+                        endIcon={!loading && (<FiArrowRight />)}
                       >
                         {loading ? <CircularProgress size={24} /> : "Next"}
                       </Button>
-                    </form>
+                    </animated.form>
                   )}
 
                   {step === 2 && (
@@ -547,7 +606,7 @@ function SignIn() {
                         <button
                           type="button"
                           onClick={togglePasswordVisibility}
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                          className="absolute right-3 top-1/3 transform -translate-y-1/2"
                         >
                           {showPassword ? (
                             <MdVisibility size={25} />
@@ -562,6 +621,7 @@ function SignIn() {
                         fullWidth
                         disabled={loading}
                         className="hover:bg-blue-700 hover:scale-105 transition-all bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300"
+                        endIcon={!loading && (<FiLogIn />)}
                       >
                         {loading ? <CircularProgress size={24} /> : "Login"}
                       </Button>

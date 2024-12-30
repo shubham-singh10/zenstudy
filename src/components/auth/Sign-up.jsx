@@ -64,7 +64,7 @@ const SignUp = () => {
   const SlideLeft = useSpring({
     from: { x: -100, opacity: 0 },
     to: { x: slideLeftInView ? 0 : -100, opacity: slideLeftInView ? 1 : 0 },
-    config: { duration: 500 },
+    config: { duration: 100 },
   });
 
   const SlideRight = useSpring({
@@ -81,7 +81,7 @@ const SignUp = () => {
           "recaptcha-container",
           {
             size: "invisible",
-            callback: () => {},
+            callback: () => { },
           }
         );
       }
@@ -95,14 +95,18 @@ const SignUp = () => {
       startTimer();
       Swal.fire({
         icon: "success",
-        title: "OTP Sent",
-        text: `OTP has been sent to ${phoneNumber}`,
+        title: "OTP Sent Successfully",
+        text: `A verification OTP has been sent to your phone number: ${phoneNumber}. Please check your messages.`,
+        confirmButtonText: "Okay",
+        confirmButtonColor: "#28a745",
       });
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Error",
-        text: "Failed to send OTP. Please try again.",
+        title: "Failed to Send OTP",
+        text: "We encountered an issue while sending the OTP. Please check your network connection and try again.",
+        confirmButtonText: "Retry",
+        confirmButtonColor: "#d33",
       });
     }
   };
@@ -134,9 +138,11 @@ const SignUp = () => {
       const resData = await response.json();
       if (resData.message === "Success") {
         Swal.fire({
-          icon: "error",
+          icon: "info",
           title: "User Already Registered",
           text: "This phone number or email is already associated with an account. Please log in to continue.",
+          confirmButtonText: "Okay",
+          confirmButtonColor: "#3085d6",
         });
       }
     } catch (error) {
@@ -211,8 +217,10 @@ const SignUp = () => {
       setotpLoading(false);
       Swal.fire({
         icon: "error",
-        title: "Oops...",
-        text: `Registration failed: Invalid OTP. Please try again.`,
+        title: "Invalid OTP",
+        text: "The OTP you entered is incorrect or expired. Please check and try again.",
+        confirmButtonText: "Retry",
+        confirmButtonColor: "#d33",
       });
     }
   };
@@ -246,14 +254,18 @@ const SignUp = () => {
           </div>
 
           <div className="flex flex-col items-center lg:flex-row p-4 lg:p-12 bg-white gap-6 w-full h-full">
-            <div className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300">
+            <animated.div
+              ref={slideLeftRef}
+              style={SlideLeft}
+              className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300"
+            >
               <h1 className="text-4xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-400">
                 Welcome to ZenStudy
               </h1>
               <p className="text-lg font-medium">
                 Unlock the power of learning with our vibrant community!
               </p>
-            </div>
+            </animated.div>
 
             <div className="flex-1 p-2 lg:p-8 lg:w-3/4 w-full text-center lg:text-center">
               <animated.form
