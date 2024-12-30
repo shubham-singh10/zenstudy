@@ -5,8 +5,15 @@ import Swal from "sweetalert2";
 import Cookies from "js-cookie"; // Add this package
 import axios from "axios";
 import { MdVerified } from "react-icons/md";
+import { useForm } from "react-hook-form";
 
 const Profile = () => {
+  const {
+    handleSubmit,
+    register,
+    watch,
+    formState: { errors },
+  } = useForm();
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -21,6 +28,7 @@ const Profile = () => {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPhoneModalOpen, setisPhoneModalOpen] = useState(false);
   const [image, setImage] = useState(null);
   const [imager, setImager] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -41,6 +49,9 @@ const Profile = () => {
     }
   }
 
+  const onSubmit = async (data) => {
+    console.log("Form_Data: ", data);
+  };
   // Handel Image Update
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -83,7 +94,7 @@ const Profile = () => {
 
       const updatedUserDetail = {
         ...userdetail,
-        imageUrl
+        imageUrl,
       };
       // console.log("Image: ", updatedUserDetail);
       setUserData(updatedUserDetail || {});
@@ -97,7 +108,6 @@ const Profile = () => {
       setDLoading(false);
     }
   };
-
 
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -255,7 +265,7 @@ const Profile = () => {
 
       if (data.message === "OTP verified successfully") {
         setIsModalOpen(false);
-        getUserData(userId)
+        getUserData(userId);
       } else {
         console.error("Failed to verify OTP:", data.message);
       }
@@ -302,7 +312,7 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row items-center md:space-x-4 space-y-4 md:space-y-0">
+      <div className="">
         <TextField
           label="Name"
           variant="outlined"
@@ -313,34 +323,33 @@ const Profile = () => {
           }
           className="flex-1 bg-white"
         />
-
-        <div className="relative w-full flex-1">
-          <TextField
-            label="Email"
-            variant="outlined"
-            value={userData.email || ""}
-            fullWidth
-            onChange={(e) =>
-              setUserData((prev) => ({ ...prev, email: e.target.value }))
-            }
-            className="bg-white w-full"
-            disabled={userData.status.emailStatus === "verified"}
-          />
-          {userData.status.emailStatus === "verified" && (
-            <div className="absolute right-3 bottom-4 flex items-center gap-1">
-              <MdVerified color="green" size={20} />
-              <span className="text-sm text-green-600">Verified</span>
-            </div>
-          )}
-
-        </div>
+      </div>
+      <div className="relative w-full flex flex-row items-center gap-1">
+        <TextField
+          label="Email"
+          variant="outlined"
+          value={userData.email || ""}
+          fullWidth
+          onChange={(e) =>
+            setUserData((prev) => ({ ...prev, email: e.target.value }))
+          }
+          className="bg-white w-full"
+          disabled={userData.status.emailStatus === "verified"}
+        />
+        {userData.status.emailStatus === "verified" && (
+          <div className="absolute right-3 bottom-4 flex items-center gap-1">
+            <MdVerified color="green" size={20} />
+            <span className="text-sm text-green-600">Verified</span>
+          </div>
+        )}
 
         {userData.status.emailStatus !== "verified" && (
           <button
-            className={`px-6 py-4 text-white rounded-md shadow-md focus:outline-none transition 
-            ${otploading.sendOtp || !isValidEmail(userData.email)
-                ? "bg-red-400 opacity-4 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
+            className={`px-4 py-2 text-sm text-white rounded-md shadow-md focus:outline-none transition 
+              ${
+                otploading.sendOtp || !isValidEmail(userData.email)
+                  ? "bg-red-400 opacity-4 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
               }`}
             onClick={() => sendOtp(userData.email)}
             disabled={otploading.sendOtp || !isValidEmail(userData.email)}
@@ -349,66 +358,56 @@ const Profile = () => {
             {otploading.sendOtp ? "Please Wait..." : "Verify Email"}
           </button>
         )}
-
-        {isModalOpen && (
-          <div
-            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
-            role="dialog"
-            aria-labelledby="verify-email-title"
-            aria-modal="true"
-          >
-            <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
-              <div className="flex justify-between items-center mb-4">
-                <h2 id="verify-email-title" className="text-xl font-semibold">
-                  Verify Email
-                </h2>
-                {
-                  // <button
-                  //   onClick={closeModal}
-                  //   className="text-gray-600 hover:text-gray-800 focus:outline-none"
-                  //   aria-label="Close modal"
-                  // >
-                  //   &#10005;
-                  // </button>
-                }
-              </div>
-              <p className="text-gray-700 mb-4">
-                An email verification code has been sent to{" "}
-                <span className="font-bold">
-                  {userData.email || "your email"}
-                </span>
-                . Please check your inbox and enter the verification code below
-                to verify your email address.
-              </p>
-              <p className="text-red-500 font-semibold mb-4">
-                If you haven't received the email, please check your spam or
-                junk folder. If it's still not there, wait for 2 minutes and
-                refresh this page to try again.
-              </p>
-
-              <TextField
-                label="Enter verification code"
-                variant="outlined"
-                fullWidth
-                className="mb-4"
-                onChange={(e) =>
-                  setUserData((prev) => ({ ...prev, otp: e.target.value }))
-                }
-              />
-              {/* Placeholder for error message */}
-              {/* <p className="text-sm text-red-500">Invalid verification code. Please try again.</p> */}
-              <button
-                className="text-white mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-300 w-full"
-                onClick={() => verifyEmail(userData.email)} // Replace with your verification logic
-              >
-                {otploading.verifyOtp ? "Please wait..." : "Verify"}
-              </button>
-            </div>
-          </div>
-        )}
       </div>
 
-      <div className="relative w-full flex-1">
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+          role="dialog"
+          aria-labelledby="verify-email-title"
+          aria-modal="true"
+        >
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+            <div className="flex justify-between items-center mb-4">
+              <h2 id="verify-email-title" className="text-xl font-semibold">
+                Verify Email
+              </h2>
+            </div>
+            <p className="text-gray-700 mb-4">
+              An email verification code has been sent to{" "}
+              <span className="font-bold">
+                {userData.email || "your email"}
+              </span>
+              . Please check your inbox and enter the verification code below to
+              verify your email address.
+            </p>
+            <p className="text-red-500 font-semibold mb-4">
+              If you haven't received the email, please check your spam or junk
+              folder. If it's still not there, wait for 2 minutes and refresh
+              this page to try again.
+            </p>
+
+            <TextField
+              label="Enter verification code"
+              variant="outlined"
+              fullWidth
+              className="mb-4"
+              onChange={(e) =>
+                setUserData((prev) => ({ ...prev, otp: e.target.value }))
+              }
+            />
+
+            <button
+              className="text-white mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-300 w-full"
+              onClick={() => verifyEmail(userData.email)} // Replace with your verification logic
+            >
+              {otploading.verifyOtp ? "Please wait..." : "Verify"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="relative w-full flex flex-row items-center gap-1">
         <TextField
           label="Phone"
           variant="outlined"
@@ -422,8 +421,108 @@ const Profile = () => {
             <span className="text-sm text-green-600">Verified</span>
           </div>
         )}
+
+        {userData.status?.phoneStatus !== "verified" && (
+          <button
+            className={`px-4 py-2 text-sm text-white rounded-md shadow-md focus:outline-none transition 
+              ${
+                otploading.sendOtp || !isValidEmail(userData.email)
+                  ? "bg-red-400 opacity-4 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
+              }`}
+            onClick={() => sendOtp(userData.email)}
+            disabled={otploading.sendOtp || !isValidEmail(userData.email)}
+            aria-label="Verify user details"
+          >
+            {otploading.sendOtp ? "Please Wait..." : "Verify Phone-no."}
+          </button>
+        )}
       </div>
 
+      {isPhoneModalOpen && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+        >
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full"
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h2 id="verify-phone-title" className="text-xl font-semibold">
+                Verify Phone No.
+              </h2>
+            </div>
+            <p className="text-gray-700 mb-4">
+              A phone number verification code has been sent to{" "}
+              <span className="font-bold">
+                {userData.phone || "your phone number"}
+              </span>
+              . Please check your inbox and enter the verification code below to
+              verify your phone number.
+            </p>
+
+            {/* Verification Code Field */}
+            <TextField
+              label="Enter verification code"
+              variant="outlined"
+              fullWidth
+              className="mb-4"
+              {...register("otp", {
+                required: "Verification code is required.",
+                pattern: {
+                  value: /^\d{4,6}$/,
+                  message: "Please enter a valid code.",
+                },
+              })}
+              error={!!errors.otp}
+              helperText={errors.otp?.message}
+            />
+
+            {/* Create Password Field */}
+            <TextField
+              label="Create password"
+              variant="outlined"
+              fullWidth
+              className="mb-4"
+              {...register("password", {
+                required: "Password is required.",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters long.",
+                },
+              })}
+              error={!!errors.password}
+              helperText={errors.password?.message}
+            />
+
+            {/* Confirm Password Field */}
+            <TextField
+              label="Confirm password"
+              variant="outlined"
+              fullWidth
+              className="mb-4"
+              {...register("confirmPassword", {
+                required: "Please confirm your password.",
+                validate: (value) =>
+                  value === userData.password || "Passwords do not match.",
+              })}
+              error={!!errors.confirmPassword}
+              helperText={errors.confirmPassword?.message}
+            />
+
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              className="mt-4"
+              disabled={otploading.verifyOtp}
+            >
+              {otploading.verifyOtp ? "Please wait..." : "Verify"}
+            </Button>
+          </form>
+        </div>
+      )}
 
       <TextField
         label="Address"

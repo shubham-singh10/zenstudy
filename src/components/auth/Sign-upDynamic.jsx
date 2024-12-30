@@ -101,7 +101,7 @@ function DynamicSignUp() {
           title: "Account Found!",
           text: "You already have an account. Please log in to continue and purchase the course.",
         }).then(() => {
-          navigation(`/sign-In/${courseId}`);
+          navigation(`/login/${courseId}`);
         });
       }
     } catch (error) {

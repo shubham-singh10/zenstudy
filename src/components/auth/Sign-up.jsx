@@ -434,7 +434,7 @@ const SignUp = () => {
                   ) : (
                     <button
                       type="submit"
-                      className="bg-blue-600 hover:bg-blue-700 text-white py-2 lg:py-2 lg:px-10 px-4 rounded-full"
+                      className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 hover:shadow-lg text-white py-2 lg:py-2 lg:px-10 px-4 rounded-full"
                     >
                       Register
                     </button>
@@ -473,7 +473,7 @@ const SignUp = () => {
                   ) : (
                     <button
                       type="submit"
-                      className="bg-blue-600 text-white py-2 px-10 rounded-full hover:bg-blue-800"
+                      className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 hover:shadow-lg text-white py-2 px-10 rounded-full "
                     >
                       Verify OTP
                     </button>
@@ -487,7 +487,7 @@ const SignUp = () => {
                   {!otpSent && (
                     <button
                       onClick={resendOtp}
-                      className=" py-2 px-4 bg-yellow-500 text-white rounded-full hover:bg-yellow-600"
+                      className=" py-2 px-4 bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 hover:shadow-lg text-white rounded-full"
                     >
                       Resend OTP
                     </button>

@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 const CourseCard = ({ course }) => {
+  console.log("CourseCard", course);
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`);
   const [loading, setLoading] = useState(true);
@@ -41,9 +42,8 @@ const CourseCard = ({ course }) => {
     fetchAverageRating();
   }, [courseId]);
 
-  const isLiveClass =
-    course.course_id.title.includes("Mentorship") ||
-    course.course_id.title.includes("Answer Writing Program for UPSC Success");
+  
+  const isLiveClass = course.course_id.tags === live ;
 
   const handleLiveClassClick = () => {
     if (isLiveClass) {
@@ -203,9 +203,10 @@ const MyCourses = () => {
   }
   useEffect(() => {
     const getcourse = async () => {
+      console.log(userId);
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API}zenstudy/api/payment/purchaseCourse`,
+          `${process.env.REACT_APP_API2}zenstudy/api/payment/purchaseCourse`,
           {
             method: "POST",
             headers: {
@@ -215,6 +216,8 @@ const MyCourses = () => {
             body: JSON.stringify({ user_id: userId }),
           }
         );
+        
+        
         if (response.status === 204) {
           setCourse([]);
           setLoading(false);
