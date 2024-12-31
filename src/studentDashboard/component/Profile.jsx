@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FiUpload, FiUploadCloud } from "react-icons/fi";
 import { TextField, Button } from "@mui/material";
 import Swal from "sweetalert2";
-import Cookies, { set } from "js-cookie"; // Add this package
+import Cookies from "js-cookie"; // Add this package
 import axios from "axios";
 import { MdVerified } from "react-icons/md";
 import { useForm } from "react-hook-form";
@@ -57,7 +57,7 @@ const Profile = () => {
   }
   const password = watch("password");
   const onSubmit = async (data) => {
-    console.log("Form_Data: ", data);
+    // console.log("Form_Data: ", data);
     try {
       setOtpLoading((prev) => ({ ...prev, verifyOtp: true }));
 
@@ -68,11 +68,11 @@ const Profile = () => {
       const sendData = {
         phone: userData.phone,
         password: data.password,
-        userId: token,
+        userId: userId,
       };
 
       const response = await fetch(
-        `${process.env.REACT_APP_API2}zenstudy/api/auth/verifyPhone`,
+        `${process.env.REACT_APP_API}zenstudy/api/auth/verifyPhone`,
         {
           method: "POST",
           headers: {
@@ -293,8 +293,7 @@ const Profile = () => {
 
       // Accessing data from axios response
       const data = response.data;
-
-      console.log(data);
+      // console.log(data);
 
       if (data.message === "OTP sent successfully") {
         setIsModalOpen(true);
@@ -340,7 +339,7 @@ const Profile = () => {
   };
 
   const sendOtpPhone = async (phoneNumber) => {
-    console.log("Phone Number: ", phoneNumber);
+    // console.log("Phone Number: ", phoneNumber);
 
     setOtpLoading((prev) => ({ ...prev, sendOtp: true }));
     try {
@@ -349,7 +348,7 @@ const Profile = () => {
           "recaptcha-container",
           {
             size: "invisible",
-            callback: () => {},
+            callback: () => { },
           }
         );
       }
@@ -446,10 +445,9 @@ const Profile = () => {
         {userData.status.emailStatus !== "verified" && (
           <button
             className={`px-4 py-2 text-sm text-white rounded-md shadow-md focus:outline-none transition 
-              ${
-                otploading.sendOtp || !isValidEmail(userData.email)
-                  ? "bg-red-400 opacity-4 cursor-not-allowed"
-                  : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
+              ${otploading.sendOtp || !isValidEmail(userData.email)
+                ? "bg-red-400 opacity-4 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
               }`}
             onClick={() => sendOtp(userData.email)}
             disabled={otploading.sendOtp || !isValidEmail(userData.email)}
@@ -528,10 +526,9 @@ const Profile = () => {
         {userData.status?.phoneStatus !== "verified" && (
           <button
             className={`px-4 py-2 text-sm text-white rounded-md shadow-md focus:outline-none transition 
-              ${
-                otploading.sendOtp || !isValidEmail(userData.email)
-                  ? "bg-red-400 opacity-4 cursor-not-allowed"
-                  : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
+              ${otploading.sendOtp || !isValidEmail(userData.email)
+                ? "bg-red-400 opacity-4 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
               }`}
             onClick={() => sendOtpPhone(userData.phone)}
             aria-label="Verify user details"
@@ -583,6 +580,7 @@ const Profile = () => {
               label="Create password"
               variant="outlined"
               fullWidth
+              type="password"
               className="mb-4"
               {...register("password", {
                 required: "Password is required.",
@@ -600,6 +598,7 @@ const Profile = () => {
               label="Confirm password"
               variant="outlined"
               fullWidth
+              type="password"
               className="mb-4"
               {...register("confirmPassword", {
                 required: "Please confirm your password.",
