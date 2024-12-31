@@ -16,13 +16,13 @@ const CourseCard = ({ course }) => {
   const [averageRating, setAverageRating] = useState(0);
   const courseId = course.course_id._id;
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${day}-${month}-${year}`;
-  };
+  // const formatDate = (dateString) => {
+  //   const date = new Date(dateString);
+  //   const year = date.getFullYear();
+  //   const month = String(date.getMonth() + 1).padStart(2, "0");
+  //   const day = String(date.getDate()).padStart(2, "0");
+  //   return `${day}-${month}-${year}`;
+  // };
 
 
   useEffect(() => {
@@ -43,7 +43,7 @@ const CourseCard = ({ course }) => {
   }, [courseId]);
 
   
-  const isLiveClass = course.course_id.tags === live ;
+  const isLiveClass = course?.course_id?.tags === "live"
 
   const handleLiveClassClick = () => {
     if (isLiveClass) {

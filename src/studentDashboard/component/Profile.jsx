@@ -48,7 +48,7 @@ const Profile = () => {
       console.error("Error decoding token:", error);
     }
   }
-
+  const password = watch("password");
   const onSubmit = async (data) => {
     console.log("Form_Data: ", data);
   };
@@ -102,8 +102,11 @@ const Profile = () => {
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Oops...",
-        text: `Error: ${error.message}`,
+        title: "Unable to Fetch User Data",
+        text: "We encountered an issue while retrieving your information. Please try again later or contact support if the issue persists.",
+        footer: `<a href="/contact">Need Help?</a>`,
+        confirmButtonText: "Okay",
+        confirmButtonColor: "#d33",
       });
       setDLoading(false);
     }
@@ -277,9 +280,8 @@ const Profile = () => {
   };
 
   return (
-    <form
+    <div
       className="w-full mx-auto p-4 space-y-4"
-      onSubmit={(e) => e.preventDefault()}
     >
       <div className="flex flex-row gap-4 items-center justify-center mt-0">
         <img
@@ -346,10 +348,9 @@ const Profile = () => {
         {userData.status.emailStatus !== "verified" && (
           <button
             className={`px-4 py-2 text-sm text-white rounded-md shadow-md focus:outline-none transition 
-              ${
-                otploading.sendOtp || !isValidEmail(userData.email)
-                  ? "bg-red-400 opacity-4 cursor-not-allowed"
-                  : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
+              ${otploading.sendOtp || !isValidEmail(userData.email)
+                ? "bg-red-400 opacity-4 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
               }`}
             onClick={() => sendOtp(userData.email)}
             disabled={otploading.sendOtp || !isValidEmail(userData.email)}
@@ -425,10 +426,9 @@ const Profile = () => {
         {userData.status?.phoneStatus !== "verified" && (
           <button
             className={`px-4 py-2 text-sm text-white rounded-md shadow-md focus:outline-none transition 
-              ${
-                otploading.sendOtp || !isValidEmail(userData.email)
-                  ? "bg-red-400 opacity-4 cursor-not-allowed"
-                  : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
+              ${otploading.sendOtp || !isValidEmail(userData.email)
+                ? "bg-red-400 opacity-4 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
               }`}
             onClick={() => sendOtp(userData.email)}
             disabled={otploading.sendOtp || !isValidEmail(userData.email)}
@@ -504,7 +504,7 @@ const Profile = () => {
               {...register("confirmPassword", {
                 required: "Please confirm your password.",
                 validate: (value) =>
-                  value === userData.password || "Passwords do not match.",
+                  value === password || "Passwords do not match.",
               })}
               error={!!errors.confirmPassword}
               helperText={errors.confirmPassword?.message}
@@ -583,7 +583,7 @@ const Profile = () => {
           {loading ? "Updating..." : "Update"}
         </Button>
       </div>
-    </form>
+    </div>
   );
 };
 
