@@ -92,7 +92,7 @@ function SignInDynamic() {
         data: data.email,
       };
       const response = await axios.post(
-        `${process.env.REACT_APP_API2}zenstudy/api/auth/user-check`,
+        `${process.env.REACT_APP_API}zenstudy/api/auth/user-check`,
         sendData
       );
       const resdata = response.data;
@@ -188,7 +188,7 @@ function SignInDynamic() {
         data: data.phone,
       };
       const response = await axios.post(
-        `${process.env.REACT_APP_API2}zenstudy/api/auth/user-check`,
+        `${process.env.REACT_APP_API}zenstudy/api/auth/user-check`,
         sendData
       );
       const resdata = response.data;
@@ -222,7 +222,7 @@ function SignInDynamic() {
       };
 
       const response = await fetch(
-        `${process.env.REACT_APP_API2}zenstudy/api/auth/Signinverify`,
+        `${process.env.REACT_APP_API}zenstudy/api/auth/Signinverify`,
         {
           method: "POST",
           headers: {
@@ -275,7 +275,7 @@ function SignInDynamic() {
         password: data.password,
       };
       const response = await fetch(
-        ` ${process.env.REACT_APP_API2}zenstudy/api/auth/signin`,
+        ` ${process.env.REACT_APP_API}zenstudy/api/auth/signin`,
         {
           method: "POST",
           credentials: "include",

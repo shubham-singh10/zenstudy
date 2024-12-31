@@ -44,7 +44,7 @@ const[searchText, setSearchText] = useState("");
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        // console.log("Course_data", data)
+        console.log("Course_data", data)
         // setCourse(data);
         setCourse(
           data.map((course) => ({

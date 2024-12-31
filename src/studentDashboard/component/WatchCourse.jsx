@@ -13,7 +13,8 @@ const WatchCourse = () => {
   });
   const [courses, setCourses] = useState([]);
   const [courseId, setCourseId] = useState(null);
-  const [url, setUrl] = useState(null);
+  const [videoOtp, setvideoOtp] = useState(null);
+  const [videoPlayback, setVideoPlayback] = useState(null);
   const [selectedVideoTitle, setSelectedVideoTitle] = useState(null);
   const [selectedVideoDesc, setSelectedVideoDesc] = useState(null);
   const { id } = useParams();
@@ -58,7 +59,7 @@ const WatchCourse = () => {
         }
 
         const data = await response.json();
-        // console.log("MyCourse_purchase", data.response);
+        console.log("MyCourse_purchase", data.response);
 
         setCourseId(data?.response?.course._id);
         setCourses(data.response?.modules);
@@ -88,7 +89,9 @@ const WatchCourse = () => {
             : `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${review.userId.avatar}`,
         }));
 
-        const userReview = reviews.find((review) => review.userId._id === token);
+        const userReview = reviews.find(
+          (review) => review.userId._id === token
+        );
         setAllReview(reviews);
         setRating(userReview?.rating || 0);
         setReviewForm(userReview?.rating || undefined);
@@ -98,10 +101,8 @@ const WatchCourse = () => {
       }
     };
 
-
     myCourse();
   }, [id, navigate, token, loadingState.buttonLoading]);
-
 
   //********************* Module Change Effect ***********************************************//
 
@@ -113,7 +114,9 @@ const WatchCourse = () => {
       const firstModule = introductionModule || courses[0];
       const firstVideo = firstModule.videos[0];
       if (firstVideo) {
-        setUrl(firstVideo.videoUrl);
+        setvideoOtp(firstVideo.videoCode);
+        setVideoPlayback(firstVideo.playBackInfo);
+
         setSelectedVideoTitle(firstVideo.videoTitle);
         setSelectedVideoDesc(firstVideo?.videoDescription);
       }
@@ -128,8 +131,10 @@ const WatchCourse = () => {
     );
   }
 
-  const handleVideoClick = (videoUrl, videoTitle, videoDesc) => {
-    setUrl(videoUrl);
+  const handleVideoClick = (playBackInfo, videoCode, videoTitle, videoDesc) => {
+    setVideoPlayback(playBackInfo);
+    setvideoOtp(videoCode);
+
     setSelectedVideoTitle(videoTitle);
     setSelectedVideoDesc(videoDesc);
   };
@@ -137,7 +142,7 @@ const WatchCourse = () => {
   // Review Submit API
   const submitReview = async (e) => {
     e.preventDefault();
-    setLoadingState((prev) => ({ ...prev, buttonLoading: true }))
+    setLoadingState((prev) => ({ ...prev, buttonLoading: true }));
     try {
       await axios.post(
         `${process.env.REACT_APP_API}zenstudy/api/course/${courseId}/reviews`,
@@ -151,25 +156,26 @@ const WatchCourse = () => {
         icon: "success",
         title: "Comment successfully!",
         timer: 2000,
-      })
+      });
     } catch (error) {
       console.error("Error submitting review:", error);
     } finally {
-      setLoadingState((prev) => ({ ...prev, buttonLoading: false }))
+      setLoadingState((prev) => ({ ...prev, buttonLoading: false }));
     }
   };
 
-  // Star Render 
+  // Star Render
   const renderStars = () => {
     return [...Array(5)].map((_, index) => {
       const starValue = index + 1;
       return (
         <svg
           key={index}
-          className={`w-8 h-8 cursor-pointer ${starValue <= (hoverRating || rating)
-            ? "text-yellow-400"
-            : "text-gray-300"
-            } ${rating > 0 ? "cursor-default" : ""}`}
+          className={`w-8 h-8 cursor-pointer ${
+            starValue <= (hoverRating || rating)
+              ? "text-yellow-400"
+              : "text-gray-300"
+          } ${rating > 0 ? "cursor-default" : ""}`}
           fill="currentColor"
           viewBox="0 0 20 20"
           onClick={() => setRating(starValue)}
@@ -189,8 +195,9 @@ const WatchCourse = () => {
       return (
         <svg
           key={index}
-          className={`w-5 h-5  ${starValue <= userStar ? "text-yellow-400" : "text-gray-300"
-            }`}
+          className={`w-5 h-5  ${
+            starValue <= userStar ? "text-yellow-400" : "text-gray-300"
+          }`}
           fill="currentColor"
           viewBox="0 0 20 20"
         >
@@ -213,22 +220,24 @@ const WatchCourse = () => {
         <div className="lg:w-2/3">
           <div>
             <iframe
-              src={`${url}`}
-              frameBorder="0"
+              src={`https://player.vdocipher.com/v2/?otp=${videoOtp}&playbackInfo=${videoPlayback}`}
               className="w-full aspect-video rounded-md"
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-              title="zenstudy"
-            ></iframe>
+              allowFullScreen={true}
+              allow="encrypted-media"
+            >
+                     
+            </iframe>
           </div>
           <div className="mt-4">
             <div className="flex flex-wrap justify-start md:justify-center gap-4 md:gap-8 border-b border-gray-200">
               {tabs.map((tab) => (
                 <button
                   key={tab}
-                  className={`px-4 py-2 rounded-t-lg text-sm md:text-lg font-medium transition-colors duration-300 ${selectedTab === tab
-                    ? "bg-blue-100 text-blue-600 border-b-2 border-blue-500"
-                    : "bg-gray-100 text-gray-500 hover:bg-blue-50 hover:text-blue-500"
-                    }`}
+                  className={`px-4 py-2 rounded-t-lg text-sm md:text-lg font-medium transition-colors duration-300 ${
+                    selectedTab === tab
+                      ? "bg-blue-100 text-blue-600 border-b-2 border-blue-500"
+                      : "bg-gray-100 text-gray-500 hover:bg-blue-50 hover:text-blue-500"
+                  }`}
                   onClick={() => setSelectedTab(tab)}
                 >
                   {tab}
@@ -240,17 +249,23 @@ const WatchCourse = () => {
               {selectedTab === "About Video" && (
                 <div className="bg-gray-50 border border-gray-200 text-gray-800 p-4 rounded-lg shadow-md">
                   <p className="text-lg font-semibold">About This Video</p>
-                  <p className="text-sm mt-2">{selectedVideoDesc || "No description available for this video."}</p>
+                  <p className="text-sm mt-2">
+                    {selectedVideoDesc ||
+                      "No description available for this video."}
+                  </p>
                 </div>
               )}
 
               {selectedTab === "Q&A" && (
                 <div className="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-lg shadow-md">
-                  <p className="text-lg font-semibold">Our Q&A feature is under development!</p>
-                  <p className="text-sm mt-2">It will be live soon. Thanks for your patience!</p>
+                  <p className="text-lg font-semibold">
+                    Our Q&A feature is under development!
+                  </p>
+                  <p className="text-sm mt-2">
+                    It will be live soon. Thanks for your patience!
+                  </p>
                 </div>
               )}
-
 
               {selectedTab === "Reviews" &&
                 (reviewForm === undefined ? (
@@ -335,7 +350,9 @@ const WatchCourse = () => {
                   </form>
                 ) : (
                   <div className="space-y-4 bg-gray-50 border border-gray-200 text-gray-800 p-4 rounded-lg shadow-md">
-                    <h3 className="text-3xl font-bold text-gray-800">All Reviews</h3>
+                    <h3 className="text-3xl font-bold text-gray-800">
+                      All Reviews
+                    </h3>
 
                     {AllReview.length > 0 ? (
                       <div className="space-y-2">
@@ -355,20 +372,25 @@ const WatchCourse = () => {
                                 <h4 className="font-semibold text-lg text-gray-800">
                                   {comment.userId.name}
                                 </h4>
-                                <div className="flex">{UserStars(comment.rating)}</div>
+                                <div className="flex">
+                                  {UserStars(comment.rating)}
+                                </div>
                               </div>
-                              <p className="text-gray-600 text-sm mt-2">{comment.reviewContent}</p>
+                              <p className="text-gray-600 text-sm mt-2">
+                                {comment.reviewContent}
+                              </p>
                             </div>
                           </div>
                         ))}
                       </div>
                     ) : (
                       <div className="bg-gray-50 border border-gray-200 p-6 rounded-lg shadow-md">
-                        <p className="text-gray-500 text-center">No reviews yet. Be the first to share your thoughts!</p>
+                        <p className="text-gray-500 text-center">
+                          No reviews yet. Be the first to share your thoughts!
+                        </p>
                       </div>
                     )}
                   </div>
-
                 ))}
             </div>
           </div>
@@ -378,7 +400,6 @@ const WatchCourse = () => {
         <div className="lg:w-1/3 mt-8 lg:mt-0">
           <h2 className="text-2xl font-bold mb-4">Course Content</h2>
           <div className="bg-white shadow-lg rounded-lg overflow-y-auto max-h-[60vh] scrollable-content">
-
             {courses.length > 0 &&
               courses.map((module, index) => (
                 <details
@@ -399,13 +420,15 @@ const WatchCourse = () => {
                     {module.videos.map((video, index) => (
                       <div
                         key={index}
-                        className={`flex items-center justify-between p-3 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer transition ${selectedVideoTitle === video.videoTitle
-                          ? "bg-blue-100 text-blue-600"
-                          : "text-gray-700"
-                          }`}
+                        className={`flex items-center justify-between p-3 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer transition ${
+                          selectedVideoTitle === video.videoTitle
+                            ? "bg-blue-100 text-blue-600"
+                            : "text-gray-700"
+                        }`}
                         onClick={() =>
                           handleVideoClick(
-                            video.videoUrl,
+                            video.playBackInfo,
+                            video.videoCode,
                             video.videoTitle,
                             video?.videoDescription
                           )
@@ -413,7 +436,9 @@ const WatchCourse = () => {
                       >
                         <span className="truncate">{video.videoTitle}</span>
                         {selectedVideoTitle === video.videoTitle && (
-                          <span className="text-blue-500 font-semibold">Playing</span>
+                          <span className="text-blue-500 font-semibold">
+                            Playing
+                          </span>
                         )}
                       </div>
                     ))}
@@ -422,8 +447,6 @@ const WatchCourse = () => {
               ))}
           </div>
         </div>
-
-
       </div>
     </div>
   );

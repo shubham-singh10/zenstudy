@@ -206,7 +206,7 @@ const MyCourses = () => {
       console.log(userId);
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API2}zenstudy/api/payment/purchaseCourse`,
+          `${process.env.REACT_APP_API}zenstudy/api/payment/purchaseCourse`,
           {
             method: "POST",
             headers: {

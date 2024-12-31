@@ -91,7 +91,7 @@ function DynamicSignUp() {
         data: data.email,
       };
       const response = await axios.post(
-        `${process.env.REACT_APP_API2}zenstudy/api/auth/user-check`,
+        `${process.env.REACT_APP_API}zenstudy/api/auth/user-check`,
         sendData
       );
       const resdata = response.data;

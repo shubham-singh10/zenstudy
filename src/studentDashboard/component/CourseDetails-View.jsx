@@ -310,7 +310,7 @@ const CourseDetailsView = () => {
             <div className="flex items-center mt-4">
               <div className="flex items-center mr-4">
                 <GrLanguage />
-                <span className="ml-2"> {coursePost?.language}</span>
+                <span className="ml-2"> {coursePost?.language.name}</span>
               </div>
             </div>
           </div>
