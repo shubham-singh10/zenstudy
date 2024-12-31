@@ -2,10 +2,16 @@ import React, { useEffect, useState } from "react";
 import { FiUpload, FiUploadCloud } from "react-icons/fi";
 import { TextField, Button } from "@mui/material";
 import Swal from "sweetalert2";
-import Cookies from "js-cookie"; // Add this package
+import Cookies, { set } from "js-cookie"; // Add this package
 import axios from "axios";
 import { MdVerified } from "react-icons/md";
 import { useForm } from "react-hook-form";
+import { firebase } from "../../Firebase"; // Adjust the import path as necessary
+import {
+  getAuth,
+  signInWithCredential,
+  PhoneAuthProvider,
+} from "firebase/auth";
 
 const Profile = () => {
   const {
@@ -30,6 +36,7 @@ const Profile = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPhoneModalOpen, setisPhoneModalOpen] = useState(false);
   const [image, setImage] = useState(null);
+  const [verificationId, setVerificationId] = useState(null);
   const [imager, setImager] = useState(null);
   const [loading, setLoading] = useState(false);
   const [otploading, setOtpLoading] = useState({
@@ -51,6 +58,59 @@ const Profile = () => {
   const password = watch("password");
   const onSubmit = async (data) => {
     console.log("Form_Data: ", data);
+    try {
+      setOtpLoading((prev) => ({ ...prev, verifyOtp: true }));
+
+      const auth = getAuth();
+      const credential = PhoneAuthProvider.credential(verificationId, data.otp);
+      await signInWithCredential(auth, credential);
+
+      const sendData = {
+        phone: userData.phone,
+        password: data.password,
+        userId: token,
+      };
+
+      const response = await fetch(
+        `${process.env.REACT_APP_API2}zenstudy/api/auth/verifyPhone`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(sendData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Verification failed");
+      }
+
+      const resData = await response.json();
+
+      if (resData.message === "Phone verified successfully") {
+        Swal.fire({
+          icon: "success",
+          title: "Verification Successful!",
+          text: `Your account has been verified successfully.`,
+        }).then(() => {
+          setisPhoneModalOpen(false);
+          window.location.reload();
+        });
+      }
+    } catch (error) {
+      setOtpLoading((prev) => ({ ...prev, verifyOtp: false }));
+      Swal.fire({
+        icon: "error",
+        title: "Invalid OTP",
+        text: "The OTP you entered is incorrect or expired. Please check and try again.",
+        confirmButtonText: "Retry",
+        confirmButtonColor: "#d33",
+      });
+    } finally {
+      setOtpLoading((prev) => ({ ...prev, verifyOtp: false }));
+    }
   };
   // Handel Image Update
   const handleImageChange = (e) => {
@@ -279,10 +339,48 @@ const Profile = () => {
     }
   };
 
+  const sendOtpPhone = async (phoneNumber) => {
+    console.log("Phone Number: ", phoneNumber);
+
+    setOtpLoading((prev) => ({ ...prev, sendOtp: true }));
+    try {
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+          "recaptcha-container",
+          {
+            size: "invisible",
+            callback: () => {},
+          }
+        );
+      }
+
+      const appVerifier = window.recaptchaVerifier;
+      const confirmationResult = await firebase
+        .auth()
+        .signInWithPhoneNumber(`+91${phoneNumber}`, appVerifier);
+      setVerificationId(confirmationResult.verificationId);
+      setisPhoneModalOpen(true);
+      Swal.fire({
+        icon: "success",
+        title: "OTP Sent Successfully",
+        text: `A verification OTP has been sent to your phone number: ${phoneNumber}. Please check your messages.`,
+        confirmButtonText: "Okay",
+        confirmButtonColor: "#28a745",
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Failed to Send OTP",
+        text: "We encountered an issue while sending the OTP. Please check your network connection and try again.",
+        confirmButtonText: "Retry",
+        confirmButtonColor: "#d33",
+      });
+    }
+  };
+
   return (
-    <div
-      className="w-full mx-auto p-4 space-y-4"
-    >
+    <div className="w-full mx-auto p-4 space-y-4">
+      <div id="recaptcha-container"></div>
       <div className="flex flex-row gap-4 items-center justify-center mt-0">
         <img
           src={image}
@@ -348,9 +446,10 @@ const Profile = () => {
         {userData.status.emailStatus !== "verified" && (
           <button
             className={`px-4 py-2 text-sm text-white rounded-md shadow-md focus:outline-none transition 
-              ${otploading.sendOtp || !isValidEmail(userData.email)
-                ? "bg-red-400 opacity-4 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
+              ${
+                otploading.sendOtp || !isValidEmail(userData.email)
+                  ? "bg-red-400 opacity-4 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
               }`}
             onClick={() => sendOtp(userData.email)}
             disabled={otploading.sendOtp || !isValidEmail(userData.email)}
@@ -414,6 +513,9 @@ const Profile = () => {
           variant="outlined"
           value={userData.phone === "1234567890" ? "" : userData.phone || ""}
           fullWidth
+          onChange={(e) =>
+            setUserData((prev) => ({ ...prev, phone: e.target.value }))
+          }
           disabled={userData.status?.phoneStatus === "verified"}
         />
         {userData.status?.phoneStatus === "verified" && (
@@ -426,12 +528,12 @@ const Profile = () => {
         {userData.status?.phoneStatus !== "verified" && (
           <button
             className={`px-4 py-2 text-sm text-white rounded-md shadow-md focus:outline-none transition 
-              ${otploading.sendOtp || !isValidEmail(userData.email)
-                ? "bg-red-400 opacity-4 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
+              ${
+                otploading.sendOtp || !isValidEmail(userData.email)
+                  ? "bg-red-400 opacity-4 cursor-not-allowed"
+                  : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
               }`}
-            onClick={() => sendOtp(userData.email)}
-            disabled={otploading.sendOtp || !isValidEmail(userData.email)}
+            onClick={() => sendOtpPhone(userData.phone)}
             aria-label="Verify user details"
           >
             {otploading.sendOtp ? "Please Wait..." : "Verify Phone-no."}
@@ -440,12 +542,10 @@ const Profile = () => {
       </div>
 
       {isPhoneModalOpen && (
-        <div
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
-        >
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full"
+            className="bg-white rounded-lg shadow-lg p-6 max-w-md space-y-2 w-full"
           >
             <div className="flex justify-between items-center mb-4">
               <h2 id="verify-phone-title" className="text-xl font-semibold">
@@ -469,9 +569,9 @@ const Profile = () => {
               className="mb-4"
               {...register("otp", {
                 required: "Verification code is required.",
-                pattern: {
-                  value: /^\d{4,6}$/,
-                  message: "Please enter a valid code.",
+                minLength: {
+                  value: 6,
+                  message: "Verification code must be 6 characters long.",
                 },
               })}
               error={!!errors.otp}
@@ -487,8 +587,8 @@ const Profile = () => {
               {...register("password", {
                 required: "Password is required.",
                 minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters long.",
+                  value: 8,
+                  message: "Password must be at least 8 characters long.",
                 },
               })}
               error={!!errors.password}
