@@ -6,7 +6,6 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 const CourseCard = ({ course }) => {
-  console.log("CourseCard", course);
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`);
   const [loading, setLoading] = useState(true);
@@ -203,7 +202,6 @@ const MyCourses = () => {
   }
   useEffect(() => {
     const getcourse = async () => {
-      console.log(userId);
       try {
         const response = await fetch(
           `${process.env.REACT_APP_API}zenstudy/api/payment/purchaseCourse`,

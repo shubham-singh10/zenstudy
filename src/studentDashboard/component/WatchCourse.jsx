@@ -171,11 +171,10 @@ const WatchCourse = () => {
       return (
         <svg
           key={index}
-          className={`w-8 h-8 cursor-pointer ${
-            starValue <= (hoverRating || rating)
-              ? "text-yellow-400"
-              : "text-gray-300"
-          } ${rating > 0 ? "cursor-default" : ""}`}
+          className={`w-8 h-8 cursor-pointer ${starValue <= (hoverRating || rating)
+            ? "text-yellow-400"
+            : "text-gray-300"
+            } ${rating > 0 ? "cursor-default" : ""}`}
           fill="currentColor"
           viewBox="0 0 20 20"
           onClick={() => setRating(starValue)}
@@ -195,9 +194,8 @@ const WatchCourse = () => {
       return (
         <svg
           key={index}
-          className={`w-5 h-5  ${
-            starValue <= userStar ? "text-yellow-400" : "text-gray-300"
-          }`}
+          className={`w-5 h-5  ${starValue <= userStar ? "text-yellow-400" : "text-gray-300"
+            }`}
           fill="currentColor"
           viewBox="0 0 20 20"
         >
@@ -220,12 +218,13 @@ const WatchCourse = () => {
         <div className="lg:w-2/3">
           <div>
             <iframe
+              title={selectedVideoTitle}
               src={`https://player.vdocipher.com/v2/?otp=${videoOtp}&playbackInfo=${videoPlayback}`}
               className="w-full aspect-video rounded-md"
               allowFullScreen={true}
               allow="encrypted-media"
             >
-                     
+
             </iframe>
           </div>
           <div className="mt-4">
@@ -233,11 +232,10 @@ const WatchCourse = () => {
               {tabs.map((tab) => (
                 <button
                   key={tab}
-                  className={`px-4 py-2 rounded-t-lg text-sm md:text-lg font-medium transition-colors duration-300 ${
-                    selectedTab === tab
-                      ? "bg-blue-100 text-blue-600 border-b-2 border-blue-500"
-                      : "bg-gray-100 text-gray-500 hover:bg-blue-50 hover:text-blue-500"
-                  }`}
+                  className={`px-4 py-2 rounded-t-lg text-sm md:text-lg font-medium transition-colors duration-300 ${selectedTab === tab
+                    ? "bg-blue-100 text-blue-600 border-b-2 border-blue-500"
+                    : "bg-gray-100 text-gray-500 hover:bg-blue-50 hover:text-blue-500"
+                    }`}
                   onClick={() => setSelectedTab(tab)}
                 >
                   {tab}
@@ -420,11 +418,10 @@ const WatchCourse = () => {
                     {module.videos.map((video, index) => (
                       <div
                         key={index}
-                        className={`flex items-center justify-between p-3 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer transition ${
-                          selectedVideoTitle === video.videoTitle
-                            ? "bg-blue-100 text-blue-600"
-                            : "text-gray-700"
-                        }`}
+                        className={`flex items-center justify-between p-3 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer transition ${selectedVideoTitle === video.videoTitle
+                          ? "bg-blue-100 text-blue-600"
+                          : "text-gray-700"
+                          }`}
                         onClick={() =>
                           handleVideoClick(
                             video.playBackInfo,

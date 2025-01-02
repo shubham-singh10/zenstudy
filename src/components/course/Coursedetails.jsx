@@ -291,6 +291,7 @@ const CourseDetailsView = () => {
   };
 
   const firstModule = coursePost.modules[0];
+console.log("First Module", firstModule);
 
   return (
     <Fragment>
@@ -358,12 +359,13 @@ const CourseDetailsView = () => {
                     {firstModule.videos[0].videoUrl ? (
                       // Render the video iframe
                       <iframe
-                        src={firstModule.videos[0].videoUrl}
-                        frameBorder="0"
-                        className="top-0 left-0 h-[30vh] w-[100%]"
-                        allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
-                        title="ZenStudy Video"
-                      ></iframe>
+                        title={firstModule.videos[0].title}
+                        src={`https://player.vdocipher.com/v2/?otp=${firstModule.videos[0].videoCode}&playbackInfo=${firstModule.videos[0].playBackInfo}`}
+                        className="w-full aspect-video rounded-md"
+                        allowFullScreen={true}
+                        allow="encrypted-media"
+                      >
+                      </iframe>
                     ) : (
                       <div>No video URL provided</div>
                     )}
@@ -385,9 +387,8 @@ const CourseDetailsView = () => {
                   src={imageSrc}
                   crossOrigin="anonymous"
                   alt="Course Thumbnail"
-                  className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${
-                    imgloading ? "opacity-0" : "opacity-100"
-                  }`}
+                  className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${imgloading ? "opacity-0" : "opacity-100"
+                    }`}
                   onLoad={() => setImgLoading(false)}
                 />
               </div>
@@ -418,13 +419,11 @@ const CourseDetailsView = () => {
                   <button
                     onClick={() => ApplyCoupon(coursePost?.price)}
                     disabled={!code || couponLoading} // Disable button if no input or loading
-                    className={`${
-                      couponLoading || !code
-                        ? `bg-gray-400 cursor-not-allowed w-[30%] ${
-                            couponLoading ? "py-3" : "py-1"
-                          }`
+                    className={`${couponLoading || !code
+                        ? `bg-gray-400 cursor-not-allowed w-[30%] ${couponLoading ? "py-3" : "py-1"
+                        }`
                         : "bg-blue-600 hover:bg-blue-700 w-[30%] py-1"
-                    } text-sm text-white font-bold px-6 rounded-lg transition-all`}
+                      } text-sm text-white font-bold px-6 rounded-lg transition-all`}
                   >
                     {couponLoading ? (
                       <span className="flex items-center justify-center">
@@ -482,9 +481,8 @@ const CourseDetailsView = () => {
                 <div className="mt-4 sm:mt-0">
                   {currentUser ? (
                     <button
-                      className={`w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg flex items-center justify-center ${
-                        payloading ? "cursor-not-allowed" : ""
-                      }`}
+                      className={`w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg flex items-center justify-center ${payloading ? "cursor-not-allowed" : ""
+                        }`}
                       onClick={() =>
                         handlePayment(
                           discount
