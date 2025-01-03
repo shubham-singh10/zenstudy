@@ -19,7 +19,7 @@ const RecentlyAddedCourse = () => {
         const getcourse = async () => {
           try {
             const response = await fetch(
-              `${process.env.REACT_APP_API}zenstudy/api/course/getCoursesP`,
+              `${process.env.REACT_APP_API2}zenstudy/api/course/getCoursesPNew?page=1&limit=4`,
               {
                 method: "GET",
                 headers: {
@@ -29,7 +29,7 @@ const RecentlyAddedCourse = () => {
               }
             );
     
-            if (response.status === 204) {
+            if (response.status === 404) {
               setCourse([]);
               return;
             }
@@ -37,11 +37,14 @@ const RecentlyAddedCourse = () => {
               throw new Error("Network response was not ok");
             }
             const data = await response.json();
-           // console.log("Recent_Course_data", data)
-            setCourse(data.map(course => ({
-              ...course,
-              imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`
-            })));
+        const mainData = data.courses;
+
+        setCourse(
+          mainData.map((course) => ({
+            ...course,
+            imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`,
+          }))
+        );
           } catch (error) {
             console.error("Error", error)
           }

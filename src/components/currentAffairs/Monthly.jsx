@@ -74,7 +74,7 @@ export const Monthly = () => {
   ];
 
   const formatDate = (date) => {
-    const options = { month: 'long', year: 'numeric' }; // Format for Jan, 2024
+    const options = {day:'numeric', month: 'long', year: 'numeric' }; // Format for Jan, 2024
     const formattedDate = new Intl.DateTimeFormat('en-US', options).format(new Date(date));
     console.log(formattedDate);
     return formattedDate;
@@ -141,16 +141,11 @@ export const Monthly = () => {
                 {/* Card Wrapper */}
                 <div className="relative w-full min-h-full transition-transform duration-700 transform-style preserve-3d group-hover:rotate-y-180">
                   {/* Front Side */}
-                  <div className="backface-hidden justify-center bg-white border-2 rounded-xl p-2 shadow-md flex flex-row gap-4">
-                      <div className="bg-green-500 flex justify-center items-center w-full px-4 py-4 text-white font-semibold rounded-md shadow">
+                  <div className="backface-hidden justify-center bg-white border-2 rounded-xl p-6 shadow-md flex flex-row gap-4">
+                      <div className="bg-green-500 flex justify-center items-center w-full px-6 py-6 text-white font-semibold rounded-md shadow">
                         {formatDate(data.date)}
                       </div>
-                     {
-                      //  <div className="flex flex-col justify-center">
-                      //   <h3 className="font-bold text-xl text-gray-800 mb-2">{data.title}</h3>
-                      //   <p className="text-gray-600">{data.description}</p>
-                      // </div>
-                      }
+                   
                     </div>
       
                   {/* Back Side */}

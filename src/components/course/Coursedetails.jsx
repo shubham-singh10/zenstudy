@@ -329,7 +329,7 @@ console.log("First Module", firstModule);
             </div>
           </div>
         </div>
-        <div className="p-4 md:p-12 lg:p-12 mt-8 flex flex-col md:flex-row lg:flex-row gap-1 md:gap-4 lg:gap-10 md:items-center lg:items-start items-center">
+        <div className="p-4 md:p-12 lg:p-12 mt-8 flex flex-wrap gap-1 md:gap-4 lg:gap-10 md:items-center lg:items-start items-center">
           <div className=" border-l-8 border-blue-600 p-2  w-full md:w-1/2 lg:w-2/3">
             <h2 className="text-lg md:text-xl font-bold">About Course</h2>
             <ul className="mt-4 space-y-2 flex flex-col gap-4">
@@ -349,7 +349,7 @@ console.log("First Module", firstModule);
             </ul>
           </div>
 
-          <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
+          <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative lg:sticky lg:top-4 rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-[2/3] h-1/2">
             {firstModule ? (
               // First module exists
               <div key={0}>
@@ -534,9 +534,7 @@ console.log("First Module", firstModule);
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="p-2 md:p-12 lg:p-12 bg-blue-100 ">
+          <div className="p-2 md:p-12 lg:p-12 w-full md:w-full lg:w-[65%] bg-blue-100 ">
           {coursePost.modules.map((title, index) => (
             <details
               key={index}
@@ -588,6 +586,9 @@ console.log("First Module", firstModule);
             </details>
           ))}
         </div>
+        </div>
+
+        
       </div>
     </Fragment>
   );

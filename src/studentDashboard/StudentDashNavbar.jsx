@@ -66,7 +66,7 @@ const StudentDashNavbar = () => {
   return (
     <div className="relative shadow-md bg-white">
       {/* Navbar Header */}
-      <div className="h-[10vh] flex items-center justify-between md:justify-end lg:justify-end px-4 lg:px-12">
+      <div className="h-[10vh] flex items-center justify-between md:justify-between lg:justify-end px-4 lg:px-12">
         {/* Hamburger Menu */}
         <RxHamburgerMenu
           className="lg:hidden block text-2xl cursor-pointer"
