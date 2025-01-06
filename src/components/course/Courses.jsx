@@ -16,7 +16,7 @@ const Courses = () => {
   });
   const [paginatedData, setPaginatedData] = useState({
     currentPage: 1,
-    itemperpage: 5,
+    itemperpage: 6,
     totalData: 0,
   });
   const [searchText, setSearchText] = useState("");
@@ -35,7 +35,7 @@ const Courses = () => {
     const userId = Cookies.get("access_tokennew");
     let api;
     if (userId) {
-      api = `getCoursesPurc/${userId}`;
+      api = `getCoursesPurc/${userId}?page=${paginatedData.currentPage}&limit=${paginatedData.itemperpage}&search=${searchText}`;
     } else {
       api = `getCoursesPNew?page=${paginatedData.currentPage}&limit=${paginatedData.itemperpage}&search=${searchText}`;
     }
