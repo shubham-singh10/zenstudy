@@ -59,7 +59,7 @@ function Daily() {
     };
 
     fetchCA();
-  }, [selectedDate]); // Trigger fetch when selectedDate or view changes
+  }, [selectedDate, formattedDate2]);
 
   return (
     <Fragment>
@@ -81,7 +81,6 @@ function Daily() {
                       <div className="bg-green-500 flex justify-center items-center w-full px-6 py-6 text-white font-semibold rounded-md shadow">
                         {formattedDate}
                       </div>
-                    
                     </div>
 
                     {/* Back Side */}
