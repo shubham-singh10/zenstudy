@@ -6,8 +6,6 @@ import he from "he";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import useWindowSize from "react-use/lib/useWindowSize";
-import Confetti from "react-confetti";
 import { MdSlowMotionVideo } from "react-icons/md";
 import { FaLock, FaLockOpen } from "react-icons/fa";
 import { VerifyEmailMsg } from "../VerifyEmailMsg";
@@ -22,7 +20,6 @@ const CourseDetailsView = () => {
   const [discount, setDiscount] = useState(null);
   const [code, setCode] = useState(null);
   const [showConfetti, setShowConfetti] = useState(true);
-  const { width, height } = useWindowSize();
   const [couponLoading, setCouponLoading] = useState(false);
   const [error, setError] = useState(null);
   const [pageloading, setpageLoading] = useState(false);

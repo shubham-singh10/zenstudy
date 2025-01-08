@@ -81,7 +81,7 @@ const Courses = () => {
     };
 
     getCourse();
-  }, [paginatedData.currentPage, searchText]); // Dependent on both currentPage and searchText
+  }, [paginatedData.currentPage, searchText, paginatedData.itemperpage]); // Dependent on both currentPage and searchText
 
   if (loading.mainLoading) {
     return <Loading />;

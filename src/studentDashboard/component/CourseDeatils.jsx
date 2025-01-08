@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from "react";
-import PaginationNew from "../../components/pagination/PaginationNew";
 import { FaSearch } from "react-icons/fa";
 import Cookies from "js-cookie";
 import CommonCard from "../../components/CommonCard";
@@ -75,7 +74,7 @@ const CourseDeatils = () => {
     };
 
     getcourse();
-  }, [userId, paginatedData.currentPage, searchText]);
+  }, [userId, paginatedData.currentPage, searchText, paginatedData.itemperpage]);
 
   if (loading.mainLoading) {
     return (
