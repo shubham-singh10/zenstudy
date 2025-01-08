@@ -101,7 +101,7 @@ function CommonCard({ course, link, differentClass }) {
         ) : (
           <button
             className="custom-btn"
-            onClick={() => navigate(`/${link}/${course._id}`)}
+            onClick={() => navigate(`/${link}/${course.title.replace(/\s+/g, '-')}`)}
           >
             <span className="custom-btn-bg"></span>
             <span className="custom-btn-text text-xs">View Details</span>

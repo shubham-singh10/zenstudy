@@ -558,6 +558,8 @@ function SignInDynamic() {
                             },
                           }}
                         />
+                        <div className="-mt-2 mb-4"><Link to="/reset-password" className="text-blue-500
+                                                hover:text-blue-700">Forgot password ? </Link></div>
                         <button
                           type="button"
                           onClick={togglePasswordVisibility}

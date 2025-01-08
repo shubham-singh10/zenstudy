@@ -19,7 +19,7 @@ const RecentlyAddedCourse = () => {
         const getcourse = async () => {
           try {
             const response = await fetch(
-              `${process.env.REACT_APP_API2}zenstudy/api/course/getCoursesPNew?page=1&limit=4`,
+              `${process.env.REACT_APP_API}zenstudy/api/course/getCoursesPNew?page=1&limit=4`,
               {
                 method: "GET",
                 headers: {

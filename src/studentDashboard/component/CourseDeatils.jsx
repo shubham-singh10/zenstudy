@@ -36,7 +36,7 @@ const CourseDeatils = () => {
       setLoading((prev) => ({ ...prev, paginationLoading: true }));
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API2}zenstudy/api/course/getCoursesPurc/${userId}?page=${paginatedData.currentPage}&limit=${paginatedData.itemperpage}&search=${searchText}`,
+          `${process.env.REACT_APP_API}zenstudy/api/course/getCoursesPurc/${userId}?page=${paginatedData.currentPage}&limit=${paginatedData.itemperpage}&search=${searchText}`,
           {
             method: "GET",
             headers: {
@@ -115,7 +115,7 @@ const CourseDeatils = () => {
           <Fragment>
           <div className="flex flex-wrap justify-center">
             { courses.map((course, index) => (
-              <CommonCard key={index} course={course} link={"course-details"} />
+              <CommonCard key={index} course={course} link={"course-details-view"} />
             ))}
           </div>
           <Pagination

@@ -57,7 +57,7 @@ const CourseDetailsView = () => {
     const getCourse = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API}zenstudy/api/course/coursedetail/${courseId}`,
+          `${process.env.REACT_APP_API}zenstudy/api/course/coursedetailslug/${courseId}`,
           {
             method: "GET",
             headers: {
@@ -334,7 +334,7 @@ const CourseDetailsView = () => {
               />
             </ul>
           </div>
-          <div className="bg-white justify-center items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
+          <div className="bg-white justify-center lg:sticky lg:top-4 items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
             {firstModule ? (
               // First module exists
               <div key={0}>
@@ -503,6 +503,7 @@ const CourseDetailsView = () => {
           </div>
         </div>
 
+        {coursePost.modules.length > 0 &&
         <div className="p-2 md:p-12 lg:p-12 bg-blue-100 ">
           {coursePost.modules.map((title, index) => (
             <details
@@ -555,6 +556,7 @@ const CourseDetailsView = () => {
             </details>
           ))}
         </div>
+}
       </div>
     </Fragment>
   );
