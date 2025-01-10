@@ -41,9 +41,11 @@ const MyCourses = lazy(() =>
   import("./studentDashboard/component/MyCourses.jsx")
 );
 const UPSCStudent = lazy(() => import("./studentDashboard/component/Upse.jsx"));
+const TestSeriesPage = lazy(() => import("./studentDashboard/component/TestSeries.jsx"));
 const WatchCourse = lazy(() =>
   import("./studentDashboard/component/WatchCourse.jsx")
 );
+
 
 function isAuthenticated() {
   return !!Cookies.get("access_tokennew");
@@ -111,6 +113,8 @@ function App() {
             <Route path="/liveClass" element={<LiveClass />} />
             <Route path="/upsc-student" element={<UPSCStudent />} />
             <Route path="/watch-course/:id" element={<WatchCourse />} />
+            <Route path="/testSeries" element={<TestSeriesPage />} />
+
           </Route>
           <Route
             path="*"
