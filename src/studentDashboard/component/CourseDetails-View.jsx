@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { GrLanguage } from "react-icons/gr";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import he from "he";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
@@ -28,6 +28,8 @@ const CourseDetailsView = () => {
   const { width, height } = useWindowSize();
   const navigate = useNavigate();
   const { courseId } = useParams();
+  const {state} = useLocation()
+  const selectedcourseId = state.courseId
   const { userStatus } = VerifyEmailMsg();
 
   useEffect(() => {
@@ -111,15 +113,10 @@ const CourseDetailsView = () => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     return `${day}-${month}-${year}`;
   };
-
-  // const stripHtmlTags = (html) => {
-  //   const doc = new DOMParser().parseFromString(html, "text/html");
-  //   return doc.body.textContent || "";
-  // };
 
   //Payment Initiate
   const handlePayment = async (amount) => {
@@ -134,7 +131,7 @@ const CourseDetailsView = () => {
       return;
     }
     setPayLoading(true);
-    console.log("am", amount);
+    // console.log("am", amount);
     try {
       const res = await fetch(
         `${process.env.REACT_APP_API2}zenstudy/api/payment/order`,
@@ -146,7 +143,7 @@ const CourseDetailsView = () => {
           body: JSON.stringify({
             amount,
             user_id: userId,
-            course_id: courseId,
+            course_id: selectedcourseId,
           }),
         }
       );
@@ -166,7 +163,7 @@ const CourseDetailsView = () => {
 
       const data = await res.json();
       //console.log("Data", data)
-      handlePaymentVerify(data.data, courseId);
+      handlePaymentVerify(data.data, selectedcourseId);
     } catch (error) {
       console.error("Error creating payment order:", error);
     } finally {
@@ -174,7 +171,7 @@ const CourseDetailsView = () => {
     }
   };
 
-  const handlePaymentVerify = async (data, courseId) => {
+  const handlePaymentVerify = async (data, selectedcourseId) => {
     const options = {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID,
       amount: data.amount,
@@ -197,7 +194,7 @@ const CourseDetailsView = () => {
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
                 user_id: userId,
-                course_id: courseId,
+                course_id: selectedcourseId,
                 coursePrice: coursePost?.price || 0,
                 purchasePrice: discount?.subTotal || coursePost?.price,
                 couponCode: code,
@@ -210,7 +207,7 @@ const CourseDetailsView = () => {
 
           const verifyData = await res.json();
 
-          console.log("VerifyData", verifyData);
+          // console.log("VerifyData", verifyData);
           if (verifyData.message === "Payment Successful") {
             navigate(verifyData.Url);
           }
@@ -235,9 +232,9 @@ const CourseDetailsView = () => {
       const sendData = {
         code: code,
         coursePrice: price,
-        courseId: courseId,
+        courseId: selectedcourseId,
       };
-      console.log("Sending data:", sendData);
+      // console.log("Sending data:", sendData);
 
       const response = await fetch(
         `${process.env.REACT_APP_API}zenstudy/api/coupon/applyCoupon`,
@@ -269,7 +266,7 @@ const CourseDetailsView = () => {
       toast.success("Discount applied successfull!!", {
         position: "top-center",
       });
-      console.log("Coupon applied successfully:", data);
+      // console.log("Coupon applied successfully:", data);
       return data; // Optionally return the response data
     } catch (error) {
       console.error("Error applying coupon:", error);

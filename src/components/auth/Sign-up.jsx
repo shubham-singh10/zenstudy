@@ -187,7 +187,7 @@ const SignUp = () => {
       };
 
       const response = await fetch(
-        `${process.env.REACT_APP_API3}zenstudy/api/auth/signUp`,
+        `${process.env.REACT_APP_API}zenstudy/api/auth/signUp`,
         {
           method: "POST",
           headers: {

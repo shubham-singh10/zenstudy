@@ -24,7 +24,7 @@ export const Monthly = () => {
           month:selectedMonth,
           year : selectedYear,
         }
-        console.log("send", sendData);
+        // console.log("send", sendData);
         
         const response = await axios.post(
           `${process.env.REACT_APP_API}/zenstudy/api/image/getAffairswithMonth`,
@@ -32,7 +32,6 @@ export const Monthly = () => {
         );
 
         const data = response.data;
-        console.log("data", data);
         
         if (data.message === "Success") {
           const mainData = data.data;
@@ -42,8 +41,6 @@ export const Monthly = () => {
             ...item,
             pdfUrls: `${process.env.REACT_APP_API}/zenstudy/api/image/getpdf/${item.pdfUrl}`,
           }));
-
-          console.log("Filtered Data:", filterData);
           setCurrentAffairs(filterData);
         }
       } catch (error) {
@@ -76,7 +73,6 @@ export const Monthly = () => {
   const formatDate = (date) => {
     const options = {day:'numeric', month: 'long', year: 'numeric' }; // Format for Jan, 2024
     const formattedDate = new Intl.DateTimeFormat('en-US', options).format(new Date(date));
-    console.log(formattedDate);
     return formattedDate;
   }
 

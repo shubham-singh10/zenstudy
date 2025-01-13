@@ -47,8 +47,6 @@ function Daily() {
             ...item,
             pdfUrls: `${process.env.REACT_APP_API}/zenstudy/api/image/getpdf/${item.pdfUrl}`,
           }));
-
-          console.log("Filtered Data:", filterData);
           setCurrentAffairs(filterData);
         }
       } catch (error) {

@@ -32,18 +32,8 @@ function CommonCard({ course, link, differentClass }) {
     fetchAverageRating();
   }, [course]);
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${day}-${month}-${year}`;
-  };
 
   const isUpcoming = course.other1 === "upcoming";
-  const isLiveClass =
-    course.title.includes("Mentorship") ||
-    course.title.includes("Answer Writing Program for UPSC Success");
   return (
     <div
       className={` ${
@@ -101,7 +91,11 @@ function CommonCard({ course, link, differentClass }) {
         ) : (
           <button
             className="custom-btn"
-            onClick={() => navigate(`/${link}/${course.title.replace(/\s+/g, '-')}`)}
+            onClick={() =>
+              navigate(`/${link}/${course.title.replace(/\s+/g, '-')}`, {
+                state: { courseId: course._id },
+              })
+            }            
           >
             <span className="custom-btn-bg"></span>
             <span className="custom-btn-text text-xs">View Details</span>

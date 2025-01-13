@@ -58,7 +58,6 @@ const WatchCourse = () => {
         throw new Error(errorData.message || "Failed to fetch user data");
       }
       const resData = await response.json();
-      console.log("user data", resData.userdetail);
       setUserData(resData.userdetail);
     } catch (error) {
       Swal.fire({
@@ -106,7 +105,6 @@ const WatchCourse = () => {
         }
 
         const data = await response.json();
-        console.log("MyCourse_purchase", data.response);
 
         setCourseId(data?.response?.course._id);
         setCourses(data.response?.modules);
@@ -144,7 +142,7 @@ const WatchCourse = () => {
         setReviewForm(userReview?.rating || undefined);
         setReviewContent(userReview?.reviewContent || "");
       } catch (error) {
-        console.log("Error fetching reviews");
+        // console.log("Error fetching reviews");
       }
     };
 

@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { GrLanguage } from "react-icons/gr";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import he from "he";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
@@ -25,6 +25,8 @@ const CourseDetailsView = () => {
   const [pageloading, setpageLoading] = useState(false);
   const navigate = useNavigate();
   const { courseId } = useParams();
+  const {state} = useLocation()
+  const selectedcourseId = state.courseId
   const [currentUser, setCurrentUser] = useState(false);
   const { userStatus } = VerifyEmailMsg();
 
@@ -45,7 +47,7 @@ const CourseDetailsView = () => {
       const sendData = {
         code: code,
         coursePrice: price,
-        courseId: courseId,
+        courseId: selectedcourseId,
       };
       // console.log("Sending data:", sendData);
 
@@ -71,19 +73,16 @@ const CourseDetailsView = () => {
       }
 
       const data = await response.json(); // Parse the successful response
-
       setDiscount(data);
-
       setCouponLoading(false);
 
       toast.success("Discount applied successfull!!", {
         position: "top-center",
       });
-      console.log("Coupon applied successfully:", data);
+      // console.log("Coupon applied successfully:", data);
       return data; // Optionally return the response data
     } catch (error) {
-      console.error("Error applying coupon:", error);
-
+      // console.error("Error applying coupon:", error);
       setCouponLoading(false);
     }
   };
@@ -94,8 +93,6 @@ const CourseDetailsView = () => {
       const timer = setTimeout(() => {
         setShowConfetti(false);
       }, 3000); // 3 seconds
-
-      // Cleanup the timeout if the component unmounts before the timeout completes
       return () => clearTimeout(timer);
     }
   }, [discount]);
@@ -204,7 +201,7 @@ const CourseDetailsView = () => {
           body: JSON.stringify({
             amount,
             user_id: userId,
-            course_id: courseId,
+            course_id: selectedcourseId,
           }),
         }
       );
@@ -224,7 +221,7 @@ const CourseDetailsView = () => {
 
       const data = await res.json();
       //console.log("Data", data)
-      handlePaymentVerify(data.data, courseId);
+      handlePaymentVerify(data.data, selectedcourseId);
       setPayLoading(false);
     } catch (error) {
       console.error("Error creating payment order:", error);
@@ -232,7 +229,7 @@ const CourseDetailsView = () => {
     }
   };
 
-  const handlePaymentVerify = async (data, courseId) => {
+  const handlePaymentVerify = async (data, selectedcourseId) => {
     const options = {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID,
       amount: data.amount,
@@ -255,7 +252,7 @@ const CourseDetailsView = () => {
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
                 user_id: userId,
-                course_id: courseId,
+                course_id: selectedcourseId,
                 coursePrice: coursePost?.price || 0,
                 purchasePrice: discount?.subTotal || coursePost?.price,
                 couponCode: code,
@@ -288,7 +285,6 @@ const CourseDetailsView = () => {
   };
 
   const firstModule = coursePost.modules[0];
-console.log("First Module", firstModule);
 
   return (
     <Fragment>

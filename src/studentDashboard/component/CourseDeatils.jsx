@@ -8,16 +8,16 @@ import { Loader } from "../../components/loader/Loader";
 
 const CourseDeatils = () => {
   const [courses, setCourse] = useState([]);
-   const [loading, setLoading] = useState({
-      mainLoading: true,
-      paginationLoading: false,
-    });
+  const [loading, setLoading] = useState({
+    mainLoading: true,
+    paginationLoading: false,
+  });
   const [paginatedData, setPaginatedData] = useState({
     currentPage: 1,
     itemperpage: 6,
     totalData: 0,
   });
-  
+
   const [searchText, setSearchText] = useState("");
   const userId = Cookies.get("access_tokennew");
 
@@ -56,7 +56,7 @@ const CourseDeatils = () => {
         const data = await response.json();
         const mainData = data.courses;
         const metaData = data.meta;
-        console.log(data);
+        // console.log(data);
 
         setPaginatedData((prev) => ({ ...prev, totalData: metaData.total }));
         setCourse(
@@ -86,54 +86,47 @@ const CourseDeatils = () => {
 
   return (
     <div className="container mx-auto p-4">
-    <div className="flex justify-center mb-4">
-      <div className="flex items-center justify-center bg-gray-100 border border-gray-300 shadow-sm rounded-full px-4 py-2 w-full md:w-1/2 lg:w-1/3">
-        <input
-          type="text"
-          placeholder="Search for a course by title"
-          onChange={(e) => handleSearchChange(e.target.value)} // Debounced search input
-          className="bg-transparent flex-grow focus:outline-none text-gray-700 placeholder-gray-500 px-2"
-        />
-        <button className="flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-200">
-          <FaSearch />
-        </button>
+      <div className="flex justify-center mb-4">
+        <div className="flex items-center justify-center bg-gray-100 border border-gray-300 shadow-sm rounded-full px-4 py-2 w-full md:w-1/2 lg:w-1/3">
+          <input
+            type="text"
+            placeholder="Search for a course by title"
+            onChange={(e) => handleSearchChange(e.target.value)} // Debounced search input
+            className="bg-transparent flex-grow focus:outline-none text-gray-700 placeholder-gray-500 px-2"
+          />
+          <button className="flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-200">
+            <FaSearch />
+          </button>
+        </div>
       </div>
-    </div>
 
-    {courses.length === 0 ? (
-      <div className="flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl h-screen text-gray-500">
-        No courses found...
-      </div>
-    ) : (
-      
+      {courses.length === 0 ? (
+        <div className="flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl h-screen text-gray-500">
+          No courses found...
+        </div>
+      ) : (
+
         loading.paginationLoading ? (
           <div className="flex justify-center items-center h-96">
-          <Loader fill="black" />
+            <Loader fill="black" />
           </div>
         ) : (
           <Fragment>
-          <div className="flex flex-wrap justify-center">
-            { courses.map((course, index) => (
-              <CommonCard key={index} course={course} link={"course-details-view"} />
-            ))}
-          </div>
-          <Pagination
-          data={paginatedData.totalData}
-          setCurrentPage={setCurrentPage}
-          currentPage={paginatedData.currentPage}
-          itemsPerPage={paginatedData.itemperpage}
-        />
-
-        </Fragment>
-
+            <div className="flex flex-wrap justify-center">
+              {courses.map((course, index) => (
+                <CommonCard key={index} course={course} link={"course-details-view"} />
+              ))}
+            </div>
+            <Pagination
+              data={paginatedData.totalData}
+              setCurrentPage={setCurrentPage}
+              currentPage={paginatedData.currentPage}
+              itemsPerPage={paginatedData.itemperpage}
+            />
+          </Fragment>
         )
-       
-      
-    
-    )}
-
-   
-  </div>
+      )}
+    </div>
   );
 };
 
