@@ -64,7 +64,7 @@ const FeatureVideo = () => {
             os
           </p>
         </animated.div>
-        <div className="flex items-center flex-col-reverse justify-between lg:flex-row gap-5 lg:gap-0">
+        <div className="flex items-center flex-col-reverse justify-between lg:flex-row gap-10 lg:gap-0">
           <animated.div
             style={slideLeft}
             className="lg:w-2/4 flex flex-col gap-4 items-start w-full mt-[150px] lg:mt-[0px]"

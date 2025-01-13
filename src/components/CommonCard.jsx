@@ -72,7 +72,7 @@ function CommonCard({ course, link, differentClass }) {
       </div>
 
       
-      <div className="flex flex-row px-6 pt-4 justify-between items-center border-t-2">
+      <div className="flex flex-row px-0 lg:px-6 md:px-2 pt-4 justify-between items-center border-t-2">
         {course.value ? (
           <p className="text-blue-600 font-bold text-lg">
             {" "}
