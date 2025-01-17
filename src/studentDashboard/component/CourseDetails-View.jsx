@@ -196,7 +196,7 @@ const CourseDetailsView = () => {
                 user_id: userId,
                 course_id: selectedcourseId,
                 coursePrice: coursePost?.price || 0,
-                purchasePrice: discount?.subTotal || coursePost?.price,
+                purchasePrice: discount?.subTotal !== undefined ? (discount?.subTotal === 0 ? 1 : (discount?.subTotal).toFixed(2)) : coursePost?.price,
                 couponCode: code,
                 couponApplied: code ? true : false,
                 discount: discount?.discount || 0,
