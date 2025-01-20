@@ -14,6 +14,7 @@ import LiveClass from "./studentDashboard/component/LiveClass.jsx";
 import SignupTest from "./components/auth/SignupTest.jsx";
 import PdfViewer from "./components/PdfViewer.jsx";
 import DynamicSignUp from "./components/auth/Sign-upDynamic.jsx";
+import NewtestPage from "./components/course/newtestPage.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -67,6 +68,7 @@ function App() {
             <Route path="/pdfViewer" element={<PdfViewer />} />
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
             <Route path="/coursesNew" element={<CoursesNew />} />
+            <Route path="/testpage" element={<NewtestPage />} />
             <Route
               path="/course-details/:courseId"
               element={<CourseDetails />}

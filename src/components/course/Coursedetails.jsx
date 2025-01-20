@@ -386,7 +386,7 @@ const CourseDetailsView = () => {
         </div>
 
         {currentUser && (
-          <div className="flex items-center gap-1">
+          <div className="flex max-w-sm items-center gap-1">
             <input
               type="text"
               id="coupon"
