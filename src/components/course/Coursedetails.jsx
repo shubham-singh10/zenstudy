@@ -318,8 +318,10 @@ const CourseDetailsView = () => {
     </div>
   </div>
 
-  <div className="p-4 md:p-12 lg:p-12 mt-8 flex flex-wrap gap-1 md:gap-4 lg:gap-10 md:items-center lg:items-start items-center">
-    <div className="border-l-8 border-blue-600 p-2 w-full md:w-full md:mb-28 mb-10 lg:w-[60%]">
+  <div className="p-4 md:p-12 lg:p-10 mt-8 flex flex-wrap justify-center lg:justify-between gap-1 md:gap-4 lg:gap-0 md:items-center lg:items-start items-center">
+    
+  
+  <div className="border-l-8 border-blue-600 p-2 w-full md:w-full md:mb-28 mb-10 lg:w-[60%]">
       <h2 className="text-lg md:text-xl font-bold">About Course</h2>
       <ul className="mt-4 space-y-2 flex flex-col gap-4">
         <li
@@ -337,7 +339,7 @@ const CourseDetailsView = () => {
       </ul>
     </div>
 
-    <div className="bg-white justify-center items-center max-w-sm mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative lg:sticky lg:top-4 rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-[2/3] h-1/2">
+    <div className="bg-white justify-center items-center  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative lg:sticky lg:top-4  overflow-hidden shadow-xl border-2 border-gray-300 rounded-md m-4 p-4 w-[2/3] h-1/2">
       {firstModule ? (
         <div key={0}>
           {firstModule.videos && firstModule.videos.length > 0 ? (
