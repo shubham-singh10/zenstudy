@@ -233,3 +233,37 @@
 .absolute {
   backface-visibility: hidden; /* Hides the "back" when facing front */
 }
+
+/* CSS for horizontal scrolling with hidden scrollbar */
+.scrollable-tabs {
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+.scrollable-tabs::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Webkit browsers (Chrome, Safari) */
+}
+
+.scrollable-tabs button {
+  display: inline-block;
+  padding: 10px 16px;
+  font-size: 14px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* Custom scrollbar for Webkit browsers */
+.scrollable-tabs::-webkit-scrollbar {
+  height: 8px; /* Height of the scrollbar */
+}
+
+.scrollable-tabs::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2); /* Color of the thumb */
+  border-radius: 10px;
+}
+
+.scrollable-tabs::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.1); /* Background color of the track */
+}

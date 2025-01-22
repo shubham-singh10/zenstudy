@@ -318,62 +318,62 @@ const CourseDetailsView = () => {
         </div>
       </div>
 
-      <div className="p-4 md:p-12 lg:p-12 mt-8 flex flex-wrap gap-1 md:gap-4 lg:gap-10 md:items-center lg:items-start items-center">
-        <div className="border-l-8 border-blue-600 p-2 w-full md:w-full md:mb-28 mb-10 lg:w-[60%]">
-          <h2 className="text-lg md:text-xl font-bold">About Course</h2>
-          <ul className="mt-4 space-y-2 flex flex-col gap-4">
-            <li
-              className="flex items-start text-justify"
-              dangerouslySetInnerHTML={{
-                __html: he.decode(coursePost?.other1),
-              }}
-            />
-            <li
-              className="flex items-start text-justify"
-              dangerouslySetInnerHTML={{
-                __html: he.decode(coursePost?.other2),
-              }}
-            />
-          </ul>
-        </div>
+  <div className="p-4 md:p-12 lg:p-12 mt-8 flex flex-wrap gap-1 md:gap-4 lg:gap-10 md:items-center lg:items-start items-center">
+    <div className="border-l-8 border-blue-600 p-2 w-full md:w-full md:mb-28 mb-10 lg:w-[60%]">
+      <h2 className="text-lg md:text-xl font-bold">About Course</h2>
+      <ul className="mt-4 space-y-2 flex flex-col gap-4">
+        <li
+          className="flex items-start text-justify"
+          dangerouslySetInnerHTML={{
+            __html: he.decode(coursePost?.other1),
+          }}
+        />
+        <li
+          className="flex items-start text-justify"
+          dangerouslySetInnerHTML={{
+            __html: he.decode(coursePost?.other2),
+          }}
+        />
+      </ul>
+    </div>
 
-        <div className="bg-white justify-center items-center max-w-sm mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative lg:sticky lg:top-4 rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-[2/3] h-1/2">
-          {firstModule ? (
-            <div key={0}>
-              {firstModule.videos && firstModule.videos.length > 0 ? (
-                <div key={firstModule.videos[0]._id}>
-                  {firstModule.videos[0].videoUrl ? (
-                    <iframe
-                      title={firstModule.videos[0].title}
-                      src={`https://player.vdocipher.com/v2/?otp=${firstModule.videos[0].videoCode}&playbackInfo=${firstModule.videos[0].playBackInfo}`}
-                      className="w-full aspect-video rounded-md"
-                      allowFullScreen
-                      allow="encrypted-media"
-                    ></iframe>
-                  ) : (
-                    <div>No video URL provided</div>
-                  )}
-                </div>
+    <div className="bg-white justify-center items-center max-w-sm mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative lg:sticky lg:top-4 rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-[2/3] h-1/2">
+      {firstModule ? (
+        <div key={0}>
+          {firstModule.videos && firstModule.videos.length > 0 ? (
+            <div key={firstModule.videos[0]._id}>
+              {firstModule.videos[0].videoUrl ? (
+                <iframe
+                  title={firstModule.videos[0].title}
+                  src={`https://player.vdocipher.com/v2/?otp=${firstModule.videos[0].videoCode}&playbackInfo=${firstModule.videos[0].playBackInfo}`}
+                  className="w-full aspect-video rounded-md"
+                  allowFullScreen
+                  allow="encrypted-media"
+                ></iframe>
               ) : (
-                <div>No videos available</div>
+                <div>No video URL provided</div>
               )}
             </div>
           ) : (
-            <div className="relative">
-              {imgloading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
-                  <div className="w-24 h-24 bg-gray-400 rounded-full"></div>
-                </div>
-              )}
-              <img
-                src={imageSrc}
-                crossOrigin="anonymous"
-                alt="Course Thumbnail"
-                className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${imgloading ? "opacity-0" : "opacity-100"}`}
-                onLoad={() => setImgLoading(false)}
-              />
+            <div>No videos available</div>
+          )}
+        </div>
+      ) : (
+        <div className="relative">
+          {imgloading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
+              <div className="w-24 h-24 bg-gray-400 rounded-full"></div>
             </div>
           )}
+          <img
+            src={imageSrc}
+            crossOrigin="anonymous"
+            alt="Course Thumbnail"
+            className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${imgloading ? "opacity-0" : "opacity-100"}`}
+            onLoad={() => setImgLoading(false)}
+          />
+        </div>
+      )}
 
           <div className="p-2 pt-4 rounded-lg space-y-6">
             <div>
@@ -383,35 +383,35 @@ const CourseDetailsView = () => {
               </p>
             </div>
 
-            {currentUser && (
-              <div className="flex items-center gap-1">
-                <input
-                  type="text"
-                  id="coupon"
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  className="flex-grow w-[70%] border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
-                  placeholder="Enter Coupon Code"
-                />
-                <button
-                  onClick={() => ApplyCoupon(coursePost?.price)}
-                  disabled={!code || couponLoading}
-                  className={`${couponLoading || !code ? `bg-gray-400 cursor-not-allowed w-[30%] py-1` : "bg-blue-600 hover:bg-blue-700 w-[30%] py-1"} text-sm text-white font-bold px-6 rounded-lg transition-all`}
-                >
-                  {couponLoading ? (
-                    <span className="flex items-center justify-center">
-                      <svg className="w-5 h-5 mr-2 animate-spin text-white text-xs" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"></path>
-                      </svg>
-                      Applying...
-                    </span>
-                  ) : (
-                    <span className="text-xs">Apply Coupon</span>
-                  )}
-                </button>
-              </div>
-            )}
+        {currentUser && (
+          <div className="flex items-center gap-1">
+            <input
+              type="text"
+              id="coupon"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              className="flex-grow w-[70%] border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
+              placeholder="Enter Coupon Code"
+            />
+            <button
+              onClick={() => ApplyCoupon(coursePost?.price)}
+              disabled={!code || couponLoading}
+              className={`${couponLoading || !code ? `bg-gray-400 cursor-not-allowed w-[30%] py-1` : "bg-blue-600 hover:bg-blue-700 w-[30%] py-1"} text-sm text-white font-bold px-6 rounded-lg transition-all`}
+            >
+              {couponLoading ? (
+                <span className="flex items-center justify-center">
+                  <svg className="w-5 h-5 mr-2 animate-spin text-white text-xs" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"></path>
+                  </svg>
+                  Applying...
+                </span>
+              ) : (
+                <span className="text-xs">Apply Coupon</span>
+              )}
+            </button>
+          </div>
+        )}
 
             <div className="border-t pt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
               <div className="text-xl font-bold text-blue-600">
