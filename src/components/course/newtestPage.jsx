@@ -13,7 +13,7 @@ const NewtestPage = () => {
   const [showAll, setShowAll] = useState(false);
   const [openIndex, setOpenIndex] = useState(null);
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
-  const[CourseSchedule, setCourseSchedule]= useState(null)
+  const [CoursesData, setCoursesData] = useState([])
 
   const handleToggle = (index) => {
     setOpenIndex(openIndex === index ? null : index); // Toggle the same index or close others
@@ -22,7 +22,7 @@ const NewtestPage = () => {
     setShowAll(!showAll);
   };
 
-  
+
   const handleFaqToggle = (index) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
@@ -161,54 +161,50 @@ const NewtestPage = () => {
 
 
 
-    // Perticular Course get data API
-    useEffect(() => {
-      const getCourse = async () => {
-        try {
-          const response = await fetch(
-            `${process.env.REACT_APP_API}zenstudy/api/course/coursedetail/678e0ed8bb874b63423a4601`,
-            {
-              method: "GET",
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
+  // Perticular Course get data API
+  useEffect(() => {
+    const getCourse = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API}zenstudy/api/course/coursedetail/678e0ed8bb874b63423a4601`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
           }
-          const data = await response.json();
-          setCourseSchedule(data.coursedetail.schedule)
-
-          console.log("Course_data: ", CourseSchedule );
-          const ImgData = {
-            ...data,
-            imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`,
-          };
-
-          console.log("img",ImgData);
-          
-         
-        } catch (error) {
-          
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
         }
-      };
-      getCourse();
-    }, []);
+        const data = await response.json();
+        const mainData = data.coursedetail;
+        const ImgData = {
+          ...mainData,
+          imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`,
+        };
+        setCoursesData(ImgData);
+
+      } catch (error) {
+
+      }
+    };
+    getCourse();
+  }, []);
 
 
-    const colors = [
-      { bgColor: 'bg-blue-50', textColor: 'text-blue-600' },
-      { bgColor: 'bg-purple-50', textColor: 'text-purple-600' }
-    ];
-  
+  const colors = [
+    { bgColor: 'bg-blue-50', textColor: 'text-blue-600' },
+    { bgColor: 'bg-purple-50', textColor: 'text-purple-600' }
+  ];
+
   return (
     <div className="relative flex flex-wrap bg-gray-50">
       {/* Top Banner */}
       <div className="w-full -mt-3 h-40 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 flex justify-center items-center text-white">
         <h1 className="text-2xl lg:text-3xl font-bold tracking-wide">
-          Welcome to the UPSC Prarambh Program
+          Welcome to the {CoursesData.title} Batch
         </h1>
       </div>
 
@@ -216,51 +212,46 @@ const NewtestPage = () => {
       <div className="w-full h-14 bg-white sticky top-0 z-10 shadow-lg flex justify-start lg:px-36 items-center lg:space-x-8 px-2 scrollable-tabs">
         <button
           onClick={() => scrollToSection(featuresRef, "features")}
-          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
-            activeTab === "features"
+          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${activeTab === "features"
               ? "text-blue-600 border-b-2 border-blue-600"
               : "hover:text-blue-600"
-          }`}
+            }`}
         >
           Features
         </button>
         <button
           onClick={() => scrollToSection(aboutRef, "about")}
-          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
-            activeTab === "about"
+          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${activeTab === "about"
               ? "text-blue-600 border-b-2 border-blue-600"
               : "hover:text-blue-600"
-          }`}
+            }`}
         >
           About
         </button>
         <button
           onClick={() => scrollToSection(scheduleRef, "schedule")}
-          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
-            activeTab === "schedule"
+          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${activeTab === "schedule"
               ? "text-blue-600 border-b-2 border-blue-600"
               : "hover:text-blue-600"
-          }`}
+            }`}
         >
           Schedule
         </button>
         <button
           onClick={() => scrollToSection(faqRef, "teachers")}
-          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
-            activeTab === "teachers"
+          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${activeTab === "teachers"
               ? "text-blue-600 border-b-2 border-blue-600"
               : "hover:text-blue-600"
-          }`}
+            }`}
         >
           FAQ'S
         </button>
         <button
           onClick={() => scrollToSection(moreDetailsRef, "moreDetails")}
-          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
-            activeTab === "moreDetails"
+          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${activeTab === "moreDetails"
               ? "text-blue-600 border-b-2 border-blue-600"
               : "hover:text-blue-600"
-          }`}
+            }`}
         >
           More Details
         </button>
@@ -272,149 +263,146 @@ const NewtestPage = () => {
         <div className="w-full lg:w-[60%] bg-white p-6">
           {/* Sections corresponding to tabs */}
           <div ref={featuresRef} className="py-8">
-          <div className="max-w-4xl mx-auto bg-gradient-to-b from-gray-800 to-gray-900 text-white rounded-lg p-6">
-            <h2 className="text-3xl font-extrabold mb-6">Batch Features</h2>
-            <div className="grid grid-cols-2 gap-y-3">
-              {featuresData.map((feature, index) => (
-                <div key={index} className="flex items-center space-x-2">
-                  <span className="text-yellow-400">✔</span>
-                  <p>{feature}</p>
-                </div>
-              ))}
-            </div>
-            <hr className="my-4 border-gray-600" />
-            <div className="flex justify-between items-center bg-gray-700 rounded-lg p-4">
-              <div>
-                <h3 className="font-bold text-lg">Learn more about Infinity Batch</h3>
-                <p className="text-sm text-gray-300">
-                  Discover the benefits of Infinity Batch with this short video
-                </p>
+            <div className="max-w-4xl mx-auto bg-gradient-to-b from-gray-800 to-gray-900 text-white rounded-lg p-6">
+              <h2 className="text-3xl font-extrabold mb-6">Batch Features</h2>
+              <div className="grid grid-cols-2 gap-y-3">
+                {featuresData.map((feature, index) => (
+                  <div key={index} className="flex items-center space-x-2">
+                    <span className="text-yellow-400">✔</span>
+                    <p>{feature}</p>
+                  </div>
+                ))}
               </div>
-              <button className="bg-gray-800 text-white flex items-center px-4 py-2 rounded-md hover:bg-gray-600">
-                <span className="mr-2">▶</span> Watch Now
-              </button>
+              <hr className="my-4 border-gray-600" />
+              <div className="flex justify-between items-center bg-gray-700 rounded-lg p-4">
+                <div>
+                  <h3 className="font-bold text-lg">Learn more about Infinity Batch</h3>
+                  <p className="text-sm text-gray-300">
+                    Discover the benefits of Infinity Batch with this short video
+                  </p>
+                </div>
+                <button className="bg-gray-800 text-white flex items-center px-4 py-2 rounded-md hover:bg-gray-600">
+                  <span className="mr-2">▶</span> Watch Now
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div ref={aboutRef} className="py-8">
-        <h2 className="text-3xl font-extrabold mb-6 text-gray-800">
-          About the Batch
-        </h2>
-        <ul className="space-y-4">
-          {batchDetails.map((item, index) => (
-            <li key={index} className="flex items-start">
-              <span className="text-yellow-500 text-xl mr-3">⭐</span>
-              <span>
-                {item.label && <strong>{item.label}:</strong>} {item.value}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
+          <div ref={aboutRef} className="py-8">
+            <h2 className="text-3xl font-extrabold mb-6 text-gray-800">
+              About the Batch
+            </h2>
+            <ul className="space-y-4">
+              {batchDetails.map((item, index) => (
+                <li key={index} className="flex items-start">
+                  <span className="text-yellow-500 text-xl mr-3">⭐</span>
+                  <span>
+                    {item.label && <strong>{item.label}:</strong>} {item.value}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-      <div className="py-8" ref={scheduleRef}>
-      <div className="max-w-md">
-        <h2 className="text-2xl font-bold mb-6">Batch Schedules</h2>
-        <div className="space-y-4">
-          {(showAll ? CourseSchedule : CourseSchedule?.slice(0, 3))?.map(
-            (item, index) => (
-              <div
-                key={index}
-                className={`group rounded-lg border ${
-                  openIndex === index ? "border-gray-300" : "border-transparent"
-                }`}
-              >
+          <div className="py-8" ref={scheduleRef}>
+            <div className="max-w-md">
+              <h2 className="text-2xl font-bold mb-6">Batch Schedules</h2>
+              <div className="space-y-4">
+                
+                {(showAll ? CoursesData.schedule : CoursesData.schedule?.slice(0, 3))?.map(
+                  (item, index) => (
+                    <div
+                      key={index}
+                      className={`group rounded-lg border ${openIndex === index ? "border-gray-300" : "border-transparent"
+                        }`}
+                    >
+                      <div
+                        className={`cursor-pointer flex flex-col gap-2 p-4 ${colors[index % colors.length].bgColor
+                          } ${colors[index % colors.length].textColor} font-semibold rounded-lg`}
+                        onClick={() => handleToggle(index)}
+                      >
+                        <div className="flex justify-between items-center">
+                          <span>{item.title}</span>
+                          <span
+                            className={`transform transition-transform ${openIndex === index ? "rotate-180" : ""
+                              }`}
+                          >
+                            ▼
+                          </span>
+                        </div>
+                        <div className="text-gray-500 text-sm">
+                          {item.other2} lectures
+                        </div>
+                      </div>
+
+                      {openIndex === index && (
+                        <div className="p-4 bg-white text-gray-700">
+                          {item.description && (
+                            <p className={`mb-2 text-sm ${colors[index % colors.length].textColor}`}>{item.description}</p>
+                          )}
+                          <ul className="list-disc pl-5">
+                            {item?.lecture.map((lecture, lectureIndex) => (
+                              <li key={lectureIndex} className="text-sm">
+                                {lecture.title}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  )
+                )}
+              </div>
+              {!showAll && scheduleData.length > 3 && (
+                <button
+                  className="mt-4 px-4 py-2 font-bold text-purple-600 rounded-lg"
+                  onClick={handleShowMore}
+                >
+                  Show More...
+                </button>
+              )}
+              {showAll && (
+                <button
+                  className="mt-4 px-4 py-2 font-bold text-purple-600 rounded-lg"
+                  onClick={handleShowMore}
+                >
+                  Show less...
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div ref={faqRef} className="py-8">
+            <h2 className="text-3xl font-extrabold mb-6 text-gray-800">
+              Frequently Asked Questions
+            </h2>
+            <div className="space-y-4">
+              {faqData.map((item, index) => (
                 <div
-                className={`cursor-pointer flex flex-col gap-2 p-4 ${
-                  colors[index % colors.length].bgColor
-                } ${colors[index % colors.length].textColor} font-semibold rounded-lg`}
-                onClick={() => handleToggle(index)}
-              >
-                  <div className="flex justify-between items-center">
-                    <span>{item.title}</span>
+                  key={index}
+                  className="bg-blue-50 border rounded-lg"
+                >
+                  <div
+                    className="cursor-pointer flex justify-between items-center p-4 text-gray-800 font-medium"
+                    onClick={() => handleFaqToggle(index)}
+                  >
+                    <span>{item.question}</span>
                     <span
-                      className={`transform transition-transform ${
-                        openIndex === index ? "rotate-180" : ""
-                      }`}
+                      className={`transform transition-transform ${openFaqIndex === index ? "rotate-180" : ""
+                        }`}
                     >
                       ▼
                     </span>
                   </div>
-                  <div className="text-gray-500 text-sm">
-                    {item.other2} lectures
-                  </div>
+                  {openFaqIndex === index && (
+                    <div className="p-4 text-gray-600 bg-blue-100">
+                      {item.answer}
+                    </div>
+                  )}
                 </div>
-
-                {openIndex === index && (
-                  <div className="p-4 bg-white text-gray-700">
-                    {item.description && (
-                      <p className={`mb-2 text-sm ${colors[index % colors.length].textColor}`}>{item.description}</p>
-                    )}
-                    <ul className="list-disc pl-5">
-                      {item?.lecture.map((lecture, lectureIndex) => (
-                        <li key={lectureIndex} className="text-sm">
-                          {lecture.title}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            )
-          )}
-        </div>
-        {!showAll && scheduleData.length > 3 && (
-          <button
-            className="mt-4 px-4 py-2 font-bold text-purple-600 rounded-lg"
-            onClick={handleShowMore}
-          >
-            Show More...
-          </button>
-        )}
-        {showAll && (
-          <button
-            className="mt-4 px-4 py-2 font-bold text-purple-600 rounded-lg"
-            onClick={handleShowMore}
-          >
-            Show less...
-          </button>
-        )}
-      </div>
-    </div>
-
-    <div ref={faqRef} className="py-8">
-    <h2 className="text-3xl font-extrabold mb-6 text-gray-800">
-      Frequently Asked Questions
-    </h2>
-    <div className="space-y-4">
-      {faqData.map((item, index) => (
-        <div
-          key={index}
-          className="bg-blue-50 border rounded-lg"
-        >
-          <div
-            className="cursor-pointer flex justify-between items-center p-4 text-gray-800 font-medium"
-            onClick={() => handleFaqToggle(index)}
-          >
-            <span>{item.question}</span>
-            <span
-              className={`transform transition-transform ${
-                openFaqIndex === index ? "rotate-180" : ""
-              }`}
-            >
-              ▼
-            </span>
-          </div>
-          {openFaqIndex === index && (
-            <div className="p-4 text-gray-600 bg-blue-100">
-              {item.answer}
+              ))}
             </div>
-          )}
-        </div>
-      ))}
-    </div>
-  </div>
+          </div>
 
           <div ref={moreDetailsRef} className="py-8">
             <h2 className="text-3xl font-extrabold mb-4 text-gray-800">
@@ -431,17 +419,18 @@ const NewtestPage = () => {
         <div className="w-full lg:w-[40%] bg-gray-100 p-6">
           <div className="sticky top-20 bg-white border border-gray-200 shadow-lg rounded-lg p-6 text-center">
             <img
-              src="https://via.placeholder.com/300x200"
+              src={CoursesData.imageUrl}
+              crossOrigin="anonymous"
               alt="Course Thumbnail"
               className="w-full h-48 object-cover rounded-lg mb-4"
             />
             <h2 className="text-xl font-bold text-gray-800 mb-2">
-              UPSC Prarambh 2027 + B.A. Degree Program 2.0
+              {CoursesData.title}
             </h2>
             <p className="text-2xl font-bold text-gray-800 mb-1">
-              ₹64,999{" "}
+              ₹{CoursesData.price}{" "}
               <span className="text-red-500 line-through text-base">
-                ₹79,999
+                ₹{CoursesData?.value}
               </span>
             </p>
             <p className="text-green-600 text-sm mb-4">
