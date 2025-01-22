@@ -186,6 +186,9 @@ const NewtestPage = () => {
             ...data,
             imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`,
           };
+
+          console.log("img",ImgData);
+          
          
         } catch (error) {
           
@@ -194,6 +197,11 @@ const NewtestPage = () => {
       getCourse();
     }, []);
 
+
+    const colors = [
+      { bgColor: 'bg-blue-50', textColor: 'text-blue-600' },
+      { bgColor: 'bg-purple-50', textColor: 'text-purple-600' }
+    ];
   
   return (
     <div className="relative flex flex-wrap bg-gray-50">
@@ -318,11 +326,11 @@ const NewtestPage = () => {
                 }`}
               >
                 <div
-                  className={`cursor-pointer flex flex-col gap-2 p-4 ${
-                    item.bgColor
-                  } ${item.textColor} font-semibold rounded-lg`}
-                  onClick={() => handleToggle(index)}
-                >
+                className={`cursor-pointer flex flex-col gap-2 p-4 ${
+                  colors[index % colors.length].bgColor
+                } ${colors[index % colors.length].textColor} font-semibold rounded-lg`}
+                onClick={() => handleToggle(index)}
+              >
                   <div className="flex justify-between items-center">
                     <span>{item.title}</span>
                     <span
@@ -341,12 +349,12 @@ const NewtestPage = () => {
                 {openIndex === index && (
                   <div className="p-4 bg-white text-gray-700">
                     {item.description && (
-                      <p className="mb-2 text-sm">{item.description}</p>
+                      <p className={`mb-2 text-sm ${colors[index % colors.length].textColor}`}>{item.description}</p>
                     )}
                     <ul className="list-disc pl-5">
-                      {item.lectures.map((lecture, lectureIndex) => (
+                      {item?.lecture.map((lecture, lectureIndex) => (
                         <li key={lectureIndex} className="text-sm">
-                          {lecture}
+                          {lecture.title}
                         </li>
                       ))}
                     </ul>
