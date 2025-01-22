@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { BiCalendar } from "react-icons/bi";
 
 const NewtestPage = () => {
   // Create refs for each section
@@ -13,7 +14,7 @@ const NewtestPage = () => {
   const [showAll, setShowAll] = useState(false);
   const [openIndex, setOpenIndex] = useState(null);
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
-  const [CoursesData, setCoursesData] = useState([])
+  const [CoursesData, setCoursesData] = useState([]);
 
   const handleToggle = (index) => {
     setOpenIndex(openIndex === index ? null : index); // Toggle the same index or close others
@@ -21,7 +22,6 @@ const NewtestPage = () => {
   const handleShowMore = () => {
     setShowAll(!showAll);
   };
-
 
   const handleFaqToggle = (index) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
@@ -35,7 +35,8 @@ const NewtestPage = () => {
   const faqData = [
     {
       question: "Why should I join this course and how will this be helpful?",
-      answer: "This course is designed to provide you with essential skills and knowledge to succeed.",
+      answer:
+        "This course is designed to provide you with essential skills and knowledge to succeed.",
     },
     {
       question: "How will the classes be conducted?",
@@ -51,14 +52,15 @@ const NewtestPage = () => {
     },
     {
       question: "How will I get my doubts answered?",
-      answer: "You can get your doubts answered via email or live support sessions.",
+      answer:
+        "You can get your doubts answered via email or live support sessions.",
     },
     {
       question: "What is the Refund Policy?",
-      answer: "Refunds are available as per our policy, which can be reviewed on the website.",
+      answer:
+        "Refunds are available as per our policy, which can be reviewed on the website.",
     },
   ];
-
 
   const scheduleData = [
     {
@@ -74,7 +76,8 @@ const NewtestPage = () => {
         "Lecture 2: Introduction to Mathematics",
         "Lecture 3: Conceptual Thinking",
       ],
-      description: "Shivam Yash Sir & Bharatendu Singh Sir & Siddharth Singh Shishodia Sir",
+      description:
+        "Shivam Yash Sir & Bharatendu Singh Sir & Siddharth Singh Shishodia Sir",
       bgColor: "bg-purple-50",
       textColor: "text-purple-600",
     },
@@ -123,7 +126,6 @@ const NewtestPage = () => {
     },
   ];
 
-
   const featuresData = [
     "Live Lectures",
     "DPPs",
@@ -159,8 +161,6 @@ const NewtestPage = () => {
     },
   ];
 
-
-
   // Perticular Course get data API
   useEffect(() => {
     const getCourse = async () => {
@@ -180,23 +180,21 @@ const NewtestPage = () => {
         }
         const data = await response.json();
         const mainData = data.coursedetail;
+        console.log(mainData);
+
         const ImgData = {
           ...mainData,
           imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`,
         };
         setCoursesData(ImgData);
-
-      } catch (error) {
-
-      }
+      } catch (error) {}
     };
     getCourse();
   }, []);
 
-
   const colors = [
-    { bgColor: 'bg-blue-50', textColor: 'text-blue-600' },
-    { bgColor: 'bg-purple-50', textColor: 'text-purple-600' }
+    { bgColor: "bg-blue-50", textColor: "text-blue-600" },
+    { bgColor: "bg-purple-50", textColor: "text-purple-600" },
   ];
 
   return (
@@ -212,46 +210,51 @@ const NewtestPage = () => {
       <div className="w-full h-14 bg-white sticky top-0 z-10 shadow-lg flex justify-start lg:px-36 items-center lg:space-x-8 px-2 scrollable-tabs">
         <button
           onClick={() => scrollToSection(featuresRef, "features")}
-          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${activeTab === "features"
+          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
+            activeTab === "features"
               ? "text-blue-600 border-b-2 border-blue-600"
               : "hover:text-blue-600"
-            }`}
+          }`}
         >
           Features
         </button>
         <button
           onClick={() => scrollToSection(aboutRef, "about")}
-          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${activeTab === "about"
+          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
+            activeTab === "about"
               ? "text-blue-600 border-b-2 border-blue-600"
               : "hover:text-blue-600"
-            }`}
+          }`}
         >
           About
         </button>
         <button
           onClick={() => scrollToSection(scheduleRef, "schedule")}
-          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${activeTab === "schedule"
+          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
+            activeTab === "schedule"
               ? "text-blue-600 border-b-2 border-blue-600"
               : "hover:text-blue-600"
-            }`}
+          }`}
         >
           Schedule
         </button>
         <button
           onClick={() => scrollToSection(faqRef, "teachers")}
-          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${activeTab === "teachers"
+          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
+            activeTab === "teachers"
               ? "text-blue-600 border-b-2 border-blue-600"
               : "hover:text-blue-600"
-            }`}
+          }`}
         >
           FAQ'S
         </button>
         <button
           onClick={() => scrollToSection(moreDetailsRef, "moreDetails")}
-          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${activeTab === "moreDetails"
+          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
+            activeTab === "moreDetails"
               ? "text-blue-600 border-b-2 border-blue-600"
               : "hover:text-blue-600"
-            }`}
+          }`}
         >
           More Details
         </button>
@@ -276,9 +279,12 @@ const NewtestPage = () => {
               <hr className="my-4 border-gray-600" />
               <div className="flex justify-between items-center bg-gray-700 rounded-lg p-4">
                 <div>
-                  <h3 className="font-bold text-lg">Learn more about Infinity Batch</h3>
+                  <h3 className="font-bold text-lg">
+                    Learn more about Infinity Batch
+                  </h3>
                   <p className="text-sm text-gray-300">
-                    Discover the benefits of Infinity Batch with this short video
+                    Discover the benefits of Infinity Batch with this short
+                    video
                   </p>
                 </div>
                 <button className="bg-gray-800 text-white flex items-center px-4 py-2 rounded-md hover:bg-gray-600">
@@ -308,50 +314,83 @@ const NewtestPage = () => {
             <div className="max-w-md">
               <h2 className="text-2xl font-bold mb-6">Batch Schedules</h2>
               <div className="space-y-4">
-                
-                {(showAll ? CoursesData.schedule : CoursesData.schedule?.slice(0, 3))?.map(
-                  (item, index) => (
+                {(showAll
+                  ? CoursesData.schedule
+                  : CoursesData.schedule?.slice(0, 3)
+                )?.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`group rounded-lg border ${
+                      openIndex === index
+                        ? "border-gray-300"
+                        : "border-transparent"
+                    }`}
+                  >
                     <div
-                      key={index}
-                      className={`group rounded-lg border ${openIndex === index ? "border-gray-300" : "border-transparent"
-                        }`}
+                      className={`cursor-pointer flex flex-col gap-2 p-4 ${
+                        colors[index % colors.length].bgColor
+                      } ${
+                        colors[index % colors.length].textColor
+                      } font-semibold rounded-lg`}
+                      onClick={() => handleToggle(index)}
                     >
-                      <div
-                        className={`cursor-pointer flex flex-col gap-2 p-4 ${colors[index % colors.length].bgColor
-                          } ${colors[index % colors.length].textColor} font-semibold rounded-lg`}
-                        onClick={() => handleToggle(index)}
-                      >
-                        <div className="flex justify-between items-center">
-                          <span>{item.title}</span>
-                          <span
-                            className={`transform transition-transform ${openIndex === index ? "rotate-180" : ""
-                              }`}
-                          >
-                            ▼
-                          </span>
-                        </div>
-                        <div className="text-gray-500 text-sm">
-                          {item.other2} lectures
-                        </div>
+                      <div className="flex justify-between items-center">
+                        <span>{item.title}</span>
+                        <span
+                          className={`transform transition-transform ${
+                            openIndex === index ? "rotate-180" : ""
+                          }`}
+                        >
+                          ▼
+                        </span>
                       </div>
-
-                      {openIndex === index && (
-                        <div className="p-4 bg-white text-gray-700">
-                          {item.description && (
-                            <p className={`mb-2 text-sm ${colors[index % colors.length].textColor}`}>{item.description}</p>
-                          )}
-                          <ul className="list-disc pl-5">
-                            {item?.lecture.map((lecture, lectureIndex) => (
-                              <li key={lectureIndex} className="text-sm">
-                                {lecture.title}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
+                      <div className="text-gray-500 flex justify-between items-center text-sm">
+                        ({item.other2} lectures)
+                        <span className={`ml-4 text-sm flex gap-1 items-center ${
+                        colors[index % colors.length].textColor
+                      }`}>
+                       <BiCalendar/> 
+                      
+                          {new Date(item.startDate).toLocaleDateString(
+                            "en-GB",
+                            {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            }
+                          )}  - 
+                          {"  "}
+                          {new Date(item.endDate).toLocaleDateString("en-GB", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </span>
+                      </div>
                     </div>
-                  )
-                )}
+
+                    {openIndex === index && (
+                      <div className="p-4 bg-white text-gray-700">
+                        {item.description && (
+                          <p
+                            className={`mb-2 text-sm ${
+                              colors[index % colors.length].textColor
+                            }`}
+                          >
+                            {item.description}
+                          </p>
+                        )}
+                        <ul className="list-disc pl-5">
+                          {item?.lecture.map((lecture, lectureIndex) => (
+                            <li key={lectureIndex} className="text-sm">
+                              {lecture.title}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
               {!showAll && scheduleData.length > 3 && (
                 <button
@@ -377,30 +416,29 @@ const NewtestPage = () => {
               Frequently Asked Questions
             </h2>
             <div className="space-y-4">
-              {faqData.map((item, index) => (
-                <div
-                  key={index}
-                  className="bg-blue-50 border rounded-lg"
-                >
-                  <div
-                    className="cursor-pointer flex justify-between items-center p-4 text-gray-800 font-medium"
-                    onClick={() => handleFaqToggle(index)}
-                  >
-                    <span>{item.question}</span>
-                    <span
-                      className={`transform transition-transform ${openFaqIndex === index ? "rotate-180" : ""
-                        }`}
+              {CoursesData.fAndQ !== undefined &&
+                CoursesData.fAndQ.map((item, index) => (
+                  <div key={index} className="bg-blue-100 border rounded-lg">
+                    <div
+                      className="cursor-pointer flex justify-between items-center p-4 text-gray-800 font-medium"
+                      onClick={() => handleFaqToggle(index)}
                     >
-                      ▼
-                    </span>
-                  </div>
-                  {openFaqIndex === index && (
-                    <div className="p-4 text-gray-600 bg-blue-100">
-                      {item.answer}
+                      <span>{item.question}</span>
+                      <span
+                        className={`transform transition-transform ${
+                          openFaqIndex === index ? "rotate-180" : ""
+                        }`}
+                      >
+                        ▼
+                      </span>
                     </div>
-                  )}
-                </div>
-              ))}
+                    {openFaqIndex === index && (
+                      <div className="p-4 text-gray-600 bg-blue-50">
+                        {item.answer}
+                      </div>
+                    )}
+                  </div>
+                ))}
             </div>
           </div>
 
@@ -416,27 +454,47 @@ const NewtestPage = () => {
         </div>
 
         {/* Right Section */}
-        <div className="w-full lg:w-[40%] bg-gray-100 p-6">
-          <div className="sticky top-20 bg-white border border-gray-200 shadow-lg rounded-lg p-6 text-center">
+        <div className="w-full lg:w-[40%] bg-gray-50 p-6">
+          <div className="sticky top-20 bg-white border border-gray-200 shadow-lg rounded-lg p-6">
+            {/* Image Section */}
             <img
               src={CoursesData.imageUrl}
               crossOrigin="anonymous"
               alt="Course Thumbnail"
-              className="w-full h-48 object-cover rounded-lg mb-4"
+              className="w-full h-48 sm:h-64 object-cover rounded-lg mb-6"
             />
-            <h2 className="text-xl font-bold text-gray-800 mb-2">
-              {CoursesData.title}
-            </h2>
-            <p className="text-2xl font-bold text-gray-800 mb-1">
-              ₹{CoursesData.price}{" "}
-              <span className="text-red-500 line-through text-base">
-                ₹{CoursesData?.value}
-              </span>
-            </p>
-            <p className="text-green-600 text-sm mb-4">
-              Discount of 19% applied
-            </p>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg transition duration-300">
+
+            {/* Course Title */}
+            <div className="flex flex-row justify-between items-center mb-4 ">
+              <div className="font-bold text-lg  text-blue-600 truncate">
+                {CoursesData.title}
+              </div>
+              <div className="px-3 py-1 w-auto text-sm font-medium text-gray-700 bg-gray-100 rounded-full shadow-sm">
+                {CoursesData.language?.name}
+              </div>
+            </div>
+
+            {/* Pricing Section */}
+            <div className="flex flex-col md:flex-row lg:flex-row  md:justify-between lg:justify-between lg:items-center mb-6">
+              <p className="text-lg font-bold text-gray-800 mb-2 sm:mb-0">
+                ₹{CoursesData.price}{" "}
+                <span className="text-red-500 line-through text-sm">
+                  ₹{CoursesData?.value}
+                </span>
+              </p>
+              <p className="text-green-700 rounded-l-md font-semibold px-2 border-l-2 bg-green-200 text-sm">
+                Discount of{" "}
+                {Math.round(
+                  ((CoursesData?.value - CoursesData?.price) /
+                    CoursesData?.value) *
+                    100
+                )}
+                % applied
+              </p>
+            </div>
+
+            {/* CTA Button */}
+            <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 w-full sm:w-auto">
               Continue with UPSC Prarambh 2027 +
             </button>
           </div>
