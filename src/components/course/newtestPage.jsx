@@ -15,6 +15,13 @@ const NewtestPage = () => {
   const [openIndex, setOpenIndex] = useState(null);
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
   const [CoursesData, setCoursesData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
+
+  const handleApplyCoupon = () => {
+    console.log("Coupon Code Applied:", couponCode);
+    setIsModalOpen(false);
+  };
 
   const handleToggle = (index) => {
     setOpenIndex(openIndex === index ? null : index); // Toggle the same index or close others
@@ -26,105 +33,6 @@ const NewtestPage = () => {
   const handleFaqToggle = (index) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
-  // Function to scroll to a section and update active tab
-  const scrollToSection = (ref, tabName) => {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
-    setActiveTab(tabName); // Set the active tab when clicked
-  };
-
-  const faqData = [
-    {
-      question: "Why should I join this course and how will this be helpful?",
-      answer:
-        "This course is designed to provide you with essential skills and knowledge to succeed.",
-    },
-    {
-      question: "How will the classes be conducted?",
-      answer: "All classes will be in Recorded format.",
-    },
-    {
-      question: "Can the classes be downloaded?",
-      answer: "Yes, classes can be downloaded for offline access.",
-    },
-    {
-      question: "What are the class days and timings?",
-      answer: "Classes are available 24/7 for your convenience.",
-    },
-    {
-      question: "How will I get my doubts answered?",
-      answer:
-        "You can get your doubts answered via email or live support sessions.",
-    },
-    {
-      question: "What is the Refund Policy?",
-      answer:
-        "Refunds are available as per our policy, which can be reviewed on the website.",
-    },
-  ];
-
-  const scheduleData = [
-    {
-      title: "Notices",
-      lectures: ["Lecture 1: Introduction", "Lecture 2: Guidelines"],
-      bgColor: "bg-blue-50",
-      textColor: "text-blue-600",
-    },
-    {
-      title: "Bridge Course",
-      lectures: [
-        "Lecture 1: Basics of Science",
-        "Lecture 2: Introduction to Mathematics",
-        "Lecture 3: Conceptual Thinking",
-      ],
-      description:
-        "Shivam Yash Sir & Bharatendu Singh Sir & Siddharth Singh Shishodia Sir",
-      bgColor: "bg-purple-50",
-      textColor: "text-purple-600",
-    },
-    {
-      title: "Polity",
-      lectures: [
-        "Lecture 1: Constitution Basics",
-        "Lecture 2: Fundamental Rights",
-      ],
-      description: "Manju Choudhary Ma'am",
-      bgColor: "bg-yellow-50",
-      textColor: "text-yellow-600",
-    },
-    {
-      title: "Economics",
-      lectures: [
-        "Lecture 1: Basics of Economics",
-        "Lecture 2: Demand and Supply",
-        "Lecture 3: National Income",
-      ],
-      description: "Anil Kumar Sir",
-      bgColor: "bg-green-50",
-      textColor: "text-green-600",
-    },
-    {
-      title: "Geography",
-      lectures: [
-        "Lecture 1: Physical Geography",
-        "Lecture 2: World Climate",
-        "Lecture 3: Indian Geography",
-      ],
-      description: "Sunita Sharma Ma'am",
-      bgColor: "bg-red-50",
-      textColor: "text-red-600",
-    },
-    {
-      title: "History",
-      lectures: [
-        "Lecture 1: Ancient History",
-        "Lecture 2: Medieval History",
-        "Lecture 3: Modern History",
-      ],
-      description: "Rajesh Singh Sir",
-      bgColor: "bg-indigo-50",
-      textColor: "text-indigo-600",
-    },
-  ];
 
   const featuresData = [
     "Live Lectures",
@@ -197,6 +105,49 @@ const NewtestPage = () => {
     { bgColor: "bg-purple-50", textColor: "text-purple-600" },
   ];
 
+  const tabs = [
+    { name: "Features", ref: featuresRef },
+    { name: "About", ref: aboutRef },
+    { name: "Schedule", ref: scheduleRef },
+    { name: "FAQ'S", ref: faqRef },
+    { name: "More Details", ref: moreDetailsRef },
+  ];
+
+  const scrollToSection = (ref, tabName) => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+    setActiveTab(tabName); // Set the active tab when clicked
+  };
+
+  useEffect(() => {
+    // Create an IntersectionObserver to track section visibility
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Update activeTab when the section comes into view
+            setActiveTab(entry.target.dataset.tab);
+          }
+        });
+      },
+      {
+        threshold: 0.5, // Trigger when 50% of the section is visible
+      }
+    );
+
+    // Observe all sections
+    tabs.forEach((tab) => {
+      if (tab.ref.current) {
+        tab.ref.current.dataset.tab = tab.name.toLowerCase();
+        observer.observe(tab.ref.current);
+      }
+    });
+
+    // Cleanup the observer on component unmount
+    return () => {
+      observer.disconnect();
+    };
+  }, []); // Empty dependency array ensures this runs only once
+
   return (
     <div className="relative flex flex-wrap bg-gray-50">
       {/* Top Banner */}
@@ -208,60 +159,23 @@ const NewtestPage = () => {
 
       {/* Tabs Section */}
       <div className="w-full h-14 bg-white sticky top-0 z-10 shadow-lg flex justify-start lg:px-36 items-center lg:space-x-8 px-2 scrollable-tabs">
-        <button
-          onClick={() => scrollToSection(featuresRef, "features")}
-          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
-            activeTab === "features"
-              ? "text-blue-600 border-b-2 border-blue-600"
-              : "hover:text-blue-600"
-          }`}
-        >
-          Features
-        </button>
-        <button
-          onClick={() => scrollToSection(aboutRef, "about")}
-          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
-            activeTab === "about"
-              ? "text-blue-600 border-b-2 border-blue-600"
-              : "hover:text-blue-600"
-          }`}
-        >
-          About
-        </button>
-        <button
-          onClick={() => scrollToSection(scheduleRef, "schedule")}
-          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
-            activeTab === "schedule"
-              ? "text-blue-600 border-b-2 border-blue-600"
-              : "hover:text-blue-600"
-          }`}
-        >
-          Schedule
-        </button>
-        <button
-          onClick={() => scrollToSection(faqRef, "teachers")}
-          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
-            activeTab === "teachers"
-              ? "text-blue-600 border-b-2 border-blue-600"
-              : "hover:text-blue-600"
-          }`}
-        >
-          FAQ'S
-        </button>
-        <button
-          onClick={() => scrollToSection(moreDetailsRef, "moreDetails")}
-          className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
-            activeTab === "moreDetails"
-              ? "text-blue-600 border-b-2 border-blue-600"
-              : "hover:text-blue-600"
-          }`}
-        >
-          More Details
-        </button>
+        {tabs.map((tab, index) => (
+          <button
+            key={index}
+            onClick={() => scrollToSection(tab.ref, tab.name.toLowerCase())}
+            className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
+              activeTab === tab.name.toLowerCase()
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "hover:text-blue-600"
+            }`}
+          >
+            {tab.name}
+          </button>
+        ))}
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col-reverse lg:flex-row w-full lg:mx-28">
+      <div className="flex flex-col-reverse lg:flex-row w-full  lg:mx-28">
         {/* Left Section */}
         <div className="w-full lg:w-[60%] bg-white p-6">
           {/* Sections corresponding to tabs */}
@@ -294,19 +208,49 @@ const NewtestPage = () => {
             </div>
           </div>
 
-          <div ref={aboutRef} className="py-8">
+          <div ref={aboutRef} className="py-8 ">
             <h2 className="text-3xl font-extrabold mb-6 text-gray-800">
               About the Batch
             </h2>
             <ul className="space-y-4">
-              {batchDetails.map((item, index) => (
+              <li className="flex items-start">
+                <span className="text-yellow-500 text-xl mr-3">⭐ </span>{" "}
+                <span>
+                  <strong>Course Duration : </strong>{" "}
+                  {new Date(CoursesData.startTime).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}{" "}
+                  |{" "}
+                  {new Date(CoursesData.endTime).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </span>
+              </li>
+
+              {CoursesData?.features?.map((item, index) => (
                 <li key={index} className="flex items-start">
                   <span className="text-yellow-500 text-xl mr-3">⭐</span>
-                  <span>
-                    {item.label && <strong>{item.label}:</strong>} {item.value}
-                  </span>
+                  <span>{item.features}</span>
                 </li>
               ))}
+
+              <li className="flex items-start">
+                <span className="text-yellow-500 text-xl mr-3">⭐ </span>{" "}
+                <strong>Subjects:{" "}</strong>{" "}
+                <div className="flex flex-wrap">
+                {" "}{" "}
+                  {CoursesData?.subjects?.map((item, index) => (
+                    <span key={index} className="mr-2">
+                      {item.subject}
+                      {index < CoursesData.subjects.length - 1 && ", "}
+                    </span>
+                  ))}
+                </div>
+              </li>
             </ul>
           </div>
 
@@ -346,11 +290,12 @@ const NewtestPage = () => {
                       </div>
                       <div className="text-gray-500 flex justify-between items-center text-sm">
                         ({item.other2} lectures)
-                        <span className={`ml-4 text-sm flex gap-1 items-center ${
-                        colors[index % colors.length].textColor
-                      }`}>
-                       <BiCalendar/> 
-                      
+                        <span
+                          className={`ml-4 text-sm flex gap-1 items-center ${
+                            colors[index % colors.length].textColor
+                          }`}
+                        >
+                          <BiCalendar />
                           {new Date(item.startDate).toLocaleDateString(
                             "en-GB",
                             {
@@ -358,8 +303,8 @@ const NewtestPage = () => {
                               month: "short",
                               year: "numeric",
                             }
-                          )}  - 
-                          {"  "}
+                          )}{" "}
+                          -{"  "}
                           {new Date(item.endDate).toLocaleDateString("en-GB", {
                             day: "2-digit",
                             month: "short",
@@ -392,7 +337,7 @@ const NewtestPage = () => {
                   </div>
                 ))}
               </div>
-              {!showAll && scheduleData.length > 3 && (
+              {!showAll && CoursesData?.schedule?.length > 3 && (
                 <button
                   className="mt-4 px-4 py-2 font-bold text-purple-600 rounded-lg"
                   onClick={handleShowMore}
@@ -465,39 +410,79 @@ const NewtestPage = () => {
             />
 
             {/* Course Title */}
-            <div className="flex flex-row justify-between items-center mb-4 ">
-              <div className="font-bold text-lg  text-blue-600 truncate">
+            <div className="flex flex-row justify-between items-center mb-4">
+              <div className="font-bold text-lg text-blue-600 truncate">
                 {CoursesData.title}
               </div>
-              <div className="px-3 py-1 w-auto text-sm font-medium text-gray-700 bg-gray-100 rounded-full shadow-sm">
+              <div className="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-full shadow-sm">
                 {CoursesData.language?.name}
               </div>
             </div>
 
             {/* Pricing Section */}
-            <div className="flex flex-col md:flex-row lg:flex-row  md:justify-between lg:justify-between lg:items-center mb-6">
-              <p className="text-lg font-bold text-gray-800 mb-2 sm:mb-0">
+            <div className="flex flex-col md:flex-row lg:flex-row md:justify-between lg:justify-between lg:items-center mb-6">
+              <p className="text-xl font-bold text-gray-800 mb-2 sm:mb-0">
                 ₹{CoursesData.price}{" "}
                 <span className="text-red-500 line-through text-sm">
                   ₹{CoursesData?.value}
                 </span>
               </p>
-              <p className="text-green-700 rounded-l-md font-semibold px-2 border-l-2 bg-green-200 text-sm">
-                Discount of{" "}
+              <p className="text-green-700 rounded-l-md font-semibold px-3 py-1 border-l-4 border-green-600 bg-green-200 text-sm">
+                Save{" "}
                 {Math.round(
                   ((CoursesData?.value - CoursesData?.price) /
                     CoursesData?.value) *
                     100
                 )}
-                % applied
+                %
               </p>
             </div>
 
+            {/* Apply Coupon Link */}
+            <button
+              className="text-blue-600 text-sm font-semibold hover:text-blue-800 hover:underline mb-3"
+              onClick={() => setIsModalOpen(true)}
+            >
+              Have a coupon? Apply it here.
+            </button>
+
             {/* CTA Button */}
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition duration-300 w-full sm:w-auto">
-              Continue with UPSC Prarambh 2027 +
+            <button className="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium py-3 px-8 rounded-lg transition duration-300 w-full ">
+              Enroll Now
             </button>
           </div>
+
+          {/* Modal */}
+          {isModalOpen && (
+            <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg shadow-2xl w-96 p-6 relative">
+                <h2 className="text-lg font-semibold text-gray-800 mb-4">
+                  Apply Coupon Code
+                </h2>
+                <input
+                  type="text"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  placeholder="Enter coupon code"
+                  className="w-full border border-gray-300 rounded-lg p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                />
+                <div className="flex justify-end gap-3">
+                  <button
+                    onClick={() => setIsModalOpen(false)}
+                    className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded-lg transition"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleApplyCoupon}
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition"
+                  >
+                    Apply
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
