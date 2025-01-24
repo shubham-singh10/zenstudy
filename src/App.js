@@ -42,10 +42,13 @@ const MyCourses = lazy(() =>
   import("./studentDashboard/component/MyCourses.jsx")
 );
 const UPSCStudent = lazy(() => import("./studentDashboard/component/Upse.jsx"));
+const DailyAffairs = lazy(() => import("./studentDashboard/component/currentAffairs/DailyAffairs.jsx"));
+const MonthlyAffairs = lazy(() => import("./studentDashboard/component/currentAffairs/MonthlyAffairs.jsx"));
 const TestSeriesPage = lazy(() => import("./studentDashboard/component/TestSeries.jsx"));
 const WatchCourse = lazy(() =>
   import("./studentDashboard/component/WatchCourse.jsx")
 );
+
 
 
 function isAuthenticated() {
@@ -116,6 +119,8 @@ function App() {
             <Route path="/upsc-student" element={<UPSCStudent />} />
             <Route path="/watch-course/:id" element={<WatchCourse />} />
             <Route path="/testSeries" element={<TestSeriesPage />} />
+            <Route path="/dailyAffairs" element={<DailyAffairs />} />
+            <Route path="/monthlyAffairs" element={<MonthlyAffairs />} />
 
           </Route>
           <Route

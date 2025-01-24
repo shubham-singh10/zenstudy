@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useState, useRef, Fragment, useEffect } from "react";
-import { Loader } from "../loader/Loader";
+import { Loader } from "../../../components/loader/Loader";
 
-export const Monthly = () => {
+const MonthlyAffairs = () => {
   const [selectedMonth, setSelectedMonth] = useState(null);
   const monthCardRef = useRef(null);
   const [selectedYear, setSelectedYear] = useState(2025);
@@ -195,3 +195,5 @@ export const Monthly = () => {
     </div>
   );
 };
+
+export default MonthlyAffairs;

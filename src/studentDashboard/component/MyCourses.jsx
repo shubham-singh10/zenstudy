@@ -9,20 +9,13 @@ const CourseCard = ({ course }) => {
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`);
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
 
   const [reviewsCount, setReviewsCount] = useState(0);
   const [averageRating, setAverageRating] = useState(0);
   const courseId = course.course_id._id;
 
-  // const formatDate = (dateString) => {
-  //   const date = new Date(dateString);
-  //   const year = date.getFullYear();
-  //   const month = String(date.getMonth() + 1).padStart(2, "0");
-  //   const day = String(date.getDate()).padStart(2, "0");
-  //   return `${day}-${month}-${year}`;
-  // };
-
+  console.log("sss", course);
 
   useEffect(() => {
     const fetchAverageRating = async () => {
@@ -41,8 +34,7 @@ const CourseCard = ({ course }) => {
     fetchAverageRating();
   }, [courseId]);
 
-  
-  const isLiveClass = course?.course_id?.tags === "live"
+  const isLiveClass = course?.course_id?.tags === "live";
 
   const handleLiveClassClick = () => {
     if (isLiveClass) {
@@ -54,7 +46,7 @@ const CourseCard = ({ course }) => {
 
   const handleModalClose = () => {
     setShowModal(false);
-    navigate('/liveClass');
+    navigate("/liveClass");
   };
 
   return (
@@ -69,111 +61,65 @@ const CourseCard = ({ course }) => {
           src={imageSrc}
           crossOrigin="anonymous"
           alt={course.course_id.title}
-          className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${loading ? "opacity-0" : "opacity-100"
-            }`}
+          className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${
+            loading ? "opacity-0" : "opacity-100"
+          }`}
           onLoad={() => {
             setLoading(false);
             setImageSrc(course.imageUrl);
           }}
         />
       </div>
-      <div className="px-4 py-2 border-b-2">
-        <div className="font-bold text-lg h-auto mb-1">
-          {course.course_id.title}
-        </div>
-        
-
-        {
-        //   <p className="text-gray-600 text-xs">
-        //   Created at: {formatDate(course.course_id.createdAt)}
-        // </p>
-        // <p className="text-gray-600 text-xs">{course.course_id.day}</p>
-      }
-
-        {
-        //   {!isLiveClass && (
-        //   <div className="flex items-center space-x-1 mt-1">
-        //     <div className="flex items-center space-x-1">
-        //       {[...Array(5)].map((_, index) => {
-        //         const fullStars = Math.floor(averageRating);
-        //         const hasHalfStar = averageRating % 1 !== 0;
-
-        //         if (index < fullStars) {
-        //           // Full star
-        //           return (
-        //             <svg
-        //               key={index}
-        //               className="w-5 h-5 text-yellow-400"
-        //               fill="currentColor"
-        //               viewBox="0 0 20 20"
-        //             >
-        //               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.118 3.43a1 1 0 00.95.69h3.584c.969 0 1.371 1.24.588 1.81l-2.897 2.11a1 1 0 00-.364 1.118l1.118 3.43c.3.921-.755 1.688-1.54 1.118l-2.897-2.11a1 1 0 00-1.176 0l-2.897 2.11c-.784.57-1.838-.197-1.539-1.118l1.118-3.43a1 1 0 00-.364-1.118l-2.897-2.11c-.783-.57-.38-1.81.588-1.81h3.584a1 1 0 00.95-.69l1.118-3.43z" />
-        //             </svg>
-        //           );
-        //         } else if (index === fullStars && hasHalfStar) {
-        //           // Half star
-        //           return (
-        //             <svg
-        //               key={index}
-        //               className="w-5 h-5 text-yellow-400"
-        //               viewBox="0 0 20 20"
-        //               fill="currentColor"
-        //             >
-        //               <defs>
-        //                 <linearGradient id="half">
-        //                   <stop offset="50%" stopColor="currentColor" />
-        //                   <stop offset="50%" stopColor="lightGray" />
-        //                 </linearGradient>
-        //               </defs>
-        //               <path
-        //                 d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.118 3.43a1 1 0 00.95.69h3.584c.969 0 1.371 1.24.588 1.81l-2.897 2.11a1 1 0 00-.364 1.118l1.118 3.43c.3.921-.755 1.688-1.54 1.118l-2.897-2.11a1 1 0 00-1.176 0l-2.897 2.11c-.784.57-1.838-.197-1.539-1.118l1.118-3.43a1 1 0 00-.364-1.118l-2.897-2.11c-.783-.57-.38-1.81.588-1.81h3.584a1 1 0 00.95-.69l1.118-3.43z"
-        //                 fill="url(#half)"
-        //               />
-        //             </svg>
-        //           );
-        //         } else {
-        //           // Empty star
-        //           return (
-        //             <svg
-        //               key={index}
-        //               className="w-5 h-5 text-gray-300"
-        //               fill="currentColor"
-        //               viewBox="0 0 20 20"
-        //             >
-        //               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.118 3.43a1 1 0 00.95.69h3.584c.969 0 1.371 1.24.588 1.81l-2.897 2.11a1 1 0 00-.364 1.118l1.118 3.43c.3.921-.755 1.688-1.54 1.118l-2.897-2.11a1 1 0 00-1.176 0l-2.897 2.11c-.784.57-1.838-.197-1.539-1.118l1.118-3.43a1 1 0 00-.364-1.118l-2.897-2.11c-.783-.57-.38-1.81.588-1.81h3.584a1 1 0 00.95-.69l1.118-3.43z" />
-        //             </svg>
-        //           );
-        //         }
-        //       })}
-        //     </div>
-        //     <div className=" text-gray-500 text-xs ">
-        //       {averageRating}/5 ({reviewsCount} reviews)
-        //     </div>
-        //   </div>
-        // )}
-      }
+      <div className="flex justify-between items-center gap-2 px-4 py-2 border-b-2">
+        <span className="text-sm font-bold">{course.course_id.title}</span>
+        <span className="text-sm px-2 py-1 bg-gray-400 text-white rounded-full">
+          {course.course_id.language.name}
+        </span>
       </div>
-      <div className=" text-center">
-        <button
-          className="custom-btn"
-          onClick={handleLiveClassClick}
-        >
+
+      <div className=" text-center flex gap-2 items-center justify-around ">
+        <button className="custom-btn" onClick={handleLiveClassClick}>
           <span className="custom-btn-bg"></span>
           <span className="custom-btn-text text-sm">
-            {isLiveClass ? "Visit Live Class" : "Continue Learning"}
+            {isLiveClass ? "Visit Live" : "Continue Learning"}
           </span>
         </button>
+
+        {isLiveClass && (
+          <button
+            className={`${
+              (course?.course_id?.modules).length <= 0
+                ? "bg-red-500 cursor-not-allowed text-white px-4 py-2 rounded-full"
+                : "custom-btn"
+            }`}
+            disabled={(course?.course_id?.modules).length <= 0}
+            onClick={() => navigate(`/watch-course/${course._id}`)}
+          >
+            <span
+              className={`${
+                (course?.course_id?.modules).length <= 0 ? "" : "custom-btn-bg"
+              }`}
+            ></span>
+            <span
+              className={`${
+                (course?.course_id?.modules).length <= 0
+                  ? "text-white"
+                  : "custom-btn-text"
+              } text-sm`}
+            >
+              Recorded
+            </span>
+          </button>
+        )}
         {/* Modal for live class info */}
         {showModal && (
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
             <div className="bg-white p-6 rounded-lg shadow-lg max-w-xs">
               <p className="text-lg font-bold mb-4">
-              Mentorship is available via WhatsApp, and we'll add you soon. Check the live class page for upcoming sessions
+                Mentorship is available via WhatsApp, and we'll add you soon.
+                Check the live class page for upcoming sessions
               </p>
-              <button
-                className="custom-btn"
-                onClick={handleModalClose}
-              >
+              <button className="custom-btn" onClick={handleModalClose}>
                 <span className="custom-btn-bg"></span>
                 <span className="custom-btn-text">OK</span>
               </button>
@@ -214,8 +160,7 @@ const MyCourses = () => {
             body: JSON.stringify({ user_id: userId }),
           }
         );
-        
-        
+
         if (response.status === 204) {
           setCourse([]);
           setLoading(false);
@@ -319,7 +264,6 @@ const MyCourses = () => {
               </div>
             )}
           </div>
-
         </Fragment>
       )}
     </div>

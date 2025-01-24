@@ -3,9 +3,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import axios from "axios";
-import { Loader } from "../loader/Loader";
+import { Loader } from "../../../components/loader/Loader";
 
-function Daily() {
+function DailyAffairs() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [currentAffairs, setCurrentAffairs] = useState([]);
@@ -72,35 +72,34 @@ function Daily() {
             ) : currentAffairs && currentAffairs.length > 0 ? (
               currentAffairs.map((data, index) => (
                 <div
-                  key={index}
-                  className="relative w-full bg-gradient-to-r from-gray-100 to-white border border-gray-300 rounded-xl p-6 shadow-md hover:shadow-2xl transition-all duration-300"
-                >
-                  {/* Card Title */}
-                  <h2 className="text-xl font-bold text-gray-800 mb-4">
-                    Daily Current Affairs
-                  </h2>
-
-                  {/* Card Content */}
-                  <div className="flex flex-col items-center gap-4">
-                    <div className="bg-gradient-to-r from-green-400 to-green-600 text-white flex justify-center items-center w-full px-6 py-4 font-semibold rounded-lg shadow-md">
-                      {formattedDate}
-                    </div>
-                    <p className="text-gray-600 text-sm text-center">
-                      Stay updated with the latest current affairs for your
-                      competitive exams.
-                    </p>
+                key={index}
+                className="relative w-full bg-gradient-to-r from-gray-100 to-white border border-gray-300 rounded-xl p-6 shadow-md hover:shadow-2xl transition-all duration-300"
+              >
+                {/* Card Title */}
+                <h2 className="text-xl font-bold text-gray-800 mb-4">
+                  Daily Current Affairs
+                </h2>
+              
+                {/* Card Content */}
+                <div className="flex flex-col items-center gap-4">
+                  <div className="bg-gradient-to-r from-green-400 to-green-600 text-white flex justify-center items-center w-full px-6 py-4 font-semibold rounded-lg shadow-md">
+                    {formattedDate}
                   </div>
-
-                  {/* View PDF Button (hidden by default, visible on hover) */}
-                  <div className="absolute inset-0 bg-black bg-opacity-60 flex justify-center items-center opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-xl">
-                    <button
-                      className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-700 hover:text-white transition duration-300 shadow-md"
-                      onClick={() => window.open(data.pdfUrls, "_blank")}
-                    >
-                      View PDF
-                    </button>
-                  </div>
+                  <p className="text-gray-600 text-sm text-center">
+                    Stay updated with the latest current affairs for your competitive exams.
+                  </p>
                 </div>
+              
+                {/* View PDF Button (hidden by default, visible on hover) */}
+                <div className="absolute inset-0 bg-black bg-opacity-60 flex justify-center items-center opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-xl">
+                  <button
+                    className="px-6 py-3 bg-white text-green-600 font-semibold rounded-lg hover:bg-green-600 hover:text-white transition duration-300 shadow-md"
+                    onClick={() => window.open(data.pdfUrls, "_blank")}
+                  >
+                    View PDF
+                  </button>
+                </div>
+              </div>
               ))
             ) : (
               <div className="bg-white border-2 rounded-xl p-6 w-full shadow-xl transform transition-all duration-300 hover:scale-105">
@@ -170,4 +169,4 @@ function Daily() {
   );
 }
 
-export default Daily;
+export default DailyAffairs;
