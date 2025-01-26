@@ -28,6 +28,7 @@ import { firebase } from "../../Firebase";
 import { FiArrowRight, FiLogIn, FiUser } from "react-icons/fi";
 import { useInView } from "react-intersection-observer";
 import { useSpring, animated } from "react-spring";
+import { useAuth } from "../../context/auth-context";
 
 const InputField = ({
   label,
@@ -74,7 +75,7 @@ function SignIn() {
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
-
+  const { login } = useAuth()
   // Intersection Observers
   const { ref: slideLeftRef, inView: slideLeftInView } = useInView({
     triggerOnce: true,
@@ -335,15 +336,14 @@ function SignIn() {
         duration: 4000,
         icon: "🎉",
       });
-
-
       setLoading(false);
+      login(resData, resData.role, resData.token);
       Cookies.set("access_tokennew", resData._id);
-      localStorage.setItem("userData", JSON.stringify(resData));
+      // localStorage.setItem("userData", JSON.stringify(resData));
 
       const from = location.state?.from || "/course-details-student";
-      // navigate(from);
-      window.location.pathname = from;
+      navigation(from);
+      // window.location.pathname = from;
     } catch (error) {
       Swal.fire({
         icon: "error",

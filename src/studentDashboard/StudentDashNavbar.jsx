@@ -6,6 +6,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaHome, FaRegUserCircle } from "react-icons/fa";
 import Cookies from "js-cookie";
 import { RiLiveLine } from "react-icons/ri";
+import axios from "axios";
+import { useAuth } from "../context/auth-context";
 
 const links = [
   { label: "Home", link: "/", icon: <FaHome /> },
@@ -23,6 +25,7 @@ const StudentDashNavbar = () => {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
   const sidebarRef = useRef(null);
+  const { logout, logoutLoading } = useAuth();
 
   useEffect(() => {
     const userDataFromLocalStorage = localStorage.getItem("userData");
@@ -52,13 +55,28 @@ const StudentDashNavbar = () => {
     return () => (document.body.style.overflow = "");
   }, [isOpen]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("userData");
-    Cookies.remove("access_tokennew");
-    navigate("/");
-    setIsOpen(false);
-    window.location.reload();
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem("userData");
+  //   Cookies.remove("access_tokennew");
+  //   navigate("/");
+  //   setIsOpen(false);
+  //   window.location.reload();
+  // };
+
+  const handleLogout = async () => {
+    try {
+      const data = await axios.post(`${process.env.REACT_APP_API}zenstudy/api/auth/signout`, {}, { withCredentials: true })
+      localStorage.removeItem("token")
+      console.log("Logout Success:", data.data.message)
+      localStorage.removeItem("userData");
+      localStorage.removeItem("role");
+      localStorage.removeItem("token");
+      Cookies.remove("access_tokennew");
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed:", error)
+    }
+  }
 
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
@@ -78,7 +96,7 @@ const StudentDashNavbar = () => {
           <div
             className="flex items-center gap-4 cursor-pointer p-2 rounded-md bg-blue-50 hover:bg-blue-100 transition"
             onClick={toggleDropdown}
-            onMouseEnter={()=> setIsDropdownOpen(true)}
+            onMouseEnter={() => setIsDropdownOpen(true)}
           >
             <div className="text-right">
               <p className="text-blue-800 font-semibold text-sm truncate">
@@ -107,7 +125,8 @@ const StudentDashNavbar = () => {
           <hr className="my-2 border-gray-300" />
           <button
             className="flex items-center justify-center text-sm w-full px-4 py-3 text-white bg-red-600 hover:bg-red-700 rounded-lg"
-            onClick={handleLogout}
+            disabled={logoutLoading}
+            onClick={logout}
           >
             <FiLogOut className="mr-2" /> Logout
           </button>
