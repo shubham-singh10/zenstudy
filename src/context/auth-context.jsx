@@ -78,6 +78,9 @@ export const AuthProvider = ({ children }) => {
                     token: null,
                 });
                 navigate("/");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 100);
             }
         } catch (error) {
             console.error("Logout failed:", error);

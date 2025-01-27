@@ -109,7 +109,7 @@ const StudentDashNavbar = () => {
         </div>
       </div>
 
-      {/* Dropdown Menu */}
+      {/* Dropdown Menu */ }
       {isDropdownOpen && (
         <div
           ref={dropdownRef}
@@ -126,9 +126,9 @@ const StudentDashNavbar = () => {
           <button
             className="flex items-center justify-center text-sm w-full px-4 py-3 text-white bg-red-600 hover:bg-red-700 rounded-lg"
             disabled={logoutLoading}
-            onClick={logout}
+            onClick={()=>logout()}
           >
-            <FiLogOut className="mr-2" /> Logout
+            <FiLogOut className="mr-2" /> {logoutLoading ? "Logging out..." : "Logout"}
           </button>
         </div>
       )}

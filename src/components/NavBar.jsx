@@ -7,6 +7,7 @@ import { IoMdArrowDropup } from "react-icons/io";
 import Cookies from "js-cookie";
 import { FaBookOpenReader } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
+import { useAuth } from "../context/auth-context";
 
 const navLink = [
   { label: "Home", link: "/" },
@@ -23,6 +24,7 @@ const NavBar = () => {
   const [hamBurger, setHamBurger] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const { logout, logoutLoading } = useAuth();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -162,10 +164,11 @@ const NavBar = () => {
                     </button>
                     <button
                       className="flex items-center gap-2 px-4 py-3 text-sm text-white bg-red-600 hover:bg-red-700 transition-all rounded-b-lg"
-                      onClick={handleLogout}
+                      disabled={logoutLoading}
+                      onClick={()=>logout()}
                     >
                       <FiLogOut className="text-white" />
-                      <span>Logout</span>
+                      <span>{logoutLoading ? "Logging out..." : "Logout"}</span>
                     </button>
                   </div>
                 </div>

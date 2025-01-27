@@ -106,7 +106,7 @@ const Sidebar = () => {
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-0 left-0 h-screen w-64 bg-sidebar border-2 border-sidebar-border text-sidebar-accent-foreground z-40
+          fixed top-0 left-0 h-screen w-60 bg-white border-2 border-sidebar-border text-sidebar-accent-foreground z-40
           transform transition-transform duration-300 ease-in-out overflow-y-auto
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0
@@ -117,11 +117,11 @@ const Sidebar = () => {
           <div className="p-4 border-b border-sidebar-primary">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-sidebar-foreground rounded-lg flex items-center justify-center">
-                <span className="text-black text-xl font-bold">Z</span>
+                <span className="text-white text-xl font-bold">Z</span>
               </div>
               <div className="flex flex-col leading-tight">
                 <h1 className="font-bold text-xl">ZenStudy</h1>
-                <p className="text-xs text-gray-600 whitespace-nowrap">Making Education Imaginative</p>
+                <p className="text-xs text-blue-600 whitespace-nowrap">Making Education Imaginative</p>
               </div>
             </div>
           </div>
@@ -142,7 +142,7 @@ const Sidebar = () => {
                                   prev.includes(item.label) ? prev.filter((i) => i !== item.label) : [...prev, item.label]
                                 )
                               }
-                              className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-colors ${openDropdowns.includes(item.label) ? "bg-gray-200" : "hover:bg-gray-400"
+                              className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-colors ${openDropdowns.includes(item.label) ? "bg-gray-200" : "hover:bg-gray-200"
                                 }`}
                             >
                               <div className="flex items-center gap-3">
@@ -161,7 +161,7 @@ const Sidebar = () => {
                                   <li key={subItem.label}>
                                     <Link
                                       to={subItem.href}
-                                      className={`block px-3 py-2 rounded-lg transition-colors ${isActive(subItem.href) ? "bg-gray-500 text-sidebar-accent-primary" : "hover:bg-gray-400/20"
+                                      className={`block px-3 py-2 rounded-lg transition-colors ${isActive(subItem.href) ? "bg-gray-200 text-sidebar-accent-primary" : "hover:bg-gray-200"
                                         }`}
                                       onClick={() => isMobile && setIsOpen(false)}
                                     >
@@ -178,7 +178,7 @@ const Sidebar = () => {
                         ) : (
                           <Link
                             to={item.href}
-                            className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive(item.href) ? "bg-gray-500" : "hover:bg-gray-400"
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive(item.href) ? "bg-gray-200" : "hover:bg-gray-200"
                               }`}
                             onClick={() => isMobile && setIsOpen(false)}
                           >
