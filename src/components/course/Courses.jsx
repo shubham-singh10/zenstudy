@@ -44,7 +44,7 @@ const Courses = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API2}zenstudy/api/main/getCategoryId/6788dbd2ec52e9b8545ad6f4`
+          `${process.env.REACT_APP_API}zenstudy/api/main/getCategoryId/6788dbd2ec52e9b8545ad6f4`
         );
         setTabName(response.data.data);
       } catch (error) {
@@ -69,7 +69,7 @@ const Courses = () => {
 
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API2}zenstudy/api/course/${api}`,
+          `${process.env.REACT_APP_API}zenstudy/api/course/${api}`,
           {
             method: "GET",
             headers: {

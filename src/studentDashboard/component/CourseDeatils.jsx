@@ -35,7 +35,7 @@ const CourseDeatils = () => {
       setLoading((prev) => ({ ...prev, paginationLoading: true }));
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API}zenstudy/api/course/getCoursesPurc/${userId}?page=${paginatedData.currentPage}&limit=${paginatedData.itemperpage}&search=${searchText}`,
+          `${process.env.REACT_APP_API}zenstudy/api/course/fetchPurchaseCoursesWithFilters/${userId}?page=${paginatedData.currentPage}&limit=${paginatedData.itemperpage}&search=${searchText}`,
           {
             method: "GET",
             headers: {
