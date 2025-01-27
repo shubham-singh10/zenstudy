@@ -12,6 +12,7 @@ const WatchCourseNew = () => {
   const [videoPlayback, setVideoPlayback] = useState('');
   const [selectedVideoTitle, setSelectedVideoTitle] = useState('');
   const [selectedVideoDesc, setSelectedVideoDesc] = useState('');
+  const [selectedModule, setSelectedModule] = useState('');
   const [reviews, setReviews] = useState([]);
   const [userReview, setUserReview] = useState({ rating: 0, content: '' });
   const [notes, setNotes] = useState('');
@@ -83,12 +84,13 @@ const WatchCourseNew = () => {
     setSelectedVideoDesc(video.videoDescription || '');
   };
 
-  const toggleModule = (moduleId) => {
+  const toggleModule = (moduleId, moduleTitle) => {
     setExpandedModules(prev =>
       prev.includes(moduleId)
         ? prev.filter(id => id !== moduleId)
         : [...prev, moduleId]
     );
+    setSelectedModule(moduleTitle); // Set the module title here
   };
 
   const submitReview = async (e) => {
@@ -136,7 +138,7 @@ const WatchCourseNew = () => {
               ></iframe>
             </div>
 
-            <h1 className="text-3xl font-bold text-gray-800">{selectedVideoTitle}</h1>
+            <h1 className="lg:text-xl text-lg font-bold text-gray-800">{selectedVideoTitle}</h1>
 
             {/* Tabs */}
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
@@ -260,42 +262,45 @@ const WatchCourseNew = () => {
             <div className="bg-white rounded-xl shadow-md overflow-hidden sticky top-6">
               <h2 className="text-xl font-bold p-4 bg-gray-50 border-b">Course Content</h2>
               <div className="p-4 max-h-[calc(100vh-10rem)] overflow-y-auto">
-                {courses.map((module, index) => (
-                  <div key={index} className="mb-4">
-                    <button
-                      onClick={() => toggleModule(module._id)}
-                      className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-gray-50 rounded-lg transition-colors"
-                    >
-                      <span className="font-medium text-gray-800">{module.moduleTitle}</span>
-                      {expandedModules.includes(module._id) ? (
-                        <FiChevronDown size={20} className="text-gray-500" />
-                      ) : (
-                        <FiChevronRight size={20} className="text-gray-500" />
-                      )}
-                    </button>
-                    {expandedModules.includes(module._id) && (
-                      <div className="mt-2 space-y-2">
-                        {module.videos.map((video, vIndex) => (
-                          <button
-                            key={vIndex}
-                            onClick={() => handleVideoClick(video)}
-                            className={`w-full px-4 py-2 flex items-center justify-between text-left rounded-lg transition-colors ${selectedVideoTitle === video.videoTitle ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-50 text-gray-700'
-                              }`}
-                          >
-                            <div className="flex items-center">
-                              <FiPlay size={16} className={`mr-2 ${selectedVideoTitle === video.videoTitle ? 'text-blue-600' : 'text-gray-400'}`} />
-                              <span className="text-sm">{video.videoTitle}</span>
-                            </div>
-                            <div className="flex items-center text-xs text-gray-500">
-                              <FiClock size={12} className="mr-1" />
-                              <span>{formatDuration(video.duration)}</span>
-                            </div>
-                          </button>
-                        ))}
-                      </div>
+              {courses.map((module, index) => (
+                <div key={index} className="mb-4">
+                  <button
+                    onClick={() => toggleModule(module._id, module.moduleTitle)}
+                    className={`${selectedModule === module.moduleTitle ? "bg-blue-400" : ""} w-full px-4 py-3 flex items-center border-2 justify-between text-left rounded-lg `}
+                  >
+                    <span className={`font-medium  ${selectedModule === module.moduleTitle ? " text-white" : "text-gray-800"}`}>
+                      {module.moduleTitle}
+                    </span>
+                    {expandedModules.includes(module._id) ? (
+                      <FiChevronDown size={20} className={`${selectedModule === module.moduleTitle ? "text-white" :"text-gray-500" }`} />
+                    ) : (
+                      <FiChevronRight size={20} className={`${selectedModule === module.moduleTitle ? "text-white" :"text-gray-500" }`} />
                     )}
-                  </div>
-                ))}
+                  </button>
+                  {expandedModules.includes(module._id) && (
+                    <div className="mt-2 space-y-2">
+                      {module.videos.map((video, vIndex) => (
+                        <button
+                          key={vIndex}
+                          onClick={() => handleVideoClick(video)}
+                          className={`w-full px-4 py-2 flex items-center border-2 justify-between text-left rounded-lg transition-colors ${selectedVideoTitle === video.videoTitle ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 bg-blue-50 text-gray-700'
+                            }`}
+                        >
+                          <div className="flex items-center">
+                            <FiPlay size={16} className={`mr-2 ${selectedVideoTitle === video.videoTitle ? 'text-blue-600' : 'text-gray-400 '}`} />
+                            <span className="text-sm">{video.videoTitle}</span>
+                          </div>
+                          <div className="flex items-center text-xs text-gray-500">
+                            <FiClock size={12} className="mr-1" />
+                            <span>{formatDuration(video.duration)}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+              
               </div>
             </div>
           </div>

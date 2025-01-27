@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from "react"
-import { Link, useLocation } from "react-router-dom"
+import { useState, useEffect, useMemo } from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
   FiBook,
   FiBookOpen,
@@ -12,31 +12,30 @@ import {
   FiTag,
   FiVideo,
   FiX,
-} from "react-icons/fi"
-import { useAuth } from "../../context/auth-context"
+} from "react-icons/fi";
+import { useAuth } from "../../context/auth-context";
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-  const [openDropdowns, setOpenDropdowns] = useState([])
-  const location = useLocation()
-  const { user } = useAuth()
-
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [openDropdowns, setOpenDropdowns] = useState([]);
+  const location = useLocation();
+  const { user } = useAuth();
 
   useEffect(() => {
     const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 1024)
+      setIsMobile(window.innerWidth < 1024);
       if (window.innerWidth >= 1024) {
-        setIsOpen(true)
+        setIsOpen(true);
       } else {
-        setIsOpen(false)
+        setIsOpen(false);
       }
-    }
+    };
 
-    checkIsMobile()
-    window.addEventListener("resize", checkIsMobile)
-    return () => window.removeEventListener("resize", checkIsMobile)
-  }, [])
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
 
   const menuItems = useMemo(
     () => [
@@ -47,7 +46,11 @@ const Sidebar = () => {
       {
         title: "Pages",
         items: [
-          { href: "/course-details-studentNew", label: "Courses", icon: FiBook },
+          {
+            href: "/course-details-studentNew",
+            label: "Courses",
+            icon: FiBook,
+          },
           { href: "/mycourseNew", label: "My Courses", icon: FiBookOpen },
           { href: "/liveClassNew", label: "Live Classes", icon: FiVideo },
         ],
@@ -67,28 +70,30 @@ const Sidebar = () => {
       },
     ],
     []
-  )
+  );
 
   // Function to check if the current route is active
-  const isActive = (href) => location.pathname === href
+  const isActive = (href) => location.pathname === href;
 
   // Auto-open dropdowns if any sub-item is active
   useEffect(() => {
-    const activeDropdowns = []
+    const activeDropdowns = [];
 
     menuItems.forEach((section) => {
       section.items.forEach((item) => {
         if (item.dropdown) {
-          const isDropdownActive = item.dropdown.some((subItem) => location.pathname === subItem.href)
+          const isDropdownActive = item.dropdown.some(
+            (subItem) => location.pathname === subItem.href
+          );
           if (isDropdownActive) {
-            activeDropdowns.push(item.label)
+            activeDropdowns.push(item.label);
           }
         }
-      })
-    })
+      });
+    });
 
-    setOpenDropdowns(activeDropdowns)
-  }, [location.pathname, menuItems])
+    setOpenDropdowns(activeDropdowns);
+  }, [location.pathname, menuItems]);
 
   return (
     <>
@@ -101,12 +106,17 @@ const Sidebar = () => {
       </button>
 
       {/* Overlay */}
-      {isOpen && isMobile && <div className="fixed inset-0 bg-black bg-opacity-50 z-30" onClick={() => setIsOpen(false)} />}
+      {isOpen && isMobile && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-30"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
 
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-0 left-0 h-screen w-60 bg-white border-2 border-sidebar-border text-sidebar-accent-foreground z-40
+          fixed top-0 left-0 h-screen w-64 bg-white border-2 border-sidebar-border text-sidebar-accent-foreground z-40
           transform transition-transform duration-300 ease-in-out overflow-y-auto
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
           lg:translate-x-0
@@ -114,14 +124,19 @@ const Sidebar = () => {
       >
         {/* Sidebar content */}
         <div className="flex flex-col h-full">
-          <div className="p-4 border-b border-sidebar-primary">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-sidebar-foreground rounded-lg flex items-center justify-center">
-                <span className="text-white text-xl font-bold">Z</span>
+          <div className="p-3 shadow-xl bg-gradient-to-b from-black/10 to-transparent z-[-1] rounded-b-md ">
+            <div className="flex items-center justify-center  gap-2">
+              <div className="bg-sidebar-foreground rounded-lg flex items-center justify-center">
+                <img
+                  src={"/assets/logo.png"}
+                  alt="Logo"
+                  className={`h-12 w-12 rounded-md`}
+                />
               </div>
-              <div className="flex flex-col leading-tight">
-                <h1 className="font-bold text-xl">ZenStudy</h1>
-                <p className="text-xs text-blue-600 whitespace-nowrap">Making Education Imaginative</p>
+              <div>
+                <p className="font-bold text-lg">Zenstudy</p>
+                <p className="text-xs text-blue-700 text-nowrap">
+                  Making Education Imaginative</p>
               </div>
             </div>
           </div>
@@ -129,7 +144,9 @@ const Sidebar = () => {
           <nav className="flex-1 p-4">
             {menuItems.map((section) => (
               <div key={section.title} className="mb-6">
-                <p className="text-xs text-sidebar-accent-ring mb-3">{section.title}</p>
+                <p className="text-xs text-sidebar-accent-ring mb-3">
+                  {section.title}
+                </p>
                 <ul className="space-y-2">
                   {section.items.map((item) => {
                     return (
@@ -139,11 +156,16 @@ const Sidebar = () => {
                             <button
                               onClick={() =>
                                 setOpenDropdowns((prev) =>
-                                  prev.includes(item.label) ? prev.filter((i) => i !== item.label) : [...prev, item.label]
+                                  prev.includes(item.label)
+                                    ? prev.filter((i) => i !== item.label)
+                                    : [...prev, item.label]
                                 )
                               }
-                              className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-colors ${openDropdowns.includes(item.label) ? "bg-gray-200" : "hover:bg-gray-200"
-                                }`}
+                              className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-colors ${
+                                openDropdowns.includes(item.label)
+                                  ? "bg-gray-200"
+                                  : "hover:bg-gray-200"
+                              }`}
                             >
                               <div className="flex items-center gap-3">
                                 <item.icon className="w-5 h-5" />
@@ -161,9 +183,14 @@ const Sidebar = () => {
                                   <li key={subItem.label}>
                                     <Link
                                       to={subItem.href}
-                                      className={`block px-3 py-2 rounded-lg transition-colors ${isActive(subItem.href) ? "bg-gray-200 text-sidebar-accent-primary" : "hover:bg-gray-200"
-                                        }`}
-                                      onClick={() => isMobile && setIsOpen(false)}
+                                      className={`block px-3 py-2 rounded-lg transition-colors ${
+                                        isActive(subItem.href)
+                                          ? "bg-gray-200 text-sidebar-accent-primary"
+                                          : "hover:bg-gray-200"
+                                      }`}
+                                      onClick={() =>
+                                        isMobile && setIsOpen(false)
+                                      }
                                     >
                                       <div className="flex items-center gap-3">
                                         <subItem.icon className="w-5 h-5" />
@@ -178,8 +205,11 @@ const Sidebar = () => {
                         ) : (
                           <Link
                             to={item.href}
-                            className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive(item.href) ? "bg-gray-200" : "hover:bg-gray-200"
-                              }`}
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                              isActive(item.href)
+                                ? "bg-gray-200"
+                                : "hover:bg-gray-200"
+                            }`}
                             onClick={() => isMobile && setIsOpen(false)}
                           >
                             <item.icon className="w-5 h-5" />
@@ -187,26 +217,29 @@ const Sidebar = () => {
                           </Link>
                         )}
                       </li>
-                    )
+                    );
                   })}
                 </ul>
               </div>
             ))}
           </nav>
 
-          <div className="p-4 border-t border-sidebar-primary">
+          <div className="p-4 relative">
+            <div className="absolute top-0 left-0 w-full h-full -translate-y-0 bg-gradient-to-b from-black/10 to-transparent z-[-1] rounded-t-md shadow-lg"></div>
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-8 h-8 bg-gray-600 rounded-full shrink-0" />
               <div className="min-w-0">
                 <p className="font-medium truncate">{user?.name || "Guest"}</p>
-                <p className="text-xs text-gray-400 truncate">{user?.email || "Please update email"}</p>
+                <p className="text-xs text-gray-400 truncate">
+                  {user?.email || "Please update email"}
+                </p>
               </div>
             </div>
           </div>
         </div>
       </aside>
     </>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
