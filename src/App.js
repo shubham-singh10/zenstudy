@@ -16,6 +16,7 @@ import DynamicSignUp from "./components/auth/Sign-upDynamic.jsx";
 import NewtestPage from "./components/course/newtestPage.jsx";
 import HomeNew from "./studentDashboardNew/layout.jsx";
 import { AuthProvider } from "./context/auth-context.jsx";
+import WatchCourseNew from "./studentDashboard/component/WatchCourseNew.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -91,6 +92,7 @@ function App() {
               <Route path="/liveClass" element={<LiveClass />} />
               <Route path="/upsc-student" element={<UPSCStudent />} />
               <Route path="/watch-course/:id" element={<WatchCourse />} />
+              <Route path="/watch-course/:id" element={<WatchCourse />} />
               <Route path="/testSeries" element={<TestSeriesPage />} />
               <Route path="/dailyAffairs" element={<DailyAffairs />} />
               <Route path="/monthlyAffairs" element={<MonthlyAffairs />} />
@@ -104,7 +106,7 @@ function App() {
               <Route path="/mycourseNew" element={<MyCourses />} />
               <Route path="/liveClassNew" element={<LiveClass />} />
               <Route path="/upsc-studentNew" element={<UPSCStudent />} />
-              <Route path="/watch-courseNew/:id" element={<WatchCourse />} />
+              <Route path="/watch-courseNew/:id" element={<WatchCourseNew />} />
               <Route path="/testSeriesNew" element={<TestSeriesPage />} />
               <Route path="/dailyAffairsNew" element={<DailyAffairs />} />
               <Route path="/monthlyAffairsNew" element={<MonthlyAffairs />} />
