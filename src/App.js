@@ -1,5 +1,5 @@
 import { Fragment, Suspense, lazy } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Loading from "./Loading.jsx";
 import MainLayout from "./MainLayout.jsx";
 import StudentLayout from "./studentDashboard/StudentLayout.jsx";
@@ -17,6 +17,8 @@ import NewtestPage from "./components/course/newtestPage.jsx";
 import HomeNew from "./studentDashboardNew/layout.jsx";
 import { AuthProvider } from "./context/auth-context.jsx";
 import WatchCourseNew from "./studentDashboard/component/WatchCourseNew.jsx";
+import CoursesPage from "./studentDashboard/component/CoursePage.jsx";
+import PublicRoute from "./PublicRoute.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -51,9 +53,6 @@ const WatchCourse = lazy(() =>
   import("./studentDashboard/component/WatchCourse.jsx")
 );
 
-function isAuthenticated() {
-  return !!localStorage.getItem("token");
-}
 
 function App() {
   return (
@@ -75,15 +74,18 @@ function App() {
               <Route path="/testpage" element={<NewtestPage />} />
               <Route path="/course-details/:courseId" element={<CourseDetails />} />
               <Route path="/contact" element={<ContactUs />} />
-              <Route path="/sign-Up" element={isAuthenticated() ? <Navigate to="/" /> : <SignUp />} />
-              <Route path="/sign-Up-Dynamic/:courseId" element={isAuthenticated() ? <Navigate to="/" /> : <DynamicSignUp />} />
-              <Route path="/signtest" element={isAuthenticated() ? <Navigate to="/" /> : <SignupTest />} />
-              <Route path="/login/:courseId" element={isAuthenticated() ? <Navigate to="/" /> : <SignInDynamic />} />
-              <Route path="/sign-In" element={isAuthenticated() ? <Navigate to="/" /> : <SignIn />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
+
+              {/* Public Route Start */}
+              <Route path="/sign-Up" element={<PublicRoute element={<SignUp />} />} />
+              <Route path="/sign-Up-Dynamic/:courseId" element={<PublicRoute element={<DynamicSignUp />} />} />
+              <Route path="/signtest" element={<PublicRoute element={<SignupTest />} />} />
+              <Route path="/login/:courseId" element={<PublicRoute element={<SignInDynamic />} />} />
+              <Route path="/sign-In" element={<PublicRoute element={<SignIn />} />} />
+              <Route path="/reset-password" element={<PublicRoute element={<ResetPassword />} />} />
+              {/* Public Route End */}
             </Route>
 
-            {/* Protected Student Routes */}
+            {/* Protected Student Routes Start */}
             <Route element={<PrivateRoute element={<StudentLayout />} />}>
               <Route path="/profile" element={<Profile />} />
               <Route path="/course-details-student" element={<CourseDetailsStudent />} />
@@ -96,12 +98,14 @@ function App() {
               <Route path="/testSeries" element={<TestSeriesPage />} />
               <Route path="/dailyAffairs" element={<DailyAffairs />} />
               <Route path="/monthlyAffairs" element={<MonthlyAffairs />} />
+              {/* Protected Student Routes End */}
             </Route>
 
-            {/* Protected Student Routes */}
+            {/* Protected Student Routes Start */}
             <Route element={<PrivateRoute element={<HomeNew />} />}>
               <Route path="/profileNew" element={<Profile />} />
               <Route path="/course-details-studentNew" element={<CourseDetailsStudent />} />
+              <Route path="/CoursesPage" element={<CoursesPage />} />
               <Route path="/course-details-viewNew/:courseId" element={<CourseDetailsStudentView />} />
               <Route path="/mycourseNew" element={<MyCourses />} />
               <Route path="/liveClassNew" element={<LiveClass />} />
@@ -110,6 +114,7 @@ function App() {
               <Route path="/testSeriesNew" element={<TestSeriesPage />} />
               <Route path="/dailyAffairsNew" element={<DailyAffairs />} />
               <Route path="/monthlyAffairsNew" element={<MonthlyAffairs />} />
+              {/* Protected Student Routes End */}
             </Route>
 
             {/* Fallback Route for 404 */}

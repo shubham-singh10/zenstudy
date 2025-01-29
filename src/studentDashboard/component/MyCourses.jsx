@@ -15,8 +15,6 @@ const CourseCard = ({ course }) => {
   const [averageRating, setAverageRating] = useState(0);
   const courseId = course.course_id._id;
 
-  console.log("sss", course);
-
   useEffect(() => {
     const fetchAverageRating = async () => {
       try {

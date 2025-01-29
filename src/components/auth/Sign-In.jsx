@@ -315,7 +315,7 @@ function SignIn() {
         password: data.password,
       };
       const response = await fetch(
-        ` ${process.env.REACT_APP_API}zenstudy/api/auth/signin`,
+        `${process.env.REACT_APP_API}zenstudy/api/auth/signinNew`,
         {
           method: "POST",
           credentials: "include",
@@ -337,6 +337,7 @@ function SignIn() {
         icon: "🎉",
       });
       setLoading(false);
+      console.log("ResData: ", resData)
       login(resData, resData.role, resData.token);
       Cookies.set("access_tokennew", resData._id);
       // localStorage.setItem("userData", JSON.stringify(resData));

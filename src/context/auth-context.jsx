@@ -1,12 +1,11 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// Create the context with a default value
+// Create Auth Context
 const AuthContext = createContext(null);
 
-// Custom hook to use the AuthContext
+// Custom hook to use AuthContext
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (!context) {
@@ -21,77 +20,78 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: false,
         role: null,
         user: null,
-        token: null,
     });
+
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [logoutLoading, setLogoutLoading] = useState(false);
-    // Load the auth state from localStorage when the app starts
+
+    // Check authentication on mount
     useEffect(() => {
-        const storedUser = window.localStorage.getItem("userData");
-        const storedRole = window.localStorage.getItem("role");
-        const storedToken = window.localStorage.getItem("token");
+        const checkAuth = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_API}zenstudy/api/user/userdetail`,
+                    { withCredentials: true }
+                );
 
-        if (storedUser && storedRole && storedToken) {
-            setAuthState({
-                isAuthenticated: true,
-                role: storedRole,
-                token: storedToken,
-                user: JSON.parse(storedUser), // Now, it's typed as `User | null`
-            });
-        }
-        setLoading(false);
+                if (response.data.message === "Success") {
+                    setAuthState({
+                        isAuthenticated: true,
+                        role: response.data.userdetail.role, // Assuming role is in userdetail
+                        user: response.data.userdetail,
+                    });
+                }
+            } catch (error) {
+                console.error("Auth check failed:", error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        checkAuth();
     }, []);
-
-    // Login function
-    const login = (user, role, token) => {
-        window.localStorage.setItem("userData", JSON.stringify(user));
-        window.localStorage.setItem("role", role);
-        window.localStorage.setItem("token", token);
-
+console.log("auth: ", authState)
+    // Login function - Only sets auth state
+    const login = (user) => {
         setAuthState({
             isAuthenticated: true,
-            role,
+            role: user.role,
             user,
-            token,
         });
     };
 
     // Logout function
     const logout = async () => {
-        setLogoutLoading(true)
+        setLogoutLoading(true);
         try {
-            // Call the signout API
-            const response = await axios.post(`${process.env.REACT_APP_API}zenstudy/api/auth/signout`, {}, { withCredentials: true });
-            if (response.data.message === "Signout successful") {
-                // Clear local storage and cookies
-                window.localStorage.removeItem("userData");
-                window.localStorage.removeItem("role");
-                window.localStorage.removeItem("token");
-                Cookies.remove("access_tokennew");
+            const response = await axios.post(
+                `${process.env.REACT_APP_API}zenstudy/api/auth/signout`,
+                {},
+                { withCredentials: true }
+            );
 
-                // Update auth state and redirect to home
+            if (response.data.message === "Signout successful") {
                 setAuthState({
                     isAuthenticated: false,
                     role: null,
                     user: null,
-                    token: null,
                 });
+
                 navigate("/");
-                setTimeout(() => {
-                    window.location.reload();
-                }, 100);
+                // setTimeout(() => {
+                //     window.location.reload();
+                // }, 100);
             }
         } catch (error) {
             console.error("Logout failed:", error);
-            // Optionally, show an error message to the user
         } finally {
-            setLogoutLoading(false);  // End loading
+            setLogoutLoading(false);
         }
     };
 
     return (
-        <AuthContext.Provider value={{ ...authState, login, logout, loading, logoutLoading  }}>
+        <AuthContext.Provider value={{ ...authState, login, logout, loading, logoutLoading }}>
             {children}
         </AuthContext.Provider>
     );

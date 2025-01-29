@@ -4,10 +4,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FaUserAlt } from "react-icons/fa";
 import { IoMdArrowDropup } from "react-icons/io";
-import Cookies from "js-cookie";
 import { FaBookOpenReader } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
 import { useAuth } from "../context/auth-context";
+import Loading from "../Loading";
 
 const navLink = [
   { label: "Home", link: "/" },
@@ -24,12 +24,11 @@ const NavBar = () => {
   const [hamBurger, setHamBurger] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showMore, setShowMore] = useState(false);
-  const { logout, logoutLoading } = useAuth();
-
   const location = useLocation();
   const navigate = useNavigate();
-  const [userData, setUserData] = useState(null);
-  const isLoggedIn = !!Cookies.get("access_tokennew");
+  const { isAuthenticated, loading, user, logout, logoutLoading } = useAuth()
+
+
   // Toggle body scroll based on hamburger menu state
   useEffect(() => {
     document.body.style.overflow = hamBurger ? "hidden" : "auto";
@@ -37,23 +36,13 @@ const NavBar = () => {
       document.body.style.overflow = "auto";
     };
   }, [hamBurger]);
-
-  useEffect(() => {
-    const storedUserData = localStorage.getItem("userData");
-    if (storedUserData) {
-      setUserData(JSON.parse(storedUserData));
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("userData")
-    Cookies.remove("access_tokennew");
-    navigate("/");
-    window.location.reload();
-  };
+  
 
   const handleMoreToggle = () => setShowMore(!showMore);
 
+  if (loading) {
+    return <Loading />
+   }
   return (
     <Fragment>
       {/* Navbar Container */}
@@ -110,7 +99,7 @@ const NavBar = () => {
 
         {/* Auth Buttons - Desktop */}
         <div className="hidden lg:flex items-center space-x-4">
-          {!isLoggedIn ? (
+          {!isAuthenticated ? (
             <div className="flex items-center gap-4">
               <button
                 className="px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-full shadow-lg hover:from-blue-600 hover:to-blue-800 hover:shadow-xl transition-all duration-300"
@@ -133,7 +122,7 @@ const NavBar = () => {
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 <FaUserAlt className="text-lg" />
-                <span className="text-sm font-medium">{userData?.name || "User"}</span>
+                <span className="text-sm font-medium">{user?.name || "User"}</span>
                 {dropdownOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
               </button>
 
@@ -143,7 +132,7 @@ const NavBar = () => {
                   {/* Welcome Section */}
                   <div className="px-4 py-3 bg-gray-100 rounded-t-lg border-b border-gray-200">
                     <p className="text-sm text-gray-600">Welcome,</p>
-                    <p className="text-base font-semibold text-[#054BB4]">{userData?.name}</p>
+                    <p className="text-base font-semibold text-[#054BB4]">{user?.name || "User"}</p>
                   </div>
 
                   {/* Links Section */}
@@ -165,7 +154,7 @@ const NavBar = () => {
                     <button
                       className="flex items-center gap-2 px-4 py-3 text-sm text-white bg-red-600 hover:bg-red-700 transition-all rounded-b-lg"
                       disabled={logoutLoading}
-                      onClick={()=>logout()}
+                      onClick={() => logout()}
                     >
                       <FiLogOut className="text-white" />
                       <span>{logoutLoading ? "Logging out..." : "Logout"}</span>
@@ -178,7 +167,7 @@ const NavBar = () => {
         </div>
 
         {
-        /* Hamburger Menu - Mobile */
+          /* Hamburger Menu - Mobile */
         }
         <div className="lg:hidden flex items-center">
           {!hamBurger ? (
@@ -196,7 +185,7 @@ const NavBar = () => {
       </div>
 
       {
-      /* Mobile Menu */
+        /* Mobile Menu */
       }
 
       {hamBurger && (
@@ -214,7 +203,7 @@ const NavBar = () => {
 
               </li>
             ))}
-            {!isLoggedIn ? (
+            {!isAuthenticated ? (
               <Fragment>
                 <button
                   className="w-full px-4 py-2 bg-white text-[#054BB4] rounded-full hover:bg-gray-200"
@@ -237,7 +226,7 @@ const NavBar = () => {
               </Fragment>
             ) : (
               <Fragment>
-              
+
                 <button
                   className="flex items-center justify-center w-[50%] px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-full shadow-md hover:from-blue-600 hover:to-blue-800 hover:shadow-lg transition-all"
                   onClick={() => {
@@ -252,10 +241,11 @@ const NavBar = () => {
                 {/* Logout Option */}
                 <button
                   className="flex items-center justify-center w-[50%] px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white font-semibold rounded-full shadow-md hover:from-red-600 hover:to-red-800 hover:shadow-lg transition-all"
-                  onClick={handleLogout}
+                  disabled={logoutLoading}
+                  onClick={() => logout()}
                 >
                   <FiLogOut className="text-xl mr-2" />
-                  Logout
+                  {logoutLoading ? "Logging out..." : "Logout"}
                 </button>
               </Fragment>
 
