@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { FiUpload, FiUploadCloud } from "react-icons/fi";
 import { TextField, Button } from "@mui/material";
 import Swal from "sweetalert2";
-import Cookies from "js-cookie"; // Add this package
 import axios from "axios";
 import { MdVerified } from "react-icons/md";
 import { useForm } from "react-hook-form";
@@ -12,6 +11,7 @@ import {
   signInWithCredential,
   PhoneAuthProvider,
 } from "firebase/auth";
+import { useAuth } from "../../context/auth-context";
 
 const Profile = () => {
   const {
@@ -45,16 +45,8 @@ const Profile = () => {
   });
   const [Imgloading, setImgLoading] = useState(false);
   const [Dloading, setDLoading] = useState(true);
-  const token = Cookies.get("access_tokennew");
-  let userId = null;
-
-  if (token) {
-    try {
-      userId = token;
-    } catch (error) {
-      console.error("Error decoding token:", error);
-    }
-  }
+  const {user} = useAuth()
+  
   const password = watch("password");
   const onSubmit = async (data) => {
     // console.log("Form_Data: ", data);
@@ -68,7 +60,7 @@ const Profile = () => {
       const sendData = {
         phone: userData.phone,
         password: data.password,
-        userId: userId,
+        userId: user?._id,
       };
 
       const response = await fetch(
@@ -179,13 +171,13 @@ const Profile = () => {
 
   // Update User API
   const submitData = async () => {
-    if (!userId) return;
+    if (!user) return;
 
     setLoading(true);
     // console.log("User_Data: ", userData)
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API}zenstudy/api/user/updateUserN/${userId}`,
+        `${process.env.REACT_APP_API}zenstudy/api/user/updateUserN/${user?._id}`,
         userData,
         {
           headers: {
@@ -217,13 +209,13 @@ const Profile = () => {
 
   // Update User Image API
   const submitImageData = async () => {
-    if (!userId) return;
+    if (!user) return;
 
     setImgLoading(true);
     // console.log("User_Data: ", userData)
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API}zenstudy/api/user/updatenew/${userId}`,
+        `${process.env.REACT_APP_API}zenstudy/api/user/updatenew/${user?._id}`,
         userData,
         {
           headers: {
@@ -265,10 +257,10 @@ const Profile = () => {
 
   //Call getUser Data
   useEffect(() => {
-    if (userId) {
-      getUserData(userId);
+    if (user) {
+      getUserData(user?._id);
     }
-  }, [userId]);
+  }, [user]);
 
   if (Dloading) {
     return (
@@ -283,7 +275,7 @@ const Profile = () => {
     try {
       const sendData = {
         email: email,
-        userId: token,
+        userId: user?._id,
       };
 
       const response = await axios.post(
@@ -313,7 +305,7 @@ const Profile = () => {
     try {
       const sendData = {
         email: email,
-        userId: token,
+        userId: user?._id,
         enteredOtp: userData.otp,
       };
 
@@ -327,7 +319,7 @@ const Profile = () => {
 
       if (data.message === "OTP verified successfully") {
         setIsModalOpen(false);
-        getUserData(userId);
+        getUserData(user?._id);
       } else {
         console.error("Failed to verify OTP:", data.message);
       }

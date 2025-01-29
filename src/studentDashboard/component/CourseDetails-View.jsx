@@ -3,7 +3,6 @@ import { FiArrowLeft } from "react-icons/fi";
 import { GrLanguage } from "react-icons/gr";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import he from "he";
-import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import { MdSlowMotionVideo } from "react-icons/md";
 import { FaLock, FaLockOpen } from "react-icons/fa";
@@ -30,8 +29,8 @@ const CourseDetailsView = () => {
   const { courseId } = useParams();
   const {state} = useLocation()
   const selectedcourseId = state.courseId
-  const { userStatus } = VerifyEmailMsg();
-
+  const { userStatus , userData} = VerifyEmailMsg();
+  
   useEffect(() => {
     if (discount) {
       // Assuming you only want to show confetti if there's a discount
@@ -44,16 +43,6 @@ const CourseDetailsView = () => {
     }
   }, [discount]);
 
-  const token = Cookies.get("access_tokennew");
-  let userId = null;
-
-  if (token) {
-    try {
-      userId = token;
-    } catch (error) {
-      console.error("Error decoding token:", error);
-    }
-  }
   // Perticular Course get data API
   useEffect(() => {
     const getCourse = async () => {
@@ -142,7 +131,7 @@ const CourseDetailsView = () => {
           },
           body: JSON.stringify({
             amount,
-            user_id: userId,
+            user_id: userData?._id,
             course_id: selectedcourseId,
           }),
         }
@@ -193,7 +182,7 @@ const CourseDetailsView = () => {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
-                user_id: userId,
+                user_id: userData?._id,
                 course_id: selectedcourseId,
                 coursePrice: coursePost?.price || 0,
                 purchasePrice: discount?.subTotal !== undefined ? (discount?.subTotal === 0 ? 1 : (discount?.subTotal).toFixed(2)) : coursePost?.price,

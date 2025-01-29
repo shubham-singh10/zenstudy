@@ -10,8 +10,8 @@ import {
 import { MdEdit, MdEmail } from "react-icons/md";
 import axios from "axios";
 import Swal from "sweetalert2";
-import Cookies from "js-cookie";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../../context/auth-context";
 
 const InputField = ({
   label,
@@ -48,6 +48,7 @@ function DynamicSignUp() {
   const [email, setEmail] = useState(null);
   const navigation = useNavigate();
   const { courseId } = useParams();
+  const { login } = useAuth()
 
   const {
     register,
@@ -153,8 +154,8 @@ function DynamicSignUp() {
           title: "Success",
           text: "Registration Successful!",
         });
-        Cookies.set("access_tokennew", data.user._id);
-        localStorage.setItem("userData", JSON.stringify(data.user));
+        login(data.user, data.user.role, data.user.token);
+
         navigation(`/course-details/${courseId}`);
       }
     } catch (error) {
@@ -204,8 +205,8 @@ function DynamicSignUp() {
                   {step === 1
                     ? "Sign Up with Email"
                     : otpStep
-                    ? "Verify Your OTP"
-                    : "Complete Your Registration"}
+                      ? "Verify Your OTP"
+                      : "Complete Your Registration"}
                 </h2>
 
                 {step === 1 && (
@@ -269,7 +270,7 @@ function DynamicSignUp() {
                       it below to complete your registration.{" "}
                     </p>
                     <p className="text-green-600 text-xs mb-4">
-                     ( If didn't receive the OTP? Click on the edit icon to change
+                      ( If didn't receive the OTP? Click on the edit icon to change
                       your email address. )
                     </p>
 

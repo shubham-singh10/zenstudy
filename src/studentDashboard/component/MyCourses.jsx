@@ -2,8 +2,8 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PaginationNew from "../../components/pagination/PaginationNew";
 import { FaSearch } from "react-icons/fa";
-import Cookies from "js-cookie";
 import axios from "axios";
+import { useAuth } from "../../context/auth-context";
 
 const CourseCard = ({ course }) => {
   const navigate = useNavigate();
@@ -135,15 +135,8 @@ const MyCourses = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemperpage = 6;
   const [searchText, setSearchText] = useState("");
-  const token = Cookies.get("access_tokennew");
-  let userId = null;
-  if (token) {
-    try {
-      userId = token;
-    } catch (error) {
-      console.error("Error decoding token:", error);
-    }
-  }
+  const {user} = useAuth()
+  
   useEffect(() => {
     const getcourse = async () => {
       try {
@@ -155,7 +148,7 @@ const MyCourses = () => {
               Accept: "application/json",
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ user_id: userId }),
+            body: JSON.stringify({ user_id: user?._id }),
           }
         );
 
@@ -190,7 +183,7 @@ const MyCourses = () => {
     };
 
     getcourse();
-  }, [userId]);
+  }, [user]);
 
   const filteredData = courses.filter((course) => {
     const titleMatch = course.course_id?.title

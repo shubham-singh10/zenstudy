@@ -13,7 +13,7 @@ import {
 } from "firebase/auth";
 import Swal from "sweetalert2";
 import { useInView } from "react-intersection-observer";
-import Cookies from "js-cookie";
+import { useAuth } from "../../context/auth-context";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -42,6 +42,7 @@ const SignUp = () => {
     handleSubmit: handleSubmit2,
     formState: { errors: errors2 },
   } = useForm();
+  const { login } = useAuth()
   const navigate = useNavigate();
 
   // Intersection Observers
@@ -187,7 +188,7 @@ const SignUp = () => {
       };
 
       const response = await fetch(
-        `${process.env.REACT_APP_API}zenstudy/api/auth/signUp`,
+        `${process.env.REACT_APP_API2}zenstudy/api/auth/signUp`,
         {
           method: "POST",
           headers: {
@@ -223,8 +224,8 @@ const SignUp = () => {
           title: "Registration Successful!",
           text: `Welcome ${name}! Your account has been created successfully. Please log in to start exploring ZenStudy.`,
         });
-        Cookies.set("access_tokennew", resData.user._id);
-        localStorage.setItem("userData", JSON.stringify(resData.user));
+        login(resData, resData.role, resData.token);
+        
         navigate("/course-details-student");
       }
     } catch (error) {

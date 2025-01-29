@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
         checkAuth();
     }, []);
-console.log("auth: ", authState)
+
     // Login function - Only sets auth state
     const login = (user) => {
         setAuthState({

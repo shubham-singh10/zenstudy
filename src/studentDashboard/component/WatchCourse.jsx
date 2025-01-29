@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useAuth } from "../../context/auth-context";
 
 const WatchCourse = () => {
   const [selectedTab, setSelectedTab] = useState("About Video");
@@ -26,21 +27,13 @@ const WatchCourse = () => {
     REVIEWS: "Reviews",
   };
   const tabs = [TABS.ABOUT, TABS.QA, TABS.REVIEWS];
-  const token = Cookies.get("access_tokennew");
   const [reviewContent, setReviewContent] = useState("");
   const [reviewForm, setReviewForm] = useState(undefined);
   const [AllReview, setAllReview] = useState([]);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
-  let userId = null;
+  const {user} = useAuth()
 
-  if (token) {
-    try {
-      userId = token;
-    } catch (error) {
-      console.error("Error decoding token:", error);
-    }
-  }
 
   const getUserData = async (userId) => {
     try {
@@ -73,10 +66,10 @@ const WatchCourse = () => {
 
   //Call getUser Data
   useEffect(() => {
-    if (userId) {
-      getUserData(userId);
+    if (user) {
+      getUserData(user?._id);
     }
-  }, [userId]);
+  }, [user]);
 
   useEffect(() => {
     const myCourse = async () => {
@@ -135,7 +128,7 @@ const WatchCourse = () => {
         }));
 
         const userReview = reviews.find(
-          (review) => review.userId._id === token
+          (review) => review.userId._id === user?._id
         );
         setAllReview(reviews);
         setRating(userReview?.rating || 0);
@@ -147,7 +140,7 @@ const WatchCourse = () => {
     };
 
     myCourse();
-  }, [id, navigate, token, loadingState.buttonLoading]);
+  }, [id, navigate, user, loadingState.buttonLoading]);
 
   //********************* Module Change Effect ***********************************************//
 
@@ -207,7 +200,7 @@ const WatchCourse = () => {
       await axios.post(
         `${process.env.REACT_APP_API}zenstudy/api/course/${courseId}/reviews`,
         {
-          userId: token,
+          userId: user?._id,
           reviewContent,
           rating,
         }

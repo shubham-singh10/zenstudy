@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { FiArrowLeft, FiChevronDown, FiChevronRight, FiClock, FiFileText, FiPlay, FiStar } from 'react-icons/fi';
+import { useAuth } from '../../context/auth-context';
 
 const WatchCourseNew = () => {
   const [activeTab, setActiveTab] = useState('about');
@@ -19,8 +19,7 @@ const WatchCourseNew = () => {
   const [materials, setMaterials] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const token = Cookies.get('access_tokennew');
+  const {user} = useAuth()
 
   useEffect(() => {
     const fetchCourseData = async () => {
@@ -68,7 +67,7 @@ const WatchCourseNew = () => {
           : `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${review.userId.avatar}`,
       }));
       setReviews(reviews);
-      const userReview = response.data.reviews.find(review => review.userId._id === token);
+      const userReview = response.data.reviews.find(review => review.userId._id === user?._id);
       if (userReview) {
         setUserReview({ rating: userReview.rating, content: userReview.reviewContent });
       }
@@ -97,7 +96,7 @@ const WatchCourseNew = () => {
     e.preventDefault();
     try {
       await axios.post(`${process.env.REACT_APP_API}zenstudy/api/course/${id}/reviews`, {
-        userId: token,
+        userId: user?._id,
         reviewContent: userReview.content,
         rating: userReview.rating,
       });

@@ -1,13 +1,20 @@
 import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import Cookies from "js-cookie";
+import { useAuth } from "../../context/auth-context";
 
 function LiveClass() {
   const [meetingData, setMeetingData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [imgloading, setimgLoading] = useState(true);
   const [loadingMeetingId, setLoadingMeetingId] = useState(null);
-  const token = Cookies.get("access_tokennew");
+  const [userId, setUserId] = useState(null)
+  const {user} = useAuth
+
+  useEffect(()=>{
+    if(user){
+      setUserId(user?.id)
+    }
+  },[user])
 
   const fetchMeetingDetails = useCallback(
     async (purchasedCourses) => {
@@ -55,7 +62,7 @@ function LiveClass() {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ user_id: token }),
+          body: JSON.stringify({ user_id: userId }),
         }
       );
   
@@ -73,7 +80,7 @@ function LiveClass() {
       console.error("Error fetching purchased courses:", error);
       return [];
     }
-  }, [token]);
+  }, [userId]);
   
   useEffect(() => {
     const initializeData = async () => {
@@ -94,7 +101,7 @@ function LiveClass() {
     setLoadingMeetingId(id);
     try {
       window.location.replace(
-        `https://live.zenstudy.in/?key=${id}&user=${token}`
+        `https://live.zenstudy.in/?key=${id}&user=${userId}`
       );
     } catch (error) {
       console.error("Error redirecting:", error);

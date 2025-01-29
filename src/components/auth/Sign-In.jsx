@@ -16,7 +16,6 @@ import {
 } from "react-icons/md";
 import axios from "axios";
 import Swal from "sweetalert2";
-import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -259,7 +258,7 @@ function SignIn() {
       };
 
       const response = await fetch(
-        `${process.env.REACT_APP_API}zenstudy/api/auth/Signinverify`,
+        `${process.env.REACT_APP_API2}zenstudy/api/auth/Signinverify`,
         {
           method: "POST",
           headers: {
@@ -286,12 +285,10 @@ function SignIn() {
           }
         );
         setLoading(false);
-        Cookies.set("access_tokennew", resData.user._id);
-        localStorage.setItem("userData", JSON.stringify(resData.user));
+        login(resData, resData.role, resData.token);
 
         const from = location.state?.from || "/course-details-student";
-        window.location.pathname = from;
-        // navigate("/sign-In");
+        navigation(from);
       }
     } catch (error) {
       setOtpError("Invalid OTP. Please try again.");
@@ -315,7 +312,7 @@ function SignIn() {
         password: data.password,
       };
       const response = await fetch(
-        `${process.env.REACT_APP_API}zenstudy/api/auth/signinNew`,
+        `${process.env.REACT_APP_API2}zenstudy/api/auth/signinNew`,
         {
           method: "POST",
           credentials: "include",
@@ -337,10 +334,7 @@ function SignIn() {
         icon: "🎉",
       });
       setLoading(false);
-      console.log("ResData: ", resData)
       login(resData, resData.role, resData.token);
-      Cookies.set("access_tokennew", resData._id);
-      // localStorage.setItem("userData", JSON.stringify(resData));
 
       const from = location.state?.from || "/course-details-student";
       navigation(from);

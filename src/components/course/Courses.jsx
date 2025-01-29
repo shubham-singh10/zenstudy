@@ -1,13 +1,13 @@
 import React, { useEffect, useState, Fragment } from "react";
 import Loading from "../../Loading";
 import toast from "react-hot-toast";
-import Cookies from "js-cookie";
 import CommonCard from "../CommonCard";
 import { FaSearch } from "react-icons/fa";
 import Pagination from "../pagination/Pagination";
 import { Loader } from "../loader/Loader";
 import debounce from "lodash.debounce"; // Add lodash debounce for optimized search
 import axios from "axios";
+import { useAuth } from "../../context/auth-context";
 
 const Courses = () => {
   const [courses, setCourse] = useState([]);
@@ -23,6 +23,7 @@ const Courses = () => {
   });
   const [searchText, setSearchText] = useState("");
   const [activeTab, setActiveTab] = useState(null);
+  const {user} = useAuth()
 
   // Debounced search handler to reduce API calls
   const handleSearchChange = debounce((value) => {
@@ -56,10 +57,9 @@ const Courses = () => {
   }, []);
 
   useEffect(() => {
-    const userId = Cookies.get("access_tokennew");
     let api;
-    if (userId) {
-      api = `fetchPurchaseCoursesWithFilters/${userId}?page=${paginatedData.currentPage}&limit=${paginatedData.itemperpage}&search=${searchText}&catId=${activeTab}`;
+    if (user) {
+      api = `fetchPurchaseCoursesWithFilters/${user?._id}?page=${paginatedData.currentPage}&limit=${paginatedData.itemperpage}&search=${searchText}&catId=${activeTab}`;
     } else {
       api = `fetchCoursesWithFilters?page=${paginatedData.currentPage}&limit=${paginatedData.itemperpage}&search=${searchText}&catId=${activeTab}`;
     }
@@ -108,7 +108,7 @@ const Courses = () => {
     };
 
     getCourse();
-  }, [paginatedData.currentPage, searchText, paginatedData.itemperpage, activeTab]); // Dependent on both currentPage and searchText
+  }, [paginatedData.currentPage, searchText, paginatedData.itemperpage, activeTab, user]); // Dependent on both currentPage and searchText
 
   if (loading.mainLoading) {
     return <Loading />;

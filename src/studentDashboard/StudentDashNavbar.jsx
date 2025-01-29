@@ -2,11 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import { IoClose } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FiUser, FiBook, FiCircle, FiLogOut } from "react-icons/fi";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaHome, FaRegUserCircle } from "react-icons/fa";
-import Cookies from "js-cookie";
 import { RiLiveLine } from "react-icons/ri";
-import axios from "axios";
 import { useAuth } from "../context/auth-context";
 
 const links = [
@@ -22,7 +20,6 @@ const StudentDashNavbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [userData, setUserData] = useState(null);
   const location = useLocation();
-  const navigate = useNavigate();
   const dropdownRef = useRef(null);
   const sidebarRef = useRef(null);
   const { logout, logoutLoading } = useAuth();
@@ -54,29 +51,6 @@ const StudentDashNavbar = () => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => (document.body.style.overflow = "");
   }, [isOpen]);
-
-  // const handleLogout = () => {
-  //   localStorage.removeItem("userData");
-  //   Cookies.remove("access_tokennew");
-  //   navigate("/");
-  //   setIsOpen(false);
-  //   window.location.reload();
-  // };
-
-  const handleLogout = async () => {
-    try {
-      const data = await axios.post(`${process.env.REACT_APP_API}zenstudy/api/auth/signout`, {}, { withCredentials: true })
-      localStorage.removeItem("token")
-      console.log("Logout Success:", data.data.message)
-      localStorage.removeItem("userData");
-      localStorage.removeItem("role");
-      localStorage.removeItem("token");
-      Cookies.remove("access_tokennew");
-      navigate("/");
-    } catch (error) {
-      console.error("Logout failed:", error)
-    }
-  }
 
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);

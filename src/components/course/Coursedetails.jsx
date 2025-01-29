@@ -3,13 +3,13 @@ import { FiArrowLeft } from "react-icons/fi";
 import { GrLanguage } from "react-icons/gr";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import he from "he";
-import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { MdSlowMotionVideo } from "react-icons/md";
 import { FaLock, FaLockOpen } from "react-icons/fa";
 import { VerifyEmailMsg } from "../VerifyEmailMsg";
 import { Loader } from "../loader/Loader";
+import { useAuth } from "../../context/auth-context";
 
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
@@ -29,17 +29,7 @@ const CourseDetailsView = () => {
   const selectedcourseId = state.courseId
   const [currentUser, setCurrentUser] = useState(false);
   const { userStatus } = VerifyEmailMsg();
-
-  const token = Cookies.get("access_tokennew");
-  let userId = null;
-
-  if (token) {
-    try {
-      userId = token;
-    } catch (error) {
-      console.error("Error decoding token:", error);
-    }
-  }
+  const {user} = useAuth()
 
   const ApplyCoupon = async (price) => {
     try {
@@ -98,15 +88,15 @@ const CourseDetailsView = () => {
   }, [discount]);
 
   useEffect(() => {
-    const token = Cookies.get("access_tokennew");
-    if (token) {
+  
+    if (user) {
       try {
-        setCurrentUser(token);
+        setCurrentUser(user?._id);
       } catch (error) {
-        console.error("Error decoding token:", error);
+        console.error("Error decoding user:", error);
       }
     }
-  }, []);
+  }, [user]);
 
   // Perticular Course get data API
   useEffect(() => {
@@ -200,7 +190,7 @@ const CourseDetailsView = () => {
           },
           body: JSON.stringify({
             amount,
-            user_id: userId,
+            user_id: user?._id,
             course_id: selectedcourseId,
           }),
         }
@@ -251,7 +241,7 @@ const CourseDetailsView = () => {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
-                user_id: userId,
+                user_id: user?._id,
                 course_id: selectedcourseId,
                 coursePrice: coursePost?.price || 0,
                 purchasePrice: discount?.subTotal !== undefined ? (discount?.subTotal === 0 ? 1 : (discount?.subTotal).toFixed(2)) : coursePost?.price,

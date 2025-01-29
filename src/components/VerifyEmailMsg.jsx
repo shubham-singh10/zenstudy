@@ -1,40 +1,25 @@
-import axios from "axios";
-import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/auth-context";
 
 // VerifyEmailMsg Component
 function VerifyEmailMsg() {
-  const token = Cookies.get("access_tokennew");
   const [userStatus, setUserStatus] = useState(null);
   const [userData, setUserData] = useState(null);
+  const { user } = useAuth();
 
+  // ✅ Update state inside useEffect to prevent infinite re-renders
   useEffect(() => {
-    const userId = token;
-
-    if (!userId) {
-      // console.error("No user ID found in token.");
-      return;
+    if (user) {
+      setUserData(user);
+      setUserStatus(user?.status);
     }
-
-    const fetchUserDetails = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API}zenstudy/api/user/userdetail/${userId}`
-        );
-        const data = response.data;
-        setUserStatus(data.userdetail.status);
-        setUserData(data.userdetail);
-      } catch (error) {
-        console.error("Error fetching user details:", error);
-      }
-    };
-
-    fetchUserDetails();
-  }, [token]);
+  }, [user]); // Runs only when `user` changes
 
   return { userStatus, userData };
 }
+
+export default VerifyEmailMsg;
 
 // PopUpMsg Component
 function PopUpMsg() {

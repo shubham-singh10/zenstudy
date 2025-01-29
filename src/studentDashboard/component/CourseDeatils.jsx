@@ -5,6 +5,7 @@ import CommonCard from "../../components/CommonCard";
 import Pagination from "../../components/pagination/Pagination";
 import { debounce } from "lodash";
 import { Loader } from "../../components/loader/Loader";
+import { useAuth } from "../../context/auth-context";
 
 const CourseDeatils = () => {
   const [courses, setCourse] = useState([]);
@@ -19,7 +20,7 @@ const CourseDeatils = () => {
   });
 
   const [searchText, setSearchText] = useState("");
-  const userId = Cookies.get("access_tokennew");
+  const {user} = useAuth()
 
   const handleSearchChange = debounce((value) => {
     setSearchText(value);
@@ -35,7 +36,7 @@ const CourseDeatils = () => {
       setLoading((prev) => ({ ...prev, paginationLoading: true }));
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API}zenstudy/api/course/fetchPurchaseCoursesWithFilters/${userId}?page=${paginatedData.currentPage}&limit=${paginatedData.itemperpage}&search=${searchText}`,
+          `${process.env.REACT_APP_API}zenstudy/api/course/fetchPurchaseCoursesWithFilters/${user?._id}?page=${paginatedData.currentPage}&limit=${paginatedData.itemperpage}&search=${searchText}`,
           {
             method: "GET",
             headers: {
@@ -74,7 +75,7 @@ const CourseDeatils = () => {
     };
 
     getcourse();
-  }, [userId, paginatedData.currentPage, searchText, paginatedData.itemperpage]);
+  }, [user, paginatedData.currentPage, searchText, paginatedData.itemperpage]);
 
   if (loading.mainLoading) {
     return (

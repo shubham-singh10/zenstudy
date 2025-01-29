@@ -16,7 +16,6 @@ import {
 } from "react-icons/md";
 import axios from "axios";
 import Swal from "sweetalert2";
-import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
@@ -26,6 +25,7 @@ import {
 } from "firebase/auth";
 import { firebase } from "../../Firebase";
 import { FiUser } from "react-icons/fi";
+import { useAuth } from "../../context/auth-context";
 
 const InputField = ({
   label,
@@ -74,7 +74,7 @@ function SignInDynamic() {
   };
 
   const { courseId } = useParams();
-
+  const { login } = useAuth()
   // useForm hook remains the same
   const {
     register,
@@ -150,7 +150,7 @@ function SignInDynamic() {
           "recaptcha-container",
           {
             size: "invisible",
-            callback: () => {},
+            callback: () => { },
           }
         );
       }
@@ -250,11 +250,11 @@ function SignInDynamic() {
         );
 
         setLoading(false);
-        Cookies.set("access_tokennew", resData.user._id);
-        localStorage.setItem("userData", JSON.stringify(resData.user));
+        login(resData, resData.role, resData.token);
 
         const from = location.state?.from || "/course-details-student";
-        window.location.pathname = from;
+        navigation(from);
+        
       }
     } catch (error) {
       setOtpError("Invalid OTP. Please try again.");
@@ -275,7 +275,7 @@ function SignInDynamic() {
         password: data.password,
       };
       const response = await fetch(
-        ` ${process.env.REACT_APP_API}zenstudy/api/auth/signin`,
+        ` ${process.env.REACT_APP_API}zenstudy/api/auth/signinNew`,
         {
           method: "POST",
           credentials: "include",
@@ -298,8 +298,7 @@ function SignInDynamic() {
       });
 
       setLoading(false);
-      Cookies.set("access_tokennew", resData._id);
-      localStorage.setItem("userData", JSON.stringify(resData));
+      login(resData, resData.role, resData.token);
 
       const from = `course-details/${courseId}`;
       // navigate(from);
@@ -349,10 +348,10 @@ function SignInDynamic() {
                   {step === 1
                     ? "Enter your Email or Phone no."
                     : step === 2
-                    ? "Complete Your Registration"
-                    : step === 3
-                    ? `Enter the OTP sent to your phone number (${phone})`
-                    : "Enter Your Password"}
+                      ? "Complete Your Registration"
+                      : step === 3
+                        ? `Enter the OTP sent to your phone number (${phone})`
+                        : "Enter Your Password"}
                 </h2>
 
                 <div className="signup-container">
