@@ -1,14 +1,9 @@
 import React from 'react'
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi"
+
 const PaginationNew = ({ currentPage, setCurrentPage, data, itemsPerPage }) => {
+    const totalPages = data.length > 0 ? Math.ceil(data.length / itemsPerPage) : 1;
 
-    // Calculate the indices for slicing the data array
-    // const indexOfLastItem = currentPage * itemsPerPage;
-    // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    // const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-
-    // Calculate total number of pages
-    const totalPages = Math.ceil(data.length / itemsPerPage);
     return (
         <div className="flex flex-col items-center space-y-4 mt-10">
             {/* Pagination Info */}
@@ -21,8 +16,8 @@ const PaginationNew = ({ currentPage, setCurrentPage, data, itemsPerPage }) => {
                 {/* Previous Button */}
                 <button
                     className={`flex items-center px-6 py-2 rounded-full text-sm font-medium transition ${currentPage === 1
-                            ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                            : "bg-blue-100 text-blue-700 hover:bg-blue-200"
+                        ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                        : "bg-blue-100 text-blue-700 hover:bg-blue-200"
                         }`}
                     onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
@@ -34,8 +29,8 @@ const PaginationNew = ({ currentPage, setCurrentPage, data, itemsPerPage }) => {
                 {/* Next Button */}
                 <button
                     className={`flex items-center px-6 py-2 rounded-full text-sm font-medium transition ${currentPage === totalPages
-                            ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                            : "bg-blue-100 text-blue-700 hover:bg-blue-200"
+                        ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                        : "bg-blue-100 text-blue-700 hover:bg-blue-200"
                         }`}
                     onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                     disabled={currentPage === totalPages}

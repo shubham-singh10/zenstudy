@@ -22,15 +22,13 @@ const StudentDashNavbar = () => {
   const location = useLocation();
   const dropdownRef = useRef(null);
   const sidebarRef = useRef(null);
-  const { logout, logoutLoading } = useAuth();
+  const { logout, logoutLoading, user } = useAuth();
 
   useEffect(() => {
-    const userDataFromLocalStorage = localStorage.getItem("userData");
-    if (userDataFromLocalStorage) {
-      const parsedUserData = JSON.parse(userDataFromLocalStorage);
-      setUserData(parsedUserData);
+    if (user) {
+      setUserData(user);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {

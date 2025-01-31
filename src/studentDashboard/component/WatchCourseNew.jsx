@@ -19,7 +19,7 @@ const WatchCourseNew = () => {
   const [materials, setMaterials] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
-  const {user} = useAuth()
+  const { user } = useAuth()
 
   useEffect(() => {
     const fetchCourseData = async () => {
@@ -142,7 +142,20 @@ const WatchCourseNew = () => {
             {/* Tabs */}
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
               <div className="flex flex-wrap border-b">
-                {['about', 'notes', 'materials', 'qa', 'reviews'].map((tab) => (
+                {/* {['about', 'notes', 'materials', 'qa', 'reviews'].map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-4 py-3 text-sm font-medium transition-colors flex-grow sm:flex-grow-0 ${activeTab === tab
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-600 hover:bg-gray-100'
+                      }`}
+                  >
+                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                  </button>
+                ))} */}
+
+                {['about', 'reviews'].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -261,45 +274,45 @@ const WatchCourseNew = () => {
             <div className="bg-white rounded-xl shadow-md overflow-hidden sticky top-6">
               <h2 className="text-xl font-bold p-4 bg-gray-50 border-b">Course Content</h2>
               <div className="p-4 max-h-[calc(100vh-10rem)] overflow-y-auto">
-              {courses.map((module, index) => (
-                <div key={index} className="mb-4">
-                  <button
-                    onClick={() => toggleModule(module._id, module.moduleTitle)}
-                    className={`${selectedModule === module.moduleTitle ? "bg-blue-400" : ""} w-full px-4 py-3 flex items-center border-2 justify-between text-left rounded-lg `}
-                  >
-                    <span className={`font-medium  ${selectedModule === module.moduleTitle ? " text-white" : "text-gray-800"}`}>
-                      {module.moduleTitle}
-                    </span>
-                    {expandedModules.includes(module._id) ? (
-                      <FiChevronDown size={20} className={`${selectedModule === module.moduleTitle ? "text-white" :"text-gray-500" }`} />
-                    ) : (
-                      <FiChevronRight size={20} className={`${selectedModule === module.moduleTitle ? "text-white" :"text-gray-500" }`} />
+                {courses.map((module, index) => (
+                  <div key={index} className="mb-4">
+                    <button
+                      onClick={() => toggleModule(module._id, module.moduleTitle)}
+                      className={`${selectedModule === module.moduleTitle ? "bg-blue-400" : ""} w-full px-4 py-3 flex items-center border-2 justify-between text-left rounded-lg `}
+                    >
+                      <span className={`font-medium  ${selectedModule === module.moduleTitle ? " text-white" : "text-gray-800"}`}>
+                        {module.moduleTitle}
+                      </span>
+                      {expandedModules.includes(module._id) ? (
+                        <FiChevronDown size={20} className={`${selectedModule === module.moduleTitle ? "text-white" : "text-gray-500"}`} />
+                      ) : (
+                        <FiChevronRight size={20} className={`${selectedModule === module.moduleTitle ? "text-white" : "text-gray-500"}`} />
+                      )}
+                    </button>
+                    {expandedModules.includes(module._id) && (
+                      <div className="mt-2 space-y-2">
+                        {module.videos.map((video, vIndex) => (
+                          <button
+                            key={vIndex}
+                            onClick={() => handleVideoClick(video)}
+                            className={`w-full px-4 py-2 flex items-center border-2 justify-between text-left rounded-lg transition-colors ${selectedVideoTitle === video.videoTitle ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 bg-blue-50 text-gray-700'
+                              }`}
+                          >
+                            <div className="flex items-center">
+                              <FiPlay size={16} className={`mr-2 ${selectedVideoTitle === video.videoTitle ? 'text-blue-600' : 'text-gray-400 '}`} />
+                              <span className="text-sm">{video.videoTitle}</span>
+                            </div>
+                            <div className="flex items-center text-xs text-gray-500">
+                              <FiClock size={12} className="mr-1" />
+                              <span>{formatDuration(video.duration)}</span>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
                     )}
-                  </button>
-                  {expandedModules.includes(module._id) && (
-                    <div className="mt-2 space-y-2">
-                      {module.videos.map((video, vIndex) => (
-                        <button
-                          key={vIndex}
-                          onClick={() => handleVideoClick(video)}
-                          className={`w-full px-4 py-2 flex items-center border-2 justify-between text-left rounded-lg transition-colors ${selectedVideoTitle === video.videoTitle ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 bg-blue-50 text-gray-700'
-                            }`}
-                        >
-                          <div className="flex items-center">
-                            <FiPlay size={16} className={`mr-2 ${selectedVideoTitle === video.videoTitle ? 'text-blue-600' : 'text-gray-400 '}`} />
-                            <span className="text-sm">{video.videoTitle}</span>
-                          </div>
-                          <div className="flex items-center text-xs text-gray-500">
-                            <FiClock size={12} className="mr-1" />
-                            <span>{formatDuration(video.duration)}</span>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-              
+                  </div>
+                ))}
+
               </div>
             </div>
           </div>

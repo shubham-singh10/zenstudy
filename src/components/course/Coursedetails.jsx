@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { GrLanguage } from "react-icons/gr";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import he from "he";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
@@ -25,8 +25,6 @@ const CourseDetailsView = () => {
   const [pageloading, setpageLoading] = useState(false);
   const navigate = useNavigate();
   const { courseId } = useParams();
-  const { state } = useLocation()
-  const selectedcourseId = state.courseId
   const [currentUser, setCurrentUser] = useState(false);
   const { userStatus } = VerifyEmailMsg();
   const {user} = useAuth()
@@ -37,7 +35,7 @@ const CourseDetailsView = () => {
       const sendData = {
         code: code,
         coursePrice: price,
-        courseId: selectedcourseId,
+        courseId: coursePost?._id,
       };
       // console.log("Sending data:", sendData);
 
@@ -162,10 +160,6 @@ const CourseDetailsView = () => {
     return `${day}-${month}-${year}`;
   };
 
-  // const stripHtmlTags = (html) => {
-  //   const doc = new DOMParser().parseFromString(html, "text/html");
-  //   return doc.body.textContent || "";
-  // };
 
   //Payment Initiate
   const handlePayment = async (amount) => {
@@ -191,7 +185,7 @@ const CourseDetailsView = () => {
           body: JSON.stringify({
             amount,
             user_id: user?._id,
-            course_id: selectedcourseId,
+            course_id: coursePost?._id,
           }),
         }
       );
@@ -211,7 +205,7 @@ const CourseDetailsView = () => {
 
       const data = await res.json();
       //console.log("Data", data)
-      handlePaymentVerify(data.data, selectedcourseId);
+      handlePaymentVerify(data.data, coursePost?._id);
       setPayLoading(false);
     } catch (error) {
       console.error("Error creating payment order:", error);
@@ -242,7 +236,7 @@ const CourseDetailsView = () => {
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
                 user_id: user?._id,
-                course_id: selectedcourseId,
+                course_id: coursePost?._id,
                 coursePrice: coursePost?.price || 0,
                 purchasePrice: discount?.subTotal !== undefined ? (discount?.subTotal === 0 ? 1 : (discount?.subTotal).toFixed(2)) : coursePost?.price,
                 couponCode: code,

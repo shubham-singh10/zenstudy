@@ -2,7 +2,6 @@ import { Fragment, Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import Loading from "./Loading.jsx";
 import MainLayout from "./MainLayout.jsx";
-import StudentLayout from "./studentDashboard/StudentLayout.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
 import { Toaster } from "react-hot-toast";
 import CoursesNew from "./components/course/CoursesNew.jsx";
@@ -24,34 +23,20 @@ const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
 const Courses = lazy(() => import("./components/course/Courses.jsx"));
 const CurrentAffair = lazy(() => import("./components/currentAffairs"));
-const CourseDetails = lazy(() =>
-  import("./components/course/Coursedetails.jsx")
-);
+const CourseDetails = lazy(() => import("./components/course/Coursedetails.jsx"));
 const ContactUs = lazy(() => import("./components/Contact.jsx"));
 const SignUp = lazy(() => import("./components/auth/Sign-up.jsx"));
 const SignIn = lazy(() => import("./components/auth/Sign-In.jsx"));
-const ResetPassword = lazy(() =>
-  import("./components/auth/Reset-Password.jsx")
-);
+const ResetPassword = lazy(() => import("./components/auth/Reset-Password.jsx"));
 
 //Student Dashboard Pages
 const Profile = lazy(() => import("./studentDashboard/component/Profile.jsx"));
-const CourseDetailsStudent = lazy(() =>
-  import("./studentDashboard/component/CourseDeatils.jsx")
-);
-const CourseDetailsStudentView = lazy(() =>
-  import("./studentDashboard/component/CourseDetails-View.jsx")
-);
-const MyCourses = lazy(() =>
-  import("./studentDashboard/component/MyCourses.jsx")
-);
+const CourseDetailsStudentView = lazy(() => import("./studentDashboard/component/CourseDetails-View.jsx"));
+const MyCoursesNew = lazy(() => import("./studentDashboardNew/components/MyPurchasePage.jsx"));
 const UPSCStudent = lazy(() => import("./studentDashboard/component/Upse.jsx"));
-const DailyAffairs = lazy(() => import("./studentDashboard/component/currentAffairs/DailyAffairs.jsx"));
-const MonthlyAffairs = lazy(() => import("./studentDashboard/component/currentAffairs/MonthlyAffairs.jsx"));
+const DailyAffairs = lazy(() => import("./studentDashboardNew/components/currentAffairs/DailyAffairs.jsx"));
+const MonthlyAffairs = lazy(() => import("./studentDashboardNew/components/currentAffairs/MonthlyAffairs.jsx"));
 const TestSeriesPage = lazy(() => import("./studentDashboard/component/TestSeries.jsx"));
-const WatchCourse = lazy(() =>
-  import("./studentDashboard/component/WatchCourse.jsx")
-);
 
 
 function App() {
@@ -85,35 +70,20 @@ function App() {
               {/* Public Route End */}
             </Route>
 
-            {/* Protected Student Routes Start */}
-            <Route element={<PrivateRoute element={<StudentLayout />} />}>
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/course-details-student" element={<CourseDetailsStudent />} />
-              <Route path="/course-details-view/:courseId" element={<CourseDetailsStudentView />} />
-              <Route path="/mycourse" element={<MyCourses />} />
-              <Route path="/liveClass" element={<LiveClass />} />
-              <Route path="/upsc-student" element={<UPSCStudent />} />
-              <Route path="/watch-course/:id" element={<WatchCourse />} />
-              <Route path="/watch-course/:id" element={<WatchCourse />} />
-              <Route path="/testSeries" element={<TestSeriesPage />} />
-              <Route path="/dailyAffairs" element={<DailyAffairs />} />
-              <Route path="/monthlyAffairs" element={<MonthlyAffairs />} />
-              {/* Protected Student Routes End */}
-            </Route>
+
 
             {/* Protected Student Routes Start */}
             <Route element={<PrivateRoute element={<HomeNew />} />}>
-              <Route path="/profileNew" element={<Profile />} />
-              <Route path="/course-details-studentNew" element={<CourseDetailsStudent />} />
-              <Route path="/CoursesPage" element={<CoursesPage />} />
-              <Route path="/course-details-viewNew/:courseId" element={<CourseDetailsStudentView />} />
-              <Route path="/mycourseNew" element={<MyCourses />} />
-              <Route path="/liveClassNew" element={<LiveClass />} />
-              <Route path="/upsc-studentNew" element={<UPSCStudent />} />
-              <Route path="/watch-courseNew/:id" element={<WatchCourseNew />} />
-              <Route path="/testSeriesNew" element={<TestSeriesPage />} />
-              <Route path="/dailyAffairsNew" element={<DailyAffairs />} />
-              <Route path="/monthlyAffairsNew" element={<MonthlyAffairs />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/course-details-student" element={<CoursesPage />} />
+              <Route path="/course-details-view/:courseId" element={<CourseDetailsStudentView />} />
+              <Route path="/mycourse" element={<MyCoursesNew />} />
+              <Route path="/liveClass" element={<LiveClass />} />
+              <Route path="/upsc-student" element={<UPSCStudent />} />
+              <Route path="/watch-course/:id" element={<WatchCourseNew />} />
+              <Route path="/testSeries" element={<TestSeriesPage />} />
+              <Route path="/dailyAffairs" element={<DailyAffairs />} />
+              <Route path="/monthlyAffairs" element={<MonthlyAffairs />} />
               {/* Protected Student Routes End */}
             </Route>
 

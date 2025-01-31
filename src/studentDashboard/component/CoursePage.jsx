@@ -1,136 +1,90 @@
 import React from "react"
 import { useState, useEffect } from "react"
-import { BiSort } from "react-icons/bi"
-import { FiChevronDown, FiChevronRight, FiSearch } from "react-icons/fi"
+import { FiSearch } from "react-icons/fi"
 import { RiSortAsc, RiSortDesc } from "react-icons/ri"
+import { useAuth } from "../../context/auth-context"
+import Loading from "../../Loading"
+import Pagination from "../../components/pagination/Pagination"
+import { useNavigate } from "react-router-dom"
 
-// Mock data for courses
-const mockCourses = [
-  {
-    id: 1,
-    title: "Introduction to React",
-    instructor: "John Doe",
-    price: 49.99,
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    rating: 4.5,
-    students: 1234,
-  },
-  {
-    id: 2,
-    title: "Advanced JavaScript Concepts",
-    instructor: "Jane Smith",
-    price: 69.99,
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    rating: 4.8,
-    students: 2345,
-  },
-  {
-    id: 3,
-    title: "Python for Data Science",
-    instructor: "Bob Johnson",
-    price: 59.99,
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    rating: 4.6,
-    students: 3456,
-  },
-  {
-    id: 4,
-    title: "Machine Learning Fundamentals",
-    instructor: "Alice Brown",
-    price: 79.99,
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    rating: 4.7,
-    students: 4567,
-  },
-  {
-    id: 5,
-    title: "Web Design Principles",
-    instructor: "Charlie Green",
-    price: 39.99,
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    rating: 4.4,
-    students: 5678,
-  },
-  {
-    id: 6,
-    title: "Mobile App Development with React Native",
-    instructor: "David White",
-    price: 69.99,
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    rating: 4.9,
-    students: 6789,
-  },
-  {
-    id: 7,
-    title: "Database Management with SQL",
-    instructor: "Eva Black",
-    price: 54.99,
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    rating: 4.5,
-    students: 7890,
-  },
-  {
-    id: 8,
-    title: "Cybersecurity Essentials",
-    instructor: "Frank Gray",
-    price: 64.99,
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    rating: 4.7,
-    students: 8901,
-  },
-  {
-    id: 9,
-    title: "Digital Marketing Strategies",
-    instructor: "Grace Taylor",
-    price: 49.99,
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    rating: 4.6,
-    students: 9012,
-  },
-  {
-    id: 10,
-    title: "Cloud Computing with AWS",
-    instructor: "Henry Lee",
-    price: 74.99,
-    thumbnail: "/placeholder.svg?height=200&width=300",
-    rating: 4.8,
-    students: 10123,
-  },
-]
-
-const CoursesPage= () => {
-  const [courses, setCourses] = useState(mockCourses)
+const CoursesPage = () => {
+  const [courses, setCourses] = useState([])
+  const [loading, setLoading] = useState({
+    mainLoading: true,
+    paginationLoading: false,
+    imageLoading: true
+  });
+  const [paginatedData, setPaginatedData] = useState({
+    currentPage: 1,
+    itemperpage: 6,
+    totalData: 0,
+  });
+  const { user } = useAuth()
   const [searchTerm, setSearchTerm] = useState("")
-  const [currentPage, setCurrentPage] = useState(1)
-  const [sortBy, setSortBy] = useState("rating")
+  const [sortBy, setSortBy] = useState("price")
   const [sortOrder, setSortOrder] = useState("desc")
-  const coursesPerPage = 6
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Sort and filter courses based on search term and sort options
-    const filteredCourses = mockCourses.filter(
-      (course) =>
-        course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.instructor.toLowerCase().includes(searchTerm.toLowerCase()),
-    )
+    const getcourse = async () => {
+      setLoading((prev) => ({ ...prev, paginationLoading: true }));
 
-    filteredCourses.sort((a, b) => {
-      if (sortOrder === "asc") {
-        return a[sortBy] - b[sortBy]
-      } else {
-        return b[sortBy] - a[sortBy]
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API}zenstudy/api/course/fetchPurchaseCoursesWithFilters/${user?._id}?page=${paginatedData.currentPage}&limit=${paginatedData.itemperpage}&search=${searchTerm}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.status === 404) {
+          setCourses([]);
+          setLoading({ mainLoading: false, paginationLoading: false });
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+        const mainData = data.courses;
+        const metaData = data.meta;
+
+        setPaginatedData((prev) => ({ ...prev, totalData: metaData.total }));
+
+        if (mainData.length === 0) {
+          setCourses([]);
+        } else {
+          setTimeout(() => {
+            setCourses(
+              mainData.map((course) => ({
+                ...course,
+                imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`,
+              })).sort((a, b) => (sortOrder === "asc" ? a.price - b.price : b.price - a.price))
+            );
+          }, 200);
+        }
+
+        setLoading({ mainLoading: false, paginationLoading: false });
+
+      } catch (error) {
+        setLoading({ mainLoading: false, paginationLoading: false });
       }
-    })
+    };
 
-    setCourses(filteredCourses)
-    setCurrentPage(1)
-  }, [searchTerm, sortBy, sortOrder])
+    getcourse();
+  }, [user, paginatedData.currentPage, paginatedData.itemperpage, searchTerm, sortBy, sortOrder]);
 
-  const indexOfLastCourse = currentPage * coursesPerPage
-  const indexOfFirstCourse = indexOfLastCourse - coursesPerPage
-  const currentCourses = courses.slice(indexOfFirstCourse, indexOfLastCourse)
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber)
+  const setCurrentPage = (newPage) => {
+    setLoading((prev) => ({ ...prev, paginationLoading: true }));
+    setPaginatedData((prev) => ({ ...prev, currentPage: newPage }));
+  };
 
   const handleSort = (key) => {
     if (sortBy === key) {
@@ -139,6 +93,10 @@ const CoursesPage= () => {
       setSortBy(key)
       setSortOrder("desc")
     }
+  }
+
+  if (loading.mainLoading) {
+    return <Loading />
   }
 
   return (
@@ -166,83 +124,69 @@ const CoursesPage= () => {
               Price
               {sortBy === "price" && (sortOrder === "asc" ? <RiSortAsc size={20} /> : <RiSortDesc size={20} />)}
             </button>
-            <button
-              onClick={() => handleSort("rating")}
-              className="flex items-center px-4 py-2 bg-white rounded-lg shadow hover:bg-gray-50 transition-colors"
-            >
-              Rating
-              {sortBy === "rating" && (sortOrder === "asc" ? <RiSortAsc size={20} /> : <RiSortDesc size={20} />)}
-            </button>
           </div>
         </div>
 
         {/* Course Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {currentCourses.map((course) => (
-            <div key={course.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 transition-opacity duration-300 ${loading.paginationLoading ? "opacity-0" : "opacity-100"}`}>
+          {courses.length === 0 && !loading.mainLoading ? (
+            <div className="text-center text-gray-500 text-lg py-10">
+              No courses found
+            </div>
+          ) : (courses.map((course) => (
+            <div key={course._id} className="bg-white rounded-lg shadow-md overflow-hidden">
+              {loading.imageLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
+                  <div className="w-24 h-24 bg-gray-400 rounded-full"></div>
+                </div>
+              )}
               <img
-                src={course.thumbnail || "/placeholder.svg"}
-                alt={course.title}
-                className="w-full h-48 object-cover"
+                src={course?.imageUrl || "/assets/upcoming.webp"}
+                crossOrigin="anonymous"
+                alt={course?.title}
+                className={`w-full h-48 object-cover transition-opacity duration-500 ${loading.imageLoading ? "opacity-0" : "opacity-100"}`}
+                onLoad={() => setLoading(false)}
               />
               <div className="p-4">
-                <h2 className="text-xl font-semibold text-gray-800 mb-2">{course.title}</h2>
-                <p className="text-gray-600 mb-2">Instructor: {course.instructor}</p>
+                <h2 className="text-xl font-semibold text-gray-800 mb-2">{course?.title}</h2>
+                <p className="text-gray-600 mb-2">{course?.language?.name}</p>
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-2xl font-bold text-blue-600">${course.price.toFixed(2)}</span>
-                  <div className="flex items-center">
-                    <span className="text-yellow-500 mr-1">★</span>
-                    <span>{course.rating.toFixed(1)}</span>
-                    <span className="text-gray-500 ml-2">({course.students} students)</span>
-                  </div>
+                  <span className="text-2xl font-bold text-blue-600">  {" "}
+                    <span className="line-through text-gray-400 text-sm mr-1">
+                      {" "}
+                      ₹ {course.value}
+                    </span>{" "}
+                    ₹ {course.price}
+                  </span>
+
                 </div>
                 <div className="flex space-x-2">
-                  <button className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-                    Buy Now
-                  </button>
-                  <button className="flex-1 border border-blue-600 text-blue-600 py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors">
+
+                  <button
+                    className="flex-1 border border-blue-600 text-blue-600 py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors"
+                    onClick={() =>
+                      navigate(`/course-details-view/${course.title.replace(/\s+/g, '-')}`, {
+                        state: { courseId: course._id },
+                      })
+                    }
+                  >
                     View Details
                   </button>
                 </div>
               </div>
             </div>
-          ))}
+          )))}
         </div>
 
         {/* Pagination */}
-        <div className="mt-8 flex justify-center">
-          <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-            <button
-              onClick={() => paginate(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-            >
-              <span className="sr-only">Previous</span>
-              <FiChevronDown className="h-5 w-5" aria-hidden="true" />
-            </button>
-            {Array.from({ length: Math.ceil(courses.length / coursesPerPage) }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => paginate(index + 1)}
-                className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                  currentPage === index + 1
-                    ? "z-10 bg-blue-50 border-blue-500 text-blue-600"
-                    : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
-                }`}
-              >
-                {index + 1}
-              </button>
-            ))}
-            <button
-              onClick={() => paginate(currentPage + 1)}
-              disabled={currentPage === Math.ceil(courses.length / coursesPerPage)}
-              className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-            >
-              <span className="sr-only">Next</span>
-              <FiChevronRight className="h-5 w-5" aria-hidden="true" />
-            </button>
-          </nav>
-        </div>
+        {!loading.paginationLoading && (
+          <Pagination
+            data={paginatedData.totalData}
+            setCurrentPage={setCurrentPage}
+            currentPage={paginatedData.currentPage}
+            itemsPerPage={paginatedData.itemperpage}
+          />
+        )}
       </div>
     </div>
   )

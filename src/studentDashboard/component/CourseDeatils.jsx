@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
-import Cookies from "js-cookie";
 import CommonCard from "../../components/CommonCard";
 import Pagination from "../../components/pagination/Pagination";
 import { debounce } from "lodash";
@@ -106,7 +105,6 @@ const CourseDeatils = () => {
           No courses found...
         </div>
       ) : (
-
         loading.paginationLoading ? (
           <div className="flex justify-center items-center h-96">
             <Loader fill="black" />

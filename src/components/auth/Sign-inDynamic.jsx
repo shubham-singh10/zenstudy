@@ -225,6 +225,7 @@ function SignInDynamic() {
         `${process.env.REACT_APP_API}zenstudy/api/auth/Signinverify`,
         {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },

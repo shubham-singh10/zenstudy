@@ -8,11 +8,11 @@ function LiveClass() {
   const [imgloading, setimgLoading] = useState(true);
   const [loadingMeetingId, setLoadingMeetingId] = useState(null);
   const [userId, setUserId] = useState(null)
-  const {user} = useAuth
-
+  const {user} = useAuth()
+  
   useEffect(()=>{
     if(user){
-      setUserId(user?.id)
+      setUserId(user?._id)
     }
   },[user])
 
@@ -30,7 +30,7 @@ function LiveClass() {
         );
   
         const meetingData = response.data;
-  
+        
         // Filter meetings based on purchased course IDs
         const filteredMeetings = meetingData?.filter((meeting) =>
           purchasedCourses.some(

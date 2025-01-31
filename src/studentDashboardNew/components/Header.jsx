@@ -8,7 +8,7 @@ const Header = () => {
     const [isProfileOpen, setIsProfileOpen] = useState(false)
     const dropdownRef = useRef(null)
     const buttonRef = useRef(null)
-    const { user } = useAuth()
+    const { user, logout, logoutLoading } = useAuth()
     const initials = user?.name
         ? user.name
             .split(" ")
@@ -82,18 +82,22 @@ const Header = () => {
                                     <p className="font-medium text-gray-900">{user?.name || "Guest"}</p>
                                     <p className="text-sm text-gray-500 truncate">{user?.email || "Upadate your email"}</p>
                                 </div>
-                                <Link to="/profileNew" onClick={() => setIsProfileOpen(!isProfileOpen)} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <Link to="/profile" onClick={() => setIsProfileOpen(!isProfileOpen)} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     <FiUser className="w-4 h-4" />
                                     Profile
                                 </Link>
-                                <Link to="/dailyAffairsNew" className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <Link to="/dailyAffairs" onClick={() => setIsProfileOpen(!isProfileOpen)} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                     <FiSettings className="w-4 h-4" />
                                     Daily Affairs
                                 </Link>
-                                <a href="#/" className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <Link
+                                    onClick={() => logout()}
+                                    className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    disabled={logoutLoading}
+                                >
                                     <FiLogOut className="w-4 h-4" />
-                                    Logout
-                                </a>
+                                    <span>{logoutLoading ? "Logging out..." : "Logout"}</span>
+                                </Link>
                             </div>
                         )}
                     </div>

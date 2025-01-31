@@ -258,9 +258,10 @@ function SignIn() {
       };
 
       const response = await fetch(
-        `${process.env.REACT_APP_API2}zenstudy/api/auth/Signinverify`,
+        `${process.env.REACT_APP_API}zenstudy/api/auth/Signinverify`,
         {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -312,7 +313,7 @@ function SignIn() {
         password: data.password,
       };
       const response = await fetch(
-        `${process.env.REACT_APP_API2}zenstudy/api/auth/signinNew`,
+        `${process.env.REACT_APP_API}zenstudy/api/auth/signinNew`,
         {
           method: "POST",
           credentials: "include",

@@ -41,18 +41,18 @@ const Sidebar = () => {
     () => [
       {
         title: "General",
-        items: [{ href: "/profileNew", label: "Profile", icon: FiLayout }],
+        items: [{ href: "/profile", label: "Profile", icon: FiLayout }],
       },
       {
         title: "Pages",
         items: [
           {
-            href: "/course-details-studentNew",
+            href: "/course-details-student",
             label: "Courses",
             icon: FiBook,
           },
-          { href: "/mycourseNew", label: "My Courses", icon: FiBookOpen },
-          { href: "/liveClassNew", label: "Live Classes", icon: FiVideo },
+          { href: "/mycourse", label: "My Courses", icon: FiBookOpen },
+          { href: "/liveClass", label: "Live Classes", icon: FiVideo },
         ],
       },
       {
@@ -62,8 +62,8 @@ const Sidebar = () => {
             label: "Current Affairs",
             icon: FiFileText,
             dropdown: [
-              { href: "/dailyAffairsNew", label: "Daily", icon: FiSquare },
-              { href: "/monthlyAffairsNew", label: "Monthly", icon: FiTag },
+              { href: "/dailyAffairs", label: "Daily", icon: FiSquare },
+              { href: "/monthlyAffairs", label: "Monthly", icon: FiTag },
             ],
           },
         ],

@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
-import Cookies from "js-cookie";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useAuth } from "../../context/auth-context";

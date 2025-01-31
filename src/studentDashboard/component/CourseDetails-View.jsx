@@ -28,7 +28,7 @@ const CourseDetailsView = () => {
   const navigate = useNavigate();
   const { courseId } = useParams();
   const {state} = useLocation()
-  const selectedcourseId = state.courseId
+  const selectedcourseId = state?.courseId
   const { userStatus , userData} = VerifyEmailMsg();
   
   useEffect(() => {

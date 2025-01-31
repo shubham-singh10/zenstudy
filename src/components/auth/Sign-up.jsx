@@ -188,9 +188,10 @@ const SignUp = () => {
       };
 
       const response = await fetch(
-        `${process.env.REACT_APP_API2}zenstudy/api/auth/signUp`,
+        `${process.env.REACT_APP_API}zenstudy/api/auth/signUp`,
         {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -224,7 +225,7 @@ const SignUp = () => {
           title: "Registration Successful!",
           text: `Welcome ${name}! Your account has been created successfully. Please log in to start exploring ZenStudy.`,
         });
-        login(resData, resData.role, resData.token);
+        login(resData.user, resData.user.role, resData.token);
         
         navigate("/course-details-student");
       }

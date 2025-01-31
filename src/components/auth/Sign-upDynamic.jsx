@@ -76,10 +76,20 @@ function DynamicSignUp() {
       if (data.message === "OTP sent successfully") {
         setOtpStep(true);
       } else {
-        console.error("Failed to send OTP:", data.message);
+        // console.error("Failed to send OTP:", data.message);
+        Swal.fire({
+          icon: "info",
+          title: "Oops...",
+          text: "Failed to send OTP. Please check your email and try again. If the issue persists, try again later.",
+        });
       }
     } catch (error) {
-      console.error("Error sending OTP:", error);
+      // console.error("Error sending OTP:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong while sending the OTP. Please try again later.",
+      });
     } finally {
       setLoading(false);
     }
@@ -140,11 +150,39 @@ function DynamicSignUp() {
       otp: data.otp,
       userType: "Reader",
     };
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API2}zenstudy/api/auth/signUpDynamicVerify`,
+        sendData
+      );
+
+      const { data } = response;
+      if (data.message === "Success") {
+        handleRegisterNew(data.user)
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response.data.message,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRegisterNew = async (data) => {
+    setLoading(true);
+    const sendData = {
+      email: data.email,
+      userType: "Reader",
+    };
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API2}zenstudy/api/auth/signUpDynamic`,
-        sendData
+        `${process.env.REACT_APP_API}zenstudy/api/auth/signUpDynamic`,
+        sendData,
+        { withCredentials: true }
       );
 
       const { data } = response;
@@ -154,8 +192,7 @@ function DynamicSignUp() {
           title: "Success",
           text: "Registration Successful!",
         });
-        login(data.user, data.user.role, data.user.token);
-
+        login(data.user, data.user.role, data.token);
         navigation(`/course-details/${courseId}`);
       }
     } catch (error) {
