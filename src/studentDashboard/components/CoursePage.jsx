@@ -5,7 +5,7 @@ import { RiSortAsc, RiSortDesc } from "react-icons/ri"
 import { useAuth } from "../../context/auth-context"
 import Loading from "../../Loading"
 import Pagination from "../../components/pagination/Pagination"
-import { useNavigate } from "react-router-dom"
+import {useNavigate, useSearchParams } from "react-router-dom"
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([])
@@ -20,10 +20,12 @@ const CoursesPage = () => {
     totalData: 0,
   });
   const { user } = useAuth()
-  const [searchTerm, setSearchTerm] = useState("")
+  // const [searchTerm, setSearchTerm] = useState("")
   const [sortBy, setSortBy] = useState("price")
   const [sortOrder, setSortOrder] = useState("desc")
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchTerm = searchParams.get("query") || "";
 
   useEffect(() => {
     const getcourse = async () => {
@@ -81,6 +83,20 @@ const CoursesPage = () => {
   }, [user, paginatedData.currentPage, paginatedData.itemperpage, searchTerm, sortBy, sortOrder]);
 
 
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      if (value) {
+        params.set("query", value);
+      } else {
+        params.delete("query");
+      }
+      params.set("page", "1"); // Reset to first page when searching
+      return params;
+    });
+  };
+
   const setCurrentPage = (newPage) => {
     setLoading((prev) => ({ ...prev, paginationLoading: true }));
     setPaginatedData((prev) => ({ ...prev, currentPage: newPage }));
@@ -112,7 +128,7 @@ const CoursesPage = () => {
               placeholder="Search courses..."
               className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={handleSearch}
             />
             <FiSearch className="absolute left-3 top-2.5 text-gray-400" size={20} />
           </div>

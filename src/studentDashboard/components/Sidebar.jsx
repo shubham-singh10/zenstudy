@@ -95,6 +95,14 @@ const Sidebar = () => {
     setOpenDropdowns(activeDropdowns);
   }, [location.pathname, menuItems]);
 
+  const initials = user?.name
+    ? user.name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+    : "G";
+
   return (
     <>
       {/* Mobile Menu Button */}
@@ -161,11 +169,10 @@ const Sidebar = () => {
                                     : [...prev, item.label]
                                 )
                               }
-                              className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-colors ${
-                                openDropdowns.includes(item.label)
+                              className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-colors ${openDropdowns.includes(item.label)
                                   ? "bg-gray-200"
                                   : "hover:bg-gray-200"
-                              }`}
+                                }`}
                             >
                               <div className="flex items-center gap-3">
                                 <item.icon className="w-5 h-5" />
@@ -183,11 +190,10 @@ const Sidebar = () => {
                                   <li key={subItem.label}>
                                     <Link
                                       to={subItem.href}
-                                      className={`block px-3 py-2 rounded-lg transition-colors ${
-                                        isActive(subItem.href)
+                                      className={`block px-3 py-2 rounded-lg transition-colors ${isActive(subItem.href)
                                           ? "bg-gray-200 text-sidebar-accent-primary"
                                           : "hover:bg-gray-200"
-                                      }`}
+                                        }`}
                                       onClick={() =>
                                         isMobile && setIsOpen(false)
                                       }
@@ -205,11 +211,10 @@ const Sidebar = () => {
                         ) : (
                           <Link
                             to={item.href}
-                            className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                              isActive(item.href)
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive(item.href)
                                 ? "bg-gray-200"
                                 : "hover:bg-gray-200"
-                            }`}
+                              }`}
                             onClick={() => isMobile && setIsOpen(false)}
                           >
                             <item.icon className="w-5 h-5" />
@@ -227,7 +232,9 @@ const Sidebar = () => {
           <div className="p-4 relative">
             <div className="absolute top-0 left-0 w-full h-full -translate-y-0 bg-gradient-to-b from-black/10 to-transparent z-[-1] rounded-t-md shadow-lg"></div>
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-8 h-8 bg-gray-600 rounded-full shrink-0" />
+              <div className="w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center">
+                <span className="text-sm font-medium text-gray-200">{initials}</span>
+              </div>
               <div className="min-w-0">
                 <p className="font-medium truncate">{user?.name || "Guest"}</p>
                 <p className="text-xs text-gray-400 truncate">

@@ -1,13 +1,15 @@
 import { useState, useRef, useEffect } from "react"
-import { FiLogOut, FiSearch, FiSettings, FiSun, FiUser } from "react-icons/fi"
+import { FiLogOut, FiSearch, FiSettings, FiUser } from "react-icons/fi"
 import { useAuth } from "../../context/auth-context"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 const Header = () => {
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const [isProfileOpen, setIsProfileOpen] = useState(false)
+    const [searchQuery, setSearchQuery] = useState("");
     const dropdownRef = useRef(null)
     const buttonRef = useRef(null)
+    const navigate = useNavigate();
     const { user, logout, logoutLoading } = useAuth()
     const initials = user?.name
         ? user.name
@@ -33,6 +35,13 @@ const Header = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside)
     }, [])
 
+    const handleSearch = () => {
+        if (searchQuery.trim() !== "") {
+            navigate(`/course-details-student?query=${encodeURIComponent(searchQuery)}`);
+        }
+    };
+
+
     return (
         <header className="bg-white border-b sticky top-0 z-30">
             <div className="flex items-center justify-between px-4 lg:px-6 py-4">
@@ -50,15 +59,14 @@ const Header = () => {
                         <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                         <input
                             type="search"
-                            placeholder="Search"
+                            placeholder="Search courses..."
                             className="pl-10 pr-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                         />
                     </div>
 
-                    {/* Theme Toggle */}
-                    <button className="p-2 hover:bg-gray-100 rounded-lg">
-                        <FiSun className="h-5 w-5 text-gray-500" />
-                    </button>
 
                     {/* User Menu */}
                     <div className="relative">
@@ -111,8 +119,10 @@ const Header = () => {
                         <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                         <input
                             type="search"
-                            placeholder="Search"
+                            placeholder="Search courses..."
                             className="w-full pl-10 pr-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                         />
                     </div>
                 </div>

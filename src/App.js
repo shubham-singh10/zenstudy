@@ -8,15 +8,12 @@ import CoursesNew from "./components/course/CoursesNew.jsx";
 import SignInDynamic from "./components/auth/Sign-inDynamic.jsx";
 import OurTeam from "./components/OurTeam.jsx";
 import PrivacyPolicy from "./components/PrivacyPolicy.jsx";
-import LiveClass from "./studentDashboard/component/LiveClass.jsx";
 import SignupTest from "./components/auth/SignupTest.jsx";
 import PdfViewer from "./components/PdfViewer.jsx";
 import DynamicSignUp from "./components/auth/Sign-upDynamic.jsx";
 import NewtestPage from "./components/course/newtestPage.jsx";
-import HomeNew from "./studentDashboardNew/layout.jsx";
+import HomeNew from "./studentDashboard/layout.jsx";
 import { AuthProvider } from "./context/auth-context.jsx";
-import WatchCourseNew from "./studentDashboard/component/WatchCourseNew.jsx";
-import CoursesPage from "./studentDashboard/component/CoursePage.jsx";
 import PublicRoute from "./PublicRoute.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
@@ -30,13 +27,16 @@ const SignIn = lazy(() => import("./components/auth/Sign-In.jsx"));
 const ResetPassword = lazy(() => import("./components/auth/Reset-Password.jsx"));
 
 //Student Dashboard Pages
-const Profile = lazy(() => import("./studentDashboard/component/Profile.jsx"));
-const CourseDetailsStudentView = lazy(() => import("./studentDashboard/component/CourseDetails-View.jsx"));
-const MyCoursesNew = lazy(() => import("./studentDashboardNew/components/MyPurchasePage.jsx"));
-const UPSCStudent = lazy(() => import("./studentDashboard/component/Upse.jsx"));
-const DailyAffairs = lazy(() => import("./studentDashboardNew/components/currentAffairs/DailyAffairs.jsx"));
-const MonthlyAffairs = lazy(() => import("./studentDashboardNew/components/currentAffairs/MonthlyAffairs.jsx"));
-const TestSeriesPage = lazy(() => import("./studentDashboard/component/TestSeries.jsx"));
+const Profile = lazy(() => import("./studentDashboard/components/Profile.jsx"));
+const CourseDetailsStudentView = lazy(() => import("./studentDashboard/components/CourseDetails-View.jsx"));
+const MyCoursesNew = lazy(() => import("./studentDashboard/components/MyPurchasePage.jsx"));
+const UPSCStudent = lazy(() => import("./studentDashboard/components/Upse.jsx"));
+const DailyAffairs = lazy(() => import("./studentDashboard/components/currentAffairs/DailyAffairs.jsx"));
+const MonthlyAffairs = lazy(() => import("./studentDashboard/components/currentAffairs/MonthlyAffairs.jsx"));
+const TestSeriesPage = lazy(() => import("./studentDashboard/components/TestSeries.jsx"));
+const LiveClass = lazy(() => import("./studentDashboard/components/LiveClass.jsx"));
+const WatchCourse = lazy(() => import("./studentDashboard/components/WatchCourse.jsx"));
+const CoursesPage = lazy(() => import("./studentDashboard/components/CoursePage.jsx"));
 
 
 function App() {
@@ -80,10 +80,11 @@ function App() {
               <Route path="/mycourse" element={<MyCoursesNew />} />
               <Route path="/liveClass" element={<LiveClass />} />
               <Route path="/upsc-student" element={<UPSCStudent />} />
-              <Route path="/watch-course/:id" element={<WatchCourseNew />} />
-              <Route path="/testSeries" element={<TestSeriesPage />} />
+              <Route path="/watch-course/:id" element={<WatchCourse />} />
               <Route path="/dailyAffairs" element={<DailyAffairs />} />
               <Route path="/monthlyAffairs" element={<MonthlyAffairs />} />
+
+              <Route path="/testSeries" element={<TestSeriesPage />} />
               {/* Protected Student Routes End */}
             </Route>
 

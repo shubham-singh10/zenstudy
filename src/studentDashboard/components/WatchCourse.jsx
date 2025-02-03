@@ -4,7 +4,7 @@ import axios from 'axios';
 import { FiArrowLeft, FiChevronDown, FiChevronRight, FiClock, FiFileText, FiPlay, FiStar } from 'react-icons/fi';
 import { useAuth } from '../../context/auth-context';
 
-const WatchCourseNew = () => {
+const WatchCourse = () => {
   const [activeTab, setActiveTab] = useState('about');
   const [expandedModules, setExpandedModules] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -322,4 +322,4 @@ const WatchCourseNew = () => {
   );
 };
 
-export default WatchCourseNew;
+export default WatchCourse;
