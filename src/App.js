@@ -37,6 +37,7 @@ const TestSeriesPage = lazy(() => import("./studentDashboard/components/TestSeri
 const LiveClass = lazy(() => import("./studentDashboard/components/LiveClass.jsx"));
 const WatchCourse = lazy(() => import("./studentDashboard/components/WatchCourse.jsx"));
 const CoursesPage = lazy(() => import("./studentDashboard/components/CoursePage.jsx"));
+const MaterialsPage = lazy(() => import("./studentDashboard/components/materials/index.jsx"));
 
 
 function App() {
@@ -83,6 +84,7 @@ function App() {
               <Route path="/watch-course/:id" element={<WatchCourse />} />
               <Route path="/dailyAffairs" element={<DailyAffairs />} />
               <Route path="/monthlyAffairs" element={<MonthlyAffairs />} />
+              <Route path="/materialsPage" element={<MaterialsPage />} />
 
               <Route path="/testSeries" element={<TestSeriesPage />} />
               {/* Protected Student Routes End */}

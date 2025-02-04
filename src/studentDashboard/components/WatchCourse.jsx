@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { FiArrowLeft, FiChevronDown, FiChevronRight, FiClock, FiFileText, FiPlay, FiStar } from 'react-icons/fi';
+import { FiArrowLeft, FiChevronDown, FiChevronRight, FiFileText, FiPlay, FiStar } from 'react-icons/fi';
 import { useAuth } from '../../context/auth-context';
 
 const WatchCourse = () => {
@@ -106,12 +106,6 @@ const WatchCourse = () => {
     }
   };
 
-  const formatDuration = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-6">
@@ -155,13 +149,13 @@ const WatchCourse = () => {
                   </button>
                 ))} */}
 
-                {['about', 'reviews'].map((tab) => (
+                {['about','materials', 'reviews'].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
                     className={`px-4 py-3 text-sm font-medium transition-colors flex-grow sm:flex-grow-0 ${activeTab === tab
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-600 hover:bg-gray-100'
+                      ? 'bg-blue-600 text-white rounded-2xl'
+                      : 'text-gray-600 hover:bg-gray-100 rounded-lg'
                       }`}
                   >
                     {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -301,10 +295,6 @@ const WatchCourse = () => {
                             <div className="flex items-center">
                               <FiPlay size={16} className={`mr-2 ${selectedVideoTitle === video.videoTitle ? 'text-blue-600' : 'text-gray-400 '}`} />
                               <span className="text-sm">{video.videoTitle}</span>
-                            </div>
-                            <div className="flex items-center text-xs text-gray-500">
-                              <FiClock size={12} className="mr-1" />
-                              <span>{formatDuration(video.duration)}</span>
                             </div>
                           </button>
                         ))}
