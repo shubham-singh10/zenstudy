@@ -7,7 +7,6 @@ import { Toaster } from "react-hot-toast";
 import CoursesNew from "./components/course/CoursesNew.jsx";
 import SignInDynamic from "./components/auth/Sign-inDynamic.jsx";
 import OurTeam from "./components/OurTeam.jsx";
-import PrivacyPolicy from "./components/PrivacyPolicy.jsx";
 import SignupTest from "./components/auth/SignupTest.jsx";
 import PdfViewer from "./components/PdfViewer.jsx";
 import DynamicSignUp from "./components/auth/Sign-upDynamic.jsx";
@@ -25,6 +24,8 @@ const ContactUs = lazy(() => import("./components/Contact.jsx"));
 const SignUp = lazy(() => import("./components/auth/Sign-up.jsx"));
 const SignIn = lazy(() => import("./components/auth/Sign-In.jsx"));
 const ResetPassword = lazy(() => import("./components/auth/Reset-Password.jsx"));
+const PrivacyPolicy = lazy(() => import("./components/PrivacyPolicy.jsx"));
+const TermandConditions = lazy(() => import("./components/TermandConditions.jsx"));
 
 //Student Dashboard Pages
 const Profile = lazy(() => import("./studentDashboard/components/Profile.jsx"));
@@ -56,6 +57,7 @@ function App() {
               <Route path="/currentAffair" element={<CurrentAffair />} />
               <Route path="/pdfViewer" element={<PdfViewer />} />
               <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+              <Route path="/termandConditions" element={<TermandConditions />} />
               <Route path="/coursesNew" element={<CoursesNew />} />
               <Route path="/testpage" element={<NewtestPage />} />
               <Route path="/course-details/:courseId" element={<CourseDetails />} />
