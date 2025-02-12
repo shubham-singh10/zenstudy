@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FiChevronLeft, FiChevronRight, FiX, FiZoomIn, FiZoomOut } from 'react-icons/fi';
 import { Document, Page, pdfjs } from 'react-pdf';
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 export default function PDFViewer({ title, pdfUrl, onClose }) {
   const [numPages, setNumPages] = useState(0);
