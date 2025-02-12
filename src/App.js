@@ -14,6 +14,7 @@ import NewtestPage from "./components/course/newtestPage.jsx";
 import HomeNew from "./studentDashboard/layout.jsx";
 import { AuthProvider } from "./context/auth-context.jsx";
 import PublicRoute from "./PublicRoute.jsx";
+import Testing from "./components/testing.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -62,6 +63,9 @@ function App() {
               <Route path="/testpage" element={<NewtestPage />} />
               <Route path="/course-details/:courseId" element={<CourseDetails />} />
               <Route path="/contact" element={<ContactUs />} />
+              <Route path="/testing" element={<Testing />} />
+              
+
 
               {/* Public Route Start */}
               <Route path="/sign-Up" element={<PublicRoute element={<SignUp />} />} />

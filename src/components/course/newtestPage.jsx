@@ -149,9 +149,9 @@ const NewtestPage = () => {
   }, []); // Empty dependency array ensures this runs only once
 
   return (
-    <div className="relative flex flex-wrap bg-gray-50">
+    <div className="-mt-3 overflow-auto h-screen flex flex-wrap bg-gray-50">
       {/* Top Banner */}
-      <div className="w-full -mt-3 h-40 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 flex justify-center items-center text-white">
+      <div className="w-full h-40 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 flex justify-center items-center text-white">
         <h1 className="text-2xl lg:text-3xl font-bold tracking-wide">
           Welcome to the {CoursesData.title} Batch
         </h1>
@@ -399,14 +399,14 @@ const NewtestPage = () => {
         </div>
 
         {/* Right Section */}
-        <div className="w-full lg:w-[40%] bg-gray-50 p-6">
-          <div className="sticky top-20 bg-white border border-gray-200 shadow-lg rounded-lg p-6">
+        <div className="w-full lg:w-[40%] bg-gray-50 p-10">
+          <div className="sticky top-10 bg-white border border-gray-200 shadow-lg rounded-lg p-6">
             {/* Image Section */}
             <img
               src={CoursesData.imageUrl}
               crossOrigin="anonymous"
               alt="Course Thumbnail"
-              className="w-full h-48 sm:h-64 object-cover rounded-lg mb-6"
+              className="w-full h-44 sm:h-64 object-cover rounded-lg mb-6"
             />
 
             {/* Course Title */}
