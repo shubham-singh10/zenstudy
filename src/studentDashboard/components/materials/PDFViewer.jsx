@@ -19,7 +19,7 @@ export default function PDFViewer({ title, pdfUrl, onClose }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 overflow-auto p-2">
       {/* Modal Container */}
-      <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] flex flex-col shadow-lg">
+      <div className="bg-white rounded-lg w-full  max-h-[100vh] flex flex-col shadow-lg">
         {/* Sticky Header with Title and Close Button */}
         <div className="sticky top-0 z-20 bg-white px-4 py-2 border-b flex justify-between items-center">
           <h2 className="text-lg font-medium">{title}</h2>
@@ -29,12 +29,13 @@ export default function PDFViewer({ title, pdfUrl, onClose }) {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 overflow-auto p-4 flex flex-col items-center">
+        <div className="flex-1 overflow-auto flex flex-col items-center">
           {/* PDF Document Container with horizontal scroll and side padding */}
           <div className="w-full flex justify-center overflow-x-auto px-2">
             <Document
               file={pdfUrl}
               onLoadSuccess={onDocumentLoadSuccess}
+              className="max-w-[100vw]"
               loading={
                 <div className="flex items-center justify-center h-64">
                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>

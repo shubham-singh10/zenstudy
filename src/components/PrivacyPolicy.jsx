@@ -18,6 +18,7 @@ function PrivacyPolicy() {
           </div>
 
           {/* Content */}
+          
           <div className="px-6 py-8 sm:px-8">
             <div className="space-y-8">
               {/* Introduction */}
