@@ -3,6 +3,7 @@ import { FiArrowLeft, FiArrowRight, FiCheckCircle, FiXCircle } from "react-icons
 import { GoTrophy } from "react-icons/go";
 import { IoCheckmarkDone } from "react-icons/io5";
 import Loading from "../../../Loading";
+import { useAuth } from "../../../context/auth-context";
 
 const questions = [
     {
@@ -74,6 +75,7 @@ export const TestQuestionsPage = ({ test }) => {
     const [showResults, setShowResults] = useState(false);
     const [timeLeft, setTimeLeft] = useState(120);
     const [loading, setLoading] = useState(true)
+    const { user } = useAuth();
     
     const handleAnswerSelect = (optionIndex) => {
         const newAnswers = [...selectedAnswers];
@@ -100,24 +102,51 @@ export const TestQuestionsPage = ({ test }) => {
         }, 0);
     };
 
-    const handleSubmit = useCallback((autoSubmit) => {
+    const handleSubmit = useCallback(async (autoSubmit) => {
         if (autoSubmit === "NO" && selectedAnswers.includes(-1)) {
             alert("Please answer all questions before submitting!");
             return;
+        }
+        const submissionData = {
+            userId: user?._id,
+            testSeriesId: test._id,
+            answers: questions.map((q, index) => ({
+                questionId: q._id,
+                selectedOption: selectedAnswers[index] !== -1 ? selectedAnswers[index] : -1
+            }))
+        };
+
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/main/test-series-result`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer YOUR_USER_TOKEN_HERE`, // Replace with actual token
+                },
+                body: JSON.stringify(submissionData),
+            });
+
+            const result = await response.json();
+            console.log("Submission Response:", result);
+
+            setShowResults(true);
+            setTimeLeft(-1);
+        } catch (error) {
+            console.error("Error submitting test:", error);
         }
         setShowResults(true);
         setTimeLeft(-1)
     }, [selectedAnswers]);
 
-    useEffect(() => {
-        if (timeLeft > 0 && !showResults) {
-            const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-            return () => clearTimeout(timer);
-        } else if (timeLeft === 0 && !showResults) {
-            alert("Time is up! The test is being submitted.");
-            handleSubmit("yes");
-        }
-    }, [timeLeft, showResults, handleSubmit]);
+    // useEffect(() => {
+    //     if (timeLeft > 0 && !showResults) {
+    //         const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+    //         return () => clearTimeout(timer);
+    //     } else if (timeLeft === 0 && !showResults) {
+    //         alert("Time is up! The test is being submitted.");
+    //         handleSubmit("yes");
+    //     }
+    // }, [timeLeft, showResults, handleSubmit]);
 
     useEffect(() => {
         let isMounted = true;
