@@ -35,7 +35,8 @@ const MyCoursesNew = lazy(() => import("./studentDashboard/components/MyPurchase
 const UPSCStudent = lazy(() => import("./studentDashboard/components/Upse.jsx"));
 const DailyAffairs = lazy(() => import("./studentDashboard/components/currentAffairs/DailyAffairs.jsx"));
 const MonthlyAffairs = lazy(() => import("./studentDashboard/components/currentAffairs/MonthlyAffairs.jsx"));
-const TestSeriesPage = lazy(() => import("./studentDashboard/components/TestSeries.jsx"));
+// const TestSeriesPage = lazy(() => import("./studentDashboard/components/TestSeries.jsx"));
+const TestSeriesPage = lazy(() => import("./studentDashboard/components/testseries/index.jsx"));
 const LiveClass = lazy(() => import("./studentDashboard/components/LiveClass.jsx"));
 const WatchCourse = lazy(() => import("./studentDashboard/components/WatchCourse.jsx"));
 const CoursesPage = lazy(() => import("./studentDashboard/components/CoursePage.jsx"));

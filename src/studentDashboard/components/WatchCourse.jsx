@@ -149,7 +149,7 @@ const WatchCourse = () => {
                   </button>
                 ))} */}
 
-                {['about','materials', 'reviews'].map((tab) => (
+                {['about', 'reviews'].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
