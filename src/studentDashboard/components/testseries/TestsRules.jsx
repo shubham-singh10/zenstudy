@@ -51,7 +51,7 @@ export const TestsRules = ({ test, onStart, onBack }) => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 sm:p-6 md:p-8">
+        <div className="min-h-screen  p-4 sm:p-6 md:p-8">
             <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
                 <div className="text-center mb-8">
                     <FiAward className="w-16 h-16 mx-auto text-indigo-500 mb-4" />

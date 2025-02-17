@@ -4,7 +4,7 @@ import { FiClock } from 'react-icons/fi'
 
 export const TestsCard = ({ test, onProceed }) => {
     return (
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.02]">
+        <div className="bg-white max-w-sm rounded-xl shadow-lg overflow-hidden transition-transform hover:scale-[1.02]">
             <img src={"https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&q=80&w=1200"} alt={test.title} className="w-full h-48 object-cover" />
             <div className="p-6">
                 <div className="flex justify-between items-start mb-4">

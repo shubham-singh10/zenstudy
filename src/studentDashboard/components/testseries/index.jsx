@@ -65,7 +65,7 @@ const TestSeriesIndex = () => {
 
   if (currentView === 'list') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 sm:p-6 md:p-8">
+      <div className="min-h-screen p-4 sm:p-6 md:p-8">
         <div className="max-w-6xl mx-auto">
           {/* Title Section */}
           <div className="text-center mb-12">

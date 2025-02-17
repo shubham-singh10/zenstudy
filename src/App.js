@@ -15,6 +15,7 @@ import HomeNew from "./studentDashboard/layout.jsx";
 import { AuthProvider } from "./context/auth-context.jsx";
 import PublicRoute from "./PublicRoute.jsx";
 import Testing from "./components/testing.jsx";
+import TestResult from "./studentDashboard/components/testseries/TestResult.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -94,6 +95,7 @@ function App() {
               <Route path="/materialsPage" element={<MaterialsPage />} />
 
               <Route path="/testSeries" element={<TestSeriesPage />} />
+              <Route path="/testResult" element={<TestResult />} />
               {/* Protected Student Routes End */}
             </Route>
 

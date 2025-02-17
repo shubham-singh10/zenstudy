@@ -200,7 +200,7 @@ export const TestQuestionsPage = ({ test }) => {
         const percentage = (score / questions.length) * 100;
 
         return (
-            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 sm:p-6 md:p-8">
+            <div className="min-h-screen p-4 sm:p-6 md:p-8">
                 <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
                     <div className="text-center mb-8">
                         <GoTrophy className="w-16 h-16 mx-auto text-yellow-500 mb-4" />
@@ -245,7 +245,7 @@ export const TestQuestionsPage = ({ test }) => {
 
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 sm:p-6 md:p-8">
+        <div className="min-h-screen p-4 sm:p-6 md:p-8">
             <div className="max-w-2xl mx-auto">
                 <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 mb-4">
                     <div className="flex justify-between items-center mb-6">
