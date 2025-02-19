@@ -5,7 +5,7 @@ import { FiArrowLeft } from "react-icons/fi";
 import Loading from "../../../Loading";
 import { useAuth } from "../../../context/auth-context";
 
-function TestList({ series, onBack, onProceed }) {
+function TestList({ series, onBack, onProceed, onResult }) {
   const [testSeries, setTestSeries] = useState([]);
   const [loading, setLoading] = useState(true)
   const { user } = useAuth()
@@ -14,6 +14,20 @@ function TestList({ series, onBack, onProceed }) {
   const userCompletedTests = series.completedTests.filter(
     (series) => series.userId === user?._id
   );
+
+  console.log("User Completed Tests:", userCompletedTests);
+  const check = ({ id }) => {
+    console.log("Checking for ID:", id);
+    console.log("Completed Tests Data:", series.completedTests);
+    
+    const TestCompleted = series.completedTests.filter(
+      (test) => test.userId === user?._id && test.testSeriesId === id
+    );
+    
+    console.log("Filtered Results:", TestCompleted);
+    return TestCompleted.length > 0 ? "completed" : "incomplete";
+  };
+  
   useEffect(() => {
     let isMounted = true;
 
@@ -108,6 +122,9 @@ function TestList({ series, onBack, onProceed }) {
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-2">
                         {test.title}
+                        
+                      
+
                       </h3>
                       <div className="flex items-center gap-4 text-sm text-gray-600">
                         <span className="flex items-center">
@@ -133,9 +150,9 @@ function TestList({ series, onBack, onProceed }) {
                         </span>
                       </div>
                     </div>
-                    {test.status === "completed" ? (
+                    {check({ id: test._id }) === "completed" ? (
                       <button
-                        // onClick={() => handleTestComplete(test)}
+                        onClick={()=> onResult(test)}
                         className="inline-flex items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
                       >
                         <BiTrophy className="mr-2 h-4 w-4" />

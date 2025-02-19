@@ -5,25 +5,27 @@ import jsPDF from "jspdf";
 import { GoTrophy } from "react-icons/go";
 import {
   FiAlertCircle,
+  FiArrowLeft,
   FiCheckCircle,
   FiDownload,
   FiX,
   FiXCircle,
 } from "react-icons/fi";
+import { Loader } from "../../../components/loader/Loader";
 
-const TestResult = () => {
+const TestResult = ({series, onBack}) => {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState([]);
   const pdfRef = useRef();
   const { user } = useAuth();
-
+  console.log("User:", series);
   useEffect(() => {
     let isMounted = true;
 
     const getTestSeries = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API2}zenstudy/api/main/test-series-result/${user._id}/67adc66ee26696bfe603054e`,
+          `${process.env.REACT_APP_API2}zenstudy/api/main/test-series-result/${user._id}/${series._id}`,
           {
             method: "GET",
             headers: {
@@ -55,7 +57,7 @@ const TestResult = () => {
     return () => {
       isMounted = false;
     };
-  }, [user]);
+  }, [user, series]);
 
   const downloadPDF = () => {
     const input = pdfRef.current; // Get the reference to div
@@ -91,14 +93,26 @@ const TestResult = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return  (
+      <div className="flex items-center justify-center h-screen">
+      <Loader fill="black" />
+    </div>)
   }
 
   return (
     <Fragment>
       <div className="min-h-screen  p-4 sm:p-6 md:p-8">
         <div className="max-w-4xl mx-auto">
-          {/* Summary Card */}
+        
+        <div className="mt-8 text-center">
+            <button  onClick={onBack} className="flex items-center text-gray-600 hover:text-gray-900 mb-8">
+              <FiArrowLeft className="h-5 w-5 mr-2" />
+              Back to Test Series
+            </button>
+          </div>
+        
+        {/* Summary Card */}
+
           <div className="bg-white  rounded-xl shadow-lg p-6 sm:p-8 mb-8">
             <div className="text-center mb-8">
               <GoTrophy className="w-16 h-16 mx-auto text-yellow-500 mb-4" />
@@ -106,12 +120,12 @@ const TestResult = () => {
                 Test Results
               </h1>
               <div className="text-5xl font-bold text-indigo-600 mb-4">
-                {(result?.score / result?.maxScore) * 100}%
+                {((result?.score / result?.maxScore) * 100).toFixed(2)}%
               </div>
               <div className="flex flex-wrap items-center justify-center gap-4 p-4 bg-white rounded-lg shadow-md">
                 <p className="text-xl font-semibold text-gray-700">
                   Total Marks:{" "}
-                  <span className="text-indigo-600">{result?.score}</span> / 50
+                  <span className="text-indigo-600">{result?.score}</span> / {result?.maxScore}
                 </p>
 
                 <button
@@ -262,11 +276,7 @@ const TestResult = () => {
             </div>
           </div>
 
-          <div className="mt-8 text-center">
-            <button className="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors">
-              Back to Test Series
-            </button>
-          </div>
+          
         </div>
       </div>
     </Fragment>

@@ -80,15 +80,15 @@ export const TestQuestionsPage = ({ test, series }) => {
         setTimeLeft(-1)
     }, [selectedAnswers, series, test, user, questions]);
 
-    // useEffect(() => {
-    //     if (timeLeft > 0 && !showResults) {
-    //         const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-    //         return () => clearTimeout(timer);
-    //     } else if (timeLeft === 0 && !showResults) {
-    //         alert("Time is up! The test is being submitted.");
-    //         handleSubmit("yes");
-    //     }
-    // }, [timeLeft, showResults, handleSubmit]);
+    useEffect(() => {
+        if (timeLeft > 0 && !showResults) {
+            const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+            return () => clearTimeout(timer);
+        } else if (timeLeft === 0 && !showResults) {
+            alert("Time is up! The test is being submitted.");
+            handleSubmit("yes");
+        }
+    }, [timeLeft, showResults, handleSubmit]);
 
     useEffect(() => {
         let isMounted = true;

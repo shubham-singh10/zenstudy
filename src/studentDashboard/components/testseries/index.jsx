@@ -4,6 +4,8 @@ import { TestsRules } from "./TestsRules";
 import { TestQuestionsPage } from "./TestsQuestions";
 import Loading from "../../../Loading";
 import TestList from "./TestList";
+import TestResult from "./TestResult";
+import { Loader } from "../../../components/loader/Loader";
 
 const TestSeriesIndex = () => {
   const [currentView, setCurrentView] = useState("list");
@@ -18,9 +20,14 @@ const TestSeriesIndex = () => {
   };
 
   const handleTestSeries = (test) => {
-    console.log("test", test);
+    // console.log("test", test);
     setSelectedSeries(test);
     setCurrentView("rules");
+  };
+
+  const handleTestSeriesResult = (test) => {
+    setSelectedSeries(test);
+    setCurrentView("testResult");
   };
   const handleStartTest = () => {
     setCurrentView("test");
@@ -67,7 +74,10 @@ const TestSeriesIndex = () => {
   }, []);
 
   if (loading) {
-    return <Loading />;
+        return  (
+          <div className="flex items-center justify-center h-screen">
+          <Loader fill="black" />
+        </div>)
   }
 
   if (currentView === "list") {
@@ -128,6 +138,16 @@ const TestSeriesIndex = () => {
         series={selectedTest}
         onBack={() => setCurrentView("list")}
         onProceed={handleTestSeries}
+        onResult={handleTestSeriesResult}
+      />
+    );
+  }
+
+  if (currentView === "testResult" && selectedSeries) {
+    return (
+      <TestResult
+        series={selectedSeries}
+        onBack={() => setCurrentView("testList")}
       />
     );
   }
