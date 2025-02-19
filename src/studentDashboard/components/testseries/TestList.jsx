@@ -3,11 +3,17 @@ import { BiBarChart, BiBookOpen, BiTrophy } from "react-icons/bi";
 import { FaClock } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
 import Loading from "../../../Loading";
+import { useAuth } from "../../../context/auth-context";
 
 function TestList({ series, onBack, onProceed }) {
   const [testSeries, setTestSeries] = useState([]);
   const [loading, setLoading] = useState(true)
+  const { user } = useAuth()
 
+  // ✅ Filter completed tests for the current user
+  const userCompletedTests = series.completedTests.filter(
+    (series) => series.userId === user?._id
+  );
   useEffect(() => {
     let isMounted = true;
 
@@ -49,7 +55,7 @@ function TestList({ series, onBack, onProceed }) {
     };
   }, [series]);
 
-  if(loading){
+  if (loading) {
     return <Loading />
   }
   return (
@@ -81,12 +87,12 @@ function TestList({ series, onBack, onProceed }) {
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
                 <div className="text-sm text-gray-600">
-                  Progress: {series.completedTests?.length}/{series.totalTests} Tests
+                  Progress: {userCompletedTests?.length}/{series.totalTests} Tests
                 </div>
                 <div className="w-32 h-2 bg-gray-200 rounded-full">
                   <div
                     className="h-full bg-blue-600 rounded-full"
-                    style={{ width: `${series.progress}%` }}
+                    style={{ width: `${userCompletedTests.length}%` }}
                   />
                 </div>
               </div>
