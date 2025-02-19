@@ -5,7 +5,7 @@ import { IoCheckmarkDone } from "react-icons/io5";
 import Loading from "../../../Loading";
 import { useAuth } from "../../../context/auth-context";
 
-export const TestQuestionsPage = ({ test }) => {
+export const TestQuestionsPage = ({ test, series }) => {
     const [questions, setquestions] = useState([])
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState(null);
@@ -47,6 +47,7 @@ export const TestQuestionsPage = ({ test }) => {
         const submissionData = {
             userId: user?._id,
             testSeriesId: test._id,
+            testSeriedMasterId: series._id,
             answers: questions.map((q, index) => ({
                 questionId: q._id,
                 selectedOption: selectedAnswers[index] !== -1 ? selectedAnswers[index] : -1
