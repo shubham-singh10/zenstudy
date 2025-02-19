@@ -2,52 +2,56 @@ import React, { useEffect, useState } from "react";
 import { BiBarChart, BiBookOpen, BiTrophy } from "react-icons/bi";
 import { FaClock } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
+import Loading from "../../../Loading";
 
-function TestList({series, onBack, onProceed}) {
-     const [testSeries, setTestSeries] = useState([]);
-      const [loading, setLoading] = useState(true)
+function TestList({ series, onBack, onProceed }) {
+  const [testSeries, setTestSeries] = useState([]);
+  const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        let isMounted = true;
-    
-        const getTestSeries = async () => {
-          try {
-    
-            const response = await fetch(
-              `${process.env.REACT_APP_API2}zenstudy/api/main/test-series/${series._id}`,
-              {
-                method: "GET",
-                headers: {
-                  Accept: "application/json",
-                  "Content-Type": "application/json",
-                },
-              }
-            );
-    
-            if (!response.ok) {
-              throw new Error("Failed to fetch test series");
-            }
-    
-            const data = await response.json();
-    
-            console.log(data);
-            if (isMounted) {
-              setTestSeries(data);
-              setLoading(false);
-            }
-          } catch (error) {
-            console.error("Error fetching test series:", error);
-            if (isMounted) setLoading(false);
+  useEffect(() => {
+    let isMounted = true;
+
+    const getTestSeries = async () => {
+      try {
+
+        const response = await fetch(
+          `${process.env.REACT_APP_API2}zenstudy/api/main/test-series/${series._id}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
           }
-        };
-    
-        getTestSeries();
-    
-        return () => {
-          isMounted = false;
-        };
-      }, [series]);
+        );
 
+        if (!response.ok) {
+          throw new Error("Failed to fetch test series");
+        }
+
+        const data = await response.json();
+
+        console.log(data);
+        if (isMounted) {
+          setTestSeries(data);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Error fetching test series:", error);
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    getTestSeries();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [series]);
+
+  if(loading){
+    return <Loading />
+  }
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -62,7 +66,7 @@ function TestList({series, onBack, onProceed}) {
         <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
           <div className="relative h-48 md:h-64">
             <img
-            src={"https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&q=80&w=1200"}
+              src={"https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&q=80&w=1200"}
               alt={series.title}
               className="w-full h-full object-cover"
             />
@@ -77,7 +81,7 @@ function TestList({series, onBack, onProceed}) {
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
                 <div className="text-sm text-gray-600">
-                  Progress: {series.completedTests}/{series.totalTests} Tests
+                  Progress: {series.completedTests?.length}/{series.totalTests} Tests
                 </div>
                 <div className="w-32 h-2 bg-gray-200 rounded-full">
                   <div
@@ -110,15 +114,14 @@ function TestList({series, onBack, onProceed}) {
                         </span>
                         <span
                           className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
-                               ${
-                                 test.difficulty === "Basic"
-                                   ? "bg-green-100 text-green-800"
-                                   : test.difficulty === "Medium"
-                                   ? "bg-yellow-100 text-yellow-800"
-                                   : test.difficulty === "Moderate"
-                                   ? "bg-blue-100 text-blue-800"
-                                   : "bg-purple-100 text-purple-800"
-                               }`}
+                               ${test.difficulty === "Basic"
+                              ? "bg-green-100 text-green-800"
+                              : test.difficulty === "Medium"
+                                ? "bg-yellow-100 text-yellow-800"
+                                : test.difficulty === "Moderate"
+                                  ? "bg-blue-100 text-blue-800"
+                                  : "bg-purple-100 text-purple-800"
+                            }`}
                         >
                           {test.difficulty}
                         </span>
@@ -134,9 +137,9 @@ function TestList({series, onBack, onProceed}) {
                       </button>
                     ) : (
                       <button
-                      onClick={()=>onProceed(test)}
-                    className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
-                    disabled={test.questions.length === 0}
+                        onClick={() => onProceed(test)}
+                        className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+                        disabled={test.questions.length === 0}
                       >
                         <BiBarChart className="mr-2 h-4 w-4" />
                         Start Test

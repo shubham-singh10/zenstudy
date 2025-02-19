@@ -1,9 +1,11 @@
 import React from "react";
-import { BiBook, BiBookOpen, BiTrophy } from "react-icons/bi";
+import { BiBookOpen, BiTrophy } from "react-icons/bi";
 import { FaGraduationCap } from "react-icons/fa";
-import { FiClock } from "react-icons/fi";
+import { useAuth } from "../../../context/auth-context";
 
 export const TestsCard = ({ test, onProceed }) => {
+    const {user} = useAuth()
+    console.log("User: ", user?._id)
   return (
     <div
       className="group cursor-pointer overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-lg"

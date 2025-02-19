@@ -10,8 +10,9 @@ export const TestQuestionsPage = ({ test, series }) => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState(null);
     const [showResults, setShowResults] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(120);
+    const [timeLeft, setTimeLeft] = useState(0);
     const [loading, setLoading] = useState(true)
+    const [testloading, setTestLoading] = useState(false)
     const { user } = useAuth();
     
     const handleAnswerSelect = (optionIndex) => {
@@ -55,6 +56,7 @@ export const TestQuestionsPage = ({ test, series }) => {
         };
 
         try {
+            setTestLoading(true)
             const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/main/test-series-result`, {
                 method: "POST",
                 headers: {
@@ -71,10 +73,12 @@ export const TestQuestionsPage = ({ test, series }) => {
             setTimeLeft(-1);
         } catch (error) {
             console.error("Error submitting test:", error);
+        } finally{
+            setTestLoading(false)
         }
         setShowResults(true);
         setTimeLeft(-1)
-    }, [selectedAnswers]);
+    }, [selectedAnswers, series, test, user, questions]);
 
     // useEffect(() => {
     //     if (timeLeft > 0 && !showResults) {
@@ -108,7 +112,7 @@ export const TestQuestionsPage = ({ test, series }) => {
 
                 const data = await response.json();
                 if (isMounted) {
-                    console.log("Response_Data: ", data)
+                    // console.log("Response_Data: ", data)
                     setquestions(data)
                     setSelectedAnswers(Array(data.length).fill(-1))
                     setLoading(false);
@@ -121,9 +125,13 @@ export const TestQuestionsPage = ({ test, series }) => {
 
         getTestSeries();
 
+        if(test){
+            setTimeLeft(test.duration)
+        }
         return () => {
             isMounted = false;
         };
+        
     }, [test])
 
     if (loading) {
@@ -230,6 +238,7 @@ export const TestQuestionsPage = ({ test, series }) => {
                         {currentQuestion === questions.length - 1 ? (
                             <button
                                 onClick={() => handleSubmit("NO")}
+                                disabled={testloading}
                                 className="px-6 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 flex gap-1 items-center"
                             >
                                 <IoCheckmarkDone className="h-5 w-5" /> Submit Test
