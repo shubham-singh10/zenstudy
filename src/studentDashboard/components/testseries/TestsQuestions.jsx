@@ -5,69 +5,6 @@ import { IoCheckmarkDone } from "react-icons/io5";
 import Loading from "../../../Loading";
 import { useAuth } from "../../../context/auth-context";
 
-const questions = [
-    {
-        id: 1,
-        question: "What is the capital of France?",
-        options: ["London", "Berlin", "Paris", "Madrid"],
-        correctAnswer: 2
-    },
-    {
-        id: 2,
-        question: "Which planet is known as the Red Planet?",
-        options: ["Venus", "Mars", "Jupiter", "Saturn"],
-        correctAnswer: 1
-    },
-    {
-        id: 3,
-        question: "What is the largest mammal in the world?",
-        options: ["African Elephant", "Blue Whale", "Giraffe", "Polar Bear"],
-        correctAnswer: 1
-    },
-    {
-        id: 4,
-        question: "Who painted the Mona Lisa?",
-        options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
-        correctAnswer: 2
-    },
-    {
-        id: 5,
-        question: "What is the chemical symbol for gold?",
-        options: ["Ag", "Fe", "Au", "Cu"],
-        correctAnswer: 2
-    },
-    {
-        id: 6,
-        question: "Which country is home to the Great Barrier Reef?",
-        options: ["Brazil", "Australia", "Indonesia", "Thailand"],
-        correctAnswer: 1
-    },
-    {
-        id: 7,
-        question: "What is the largest organ in the human body?",
-        options: ["Heart", "Brain", "Liver", "Skin"],
-        correctAnswer: 3
-    },
-    {
-        id: 8,
-        question: "Who wrote 'Romeo and Juliet'?",
-        options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
-        correctAnswer: 1
-    },
-    {
-        id: 9,
-        question: "What is the main component of the Sun?",
-        options: ["Helium", "Oxygen", "Hydrogen", "Carbon"],
-        correctAnswer: 2
-    },
-    {
-        id: 10,
-        question: "Which element has the chemical symbol 'O'?",
-        options: ["Gold", "Silver", "Iron", "Oxygen"],
-        correctAnswer: 3
-    }
-];
-
 export const TestQuestionsPage = ({ test }) => {
     const [questions, setquestions] = useState([])
     const [currentQuestion, setCurrentQuestion] = useState(0);

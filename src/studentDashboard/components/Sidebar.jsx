@@ -66,6 +66,14 @@ const Sidebar = () => {
               { href: "/monthlyAffairs", label: "Monthly", icon: FiTag },
             ],
           },
+          {
+            label: "Mock Tests",
+            icon: FiFileText,
+            dropdown: [
+              { href: "/testSeries", label: "Test", icon: FiSquare },
+              { href: "/resultSeries", label: "Result", icon: FiTag },
+            ],
+          },
         ],
       },
     ],

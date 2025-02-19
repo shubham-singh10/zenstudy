@@ -77,7 +77,7 @@ const TestSeriesIndex = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {testSeries && testSeries.length > 0 ? (
               testSeries.map((test) => (
-                <TestsCard
+                test?.status === "s" && <TestsCard
                   key={test._id}
                   test={test}
                   onProceed={() => handleTestSelect(test)}
