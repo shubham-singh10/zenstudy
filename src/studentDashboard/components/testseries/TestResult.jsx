@@ -25,7 +25,7 @@ const TestResult = ({series, onBack}) => {
     const getTestSeries = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API2}zenstudy/api/main/test-series-result/${user._id}/${series._id}`,
+          `${process.env.REACT_APP_API}zenstudy/api/main/test-series-result/${user._id}/${series._id}`,
           {
             method: "GET",
             headers: {
@@ -40,7 +40,7 @@ const TestResult = ({series, onBack}) => {
         }
 
         const data = await response.json();
-        console.log(data);
+        console.log("res",data);
 
         if (isMounted) {
           setResult(data);
@@ -101,7 +101,7 @@ const TestResult = ({series, onBack}) => {
 
   return (
     <Fragment>
-      <div className="min-h-screen  p-4 sm:p-6 md:p-8">
+      <div className="min-h-screen">
         <div className="max-w-4xl mx-auto">
         
         <div className="mt-8 text-center">
@@ -200,21 +200,21 @@ const TestResult = ({series, onBack}) => {
                       {item.selectedAnswer === item.correctAnswer ? (
                         <div className="flex items-center text-green-600">
                           <FiCheckCircle className="w-5 h-5 mr-1" />
-                          <span className="text-sm font-medium">
+                          <span className="text-xs font-medium">
                             +{result.correctPoints} marks
                           </span>
                         </div>
-                      ) : item.selectedAnswer === undefined ? (
+                      ) : item.selectedAnswer === "Not Answered" ? (
                         <div className="flex items-center text-gray-600">
                           <FiAlertCircle className="w-5 h-5 mr-1" />
-                          <span className="text-sm font-medium">
-                            Not attempted
+                          <span className="text-xs font-medium">
+                            {result.unattemptedPoints} marks
                           </span>
                         </div>
                       ) : (
                         <div className="flex items-center text-red-600">
                           <FiX className="w-5 h-5 mr-1" />
-                          <span className="text-sm font-medium">
+                          <span className="text-xs font-medium">
                             {result.incorrectPoints} marks
                           </span>
                         </div>

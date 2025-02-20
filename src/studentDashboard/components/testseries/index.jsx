@@ -38,7 +38,7 @@ const TestSeriesIndex = () => {
     const getTestSeries = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API2}zenstudy/api/main/test-series-master`,
+          `${process.env.REACT_APP_API}zenstudy/api/main/test-series-master`,
           {
             method: "GET",
             headers: {

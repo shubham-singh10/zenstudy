@@ -54,7 +54,7 @@ export const TestQuestionsPage = ({ test, series }) => {
 
         try {
             setTestLoading(true);
-            const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/main/test-series-result`, {
+            const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/main/test-series-result`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -132,7 +132,7 @@ export const TestQuestionsPage = ({ test, series }) => {
         const getTestSeries = async () => {
             try {
                 const response = await fetch(
-                    `${process.env.REACT_APP_API2}zenstudy/api/main/test-series/${test._id}/questions`,
+                    `${process.env.REACT_APP_API}zenstudy/api/main/test-series/${test._id}/questions`,
                     {
                         method: "GET",
                         headers: {
@@ -214,7 +214,7 @@ export const TestQuestionsPage = ({ test, series }) => {
                         onClick={() => window.location.reload()}
                         className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
                     >
-                        Take Test Again
+                        Go Back
                     </button>
                 </div>
             </div>
