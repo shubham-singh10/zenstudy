@@ -1,20 +1,23 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { FiArrowLeft, FiArrowRight, FiCheckCircle, FiXCircle } from "react-icons/fi";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { FiArrowLeft, FiArrowRight, FiCheckCircle, FiSkipForward, FiXCircle } from "react-icons/fi";
 import { GoTrophy } from "react-icons/go";
 import { IoCheckmarkDone } from "react-icons/io5";
 import Loading from "../../../Loading";
 import { useAuth } from "../../../context/auth-context";
+import Swal from "sweetalert2";
 
 export const TestQuestionsPage = ({ test, series }) => {
     const [questions, setquestions] = useState([])
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState(null);
     const [showResults, setShowResults] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(0);
+    const [timeLeft, setTimeLeft] = useState(null);
     const [loading, setLoading] = useState(true)
     const [testloading, setTestLoading] = useState(false)
     const { user } = useAuth();
-    
+    const timerRef = useRef(null);
+    const timeLeftRef = useRef(0);
+
     const handleAnswerSelect = (optionIndex) => {
         const newAnswers = [...selectedAnswers];
         newAnswers[currentQuestion] = optionIndex;
@@ -33,18 +36,12 @@ export const TestQuestionsPage = ({ test, series }) => {
         }
     };
 
-
     const calculateScore = () => {
         return selectedAnswers.reduce((score, answer, index) => {
             return score + (answer === questions[index].correctAnswer ? 1 : 0);
         }, 0);
     };
-
-    const handleSubmit = useCallback(async (autoSubmit) => {
-        if (autoSubmit === "NO" && selectedAnswers.includes(-1)) {
-            alert("Please answer all questions before submitting!");
-            return;
-        }
+    const submitTest = useCallback(async () => {
         const submissionData = {
             userId: user?._id,
             testSeriesId: test._id,
@@ -56,39 +53,78 @@ export const TestQuestionsPage = ({ test, series }) => {
         };
 
         try {
-            setTestLoading(true)
+            setTestLoading(true);
             const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/main/test-series-result`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer YOUR_USER_TOKEN_HERE`, // Replace with actual token
                 },
                 body: JSON.stringify(submissionData),
             });
 
             const result = await response.json();
             console.log("Submission Response:", result);
-
             setShowResults(true);
             setTimeLeft(-1);
         } catch (error) {
             console.error("Error submitting test:", error);
-        } finally{
-            setTestLoading(false)
+        } finally {
+            setTestLoading(false);
         }
-        setShowResults(true);
-        setTimeLeft(-1)
-    }, [selectedAnswers, series, test, user, questions]);
+    }, [questions, selectedAnswers, test, user, series]);
+
+    const handleSubmit = useCallback(async (autoSubmit) => {
+        const skippedQuestions = selectedAnswers.filter(ans => ans === -1).length;
+
+        if (autoSubmit === "NO" && skippedQuestions > 0) {
+            Swal.fire({
+                title: "Some Questions Are Skipped!",
+                text: `You have ${questions.length} questions, and you skipped ${skippedQuestions}. Are you sure you want to submit?`,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, Submit Test",
+                cancelButtonText: "No, Go Back",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    submitTest();
+                }
+            });
+        } else {
+            submitTest();
+        }
+    }, [selectedAnswers, questions.length, submitTest]);
+
+
+
 
     useEffect(() => {
-        if (timeLeft > 0 && !showResults) {
-            const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-            return () => clearTimeout(timer);
-        } else if (timeLeft === 0 && !showResults) {
-            alert("Time is up! The test is being submitted.");
-            handleSubmit("yes");
-        }
-    }, [timeLeft, showResults, handleSubmit]);
+        if (!test) return;
+
+        const initialTime = test?.duration ? test.duration : 120 * 60;
+        setTimeLeft(initialTime);
+        timeLeftRef.current = initialTime;
+
+        if (timerRef.current) clearInterval(timerRef.current);
+        timerRef.current = setInterval(() => {
+            if (timeLeftRef.current > 0) {
+                timeLeftRef.current -= 1;
+                setTimeLeft(timeLeftRef.current);
+            } else {
+                clearInterval(timerRef.current);
+                Swal.fire({
+                    title: "Time is Up!",
+                    text: "Your test time has ended. Submitting now...",
+                    icon: "warning",
+                    confirmButtonText: "OK",
+                }).then(() => {
+                    handleSubmit("YES");
+                });
+            }
+        }, 1000);
+
+        return () => clearInterval(timerRef.current);
+    }, [test, handleSubmit]);
+
 
     useEffect(() => {
         let isMounted = true;
@@ -124,14 +160,10 @@ export const TestQuestionsPage = ({ test, series }) => {
         };
 
         getTestSeries();
-
-        if(test){
-            setTimeLeft(test.duration)
-        }
         return () => {
             isMounted = false;
         };
-        
+
     }, [test])
 
     if (loading) {
@@ -196,9 +228,21 @@ export const TestQuestionsPage = ({ test, series }) => {
                 <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 mb-4">
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-xl font-semibold text-gray-800">Question {currentQuestion + 1} of {questions.length}</h2>
-                        <div className="text-sm font-medium text-gray-500">
-                            {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')} min left
+                        <div
+                            className={`text-sm font-medium ${timeLeft <= 30 ? "text-red-500 font-bold animate-pulse" : "text-gray-500"
+                                }`}
+                        >
+                            {timeLeft > 60 ? (
+                                <>
+                                    {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, "0")} min left
+                                </>
+                            ) : (
+                                <>
+                                    {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, "0")} seconds left
+                                </>
+                            )}
                         </div>
+
                         <div className="text-sm font-medium text-gray-500">
                             {selectedAnswers.filter(a => a !== -1).length} of {questions.length} answered
                         </div>
@@ -246,14 +290,20 @@ export const TestQuestionsPage = ({ test, series }) => {
                         ) : (
                             <button
                                 onClick={handleNext}
-                                disabled={
-                                    selectedAnswers[currentQuestion] === -1
-                                }
                                 className={`flex gap-1 items-center px-6 py-2 rounded-lg font-medium ${selectedAnswers[currentQuestion] === -1
-                                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                    ? "bg-gray-300 text-gray-500"
                                     : "bg-indigo-600 text-white hover:bg-indigo-700"}`}
                             >
-                                Next <FiArrowRight className="h-5 w-5" />
+                                {selectedAnswers[currentQuestion] === -1 ? (
+                                    <span className="flex items-center gap-1">
+                                        Skip <FiSkipForward className="h-5 w-5" />
+                                    </span>
+                                ) : (
+                                    <span className="flex items-center gap-1">
+                                        Next <FiArrowRight className="h-5 w-5" />
+                                    </span>
+                                )}
+
                             </button>
                         )}
                     </div>
@@ -276,16 +326,14 @@ export const TestQuestionsPage = ({ test, series }) => {
                             <button
                                 key={index}
                                 onClick={() => {
-                                    if (selectedAnswers[index] !== -1 || index <= currentQuestion) {
-                                        setCurrentQuestion(index);
-                                    }
+                                    setCurrentQuestion(index);
+
                                 }}
-                                disabled={selectedAnswers[index] === -1 && index > currentQuestion}
                                 className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${selectedAnswers[index] !== -1
                                     ? 'bg-green-500 text-white'
                                     : 'bg-gray-200 text-gray-600'
                                     } ${currentQuestion === index ? 'ring-2 ring-indigo-600 ring-offset-2' : ''
-                                    } ${selectedAnswers[index] === -1 && index > currentQuestion ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    }`}
                             >
                                 {index + 1}
                             </button>

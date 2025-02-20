@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { TestsCard } from "./TestsCard";
 import { TestsRules } from "./TestsRules";
 import { TestQuestionsPage } from "./TestsQuestions";
-import Loading from "../../../Loading";
 import TestList from "./TestList";
 import TestResult from "./TestResult";
-import { Loader } from "../../../components/loader/Loader";
+import Loading from "../../../Loading";
 
 const TestSeriesIndex = () => {
   const [currentView, setCurrentView] = useState("list");
@@ -74,10 +73,7 @@ const TestSeriesIndex = () => {
   }, []);
 
   if (loading) {
-        return  (
-          <div className="flex items-center justify-center h-screen">
-          <Loader fill="black" />
-        </div>)
+    return <Loading />
   }
 
   if (currentView === "list") {

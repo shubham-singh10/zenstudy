@@ -99,7 +99,7 @@ export const TestsRules = ({ test, onStart, onBack }) => {
                             </div>
                             <div className="flex items-start">
                                 <FiAlertCircle className="w-5 h-5 text-amber-500 mr-2 mt-0.5" />
-                                <p className="text-gray-600">Unattempted questions will be marked as {score?.unattemptedPoints}.</p>
+                                <p className="text-gray-600">Unattempted questions will be marked as {score?.unattemptedPoints === 0 ? "Zero" : score?.unattemptedPoints}.</p>
                             </div>
                         </div>
                     </div>

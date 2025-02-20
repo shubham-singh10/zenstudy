@@ -15,19 +15,13 @@ function TestList({ series, onBack, onProceed, onResult }) {
     (series) => series.userId === user?._id
   );
 
-  console.log("User Completed Tests:", userCompletedTests);
   const check = ({ id }) => {
-    console.log("Checking for ID:", id);
-    console.log("Completed Tests Data:", series.completedTests);
-    
     const TestCompleted = series.completedTests.filter(
       (test) => test.userId === user?._id && test.testSeriesId === id
     );
-    
-    console.log("Filtered Results:", TestCompleted);
     return TestCompleted.length > 0 ? "completed" : "incomplete";
   };
-  
+
   useEffect(() => {
     let isMounted = true;
 
@@ -51,7 +45,7 @@ function TestList({ series, onBack, onProceed, onResult }) {
 
         const data = await response.json();
 
-        console.log(data);
+        // console.log("Response_Data: ",data);
         if (isMounted) {
           setTestSeries(data);
           setLoading(false);
@@ -122,8 +116,8 @@ function TestList({ series, onBack, onProceed, onResult }) {
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-2">
                         {test.title}
-                        
-                      
+
+
 
                       </h3>
                       <div className="flex items-center gap-4 text-sm text-gray-600">
@@ -152,7 +146,7 @@ function TestList({ series, onBack, onProceed, onResult }) {
                     </div>
                     {check({ id: test._id }) === "completed" ? (
                       <button
-                        onClick={()=> onResult(test)}
+                        onClick={() => onResult(test)}
                         className="inline-flex items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
                       >
                         <BiTrophy className="mr-2 h-4 w-4" />
