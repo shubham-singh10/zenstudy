@@ -71,7 +71,7 @@ const Sidebar = () => {
             icon: FiFileText,
             dropdown: [
               { href: "/testSeries", label: "Test", icon: FiSquare },
-              { href: "/resultSeries", label: "Result", icon: FiTag },
+              // { href: "/resultSeries", label: "Result", icon: FiTag },
             ],
           },
         ],

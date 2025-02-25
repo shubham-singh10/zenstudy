@@ -54,7 +54,7 @@ export const TestQuestionsPage = ({ test, series }) => {
 
         try {
             setTestLoading(true);
-            const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/main/test-series-result`, {
+            const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/main/test-series-result`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -132,7 +132,7 @@ export const TestQuestionsPage = ({ test, series }) => {
         const getTestSeries = async () => {
             try {
                 const response = await fetch(
-                    `${process.env.REACT_APP_API2}zenstudy/api/main/test-series/${test._id}/questions`,
+                    `${process.env.REACT_APP_API}zenstudy/api/main/test-series/${test._id}/questions`,
                     {
                         method: "GET",
                         headers: {
@@ -175,7 +175,7 @@ export const TestQuestionsPage = ({ test, series }) => {
         const correctAnswers = score;
         const wrongAnswers = selectedAnswers.filter((ans, index) => ans !== -1 && ans !== questions[index].correctAnswer).length;
         const skippedAnswers = selectedAnswers.filter(ans => ans === -1).length;
-        const percentage = (score / questions.length) * 100;
+        const percentage = ((score / questions.length) * 100).toFixed(2);
 
         return (
             <div className="min-h-screen p-4 sm:p-6 md:p-8">
@@ -214,7 +214,7 @@ export const TestQuestionsPage = ({ test, series }) => {
                         onClick={() => window.location.reload()}
                         className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
                     >
-                        Take Test Again
+                        Go Back
                     </button>
                 </div>
             </div>

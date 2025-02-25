@@ -14,7 +14,7 @@ export const TestsRules = ({ test, onStart, onBack }) => {
         const getTestSeries = async () => {
             try {
                 const response = await fetch(
-                    `${process.env.REACT_APP_API2}zenstudy/api/main/test-series-score/${test._id}`,
+                    `${process.env.REACT_APP_API}zenstudy/api/main/test-series-score/${test._id}`,
                     {
                         method: "GET",
                         headers: {
