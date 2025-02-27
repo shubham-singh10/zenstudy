@@ -18,6 +18,7 @@ import Testing from "./components/testing.jsx";
 import TestResult from "./studentDashboard/components/testseries/TestResult.jsx";
 import TestResultSeries from "./studentDashboard/components/testseries/TestResultSeries.jsx";
 import Demopage from "./studentDashboard/components/Demopage.jsx";
+import NewCourseDetailPage from "./components/course/CourseDetailNew.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -65,6 +66,7 @@ function App() {
               <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
               <Route path="/termandConditions" element={<TermandConditions />} />
               <Route path="/coursesNew" element={<CoursesNew />} />
+              <Route path="/courseDetailNew" element={<NewCourseDetailPage />} />
               <Route path="/testpage" element={<NewtestPage />} />
               <Route path="/course-details/:courseId" element={<CourseDetails />} />
               <Route path="/contact" element={<ContactUs />} />
