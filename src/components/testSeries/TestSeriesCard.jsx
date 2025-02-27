@@ -1,61 +1,73 @@
 import React from "react"
 import { BiTimer } from "react-icons/bi"
-import { FiBook, FiCheckCircle, FiChevronsRight } from "react-icons/fi"
+import { FiBook, FiCheckCircle, FiChevronRight } from "react-icons/fi"
 
 export function TestSeriesCard({ test, onPreview }) {
   return (
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl">
       <div className="relative">
-        <img src={test.image || "/placeholder.svg"} alt={test.title} className="w-full h-48 object-cover" />
-        {test.includedInCourse && (
-          <div className="absolute top-4 right-4 bg-indigo-500 px-3 py-1 rounded-full text-white text-sm font-medium">
+        <img src={test.image} alt={test.title} className="w-full h-40 sm:h-48 object-cover" />
+        {test.courseName ? (
+          <div className="absolute top-2 right-2 bg-indigo-500 px-2 py-1 rounded-full text-white text-xs font-medium">
             Included in Course
+          </div>
+        ) : (
+          <div className="absolute top-2 right-2 bg-green-500 px-2 py-1 rounded-full text-white text-xs font-medium">
+            Standalone Series
           </div>
         )}
       </div>
 
-      <div className="p-6">
-        {test.includedInCourse && <div className="text-sm font-medium text-indigo-600 mb-2">{test.courseName}</div>}
-        <h3 className="text-xl font-bold text-gray-800 mb-2">{test.title}</h3>
-        <p className="text-gray-600 mb-4">{test.description}</p>
+      <div className="p-4">
+        {test.courseName && (
+          <div className="text-xs font-medium text-indigo-600 mb-2">{test.courseName}</div>
+        )}
+        <h3 className="text-lg font-bold text-gray-800 mb-2">{test.title}</h3>
+        <p className="text-sm text-gray-600 mb-4">{test.description}</p>
 
-        <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="flex items-center">
-            <FiBook className="w-5 h-5 text-indigo-500 mr-2" />
-            <span className="text-sm text-gray-600">{test.tests.length} Tests</span>
+            <FiBook className="w-4 h-4 text-indigo-500 mr-2" />
+            <span className="text-xs text-gray-600">{test.tests.length} Tests</span>
           </div>
           <div className="flex items-center">
-            <BiTimer className="w-5 h-5 text-indigo-500 mr-2" />
-            <span className="text-sm text-gray-600">{test.totalQuestions} Questions</span>
+            <BiTimer className="w-4 h-4 text-indigo-500 mr-2" />
+            <span className="text-xs text-gray-600">{test.totalQuestions} Questions</span>
           </div>
         </div>
 
-        <div className="bg-indigo-50 rounded-xl p-4 mb-6">
-          <h4 className="font-semibold text-indigo-900 mb-3">What you'll get:</h4>
+        <div className="bg-indigo-50 rounded-xl p-3 mb-4">
+          <h4 className="font-semibold text-indigo-900 mb-2 text-sm">What you'll get:</h4>
           <ul className="space-y-2">
             {test.features.slice(0, 3).map((feature, index) => (
-              <li key={index} className="flex items-center text-sm text-indigo-700">
-                <FiCheckCircle className="w-4 h-4 mr-2 text-indigo-500" />
+              <li key={index} className="flex items-center text-xs text-indigo-700">
+                <FiCheckCircle className="w-3 h-3 mr-2 text-indigo-500 flex-shrink-0" />
                 {feature}
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="flex gap-4">
-          <button
-            onClick={onPreview}
-            className="flex-1 bg-indigo-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-indigo-700 transition-all flex items-center justify-center gap-2"
-          >
-            Preview Tests
-            <FiChevronsRight className="w-4 h-4" />
-          </button>
-          {!test.includedInCourse && (
-            <button className="flex-1 bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-all flex items-center justify-center gap-2">
-              Buy Now ₹{test.price}
-            </button>
-          )}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            {test.courseName ? (
+              <div className="text-xs text-gray-600">Included with course</div>
+            ) : (
+              <>
+                <span className="text-xl font-bold text-gray-900">₹{test.price}</span>
+                <span className="text-xs text-gray-500">/ lifetime</span>
+              </>
+            )}
+          </div>
         </div>
+
+        <button
+          onClick={onPreview}
+          className="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-indigo-700 transition-all flex items-center justify-center gap-2 text-sm"
+        >
+          Preview Tests
+          <FiChevronRight className="w-4 h-4" />
+        </button>
       </div>
     </div>
   )
