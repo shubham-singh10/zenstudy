@@ -24,7 +24,7 @@ const MyPurchaseCourse = () => {
         const getcourse = async () => {
             try {
                 const response = await fetch(
-                    `${process.env.REACT_APP_API}zenstudy/api/payment/purchaseCourse`,
+                    `${process.env.REACT_APP_API2}zenstudy/api/payment/purchaseCourse`,
                     {
                         method: "POST",
                         headers: {
@@ -46,18 +46,22 @@ const MyPurchaseCourse = () => {
                 }
 
                 const data = await response.json();
+                console.log(data);
                 const filteredCourses = data.purchaseCourses.filter(
                     (purchase) => purchase.course_id !== null
                 );
-
-                if (filteredCourses.length === 0) {
+                
+                console.log("filteredCourses",filteredCourses);
+               
+                if(filteredCourses.length === 0) {
+                    console.log("filteredCourses",filteredCourses.length);
                     setCourses({ recorded: [], live: [] });
                 } else {
                     const coursesWithImageUrls = filteredCourses.map((purchase) => ({
                         ...purchase,
                         imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${purchase.course_id.thumbnail}`,
                     }));
-
+                    console.log("xcc",coursesWithImageUrls);
                     setCourses({
                         recorded: coursesWithImageUrls.filter((course) => course.course_id.tags === "notlive"),
                         live: coursesWithImageUrls.filter((course) => course.course_id.tags === "live"),
