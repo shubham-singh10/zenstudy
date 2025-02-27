@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { PreviewTest } from './PreviewTest'
 import { TestSeriesCard } from './TestSeriesCard'
 
@@ -126,11 +126,62 @@ const testSeries = [
 const TestSeriesIndex = () => {
     const [currentView, setCurrentView] = useState('list');
     const [selectedTest, setSelectedTest] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [testSeries, setTestSeries] = useState([]);
 
     const handlePreview = (test) => {
         setSelectedTest(test);
         setCurrentView('preview');
     };
+
+
+      useEffect(() => {
+        let isMounted = true;
+    
+        const getTestSeries = async () => {
+          try {
+            const response = await fetch(
+              `${process.env.REACT_APP_API}zenstudy/api/main/test-series-master`,
+              {
+                method: "GET",
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+    
+            if (!response.ok) {
+              throw new Error("Failed to fetch test series");
+            }
+    
+            const data = await response.json();
+      
+            const ImgData = data.map((item) => ({
+              ...item, // Spread the current item (not data)
+              imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/gettestSeriesImage/${item.image}`,
+            }));
+            
+            console.log("img",ImgData);
+
+            console.log(data);
+            if (isMounted) {
+              setTestSeries(ImgData);
+              setLoading(false);
+            }
+          } catch (error) {
+            console.error("Error fetching test series:", error);
+            if (isMounted) setLoading(false);
+          }
+        };
+    
+        getTestSeries();
+    
+        return () => {
+          isMounted = false;
+        };
+      }, []);
+
 
     if (currentView === 'preview' && selectedTest) {
         return (
@@ -155,7 +206,7 @@ const TestSeriesIndex = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     {testSeries.map(test => (
                         <TestSeriesCard
-                            key={test.id}
+                            key={test._id}
                             test={test}
                             onPreview={() => handlePreview(test)}
                         />

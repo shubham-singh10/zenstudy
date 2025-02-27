@@ -3,11 +3,18 @@ import { GrLanguage } from "react-icons/gr";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import { MdSlowMotionVideo } from "react-icons/md";
+import { MdOutlineVerified, MdSlowMotionVideo } from "react-icons/md";
 import { FaLock, FaLockOpen } from "react-icons/fa";
 import { VerifyEmailMsg } from "../VerifyEmailMsg";
 import { useAuth } from "../../context/auth-context";
-import { FiLoader } from "react-icons/fi";
+import { FaChevronDown } from "react-icons/fa";
+import {
+  FiArrowDown,
+  FiArrowUp,
+  FiClock,
+  FiLoader,
+  FiUser,
+} from "react-icons/fi";
 
 const NewCourseDetailPage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -16,7 +23,6 @@ const NewCourseDetailPage = () => {
   const [couponCode, setCouponCode] = useState("");
   const [isCouponApplied, setIsCouponApplied] = useState(false);
   const [expandedAccordionItem, setExpandedAccordionItem] = useState(null);
-  const heroRef = useRef(null);
 
   const [coursePost, setCoursePost] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -82,22 +88,16 @@ const NewCourseDetailPage = () => {
   };
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setShowStickyHeader(!entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-
-    if (heroRef.current) {
-      observer.observe(heroRef.current);
-    }
-
-    return () => {
-      if (heroRef.current) {
-        observer.unobserve(heroRef.current);
-      }
+    const handleScroll = () => {
+      // If scrolled past 200px, show sticky header
+      setShowStickyHeader(window.scrollY > 400);
     };
+
+    // Attach event listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup event listener on unmount
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -174,14 +174,6 @@ const NewCourseDetailPage = () => {
       </div>
     );
   }
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${day}-${month}-${year}`;
-  };
 
   //Payment Initiate
   const handlePayment = async (amount) => {
@@ -295,16 +287,6 @@ const NewCourseDetailPage = () => {
     rzp1.open();
   };
 
-  const toggleLogin = () => setIsLoggedIn(!isLoggedIn);
-
-  // const applyCoupon = () => {
-  //   if (couponCode.toLowerCase() === "discount20") {
-  //     setIsCouponApplied(true);
-  //   } else {
-  //     alert("Invalid coupon code");
-  //   }
-  // };
-
   const faqItems = [
     {
       question: "Who is this course for?",
@@ -345,25 +327,23 @@ const NewCourseDetailPage = () => {
       >
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-blue-600 truncate">
-            {coursePost && coursePost.title}
+            {coursePost?.title}
           </h2>
           <div className="flex items-center">
             <span className="text-2xl font-bold text-blue-600 mr-4">
-            {discount ? (
-              <div className="flex items-center">
-                <span className="line-through  opacity-75 text-lg mr-2">
-                  ₹ {Math.round(coursePost?.price)}
-                </span>
-                <span>
-                  ₹{" "}
-                  {discount.subTotal === 0
-                    ? 1
-                    : discount.subTotal.toFixed(2)}
-                </span>
-              </div>
-            ) : (
-              <span>₹ {Math.round(coursePost?.price)}</span>
-            )}
+              {discount ? (
+                <div className="flex items-center">
+                  <span className="line-through opacity-75 text-lg mr-2">
+                    ₹ {Math.round(coursePost?.price)}
+                  </span>
+                  <span>
+                    ₹{" "}
+                    {discount.subTotal === 0 ? 1 : discount.subTotal.toFixed(2)}
+                  </span>
+                </div>
+              ) : (
+                <span>₹ {Math.round(coursePost?.price)}</span>
+              )}
             </span>
             {currentUser ? (
               <button
@@ -383,7 +363,7 @@ const NewCourseDetailPage = () => {
               >
                 {payloading ? (
                   <span className="flex items-center gap-1">
-                   <FiLoader className="animate-spin"/> 
+                    <FiLoader className="animate-spin" />
                     Processing...
                   </span>
                 ) : (
@@ -405,7 +385,6 @@ const NewCourseDetailPage = () => {
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Hero Section */}
         <div
-          ref={heroRef}
           className="grid md:grid-cols-2 gap-8 items-center mb-12"
         >
           <div>
@@ -421,41 +400,15 @@ const NewCourseDetailPage = () => {
             </p>
 
             <div className="flex flex-wrap items-center text-sm text-gray-600 mb-6 gap-4">
-              <div className="flex items-center">
-                <svg
-                  className="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                  />
-                </svg>
+              <div className="flex items-center gap-1">
+                <FiUser />
                 <span>10,000+ students</span>
               </div>
-              <div className="flex items-center">
-                <svg
-                  className="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+              <div className="flex items-center gap-1">
+                <FiClock />
                 <span>50 hours</span>
               </div>
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center justify-center gap-1">
                 <GrLanguage />
                 <span>{coursePost && coursePost?.language?.name}</span>
               </div>
@@ -553,41 +506,15 @@ const NewCourseDetailPage = () => {
             onClick={() => setShowFullDescription(!showFullDescription)}
           >
             {showFullDescription ? (
-              <>
+              <span className="flex items-center gap-1">
                 Show less
-                <svg
-                  className="w-4 h-4 ml-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 15l7-7 7 7"
-                  />
-                </svg>
-              </>
+                <FiArrowUp />
+              </span>
             ) : (
-              <>
+              <span className="flex items-center gap-1">
                 Show more
-                <svg
-                  className="w-4 h-4 ml-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </>
+                <FiArrowDown />
+              </span>
             )}
           </button>
         </div>
@@ -606,21 +533,8 @@ const NewCourseDetailPage = () => {
               "RESTful API design and implementation",
               "Authentication and authorization techniques",
             ].map((item, index) => (
-              <li key={index} className="flex items-start">
-                <svg
-                  className="w-5 h-5 text-green-500 mr-2 flex-shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+              <li key={index} className="flex  gap-1 items-center">
+                <MdOutlineVerified color="lightgreen" />
                 <span>{item}</span>
               </li>
             ))}
@@ -632,7 +546,7 @@ const NewCourseDetailPage = () => {
           <div className="bg-white p-6 rounded-lg shadow-md mb-8 transition-all duration-300 hover:shadow-xl">
             <h2 className="text-2xl font-semibold mb-4">Course Content</h2>
             {coursePost?.modules?.map((section, index) => (
-              <div key={index} className="border-b last:border-b-0">
+              <div key={index} className="border-2 border-gray-100 rounded-lg mb-4 px-4 py-1"> 
                 <button
                   className="w-full py-4 flex justify-between items-center focus:outline-none"
                   onClick={() =>
@@ -642,24 +556,12 @@ const NewCourseDetailPage = () => {
                   }
                 >
                   <span className="font-medium">{section?.moduleTitle}</span>
-                  <svg
-                    className={`w-5 h-5 transition-transform ${
+                  <FaChevronDown className={`w-5 h-5 transition-transform ${
                       expandedAccordionItem === index
                         ? "transform rotate-180"
                         : ""
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
+                    }`}/>
+                 
                 </button>
                 {expandedAccordionItem === index && (
                   <div className="py-0">
@@ -698,23 +600,23 @@ const NewCourseDetailPage = () => {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
             <div className="mb-4 md:mb-0">
               <span className="text-4xl font-bold">
-              {discount ? (
-                <div className="flex items-center">
-                  <span className="line-through  opacity-75 text-lg mr-2">
-                    ₹ {Math.round(coursePost?.price)}
-                  </span>
-                  <span>
-                    ₹{" "}
-                    {discount.subTotal === 0
-                      ? 1
-                      : discount.subTotal.toFixed(2)}
-                  </span>
-                </div>
-              ) : (
-                <span>₹ {Math.round(coursePost?.price)}</span>
-              )}
+                {discount ? (
+                  <div className="flex items-center">
+                    <span className="line-through  opacity-75 text-lg mr-2">
+                      ₹ {Math.round(coursePost?.price)}
+                    </span>
+                    <span>
+                      ₹{" "}
+                      {discount.subTotal === 0
+                        ? 1
+                        : discount.subTotal.toFixed(2)}
+                    </span>
+                  </div>
+                ) : (
+                  <span>₹ {Math.round(coursePost?.price)}</span>
+                )}
               </span>
-             
+
               <p className="text-lg mt-2">
                 {isCouponApplied
                   ? "60% discount applied!"
@@ -736,12 +638,14 @@ const NewCourseDetailPage = () => {
                     onClick={() => ApplyCoupon(coursePost?.price)}
                     disabled={couponLoading}
                     className={`${
-                      couponLoading 
+                      couponLoading
                         ? `bg-red-800 cursor-not-allowed`
                         : "bg-blue-800 hover:bg-blue-900 "
                     } text-white px-4 py-2 rounded-r-md transition-colors`}
                   >
-                     <span className="text-xs block w-full">{couponLoading ? "Wait..." : "Apply"}</span>
+                    <span className="text-xs block w-full">
+                      {couponLoading ? "Wait..." : "Apply"}
+                    </span>
                   </button>
                 </div>
               )}
@@ -764,7 +668,7 @@ const NewCourseDetailPage = () => {
                 >
                   {payloading ? (
                     <span className="flex items-center">
-                      <FiLoader className="animate-spin gap-1"/> 
+                      <FiLoader className="animate-spin gap-1" />
                       Processing...
                     </span>
                   ) : (
@@ -782,31 +686,6 @@ const NewCourseDetailPage = () => {
             </div>
           </div>
         </div>
-
-        {/* Student Reviews */}
-        {
-          //   <div className="bg-white p-6 rounded-lg shadow-md mb-8 transition-all duration-300 hover:shadow-xl">
-          //   <h2 className="text-2xl font-semibold mb-4">Student Reviews</h2>
-          //   <div className="flex items-center mb-4">
-          //     <div className="flex">
-          //       {[1, 2, 3, 4, 5].map((star) => (
-          //         <svg
-          //           key={star}
-          //           className="w-5 h-5 text-yellow-400"
-          //           fill="currentColor"
-          //           viewBox="0 0 20 20"
-          //           xmlns="http://www.w3.org/2000/svg"
-          //         >
-          //           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          //         </svg>
-          //       ))}
-          //     </div>
-          //     <span className="ml-2 text-lg font-semibold">4.8 out of 5</span>
-          //     <span className="ml-2 text-gray-600">(1,234 ratings)</span>
-          //   </div>
-          //   {/* Add more detailed reviews here */}
-          // </div>
-        }
 
         {/* FAQ Section */}
         <div className="bg-white p-6 rounded-lg shadow-md transition-all duration-300 hover:shadow-xl">
