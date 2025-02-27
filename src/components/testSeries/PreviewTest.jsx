@@ -149,7 +149,7 @@ export function PreviewTest({ test, onBack }) {
                 couponCode: code,
                 couponApplied: code ? true : false,
                 discount: discount?.discount || 0,
-                coursevalidation: "2025-03-01",
+                coursevalidation: "2026-03-01",
               }),
             }
           );
