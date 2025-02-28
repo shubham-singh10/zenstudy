@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { BiBrain, BiTimer, BiTrophy } from "react-icons/bi";
 import {
   FiBarChart,
@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth-context";
 import VerifyEmailMsg from "../VerifyEmailMsg";
 import Swal from "sweetalert2";
+import { Loader } from "../loader/Loader";
 
 export function PreviewTest({ test, onBack }) {
   const navigate = useNavigate();
@@ -175,7 +176,22 @@ export function PreviewTest({ test, onBack }) {
     rzp1.open();
   };
 
+
+    if (loading) {
+          return (
+              <div className="min-h-screen flex items-center justify-center">
+                 <Loader fill="#000" />
+              </div>
+          );
+      }
+
   return (
+    <Fragment>
+    {pageloading && (
+            <div className="loading-overlay fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+              <Loader fill="white" />
+            </div>
+          )}
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-2 sm:p-4 md:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
@@ -447,10 +463,11 @@ export function PreviewTest({ test, onBack }) {
                 ) : (
                   <button
                     onClick={() => handlePayment(test.price)}
-                    className="flex-1 sm:flex-initial px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 text-sm"
+                    disabled={payloading}
+                    className={` ${payloading ? "bg-red-600 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"} flex-1 sm:flex-initial px-4 py-2  text-white rounded-lg font-medium  transition-colors flex items-center justify-center gap-2 text-sm`}
                   >
                     <FiLock className="w-4 h-4" />
-                    Buy Now
+                   {payloading ? "Please Wait.." : "Enroll Now"}
                   </button>
                 )}
               </div>
@@ -476,5 +493,6 @@ export function PreviewTest({ test, onBack }) {
         </div>
       </div>
     </div>
+    </Fragment>
   );
 }

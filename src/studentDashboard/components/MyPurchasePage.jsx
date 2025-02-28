@@ -24,7 +24,7 @@ const MyPurchaseCourse = () => {
         const getcourse = async () => {
 
             if (!user?._id) return;
-
+            
             try {
                 const response = await fetch(
                     `${process.env.REACT_APP_API3}zenstudy/api/payment/purchaseCourse`,

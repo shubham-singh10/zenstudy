@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { PreviewTest } from './PreviewTest'
 import { TestSeriesCard } from './TestSeriesCard'
+import { Loader } from '../loader/Loader'
 
 const testSeries = [
     {
@@ -195,8 +196,16 @@ const TestSeriesIndex = () => {
         );
     }
 
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+               <Loader fill="#000" />
+            </div>
+        );
+    }
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-2 sm:p-4 md:p-6 lg:p-8">
+        <div className="min-h-screen  p-2 sm:p-4 md:p-6 lg:p-8">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-8">
                     <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">Test Series</h1>
