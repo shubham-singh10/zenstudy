@@ -5,6 +5,7 @@ import { TestQuestionsPage } from "./TestsQuestions";
 import TestList from "./TestList";
 import TestResult from "./TestResult";
 import Loading from "../../../Loading";
+import { useAuth } from "../../../context/auth-context";
 
 const TestSeriesIndex = () => {
   const [currentView, setCurrentView] = useState("list");
@@ -12,6 +13,7 @@ const TestSeriesIndex = () => {
   const [selectedSeries, setSelectedSeries] = useState(null);
   const [testSeries, setTestSeries] = useState([]);
   const [loading, setLoading] = useState(true);
+      const { user } = useAuth();
 
   const handleTestSelect = (test) => {
     setSelectedTest(test);
@@ -36,15 +38,17 @@ const TestSeriesIndex = () => {
     let isMounted = true;
 
     const getTestSeries = async () => {
+      if (!user?._id) return;
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API}zenstudy/api/main/test-series-master`,
+          `${process.env.REACT_APP_API2}zenstudy/api/payment/purchaseCourse`,
           {
-            method: "GET",
+            method: "POST",
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
             },
+            body: JSON.stringify({ user_id: user?._id }),
           }
         );
 
@@ -53,10 +57,10 @@ const TestSeriesIndex = () => {
         }
 
         const data = await response.json();
-
         console.log(data);
+
         if (isMounted) {
-          setTestSeries(data);
+          setTestSeries(data.purchasedTestSeries);
           setLoading(false);
         }
       } catch (error) {
@@ -73,7 +77,7 @@ const TestSeriesIndex = () => {
   }, []);
 
   if (loading) {
-    return <Loading />
+    return <Loading />;
   }
 
   if (currentView === "list") {
