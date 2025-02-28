@@ -22,9 +22,12 @@ const MyPurchaseCourse = () => {
 
     useEffect(() => {
         const getcourse = async () => {
+
+            if (!user?._id) return;
+
             try {
                 const response = await fetch(
-                    `${process.env.REACT_APP_API}zenstudy/api/payment/purchaseCourse`,
+                    `${process.env.REACT_APP_API3}zenstudy/api/payment/purchaseCourse`,
                     {
                         method: "POST",
                         headers: {
@@ -46,26 +49,23 @@ const MyPurchaseCourse = () => {
                 }
 
                 const data = await response.json();
-                const filteredCourses = data.purchaseCourses.filter(
-                    (purchase) => purchase.course_id !== null
-                );
-
-                if (filteredCourses.length === 0) {
-                    setCourses({ recorded: [], live: [] });
-                } else {
-                    const coursesWithImageUrls = filteredCourses.map((purchase) => ({
+                if (data.message === "Done") {
+                    const coursesWithImageUrls = data.purchaseCourses.map((purchase) => ({
                         ...purchase,
-                        imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${purchase.course_id.thumbnail}`,
+                        imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${purchase.thumbnail}`,
                     }));
 
                     setCourses({
-                        recorded: coursesWithImageUrls.filter((course) => course.course_id.tags === "notlive"),
-                        live: coursesWithImageUrls.filter((course) => course.course_id.tags === "live"),
+                        recorded: coursesWithImageUrls.filter((course) => course.tags === "notlive"),
+                        live: coursesWithImageUrls.filter((course) => course.tags === "live"),
                     });
+                } else {
+                    setCourses({ recorded: [], live: [] });
                 }
 
                 setLoading(false);
             } catch (error) {
+                console.log("Error: ", error);
                 setLoading(false);
             }
         };
@@ -84,12 +84,12 @@ const MyPurchaseCourse = () => {
 
     const getFilteredAndSortedCourses = (courseList) => {
         return courseList
-            .filter((course) => course.course_id.title.toLowerCase().includes(searchTerm.toLowerCase()))
+            .filter((course) => course.title.toLowerCase().includes(searchTerm.toLowerCase()))
             .sort((a, b) => {
                 if (sortBy === "title") {
                     return sortOrder === "asc"
-                        ? a.course_id.title.localeCompare(b.course_id.title)
-                        : b.course_id.title.localeCompare(a.course_id.title);
+                        ? a.title.localeCompare(b.title)
+                        : b.title.localeCompare(a.title);
                 }
                 return 0;
             });
@@ -101,16 +101,16 @@ const MyPurchaseCourse = () => {
         setSearchTerm(search)
     }
     const handleRecordedLectureClick = (course) => {
-        if (course?.course_id?.title.toLowerCase().includes("mentorship")) {
+        if (course?.title.toLowerCase().includes("mentorship")) {
             Swal.fire({
                 title: "Mentorship is available via WhatsApp!",
                 text: "We'll add you soon.",
                 icon: "info",
                 confirmButtonText: "Close",
                 customClass: {
-                  confirmButton: "bg-blue-600 hover:bg-blue-700",
+                    confirmButton: "bg-blue-600 hover:bg-blue-700",
                 },
-              });
+            });
         } else {
             navigate("/liveClass"); // Navigate to live class if title is not "Mentorship"
         }
@@ -132,14 +132,14 @@ const MyPurchaseCourse = () => {
                         <img
                             src={course?.imageUrl || "/assets/upcoming.webp"}
                             crossOrigin="anonymous"
-                            alt={course?.course_id.title}
+                            alt={course?.title}
                             className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
                         />
                     </div>
                     <div className="p-4">
-                        <h2 className="text-xl font-semibold text-gray-800 mb-2">{course?.course_id.title}</h2>
-                        <p className="text-gray-600 mb-4">{course?.course_id.language.name}</p>
-                        {course?.course_id.tags === "live" ? (
+                        <h2 className="text-xl font-semibold text-gray-800 mb-2">{course?.title}</h2>
+                        <p className="text-gray-600 mb-4">{course?.language.name}</p>
+                        {course?.tags === "live" ? (
                             <div className="flex gap-2">
                                 <button
                                     className="flex items-center justify-center w-1/2 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors"
@@ -148,8 +148,8 @@ const MyPurchaseCourse = () => {
                                     <FaVideo className="mr-2" /> Visit Live Class
                                 </button>
                                 <button
-                                    className={`flex items-center justify-center w-1/2 ${course?.course_id?.modules?.length <= 0 ? "bg-red-400 hover:bg-red-700" : "bg-blue-600 hover:bg-blue-700"} text-white py-2 px-4 rounded-lg transition-colors`}
-                                    disabled={(course?.course_id?.modules).length <= 0}
+                                    className={`flex items-center justify-center w-1/2 ${course?.modules?.length <= 0 ? "bg-red-400 hover:bg-red-700" : "bg-blue-600 hover:bg-blue-700"} text-white py-2 px-4 rounded-lg transition-colors`}
+                                    disabled={(course?.modules).length <= 0}
                                     onClick={() => navigate(`/watch-course/${course._id}`)}
                                 >
                                     <FaPlay className="mr-2" /> Recorded Lecture
