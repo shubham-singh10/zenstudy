@@ -23,7 +23,7 @@ const Courses = () => {
   });
   const [searchText, setSearchText] = useState("");
   const [activeTab, setActiveTab] = useState(null);
-  const {user} = useAuth()
+  const { user } = useAuth();
 
   // Debounced search handler to reduce API calls
   const handleSearchChange = debounce((value) => {
@@ -33,9 +33,8 @@ const Courses = () => {
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
-    setPaginatedData({...paginatedData, currentPage: 1})
+    setPaginatedData({ ...paginatedData, currentPage: 1 });
   };
-  
 
   const setCurrentPage = (newPage) => {
     setPaginatedData((prev) => ({ ...prev, currentPage: newPage }));
@@ -108,7 +107,13 @@ const Courses = () => {
     };
 
     getCourse();
-  }, [paginatedData.currentPage, searchText, paginatedData.itemperpage, activeTab, user]); // Dependent on both currentPage and searchText
+  }, [
+    paginatedData.currentPage,
+    searchText,
+    paginatedData.itemperpage,
+    activeTab,
+    user,
+  ]); // Dependent on both currentPage and searchText
 
   if (loading.mainLoading) {
     return <Loading />;
@@ -116,9 +121,9 @@ const Courses = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="flex flex-col md:flex-row md:justify-around justify-arround  gap-4 items-center my-10 space-y-4 md:space-y-0">
+      <div className="flex flex-col md:flex-row md:justify-around justify-arround mx-2 gap-4 items-center my-10 space-y-4 md:space-y-0">
         {/* Tab System */}
-        <div className="flex shadow-xl py-2 px-10 rounded-lg space-x-4 border-2 border-blue-600 pb-2 ">
+        <div className="flex shadow-xl py-2 lg:px-10 px-2 space-x-2  rounded-lg lg:space-x-4 border-2 border-blue-600 pb-2 ">
           <button
             onClick={() => handleTabClick(null)}
             className={`flex items-center space-x-2 px-4 py-1 rounded-t-md transition duration-200 ${
@@ -128,7 +133,7 @@ const Courses = () => {
             }`}
           >
             <span>All</span>
-          </button> 
+          </button>
 
           {tabName.map((tab) => (
             <button
@@ -145,15 +150,14 @@ const Courses = () => {
           ))}
         </div>
 
-        {/* Search Bar */}
-        <div className="flex items-center justify-center bg-gray-100 border border-gray-300 shadow-sm rounded-full px-4 py-3 lg:py-1.5 w-[90%] md:w-[60%] lg:w-[40%]">
+        <div className="flex flex-row items-center justify-center bg-gray-100 border border-gray-300 shadow-sm rounded-full px-3 sm:px-4 py-2 sm:py-3 lg:py-1.5 w-full xs:w-[90%] sm:w-[70%] md:w-[60%] lg:w-[40%] min-w-[250px]">
           <input
             type="text"
-            placeholder="Search a course by title"
+            placeholder="Search a course"
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="bg-transparent flex-grow focus:outline-none text-gray-700 placeholder-gray-500 px-2"
+            className="bg-transparent flex-grow focus:outline-none text-gray-700 placeholder-gray-500 px-2 text-sm sm:text-base w-0 min-w-0"
           />
-          <button className="flex items-center justify-center w-6 h-6 lg:w-10 lg:h-10 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-200">
+          <button className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition duration-200">
             <FaSearch />
           </button>
         </div>

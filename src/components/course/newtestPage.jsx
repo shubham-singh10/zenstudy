@@ -208,7 +208,45 @@ const NewtestPage = () => {
             </div>
           </div>
 
+
+
           <div ref={aboutRef} className="py-8 ">
+
+          <h2 className="text-3xl font-extrabold mb-6 text-gray-800">Course Details</h2>
+
+          {/* Course Overview Card */}
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-8 border border-blue-100 shadow-sm">
+            <h3 className="text-2xl font-bold text-blue-800 mb-4">Course Overview</h3>
+            <p className="text-gray-700 leading-relaxed">
+              Our UPSC Foundation Batch is not just another coaching program—it's a transformative learning
+              experience. We don't just teach; we enable you to learn. Our approach ensures that students not only
+              grasp concepts but also understand the linkages with the UPSC syllabus. This empowers them to strategize
+              their studies effectively and make learning easier and more efficient.
+            </p>
+            <div className="mt-4 bg-white rounded-lg p-4 border border-blue-100 flex items-center space-x-3">
+              <div className="bg-blue-100 p-3 rounded-full">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 text-blue-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Course Start Date</p>
+                <p className="font-semibold text-gray-800">24th March, 2025</p>
+              </div>
+            </div>
+          </div>
+          
             <h2 className="text-3xl font-extrabold mb-6 text-gray-800">
               About the Batch
             </h2>
@@ -396,7 +434,598 @@ const NewtestPage = () => {
               information, FAQs, or testimonials.
             </p>
           </div>
+
+
+          <div ref={moreDetailsRef} className="py-8">
+          
+
+          {/* Class Features */}
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+              <div className="flex items-center mb-4">
+                <div className="bg-purple-100 p-2 rounded-full mr-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-purple-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800">Class Features</h3>
+              </div>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span>100+ hours of in-depth classes for each subject</span>
+                </li>
+                <li className="flex items-start">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span>6 classes a week. 2.5 hours per class</span>
+                </li>
+                <li className="flex items-start">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span>Class lecture notes and handouts</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+              <div className="flex items-center mb-4">
+                <div className="bg-blue-100 p-2 rounded-full mr-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-blue-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800">Notes & Content</h3>
+              </div>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span>Daily current affairs- both mains and prelims</span>
+                </li>
+                <li className="flex items-start">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span>Monthly current affairs magazine and editorial analysis</span>
+                </li>
+                <li className="flex items-start">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span>Daily class notes by faculty</span>
+                </li>
+                <li className="flex items-start">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span>Class handouts and detailed study materials</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Test Series and Mentorship */}
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+              <div className="flex items-center mb-4">
+                <div className="bg-yellow-100 p-2 rounded-full mr-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-yellow-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800">Test Series</h3>
+              </div>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span>Regular MCQ and Mains answer writing practice by faculty</span>
+                </li>
+                <li className="flex items-start">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span>Prelims test series- part length and full length test every 15 days</span>
+                </li>
+                <li className="flex items-start">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span>Main test series: full length and part length mains answer writing programme</span>
+                </li>
+                <li className="flex items-start">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span>Continuous test series until exams to keep you exam-ready</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+              <div className="flex items-center mb-4">
+                <div className="bg-green-100 p-2 rounded-full mr-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-green-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v          3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-800">Mentorship & Support</h3>
+              </div>
+              <div className="p-4 bg-green-50 rounded-lg mb-4 border border-green-100">
+                <p className="text-gray-700">
+                  Interact and discuss about doubts and study related issues with your personal mentor who would be
+                  available constantly during your preparation journey.
+                </p>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-center">
+                  <div className="bg-green-100 p-2 rounded-full mr-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-green-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </div>
+                  <span className="font-medium">Personal Guidance</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="bg-green-100 p-2 rounded-full mr-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-green-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </div>
+                  <span className="font-medium">Doubt Clearing Sessions</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="bg-green-100 p-2 rounded-full mr-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-green-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </div>
+                  <span className="font-medium">Motivational Sessions</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Subjects Covered */}
+          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm mb-8">
+            <div className="flex items-center mb-4">
+              <div className="bg-indigo-100 p-2 rounded-full mr-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 text-indigo-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-800">Subjects Covered</h3>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+              {[
+                "History",
+                "Polity",
+                "Economy",
+                "Geography",
+                "Environment",
+                "Disaster Management",
+                "Society",
+                "Social Issues",
+                "Social Justice",
+                "Science and Technology",
+                "International Relations",
+                "Current Affairs",
+                "Ethics",
+                "Essay",
+                "Internal Security",
+              ].map((subject, index) => (
+                <div key={index} className="bg-indigo-50 rounded-lg p-3 text-center border border-indigo-100">
+                  <span className="text-indigo-700 font-medium">{subject}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Special Offer */}
+          <div className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl p-6 text-white mb-8">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
+              <div>
+                <h3 className="text-2xl font-bold mb-2">Exclusive Offer</h3>
+                <ul className="space-y-2">
+                  <li className="flex items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-yellow-300 mr-2"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span>Affordable Fees: All this at just ₹9,999/-</span>
+                  </li>
+                  <li className="flex items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-yellow-300 mr-2"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span>
+                      Special Refund Policy: Clear the Prelims in your first attempt with us and get a 100% fee
+                      refund!
+                    </span>
+                  </li>
+                </ul>
+              </div>
+              <button className="mt-4 md:mt-0 bg-white text-indigo-600 font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300">
+                Enroll Now
+              </button>
+            </div>
+          </div>
+
+          {/* Contact Information */}
+          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+            <h3 className="text-xl font-bold text-gray-800 mb-4">Contact Information</h3>
+            <div className="grid md:grid-cols-3 gap-4">
+              <div className="flex items-center">
+                <div className="bg-blue-100 p-3 rounded-full mr-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-blue-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Phone</p>
+                  <p className="font-semibold text-gray-800">9810246095</p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <div className="bg-blue-100 p-3 rounded-full mr-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-blue-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Website</p>
+                  <a href="https://www.zenstudy.in" className="font-semibold text-blue-600 hover:underline">
+                    www.zenstudy.in
+                  </a>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <div className="bg-blue-100 p-3 rounded-full mr-3">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-blue-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Address</p>
+                  <p className="font-semibold text-gray-800">7/46, Shankar Rd, Old Rajinder Nagar, Delhi, 110060</p>
+                </div>
+              </div>
+            </div> 
+          </div>
+
+          {/* Why Choose Us */}
+          <div className="mt-8 bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl p-6 text-white">
+            <h3 className="text-2xl font-bold mb-4">Why Choose Us?</h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="flex items-start">
+                <div className="bg-yellow-500 p-2 rounded-full mr-3 mt-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-white"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <p>Comprehensive syllabus coverage by industry experts</p>
+              </div>
+              <div className="flex items-start">
+                <div className="bg-yellow-500 p-2 rounded-full mr-3 mt-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-white"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <p>Structured learning with consistent support</p>
+              </div>
+              <div className="flex items-start">
+                <div className="bg-yellow-500 p-2 rounded-full mr-3 mt-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-white"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <p>Effective test series with detailed feedback</p>
+              </div>
+              <div className="flex items-start">
+                <div className="bg-yellow-500 p-2 rounded-full mr-3 mt-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-white"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <p>Opportunity to save on fees with our unique refund policy</p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-center">
+              <button className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 px-8 rounded-lg hover:from-yellow-500 hover:to-yellow-600 transition duration-300 shadow-lg">
+                Enroll Now and Start Your UPSC Journey!
+              </button>
+            </div>
+          </div>
         </div>
+        
+          </div>
 
         {/* Right Section */}
         <div className="w-full lg:w-[40%] bg-gray-50 p-10">
