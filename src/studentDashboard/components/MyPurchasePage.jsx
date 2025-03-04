@@ -49,6 +49,7 @@ const MyPurchaseCourse = () => {
                 }
 
                 const data = await response.json();
+                console.log("Data: ", data);
                 if (data.message === "Done") {
                     const coursesWithImageUrls = data.purchaseCourses.map((purchase) => ({
                         ...purchase,
