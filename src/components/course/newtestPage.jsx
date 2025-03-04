@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import { BiCalendar } from "react-icons/bi";
+import { BiBadge, BiCalendar } from "react-icons/bi";
+import { GoVerified } from "react-icons/go";
+
 
 const NewtestPage = () => {
   // Create refs for each section
@@ -17,6 +19,7 @@ const NewtestPage = () => {
   const [CoursesData, setCoursesData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [couponCode, setCouponCode] = useState("");
+
 
   const handleApplyCoupon = () => {
     console.log("Coupon Code Applied:", couponCode);
@@ -74,7 +77,7 @@ const NewtestPage = () => {
     const getCourse = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API}zenstudy/api/course/coursedetail/678e0ed8bb874b63423a4601`,
+          `${process.env.REACT_APP_API}zenstudy/api/course/coursedetail/67c6afd0d79cf3c90ab0d7f7`,
           {
             method: "GET",
             headers: {
@@ -88,7 +91,7 @@ const NewtestPage = () => {
         }
         const data = await response.json();
         const mainData = data.coursedetail;
-        console.log(mainData);
+        console.log("main",mainData);
 
         const ImgData = {
           ...mainData,
@@ -218,10 +221,7 @@ const NewtestPage = () => {
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-8 border border-blue-100 shadow-sm">
             <h3 className="text-2xl font-bold text-blue-800 mb-4">Course Overview</h3>
             <p className="text-gray-700 leading-relaxed">
-              Our UPSC Foundation Batch is not just another coaching program—it's a transformative learning
-              experience. We don't just teach; we enable you to learn. Our approach ensures that students not only
-              grasp concepts but also understand the linkages with the UPSC syllabus. This empowers them to strategize
-              their studies effectively and make learning easier and more efficient.
+              {CoursesData.description}
             </p>
             <div className="mt-4 bg-white rounded-lg p-4 border border-blue-100 flex items-center space-x-3">
               <div className="bg-blue-100 p-3 rounded-full">
@@ -242,7 +242,11 @@ const NewtestPage = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-500">Course Start Date</p>
-                <p className="font-semibold text-gray-800">24th March, 2025</p>
+                <p className="font-semibold text-gray-800"> {new Date(CoursesData.startTime).toLocaleDateString("en-GB", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })}</p>
               </div>
             </div>
           </div>
@@ -429,191 +433,48 @@ const NewtestPage = () => {
             <h2 className="text-3xl font-extrabold mb-4 text-gray-800">
               More Details
             </h2>
-            <p className="text-gray-600">
-              Add more details about the batch here... Include additional
-              information, FAQs, or testimonials.
-            </p>
+           
           </div>
 
 
-          <div ref={moreDetailsRef} className="py-8">
+          <div ref={moreDetailsRef} >
           
 
           {/* Class Features */}
           <div className="grid md:grid-cols-2 gap-6 mb-8">
-            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-              <div className="flex items-center mb-4">
-                <div className="bg-purple-100 p-2 rounded-full mr-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-purple-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold text-gray-800">Class Features</h3>
-              </div>
-              <ul className="space-y-3">
-                <li className="flex items-start">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span>100+ hours of in-depth classes for each subject</span>
-                </li>
-                <li className="flex items-start">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span>6 classes a week. 2.5 hours per class</span>
-                </li>
-                <li className="flex items-start">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span>Class lecture notes and handouts</span>
-                </li>
-              </ul>
-            </div>
+  {CoursesData?.dynamicSections?.map((section, index) => (
+    <div
+      key={index}
+      className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm"
+    >
+      <div className="flex items-center mb-4">
+        <div className={`${section.bgColor || "bg-gray-200"} p-2 rounded-full mr-3`}>
+          {section.icon}
+        </div>
+        <h3 className="text-xl font-bold text-gray-800">{section.title}</h3>
+      </div>
 
-            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-              <div className="flex items-center mb-4">
-                <div className="bg-blue-100 p-2 rounded-full mr-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-blue-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold text-gray-800">Notes & Content</h3>
-              </div>
-              <ul className="space-y-3">
-                <li className="flex items-start">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span>Daily current affairs- both mains and prelims</span>
-                </li>
-                <li className="flex items-start">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span>Monthly current affairs magazine and editorial analysis</span>
-                </li>
-                <li className="flex items-start">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span>Daily class notes by faculty</span>
-                </li>
-                <li className="flex items-start">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-green-500 mr-2 mt-0.5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span>Class handouts and detailed study materials</span>
-                </li>
-              </ul>
-            </div>
-          </div>
+      <ul className="space-y-3">
+        {section?.contents?.map((item, i) => (
+          <li key={i} className="flex items-start space-x-2">
+            <GoVerified className="text-green-500 mt-1" />
+            <span>{item.text}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</div>
+
+
+
 
           {/* Test Series and Mentorship */}
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
               <div className="flex items-center mb-4">
                 <div className="bg-yellow-100 p-2 rounded-full mr-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-yellow-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
-                    />
-                  </svg>
+                  <BiBadge/>
                 </div>
                 <h3 className="text-xl font-bold text-gray-800">Test Series</h3>
               </div>
@@ -791,25 +652,9 @@ const NewtestPage = () => {
               <h3 className="text-xl font-bold text-gray-800">Subjects Covered</h3>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {[
-                "History",
-                "Polity",
-                "Economy",
-                "Geography",
-                "Environment",
-                "Disaster Management",
-                "Society",
-                "Social Issues",
-                "Social Justice",
-                "Science and Technology",
-                "International Relations",
-                "Current Affairs",
-                "Ethics",
-                "Essay",
-                "Internal Security",
-              ].map((subject, index) => (
+              {CoursesData?.subjects?.map((subject, index) => (
                 <div key={index} className="bg-indigo-50 rounded-lg p-3 text-center border border-indigo-100">
-                  <span className="text-indigo-700 font-medium">{subject}</span>
+                  <span className="text-indigo-700 font-medium">{subject.subject}</span>
                 </div>
               ))}
             </div>
