@@ -19,13 +19,16 @@ const WatchCourse = () => {
   const [materials, setMaterials] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth() 
+  const { user } = useAuth()
+
+
 
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
         const response = await axios.post(`${process.env.REACT_APP_API}zenstudy/api/payment/watchCourse`, { id });
         setCourses(response.data.response?.modules || []);
+     
         if (response.data.response?.course._id) {
           fetchReviews(response.data.response.course._id);
           // Simulating fetching materials
