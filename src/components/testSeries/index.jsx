@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { PreviewTest } from './PreviewTest'
 import { TestSeriesCard } from './TestSeriesCard'
 import { Loader } from '../loader/Loader'
+import { useAuth } from '../../context/auth-context'
 
 const testSeries = [
     {
@@ -129,6 +130,7 @@ const TestSeriesIndex = () => {
     const [selectedTest, setSelectedTest] = useState(null);
     const [loading, setLoading] = useState(true);
     const [testSeries, setTestSeries] = useState([]);
+      const { user } = useAuth();
 
     const handlePreview = (test) => {
         setSelectedTest(test);
@@ -142,7 +144,7 @@ const TestSeriesIndex = () => {
         const getTestSeries = async () => {
           try {
             const response = await fetch(
-              `${process.env.REACT_APP_API}zenstudy/api/main/test-series-master`,
+              `${process.env.REACT_APP_API2}zenstudy/api/main/test-series-master/${user?._id}`,
               {
                 method: "GET",
                 headers: {
@@ -181,7 +183,7 @@ const TestSeriesIndex = () => {
         return () => {
           isMounted = false;
         };
-      }, []);
+      }, [user]);
 
 
     if (currentView === 'preview' && selectedTest) {

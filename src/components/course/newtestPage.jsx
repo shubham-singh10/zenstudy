@@ -3,6 +3,9 @@ import { BiCalendar } from "react-icons/bi";
 import { GoVerified } from "react-icons/go";
 import * as MdIcons from "react-icons/md";
 import * as BiIcons from "react-icons/bi";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/auth-context";
 
 // Combine all imported icon sets
 const AllIcons = { ...MdIcons, ...BiIcons };
@@ -28,7 +31,23 @@ const NewtestPage = () => {
   const [CoursesData, setCoursesData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [couponCode, setCouponCode] = useState("");
+  const [payloading, setPayLoading] = useState(false);
+  const [discount, setDiscount] = useState(null);
+  const [code, setCode] = useState(null);
+  const navigate = useNavigate();
+  const { user, userStatus } = useAuth();
+  const [pageLoading, setpageLoading] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
+  useEffect(() => {
+    if (user) {
+      try {
+        setCurrentUser(user?._id);
+      } catch (error) {
+        console.error("Error decoding user:", error);
+      }
+    }
+  }, [user]);
 
   const handleApplyCoupon = () => {
     console.log("Coupon Code Applied:", couponCode);
@@ -83,10 +102,122 @@ const NewtestPage = () => {
         };
         setCoursesData(ImgData);
         console.log("CoursesData", ImgData);
-      } catch (error) { }
+      } catch (error) {}
     };
     getCourse();
   }, []);
+
+  //Payment Initiate
+  const handlePayment = async (amount) => {
+    if (userStatus.emailStatus !== "verified") {
+      Swal.fire({
+        title: "Verify Your Email",
+        text: "Please verify your email to proceed with the payment.",
+        icon: "warning",
+      }).then(() => {
+        navigate("/profile");
+      });
+      return;
+    }
+    setPayLoading(true);
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_API2}zenstudy/api/payment/orderNew`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            amount,
+            user_id: user?._id,
+            course_id: CoursesData?._id,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error(`Error: ${res.status} - ${res.statusText}\n${errorText}`);
+        Swal.fire({
+          title: "Oops. Course already purchase",
+          text: "Please visit the MyCourse section to see course",
+          icon: "error",
+        }).then((result) => {
+          navigate("/mycourse");
+        });
+        return;
+      }
+
+      const data = await res.json();
+      //console.log("Data", data)
+      handlePaymentVerify(data.data, CoursesData?._id);
+      setPayLoading(false);
+    } catch (error) {
+      console.error("Error creating payment order:", error);
+      setPayLoading(false);
+    }
+  };
+
+  const handlePaymentVerify = async (data, selectedcourseId) => {
+    const options = {
+      key: process.env.REACT_APP_RAZORPAY_TEST_KEY_ID,
+      amount: data.amount,
+      currency: data.currency,
+      name: "ZenStudy",
+      description: "Making Education Imaginative",
+      order_id: data.id,
+      handler: async (response) => {
+        setpageLoading(true);
+        try {
+          const res = await fetch(
+            `${process.env.REACT_APP_API2}zenstudy/api/payment/verifyNew`,
+            {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                user_id: user?._id,
+                course_id: CoursesData?._id,
+                coursePrice: CoursesData?.price || 0,
+                purchasePrice:
+                  discount?.subTotal !== undefined
+                    ? discount?.subTotal === 0
+                      ? 1
+                      : (discount?.subTotal).toFixed(2)
+                    : CoursesData?.price,
+                couponCode: code,
+                couponApplied: code ? true : false,
+                discount: discount?.discount || 0,
+                coursevalidation: "2025-03-01",
+              }),
+            }
+          );
+
+          const verifyData = await res.json();
+
+          console.log("VerifyData", verifyData);
+          if (verifyData.message === "Payment Successful") {
+            navigate(verifyData.Url);
+          }
+        } catch (error) {
+          console.error("Error verifying payment:", error);
+        } finally {
+          setpageLoading(false);
+        }
+      },
+      theme: {
+        color: "#5f63b8",
+      },
+    };
+    //console.log("Options", options)
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  };
 
   const colors = [
     { bgColor: "bg-blue-50", textColor: "text-blue-600" },
@@ -158,10 +289,11 @@ const NewtestPage = () => {
           <button
             key={index}
             onClick={() => scrollToSection(tab.ref, tab.name.toLowerCase())}
-            className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${activeTab === tab.name.toLowerCase()
-              ? "text-blue-600 border-b-2 border-blue-600"
-              : "hover:text-blue-600"
-              }`}
+            className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
+              activeTab === tab.name.toLowerCase()
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "hover:text-blue-600"
+            }`}
           >
             {tab.name}
           </button>
@@ -174,24 +306,25 @@ const NewtestPage = () => {
         <div className="w-full lg:w-[60%] bg-white p-2 md:p-3 lg:p-6">
           {/* Sections corresponding to tabs */}
           <div ref={featuresRef} className="py-8">
-          <iframe
-          title={CoursesData.title}
-          src={`https://player.vdocipher.com/v2/?otp=${CoursesData?.previewVideo?.previewVideoUrl}&playbackInfo=${CoursesData?.previewVideo?.previewVideoDescription}`}
-          className="w-full h-96"
-          allowFullScreen
-          allow="encrypted-media"
-        ></iframe>
+            <iframe
+              title={CoursesData.title}
+              src={`https://player.vdocipher.com/v2/?otp=${CoursesData?.previewVideo?.previewVideoUrl}&playbackInfo=${CoursesData?.previewVideo?.previewVideoDescription}`}
+              className="w-full h-96"
+              allowFullScreen
+              allow="encrypted-media"
+            ></iframe>
           </div>
 
-
-
           <div ref={aboutRef} className="py-8 ">
-
-            <h2 className=" text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 text-gray-800">Course Details</h2>
+            <h2 className=" text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 text-gray-800">
+              Course Details
+            </h2>
 
             {/* Course Overview Card */}
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-8 border border-blue-100 shadow-sm">
-              <h3 className="text-lg lg:text-xl font-bold text-blue-800 mb-4">Course Overview</h3>
+              <h3 className="text-lg lg:text-xl font-bold text-blue-800 mb-4">
+                Course Overview
+              </h3>
               <p className="text-gray-700 leading-relaxed">
                 {CoursesData.description}
               </p>
@@ -214,11 +347,17 @@ const NewtestPage = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Course Start Date</p>
-                  <p className="font-semibold text-gray-800"> {new Date(CoursesData.startTime).toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                  })}</p>
+                  <p className="font-semibold text-gray-800">
+                    {" "}
+                    {new Date(CoursesData.startTime).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      }
+                    )}
+                  </p>
                 </div>
               </div>
             </div>
@@ -233,19 +372,25 @@ const NewtestPage = () => {
                   <strong>Course Duration : </strong>{" "}
                   {CoursesData.startTime ? (
                     <>
-                      {new Date(CoursesData.startTime).toLocaleDateString("en-GB", {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric",
-                      })}{" "}
+                      {new Date(CoursesData.startTime).toLocaleDateString(
+                        "en-GB",
+                        {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        }
+                      )}{" "}
                       {CoursesData.endTime ? (
                         <>
                           |{" "}
-                          {new Date(CoursesData.endTime).toLocaleDateString("en-GB", {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                          })}
+                          {new Date(CoursesData.endTime).toLocaleDateString(
+                            "en-GB",
+                            {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            }
+                          )}
                         </>
                       ) : (
                         <span className="ml-1 bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-medium">
@@ -272,16 +417,16 @@ const NewtestPage = () => {
                 );
               })}
 
-
               <li className="flex items-start">
                 <span className="text-yellow-500 text-xl mr-3">⭐ </span>{" "}
                 <strong>Subjects:&nbsp;</strong>{" "}
                 <div className="flex flex-wrap">
-                  {" "}{" "}
+                  {" "}
                   {CoursesData?.subjects?.slice(0, 6).map((item, index) => (
                     <span key={index} className="mr-2">
                       {item.subject}
-                      {index < Math.min(5, CoursesData.subjects.length - 1) && ", "}
+                      {index < Math.min(5, CoursesData.subjects.length - 1) &&
+                        ", "}
                     </span>
                   ))}
                   {CoursesData?.subjects?.length > 6 && <span> and more</span>}
@@ -301,22 +446,26 @@ const NewtestPage = () => {
                   )?.map((item, index) => (
                     <div
                       key={index}
-                      className={`group rounded-lg border ${openIndex === index
-                        ? "border-gray-300"
-                        : "border-transparent"
-                        }`}
+                      className={`group rounded-lg border ${
+                        openIndex === index
+                          ? "border-gray-300"
+                          : "border-transparent"
+                      }`}
                     >
                       <div
-                        className={`cursor-pointer flex flex-col gap-2 p-4 ${colors[index % colors.length].bgColor
-                          } ${colors[index % colors.length].textColor
-                          } font-semibold rounded-lg`}
+                        className={`cursor-pointer flex flex-col gap-2 p-4 ${
+                          colors[index % colors.length].bgColor
+                        } ${
+                          colors[index % colors.length].textColor
+                        } font-semibold rounded-lg`}
                         onClick={() => handleToggle(index)}
                       >
                         <div className="flex justify-between items-center">
                           <span>{item.title}</span>
                           <span
-                            className={`transform transition-transform ${openIndex === index ? "rotate-180" : ""
-                              }`}
+                            className={`transform transition-transform ${
+                              openIndex === index ? "rotate-180" : ""
+                            }`}
                           >
                             ▼
                           </span>
@@ -324,8 +473,9 @@ const NewtestPage = () => {
                         <div className="text-gray-500 flex justify-between items-center text-sm">
                           ({item.other2} lectures)
                           <span
-                            className={`ml-4 text-sm flex gap-1 items-center ${colors[index % colors.length].textColor
-                              }`}
+                            className={`ml-4 text-sm flex gap-1 items-center ${
+                              colors[index % colors.length].textColor
+                            }`}
                           >
                             <BiCalendar />
                             {new Date(item.startDate).toLocaleDateString(
@@ -337,11 +487,14 @@ const NewtestPage = () => {
                               }
                             )}{" "}
                             -{"  "}
-                            {new Date(item.endDate).toLocaleDateString("en-GB", {
-                              day: "2-digit",
-                              month: "short",
-                              year: "numeric",
-                            })}
+                            {new Date(item.endDate).toLocaleDateString(
+                              "en-GB",
+                              {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                              }
+                            )}
                           </span>
                         </div>
                       </div>
@@ -350,8 +503,9 @@ const NewtestPage = () => {
                         <div className="p-4 bg-white text-gray-700">
                           {item.description && (
                             <p
-                              className={`mb-2 text-sm ${colors[index % colors.length].textColor
-                                }`}
+                              className={`mb-2 text-sm ${
+                                colors[index % colors.length].textColor
+                              }`}
                             >
                               {item.description}
                             </p>
@@ -388,54 +542,57 @@ const NewtestPage = () => {
             </div>
           )}
 
-
-           {/* Special Offer */}
-           {CoursesData && CoursesData.Offer?.map((item, index) => (
-            <div className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl p-6 text-white mb-8" key={index}>
-              <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
-                <div>
-                  <h3 className="text-2xl font-bold mb-2">Exclusive Offer</h3>
-                  <ul className="space-y-2">
-                    <li className="flex items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 text-yellow-300 mr-2"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      <span>{item.title} {item.description}</span>
-                    </li>
-                    <li className="flex items-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 text-yellow-300 mr-2"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      <span>
-                        {item.refundPolicy}
-                      </span>
-                    </li>
-                  </ul>
+          {/* Special Offer */}
+          {CoursesData &&
+            CoursesData.Offer?.map((item, index) => (
+              <div
+                className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl p-6 text-white mb-8"
+                key={index}
+              >
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
+                  <div>
+                    <h3 className="text-2xl font-bold mb-2">Exclusive Offer</h3>
+                    <ul className="space-y-2">
+                      <li className="flex items-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 text-yellow-300 mr-2"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <span>
+                          {item.title} {item.description}
+                        </span>
+                      </li>
+                      <li className="flex items-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 text-yellow-300 mr-2"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <span>{item.refundPolicy}</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <button className="mt-4 md:mt-0 bg-white text-indigo-600 font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300">
+                    {item.buttonText}
+                  </button>
                 </div>
-                <button className="mt-4 md:mt-0 bg-white text-indigo-600 font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300">
-                  {item.buttonText}
-                </button>
               </div>
-            </div>
-          ))}
+            ))}
 
           <div ref={faqRef} className="py-8">
             <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 text-gray-800">
@@ -451,8 +608,9 @@ const NewtestPage = () => {
                     >
                       <span>{item.question}</span>
                       <span
-                        className={`transform transition-transform ${openFaqIndex === index ? "rotate-180" : ""
-                          }`}
+                        className={`transform transition-transform ${
+                          openFaqIndex === index ? "rotate-180" : ""
+                        }`}
                       >
                         ▼
                       </span>
@@ -473,30 +631,39 @@ const NewtestPage = () => {
             </h2>
           </div>
 
-          <div ref={moreDetailsRef} >
+          <div ref={moreDetailsRef}>
             {/* Class Features */}
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               {CoursesData?.dynamicSections?.map((section, index) => {
-                const isMentorship = section.title.toLowerCase().includes("mentorship");
+                const isMentorship = section.title
+                  .toLowerCase()
+                  .includes("mentorship");
                 return (
                   <div
                     key={index}
                     className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm"
                   >
                     <div className="flex items-center mb-4">
-                      <div className={`${section.bgColor || "bg-gray-200"} p-2 rounded-full mr-3`}>
-                        <DynamicIcon iconName={section.icon} className={`w-6 h-6 ${section.textColor}`} />
+                      <div
+                        className={`${
+                          section.bgColor || "bg-gray-200"
+                        } p-2 rounded-full mr-3`}
+                      >
+                        <DynamicIcon
+                          iconName={section.icon}
+                          className={`w-6 h-6 ${section.textColor}`}
+                        />
                       </div>
-                      <h3 className="text-lg lg:text-xl font-bold text-gray-800">{section.title}</h3>
+                      <h3 className="text-lg lg:text-xl font-bold text-gray-800">
+                        {section.title}
+                      </h3>
                     </div>
                     {isMentorship ? (
                       <>
                         <div className="p-4 bg-green-50 rounded-lg mb-4 border border-green-100">
                           {section?.contents?.map((item, i) => (
                             <Fragment key={i}>
-                              <p className="text-gray-700">
-                                {item.text}
-                              </p>
+                              <p className="text-gray-700">{item.text}</p>
                             </Fragment>
                           ))}
                         </div>
@@ -518,7 +685,9 @@ const NewtestPage = () => {
                                 />
                               </svg>
                             </div>
-                            <span className="font-medium">Personal Guidance</span>
+                            <span className="font-medium">
+                              Personal Guidance
+                            </span>
                           </div>
                           <div className="flex items-center">
                             <div className="bg-green-100 p-2 rounded-full mr-3">
@@ -537,7 +706,9 @@ const NewtestPage = () => {
                                 />
                               </svg>
                             </div>
-                            <span className="font-medium">Doubt Clearing Sessions</span>
+                            <span className="font-medium">
+                              Doubt Clearing Sessions
+                            </span>
                           </div>
                           <div className="flex items-center">
                             <div className="bg-green-100 p-2 rounded-full mr-3">
@@ -556,23 +727,34 @@ const NewtestPage = () => {
                                 />
                               </svg>
                             </div>
-                            <span className="font-medium">Motivational Sessions</span>
+                            <span className="font-medium">
+                              Motivational Sessions
+                            </span>
                           </div>
                         </div>
                       </>
                     ) : (
                       <ul className="space-y-3">
                         {section?.contents?.map((item, i) => (
-                          <li key={i} className={`flex items-start space-x-2 ${item.highlight ? "font-medium scale-105 transition-all duration-200" : ""
-                            }`}>
-                            <GoVerified size={20} className={`text-green-500 mt-1`} />
+                          <li
+                            key={i}
+                            className={`flex items-start space-x-2 ${
+                              item.highlight
+                                ? "font-medium scale-105 transition-all duration-200"
+                                : ""
+                            }`}
+                          >
+                            <GoVerified
+                              size={20}
+                              className={`text-green-500 mt-1`}
+                            />
                             <span>{item.text}</span>
                           </li>
                         ))}
                       </ul>
                     )}
                   </div>
-                )
+                );
               })}
             </div>
 
@@ -595,42 +777,48 @@ const NewtestPage = () => {
                     />
                   </svg>
                 </div>
-                <h3 className=" text-lg lg:text-xl font-bold text-gray-800">Subjects Covered</h3>
+                <h3 className=" text-lg lg:text-xl font-bold text-gray-800">
+                  Subjects Covered
+                </h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-3 justify-center items-center">
                 {CoursesData?.subjects?.map((subject, index) => (
-                  <div key={index} className="bg-indigo-50 rounded-lg p-3 text-center border border-indigo-100">
-                    <span className="p-1 text-indigo-700 text-lg font-medium">{subject.subject}</span>
+                  <div
+                    key={index}
+                    className="bg-indigo-50 rounded-lg p-3 text-center border border-indigo-100"
+                  >
+                    <span className="p-1 text-indigo-700 text-lg font-medium">
+                      {subject.subject}
+                    </span>
                   </div>
                 ))}
               </div>
             </div>
 
-           
-
             {/* Why Choose Us */}
             <div className="mt-8 bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl p-6 text-white">
               <h3 className="text-2xl font-bold mb-4">Why Choose Us?</h3>
               <div className="grid md:grid-cols-2 gap-4">
-                {CoursesData && CoursesData.whyChooseUs?.map((item, index) => (
-                  <div className="flex items-start" key={index}>
-                    <div className="bg-yellow-500 p-2 rounded-full mr-3 mt-1">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 text-white"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+                {CoursesData &&
+                  CoursesData.whyChooseUs?.map((item, index) => (
+                    <div className="flex items-start" key={index}>
+                      <div className="bg-yellow-500 p-2 rounded-full mr-3 mt-1">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 text-white"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <p>{item.point}</p>
                     </div>
-                    <p>{item.point}</p>
-                  </div>
-                ))}
+                  ))}
               </div>
 
               <div className="mt-6 flex justify-center">
@@ -640,7 +828,6 @@ const NewtestPage = () => {
               </div>
             </div>
           </div>
-
         </div>
 
         {/* Right Section */}
@@ -677,7 +864,7 @@ const NewtestPage = () => {
                 {Math.round(
                   ((CoursesData?.value - CoursesData?.price) /
                     CoursesData?.value) *
-                  100
+                    100
                 )}
                 %
               </p>
@@ -692,9 +879,30 @@ const NewtestPage = () => {
             </button>
 
             {/* CTA Button */}
-            <button className="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium py-3 px-8 rounded-lg transition duration-300 w-full ">
-              Enroll Now
-            </button>
+            {currentUser ? (
+              <button
+                className="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium py-3 px-8 rounded-lg transition duration-300 w-full "
+                onClick={() =>
+                  handlePayment(
+                    discount
+                      ? discount.subTotal === 0
+                        ? 1
+                        : discount.subTotal.toFixed(2)
+                      : CoursesData?.price
+                  )
+                }
+                disabled={payloading}
+              >
+                Enroll Now
+              </button>
+            ) : (
+              <button
+                onClick={() => navigate(`/login/${CoursesData._id}`)}
+                className="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium py-3 px-8 rounded-lg transition duration-300 w-full "
+              >
+                Login to Purchase
+              </button>
+            )}
           </div>
 
           {/* Modal */}
