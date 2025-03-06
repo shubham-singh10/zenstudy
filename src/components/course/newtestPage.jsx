@@ -168,9 +168,9 @@ const NewtestPage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col-reverse lg:flex-row w-full  lg:mx-28">
+      <div className="flex flex-col-reverse lg:flex-row w-full lg:mx-28">
         {/* Left Section */}
-        <div className="w-full lg:w-[60%] bg-white p-6">
+        <div className="w-full lg:w-[60%] bg-white p-2 md:p-3 lg:p-6">
           {/* Sections corresponding to tabs */}
           <div ref={featuresRef} className="py-8">
             <div className="max-w-4xl mx-auto bg-gradient-to-b from-gray-800 to-gray-900 text-white rounded-lg p-6">
@@ -205,11 +205,11 @@ const NewtestPage = () => {
 
           <div ref={aboutRef} className="py-8 ">
 
-            <h2 className="text-3xl font-extrabold mb-6 text-gray-800">Course Details</h2>
+            <h2 className=" text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 text-gray-800">Course Details</h2>
 
             {/* Course Overview Card */}
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-8 border border-blue-100 shadow-sm">
-              <h3 className="text-2xl font-bold text-blue-800 mb-4">Course Overview</h3>
+              <h3 className="text-lg lg:text-xl font-bold text-blue-800 mb-4">Course Overview</h3>
               <p className="text-gray-700 leading-relaxed">
                 {CoursesData.description}
               </p>
@@ -241,7 +241,7 @@ const NewtestPage = () => {
               </div>
             </div>
 
-            <h2 className="text-3xl font-extrabold mb-6 text-gray-800">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 text-gray-800">
               About the Batch
             </h2>
             <ul className="space-y-4">
@@ -407,7 +407,7 @@ const NewtestPage = () => {
           )}
 
           <div ref={faqRef} className="py-8">
-            <h2 className="text-3xl font-extrabold mb-6 text-gray-800">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 text-gray-800">
               Frequently Asked Questions
             </h2>
             <div className="space-y-4">
@@ -436,9 +436,9 @@ const NewtestPage = () => {
             </div>
           </div>
 
-          <div ref={moreDetailsRef} className="py-8">
-            <h2 className="text-3xl font-extrabold mb-4 text-gray-800">
-              More Details
+          <div ref={moreDetailsRef} className="py-4">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-4 text-gray-800">
+              More Details...
             </h2>
           </div>
 
@@ -456,7 +456,7 @@ const NewtestPage = () => {
                       <div className={`${section.bgColor || "bg-gray-200"} p-2 rounded-full mr-3`}>
                         <DynamicIcon iconName={section.icon} className={`w-6 h-6 ${section.textColor}`} />
                       </div>
-                      <h3 className="text-xl font-bold text-gray-800">{section.title}</h3>
+                      <h3 className="text-lg lg:text-xl font-bold text-gray-800">{section.title}</h3>
                     </div>
                     {isMentorship ? (
                       <>
@@ -564,12 +564,12 @@ const NewtestPage = () => {
                     />
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold text-gray-800">Subjects Covered</h3>
+                <h3 className=" text-lg lg:text-xl font-bold text-gray-800">Subjects Covered</h3>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
                 {CoursesData?.subjects?.map((subject, index) => (
                   <div key={index} className="bg-indigo-50 rounded-lg p-3 text-center border border-indigo-100">
-                    <span className="text-indigo-700 font-medium">{subject.subject}</span>
+                    <span className="p-1 text-indigo-700 text-lg font-medium">{subject.subject}</span>
                   </div>
                 ))}
               </div>
@@ -659,14 +659,14 @@ const NewtestPage = () => {
         </div>
 
         {/* Right Section */}
-        <div className="w-full lg:w-[40%] bg-gray-50 p-10">
+        <div className="w-full lg:w-[40%] bg-gray-50 p-2 md:p-5 lg:p-10">
           <div className="sticky top-10 bg-white border border-gray-200 shadow-lg rounded-lg p-6">
             {/* Image Section */}
             <img
               src={CoursesData.imageUrl}
               crossOrigin="anonymous"
               alt="Course Thumbnail"
-              className="w-full h-44 sm:h-64 object-cover rounded-lg mb-6"
+              className="w-full lg:h-36 h-64 lg:mb-2 mb-4 object-fill md:object-contain lg:object-contain rounded-lg"
             />
 
             {/* Course Title */}
