@@ -99,8 +99,8 @@ const TestSeriesIndex = () => {
             {testSeries && testSeries.length > 0 ? (
               testSeries.map((test) => (
                 <TestsCard
-                  key={test._id}
-                  test={test}
+                  key={test.test_series._id}
+                  test={test.test_series}
                   onProceed={() => handleTestSelect(test)}
                 />
               ))
@@ -135,7 +135,7 @@ const TestSeriesIndex = () => {
   if (currentView === "testList" && selectedTest) {
     return (
       <TestList
-        series={selectedTest}
+        series={selectedTest.test_series}
         onBack={() => setCurrentView("list")}
         onProceed={handleTestSeries}
         onResult={handleTestSeriesResult}
