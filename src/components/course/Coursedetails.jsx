@@ -176,7 +176,7 @@ const CourseDetailsView = () => {
     setPayLoading(true);
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_API2}zenstudy/api/payment/orderNew`,
+        `${process.env.REACT_APP_API2}zenstudy/api/payment/order`,
         {
           method: "POST",
           headers: {
@@ -215,7 +215,7 @@ const CourseDetailsView = () => {
 
   const handlePaymentVerify = async (data, selectedcourseId) => {
     const options = {
-      key: process.env.REACT_APP_RAZORPAY_TEST_KEY_ID,
+      key: process.env.REACT_APP_RAZORPAY_KEY_ID,
       amount: data.amount,
       currency: data.currency,
       name: "ZenStudy",
@@ -225,7 +225,7 @@ const CourseDetailsView = () => {
         setpageLoading(true);
         try {
           const res = await fetch(
-            `${process.env.REACT_APP_API2}zenstudy/api/payment/verifyNew`,
+            `${process.env.REACT_APP_API2}zenstudy/api/payment/verify`,
             {
               method: "POST",
               headers: {
