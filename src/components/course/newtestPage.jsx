@@ -566,7 +566,7 @@ const NewtestPage = () => {
                 </div>
                 <h3 className=" text-lg lg:text-xl font-bold text-gray-800">Subjects Covered</h3>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-3 justify-center items-center">
                 {CoursesData?.subjects?.map((subject, index) => (
                   <div key={index} className="bg-indigo-50 rounded-lg p-3 text-center border border-indigo-100">
                     <span className="p-1 text-indigo-700 text-lg font-medium">{subject.subject}</span>
@@ -666,7 +666,7 @@ const NewtestPage = () => {
               src={CoursesData.imageUrl}
               crossOrigin="anonymous"
               alt="Course Thumbnail"
-              className="w-full lg:h-36 h-64 lg:mb-2 mb-4 object-fill md:object-contain lg:object-contain rounded-lg"
+              className="w-full lg:h-44 h-64 lg:mb-2 mb-4 lg:object-contain object-fill rounded-lg"
             />
 
             {/* Course Title */}
