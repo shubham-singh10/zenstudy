@@ -82,6 +82,7 @@ const NewtestPage = () => {
           imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`,
         };
         setCoursesData(ImgData);
+        console.log("CoursesData", ImgData);
       } catch (error) { }
     };
     getCourse();
@@ -173,32 +174,13 @@ const NewtestPage = () => {
         <div className="w-full lg:w-[60%] bg-white p-2 md:p-3 lg:p-6">
           {/* Sections corresponding to tabs */}
           <div ref={featuresRef} className="py-8">
-            <div className="max-w-4xl mx-auto bg-gradient-to-b from-gray-800 to-gray-900 text-white rounded-lg p-6">
-              <h2 className="text-3xl font-extrabold mb-6">Batch Features</h2>
-              <div className="grid grid-cols-2 gap-y-3">
-                {featuresData.map((feature, index) => (
-                  <div key={index} className="flex items-center space-x-2">
-                    <span className="text-yellow-400">✔</span>
-                    <p>{feature}</p>
-                  </div>
-                ))}
-              </div>
-              <hr className="my-4 border-gray-600" />
-              <div className="flex justify-between items-center bg-gray-700 rounded-lg p-4">
-                <div>
-                  <h3 className="font-bold text-lg">
-                    Learn more about Infinity Batch
-                  </h3>
-                  <p className="text-sm text-gray-300">
-                    Discover the benefits of Infinity Batch with this short
-                    video
-                  </p>
-                </div>
-                <button className="bg-gray-800 text-white flex items-center px-4 py-2 rounded-md hover:bg-gray-600">
-                  <span className="mr-2">▶</span> Watch Now
-                </button>
-              </div>
-            </div>
+          <iframe
+          title={CoursesData.title}
+          src={`https://player.vdocipher.com/v2/?otp=${CoursesData?.previewVideo?.previewVideoUrl}&playbackInfo=${CoursesData?.previewVideo?.previewVideoDescription}`}
+          className="w-full h-96"
+          allowFullScreen
+          allow="encrypted-media"
+        ></iframe>
           </div>
 
 
@@ -406,6 +388,55 @@ const NewtestPage = () => {
             </div>
           )}
 
+
+           {/* Special Offer */}
+           {CoursesData && CoursesData.Offer?.map((item, index) => (
+            <div className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl p-6 text-white mb-8" key={index}>
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
+                <div>
+                  <h3 className="text-2xl font-bold mb-2">Exclusive Offer</h3>
+                  <ul className="space-y-2">
+                    <li className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 text-yellow-300 mr-2"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span>{item.title} {item.description}</span>
+                    </li>
+                    <li className="flex items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 text-yellow-300 mr-2"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span>
+                        {item.refundPolicy}
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+                <button className="mt-4 md:mt-0 bg-white text-indigo-600 font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300">
+                  {item.buttonText}
+                </button>
+              </div>
+            </div>
+          ))}
+
           <div ref={faqRef} className="py-8">
             <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 text-gray-800">
               Frequently Asked Questions
@@ -575,53 +606,7 @@ const NewtestPage = () => {
               </div>
             </div>
 
-            {/* Special Offer */}
-            {CoursesData && CoursesData.Offer?.map((item, index) => (
-              <div className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl p-6 text-white mb-8" key={index}>
-                <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
-                  <div>
-                    <h3 className="text-2xl font-bold mb-2">Exclusive Offer</h3>
-                    <ul className="space-y-2">
-                      <li className="flex items-center">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 text-yellow-300 mr-2"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                        <span>{item.title} {item.description}</span>
-                      </li>
-                      <li className="flex items-center">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 text-yellow-300 mr-2"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                        <span>
-                          {item.refundPolicy}
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                  <button className="mt-4 md:mt-0 bg-white text-indigo-600 font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300">
-                    {item.buttonText}
-                  </button>
-                </div>
-              </div>
-            ))}
+           
 
             {/* Why Choose Us */}
             <div className="mt-8 bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl p-6 text-white">
@@ -660,13 +645,13 @@ const NewtestPage = () => {
 
         {/* Right Section */}
         <div className="w-full lg:w-[40%] bg-gray-50 p-2 md:p-5 lg:p-10">
-          <div className="sticky top-10 bg-white border border-gray-200 shadow-lg rounded-lg p-6">
+          <div className="sticky top-20 bg-white border border-gray-200 shadow-lg rounded-lg p-6">
             {/* Image Section */}
             <img
               src={CoursesData.imageUrl}
               crossOrigin="anonymous"
               alt="Course Thumbnail"
-              className="w-full lg:h-44 h-64 lg:mb-2 mb-4 lg:object-contain object-fill rounded-lg"
+              className="w-full mb-4 lg:object-contain object-contain border-2 border-gray-200 rounded-lg"
             />
 
             {/* Course Title */}

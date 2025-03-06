@@ -19,7 +19,7 @@ const WatchCourse = () => {
   const [materials, setMaterials] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth()
+  const { user } = useAuth() 
 
   useEffect(() => {
     const fetchCourseData = async () => {
