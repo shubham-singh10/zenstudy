@@ -13,7 +13,7 @@ const TestSeriesIndex = () => {
   const [selectedSeries, setSelectedSeries] = useState(null);
   const [testSeries, setTestSeries] = useState([]);
   const [loading, setLoading] = useState(true);
-      const { user } = useAuth();
+  const { user } = useAuth();
 
   const handleTestSelect = (test) => {
     setSelectedTest(test);
@@ -57,7 +57,7 @@ const TestSeriesIndex = () => {
         }
 
         const data = await response.json();
-        console.log(data);
+        console.log("Response_Data", data);
 
         if (isMounted) {
           setTestSeries(data.purchasedTestSeries);

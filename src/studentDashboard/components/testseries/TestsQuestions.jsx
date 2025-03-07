@@ -11,6 +11,7 @@ export const TestQuestionsPage = ({ test, series }) => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState(null);
     const [showResults, setShowResults] = useState(false);
+    const[testResult, setTestResult] = useState(null)
     const [timeLeft, setTimeLeft] = useState(null);
     const [loading, setLoading] = useState(true)
     const [testloading, setTestLoading] = useState(false)
@@ -45,16 +46,17 @@ export const TestQuestionsPage = ({ test, series }) => {
         const submissionData = {
             userId: user?._id,
             testSeriesId: test._id,
-            testSeriedMasterId: series._id,
+            testSeriedMasterId: series.test_series._id,
             answers: questions.map((q, index) => ({
                 questionId: q._id,
                 selectedOption: selectedAnswers[index] !== -1 ? selectedAnswers[index] : -1
             }))
         };
 
+
         try {
             setTestLoading(true);
-            const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/main/test-series-result`, {
+            const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/main/test-series-result`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -63,7 +65,8 @@ export const TestQuestionsPage = ({ test, series }) => {
             });
 
             const result = await response.json();
-            console.log("Submission Response:", result);
+            console.log("Test Result: ", result);
+            setTestResult(result.resultSummary);
             setShowResults(true);
             setTimeLeft(-1);
         } catch (error) {
@@ -183,7 +186,7 @@ export const TestQuestionsPage = ({ test, series }) => {
                     <div className="text-center mb-8">
                         <GoTrophy className="w-16 h-16 mx-auto text-yellow-500 mb-4" />
                         <h1 className="text-3xl font-bold text-gray-800 mb-2">Test Results</h1>
-                        <div className="text-5xl font-bold text-indigo-600 mb-4">{percentage}%</div>
+                        <div className="text-5xl font-bold text-indigo-600 mb-4">{testResult.scorePercentage}%</div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
