@@ -74,7 +74,7 @@ const TestSeriesIndex = () => {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [user]);
 
   if (loading) {
     return <Loading />;

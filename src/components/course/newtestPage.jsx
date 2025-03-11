@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth-context";
 import VerifyEmailMsg from "../VerifyEmailMsg";
 import { Loader } from "../loader/Loader";
+import CoursePageSkeleton from "./skeleton";
 
 // Combine all imported icon sets
 const AllIcons = { ...MdIcons, ...BiIcons };
@@ -36,12 +37,14 @@ const NewtestPage = () => {
   const [payloading, setPayLoading] = useState(false);
   const [discount, setDiscount] = useState(null);
   const [code, setCode] = useState(null);
+  const [mloading, setmloading] = useState(true)
   const navigate = useNavigate();
   const { user } = useAuth();
   const { userStatus } = VerifyEmailMsg();
   const [pageLoading, setpageLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-
+  const [imageLoaded, setImageLoaded] = useState(false);
+  
   useEffect(() => {
     if (user) {
       try {
@@ -70,20 +73,11 @@ const NewtestPage = () => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
 
-  const featuresData = [
-    "Live Lectures",
-    "DPPs",
-    "NCERT Books",
-    "Answer Writing",
-    "Notes",
-    "UPSC Wallah Hard copies",
-    "Mentorship",
-    "Welcome Kit",
-  ];
-
   // Perticular Course get data API
   useEffect(() => {
     const getCourse = async () => {
+      setmloading(true); // Start loading before API call
+  
       try {
         const response = await fetch(
           `${process.env.REACT_APP_API}zenstudy/api/course/coursedetail/67c6afd0d79cf3c90ab0d7f7`,
@@ -95,20 +89,34 @@ const NewtestPage = () => {
             },
           }
         );
+  
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
+  
         const data = await response.json();
         const mainData = data.coursedetail;
-
+  
         const ImgData = {
           ...mainData,
+          posterUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.poster}`,
           imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`,
         };
+  
         setCoursesData(ImgData);
         console.log("CoursesData", ImgData);
-      } catch (error) {}
+  
+        // Wait for 3 seconds before setting loading to false
+        setTimeout(() => {
+          setmloading(false);
+        }, 3000);
+  
+      } catch (error) {
+        // console.error("Error fetching course:", error);
+        setmloading(false); // In case of an error, stop loading immediately
+      }
     };
+  
     getCourse();
   }, []);
 
@@ -279,6 +287,9 @@ const NewtestPage = () => {
     };
   }, [tabs]);
 
+  if(mloading){
+    return <CoursePageSkeleton />
+  }
   return (
     <Fragment>
       {pageLoading && (
@@ -289,10 +300,31 @@ const NewtestPage = () => {
 
       <div className="-mt-3 overflow-auto h-screen flex flex-wrap bg-gray-50">
         {/* Top Banner */}
-        <div className="w-full h-40 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 flex justify-center items-center text-white">
-          <h1 className="text-2xl lg:text-3xl font-bold tracking-wide">
-            Welcome to the {CoursesData.title} Batch
-          </h1>
+        <div className="w-full flex justify-center items-center relative">
+          {CoursesData.posterUrl ? (
+            <>
+              {/* Blurred Placeholder (Visible Until Image Loads) */}
+              {!imageLoaded && (
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 animate-pulse" />
+              )}
+
+              {/* Course Poster Image */}
+              <img
+                src={CoursesData.posterUrl}
+                crossOrigin="anonymous"
+                alt="Course Poster"
+                className={`w-full lg:h-full md:h-40 h-36 lg:object-contain object-fill transition-opacity duration-500 ${imageLoaded ? "opacity-100" : "opacity-0"
+                  }`}
+                onLoad={() => setImageLoaded(true)}
+              />
+            </>
+          ) : (
+            <div className="w-full h-40 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 flex justify-center items-center text-white">
+              <h1 className="text-2xl lg:text-3xl font-bold tracking-wide">
+                Welcome to the {CoursesData.title} Batch
+              </h1>
+            </div>
+          )}
         </div>
 
         {/* Tabs Section */}
@@ -301,11 +333,10 @@ const NewtestPage = () => {
             <button
               key={index}
               onClick={() => scrollToSection(tab.ref, tab.name.toLowerCase())}
-              className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
-                activeTab === tab.name.toLowerCase()
-                  ? "text-blue-600 border-b-2 border-blue-600"
-                  : "hover:text-blue-600"
-              }`}
+              className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${activeTab === tab.name.toLowerCase()
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "hover:text-blue-600"
+                }`}
             >
               {tab.name}
             </button>
@@ -461,26 +492,22 @@ const NewtestPage = () => {
                     )?.map((item, index) => (
                       <div
                         key={index}
-                        className={`group rounded-lg border ${
-                          openIndex === index
-                            ? "border-gray-300"
-                            : "border-transparent"
-                        }`}
+                        className={`group rounded-lg border ${openIndex === index
+                          ? "border-gray-300"
+                          : "border-transparent"
+                          }`}
                       >
                         <div
-                          className={`cursor-pointer flex flex-col gap-2 p-4 ${
-                            colors[index % colors.length].bgColor
-                          } ${
-                            colors[index % colors.length].textColor
-                          } font-semibold rounded-lg`}
+                          className={`cursor-pointer flex flex-col gap-2 p-4 ${colors[index % colors.length].bgColor
+                            } ${colors[index % colors.length].textColor
+                            } font-semibold rounded-lg`}
                           onClick={() => handleToggle(index)}
                         >
                           <div className="flex justify-between items-center">
                             <span>{item.title}</span>
                             <span
-                              className={`transform transition-transform ${
-                                openIndex === index ? "rotate-180" : ""
-                              }`}
+                              className={`transform transition-transform ${openIndex === index ? "rotate-180" : ""
+                                }`}
                             >
                               ▼
                             </span>
@@ -488,9 +515,8 @@ const NewtestPage = () => {
                           <div className="text-gray-500 flex justify-between items-center text-sm">
                             ({item.other2} lectures)
                             <span
-                              className={`ml-4 text-sm flex gap-1 items-center ${
-                                colors[index % colors.length].textColor
-                              }`}
+                              className={`ml-4 text-sm flex gap-1 items-center ${colors[index % colors.length].textColor
+                                }`}
                             >
                               <BiCalendar />
                               {new Date(item.startDate).toLocaleDateString(
@@ -518,9 +544,8 @@ const NewtestPage = () => {
                           <div className="p-4 bg-white text-gray-700">
                             {item.description && (
                               <p
-                                className={`mb-2 text-sm ${
-                                  colors[index % colors.length].textColor
-                                }`}
+                                className={`mb-2 text-sm ${colors[index % colors.length].textColor
+                                  }`}
                               >
                                 {item.description}
                               </p>
@@ -606,11 +631,10 @@ const NewtestPage = () => {
                     </div>
                     {currentUser ? (
                       <button
-                        className={` ${
-                          payloading
-                            ? "bg-gradient-to-r from-red-600 to-red-800 cursor-not-allowed"
-                            : "mt-4 md:mt-0 bg-white text-indigo-600 hover:bg-gray-100 transition duration-300"
-                        } font-bold py-3 px-6 rounded-lg `}
+                        className={` ${payloading
+                          ? "bg-gradient-to-r from-red-600 to-red-800 cursor-not-allowed"
+                          : "mt-4 md:mt-0 bg-white text-indigo-600 hover:bg-gray-100 transition duration-300"
+                          } font-bold py-3 px-6 rounded-lg `}
                         onClick={() =>
                           handlePayment(
                             discount
@@ -650,9 +674,8 @@ const NewtestPage = () => {
                       >
                         <span>{item.question}</span>
                         <span
-                          className={`transform transition-transform ${
-                            openFaqIndex === index ? "rotate-180" : ""
-                          }`}
+                          className={`transform transition-transform ${openFaqIndex === index ? "rotate-180" : ""
+                            }`}
                         >
                           ▼
                         </span>
@@ -687,9 +710,8 @@ const NewtestPage = () => {
                     >
                       <div className="flex items-center mb-4">
                         <div
-                          className={`${
-                            section.bgColor || "bg-gray-200"
-                          } p-2 rounded-full mr-3`}
+                          className={`${section.bgColor || "bg-gray-200"
+                            } p-2 rounded-full mr-3`}
                         >
                           <DynamicIcon
                             iconName={section.icon}
@@ -780,11 +802,10 @@ const NewtestPage = () => {
                           {section?.contents?.map((item, i) => (
                             <li
                               key={i}
-                              className={`flex items-start space-x-2 ${
-                                item.highlight
-                                  ? "font-medium scale-105 transition-all duration-200"
-                                  : ""
-                              }`}
+                              className={`flex items-start space-x-2 ${item.highlight
+                                ? "font-medium scale-105 transition-all duration-200"
+                                : ""
+                                }`}
                             >
                               <GoVerified
                                 size={20}
@@ -866,11 +887,10 @@ const NewtestPage = () => {
                 <div className="mt-6 flex justify-center">
                   {currentUser ? (
                     <button
-                      className={` ${
-                        payloading
-                          ? "bg-gradient-to-r from-red-600 to-red-800 cursor-not-allowed"
-                          : "bg-gradient-to-r from-yellow-400 to-yellow-500  hover:from-yellow-500 hover:to-yellow-600 transition duration-300 shadow-lg"
-                      } text-gray-900 font-bold py-3 px-8 rounded-lg `}
+                      className={` ${payloading
+                        ? "bg-gradient-to-r from-red-600 to-red-800 cursor-not-allowed"
+                        : "bg-gradient-to-r from-yellow-400 to-yellow-500  hover:from-yellow-500 hover:to-yellow-600 transition duration-300 shadow-lg"
+                        } text-gray-900 font-bold py-3 px-8 rounded-lg `}
                       onClick={() =>
                         handlePayment(
                           discount
@@ -933,7 +953,7 @@ const NewtestPage = () => {
                   {Math.round(
                     ((CoursesData?.value - CoursesData?.price) /
                       CoursesData?.value) *
-                      100
+                    100
                   )}
                   %
                 </p>
@@ -950,11 +970,10 @@ const NewtestPage = () => {
               {/* CTA Button */}
               {currentUser ? (
                 <button
-                  className={` ${
-                    payloading
-                      ? "bg-gradient-to-r from-red-600 to-red-800 cursor-not-allowed"
-                      : "bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900"
-                  }  text-white font-medium py-3 px-8 rounded-lg transition duration-300 w-full`}
+                  className={` ${payloading
+                    ? "bg-gradient-to-r from-red-600 to-red-800 cursor-not-allowed"
+                    : "bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900"
+                    }  text-white font-medium py-3 px-8 rounded-lg transition duration-300 w-full`}
                   onClick={() =>
                     handlePayment(
                       discount
@@ -1011,8 +1030,8 @@ const NewtestPage = () => {
             )}
           </div>
         </div>
-      </div>
-    </Fragment>
+      </div >
+    </Fragment >
   );
 };
 
