@@ -193,7 +193,13 @@ function DynamicSignUp() {
           text: "Registration Successful!",
         });
         login(data.user, data.user.role, data.token);
-        navigation(`/course-details/${courseId}`);
+        const newPage = courseId?.toLowerCase().includes("upsc-foundation-batch");
+
+        const from = newPage
+          ? `/courseDetailslive/${courseId}`
+          : `/course-details/${courseId}`;
+
+        navigation(from);
       }
     } catch (error) {
       Swal.fire({

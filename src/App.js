@@ -10,7 +10,6 @@ import OurTeam from "./components/OurTeam.jsx";
 import SignupTest from "./components/auth/SignupTest.jsx";
 import PdfViewer from "./components/PdfViewer.jsx";
 import DynamicSignUp from "./components/auth/Sign-upDynamic.jsx";
-import NewtestPage from "./components/course/newtestPage.jsx";
 import HomeNew from "./studentDashboard/layout.jsx";
 import { AuthProvider } from "./context/auth-context.jsx";
 import PublicRoute from "./PublicRoute.jsx";
@@ -25,6 +24,7 @@ const About = lazy(() => import("./components/About.jsx"));
 const Courses = lazy(() => import("./components/course/Courses.jsx"));
 const CurrentAffair = lazy(() => import("./components/currentAffairs"));
 const CourseDetails = lazy(() => import("./components/course/Coursedetails.jsx"));
+const CourseDetailsLive = lazy(() => import("./components/course/liveCourseDetails.jsx"));
 const ContactUs = lazy(() => import("./components/Contact.jsx"));
 const SignUp = lazy(() => import("./components/auth/Sign-up.jsx"));
 const SignIn = lazy(() => import("./components/auth/Sign-In.jsx"));
@@ -67,7 +67,7 @@ function App() {
               <Route path="/termandConditions" element={<TermandConditions />} />
               <Route path="/coursesNew" element={<CoursesNew />} />
               <Route path="/courseDetailNew" element={<NewCourseDetailPage />} />
-              <Route path="/testpage" element={<NewtestPage />} />
+              <Route path="/courseDetailslive/:coursename" element={<CourseDetailsLive />} />
               <Route path="/course-details/:courseId" element={<CourseDetails />} />
               <Route path="/contact" element={<ContactUs />} />
               <Route path="/testing" element={<Testing />} />

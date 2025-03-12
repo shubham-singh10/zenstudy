@@ -255,7 +255,7 @@ function SignInDynamic() {
 
         const from = location.state?.from || "/course-details-student";
         navigation(from);
-        
+
       }
     } catch (error) {
       setOtpError("Invalid OTP. Please try again.");
@@ -301,9 +301,15 @@ function SignInDynamic() {
       setLoading(false);
       login(resData, resData.role, resData.token);
 
-      const from = `course-details/${courseId}`;
+      const newPage = courseId?.toLowerCase().includes("upsc-foundation-batch");
+
+      const from = newPage
+        ? `/courseDetailslive/${courseId}`
+        : `/course-details/${courseId}`;
+
       // navigate(from);
-      window.location.pathname = from;
+      navigation ? navigation(from) : (window.location.pathname = from)
+
     } catch (error) {
       Swal.fire({
         icon: "error",

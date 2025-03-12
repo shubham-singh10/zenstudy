@@ -1,124 +1,196 @@
-import React, { useState, useRef, useEffect, Fragment, useMemo } from "react";
-import { BiCalendar } from "react-icons/bi";
-import { GoVerified } from "react-icons/go";
-import * as MdIcons from "react-icons/md";
-import * as BiIcons from "react-icons/bi";
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/auth-context";
-import VerifyEmailMsg from "../VerifyEmailMsg";
-import { Loader } from "../loader/Loader";
-import CoursePageSkeleton from "./skeleton";
+"use client"
+
+import { useState, useRef, useEffect, Fragment, useMemo } from "react"
+import { BiCalendar } from "react-icons/bi"
+import { GoVerified } from "react-icons/go"
+import * as MdIcons from "react-icons/md"
+import * as BiIcons from "react-icons/bi"
+import Swal from "sweetalert2"
+import { useNavigate, useParams } from "react-router-dom"
+import { useAuth } from "../../context/auth-context"
+import VerifyEmailMsg from "../VerifyEmailMsg"
+import { Loader } from "../loader/Loader"
+import CoursePageSkeleton from "./course-detailslive-skeleton"
+import toast from "react-hot-toast"
 
 // Combine all imported icon sets
-const AllIcons = { ...MdIcons, ...BiIcons };
+const AllIcons = { ...MdIcons, ...BiIcons }
 
 const DynamicIcon = ({ iconName, className }) => {
-  const IconComponent = AllIcons[iconName];
-  return IconComponent ? <IconComponent className={className} /> : null;
-};
+  const IconComponent = AllIcons[iconName]
+  return IconComponent ? <IconComponent className={className} /> : null
+}
 
-const NewtestPage = () => {
+const LiveCourseDetailsPage = () => {
   // Create refs for each section
-  const featuresRef = useRef(null);
-  const aboutRef = useRef(null);
-  const scheduleRef = useRef(null);
-  const faqRef = useRef(null);
-  const moreDetailsRef = useRef(null);
+  const featuresRef = useRef(null)
+  const aboutRef = useRef(null)
+  const scheduleRef = useRef(null)
+  const faqRef = useRef(null)
+  const moreDetailsRef = useRef(null)
+  const { coursename } = useParams();
 
   // State to track the active tab
-  const [activeTab, setActiveTab] = useState("features");
-  const [showAll, setShowAll] = useState(false);
-  const [openIndex, setOpenIndex] = useState(null);
-  const [openFaqIndex, setOpenFaqIndex] = useState(null);
-  const [CoursesData, setCoursesData] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [couponCode, setCouponCode] = useState("");
-  const [payloading, setPayLoading] = useState(false);
-  const [discount, setDiscount] = useState(null);
-  const [code, setCode] = useState(null);
+  const [activeTab, setActiveTab] = useState("features")
+  const [showAll, setShowAll] = useState(false)
+  const [openIndex, setOpenIndex] = useState(null)
+  const [openFaqIndex, setOpenFaqIndex] = useState(null)
+  const [CoursesData, setCoursesData] = useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [couponCode, setCouponCode] = useState("")
+  const [payloading, setPayLoading] = useState(false)
+  const [discount, setDiscount] = useState(null)
+  const [couponLoading, setCouponLoading] = useState(false)
   const [mloading, setmloading] = useState(true)
-  const navigate = useNavigate();
-  const { user } = useAuth();
-  const { userStatus } = VerifyEmailMsg();
-  const [pageLoading, setpageLoading] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  
+  const navigate = useNavigate()
+  const { user } = useAuth()
+  const { userStatus } = VerifyEmailMsg()
+  const [pageLoading, setpageLoading] = useState(false)
+  const [currentUser, setCurrentUser] = useState(null)
+
+  // Image loading states
+  const [bannerImageLoaded, setBannerImageLoaded] = useState(false)
+  const [thumbnailImageLoaded, setThumbnailImageLoaded] = useState(false)
+  const [contentVisible, setContentVisible] = useState(false)
+
   useEffect(() => {
     if (user) {
       try {
-        setCurrentUser(user?._id);
+        setCurrentUser(user?._id)
       } catch (error) {
-        console.error("Error decoding user:", error);
+        console.error("Error decoding user:", error)
       }
     }
-  }, [user]);
+  }, [user])
 
-  console.log("User status", userStatus);
+  const handleApplyCoupon = async () => {
+    console.log("Coupon Code Applied:", couponCode)
+    try {
+      setCouponLoading(true)
+      const sendData = {
+        code: couponCode,
+        coursePrice: CoursesData?.price,
+        courseId: CoursesData?._id,
+      }
+      console.log("Sending data:", sendData)
 
-  const handleApplyCoupon = () => {
-    console.log("Coupon Code Applied:", couponCode);
-    setIsModalOpen(false);
-  };
+      const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/coupon/applyCoupon`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(sendData),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(
+          toast.error(` ${errorData.message}`)`Network response was not ok: ${response.status} - ${errorData.message}`,
+        )
+      }
+
+      const data = await response.json() // Parse the successful response
+      setDiscount(data)
+      setCouponLoading(false)
+
+      toast.success("Discount applied successfull!!", {
+        position: "top-center",
+      })
+      setIsModalOpen(false)
+    } catch (error) {
+      setCouponLoading(false)
+    }
+  }
 
   const handleToggle = (index) => {
-    setOpenIndex(openIndex === index ? null : index); // Toggle the same index or close others
-  };
+    setOpenIndex(openIndex === index ? null : index) // Toggle the same index or close others
+  }
   const handleShowMore = () => {
-    setShowAll(!showAll);
-  };
+    setShowAll(!showAll)
+  }
 
   const handleFaqToggle = (index) => {
-    setOpenFaqIndex(openFaqIndex === index ? null : index);
-  };
+    setOpenFaqIndex(openFaqIndex === index ? null : index)
+  }
+
+  // Preload images function
+  const preloadImage = (src) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image()
+      img.crossOrigin = "anonymous"
+      img.onload = () => resolve(img)
+      img.onerror = reject
+      img.src = src
+    })
+  }
 
   // Perticular Course get data API
   useEffect(() => {
     const getCourse = async () => {
-      setmloading(true); // Start loading before API call
-  
+      setmloading(true) // Start loading before API call
+
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API}zenstudy/api/course/coursedetail/67c6afd0d79cf3c90ab0d7f7`,
+          `${process.env.REACT_APP_API}zenstudy/api/course/coursedetailslug/${coursename}`,
           {
             method: "GET",
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
             },
-          }
-        );
-  
+          },
+        )
+
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error("Network response was not ok")
         }
-  
-        const data = await response.json();
-        const mainData = data.coursedetail;
-  
+
+        const data = await response.json()
+        const mainData = data.coursedetail
+
+        const posterUrl = `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.poster}`
+        const thumbnailUrl = `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`
+
         const ImgData = {
           ...mainData,
-          posterUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.poster}`,
-          imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`,
-        };
-  
-        setCoursesData(ImgData);
-        console.log("CoursesData", ImgData);
-  
-        // Wait for 3 seconds before setting loading to false
+          posterUrl,
+          imageUrl: thumbnailUrl,
+        }
+
+        setCoursesData(ImgData)
+
+        // Preload images in background
+        try {
+          await Promise.all([
+            preloadImage(posterUrl).then(() => setBannerImageLoaded(true)),
+            preloadImage(thumbnailUrl).then(() => setThumbnailImageLoaded(true)),
+          ])
+        } catch (err) {
+          console.error("Error preloading images:", err)
+          // If preloading fails, we'll still show the images normally
+          setBannerImageLoaded(true)
+          setThumbnailImageLoaded(true)
+        }
+
+        // Gradually reveal content with a slight delay after images are loaded
         setTimeout(() => {
-          setmloading(false);
-        }, 3000);
-  
+          setmloading(false)
+          // Add a small delay before showing content for a smoother transition
+          setTimeout(() => {
+            setContentVisible(true)
+          }, 300)
+        }, 1000)
       } catch (error) {
-        // console.error("Error fetching course:", error);
-        setmloading(false); // In case of an error, stop loading immediately
+        setmloading(false)
+        setContentVisible(true)
+        setBannerImageLoaded(true)
+        setThumbnailImageLoaded(true)
       }
-    };
-  
-    getCourse();
-  }, []);
+    }
+
+    getCourse()
+  }, [coursename])
 
   //Payment Initiate
   const handlePayment = async (amount) => {
@@ -128,114 +200,113 @@ const NewtestPage = () => {
         text: "Please verify your email to proceed with the payment.",
         icon: "warning",
       }).then(() => {
-        navigate("/profile");
-      });
-      return;
+        navigate("/profile")
+      })
+      return
     }
-    setPayLoading(true);
+    setPayLoading(true)
     try {
-      const res = await fetch(
-        `${process.env.REACT_APP_API2}zenstudy/api/payment/orderNew`,
-        {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({
-            amount,
-            user_id: user?._id,
-            course_id: CoursesData?._id,
-          }),
-        }
-      );
+      const res = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/payment/order`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          amount,
+          user_id: user?._id,
+          course_id: CoursesData?._id,
+        }),
+      })
 
       if (!res.ok) {
-        const errorText = await res.text();
-        console.error(`Error: ${res.status} - ${res.statusText}\n${errorText}`);
+        const errorText = await res.text()
+        console.error(`Error: ${res.status} - ${res.statusText}\n${errorText}`)
         Swal.fire({
           title: "Oops. Course already purchase",
           text: "Please visit the MyCourse section to see course",
           icon: "error",
         }).then((result) => {
-          navigate("/mycourse");
-        });
-        return;
+          navigate("/mycourse")
+        })
+        return
       }
 
-      const data = await res.json();
-      //console.log("Data", data)
-      handlePaymentVerify(data.data, CoursesData?._id);
-      setPayLoading(false);
+      const data = await res.json()
+      handlePaymentVerify(data.data, CoursesData?._id)
+      setPayLoading(false)
     } catch (error) {
-      console.error("Error creating payment order:", error);
-      setPayLoading(false);
+      console.error("Error creating payment order:", error)
+      setPayLoading(false)
     }
-  };
+  }
 
   const handlePaymentVerify = async (data, selectedcourseId) => {
     const options = {
-      key: process.env.REACT_APP_RAZORPAY_TEST_KEY_ID,
+      key: process.env.REACT_APP_RAZORPAY_KEY_ID,
       amount: data.amount,
       currency: data.currency,
       name: "ZenStudy",
       description: "Making Education Imaginative",
       order_id: data.id,
       handler: async (response) => {
-        setpageLoading(true);
+        setpageLoading(true)
         try {
-          const res = await fetch(
-            `${process.env.REACT_APP_API2}zenstudy/api/payment/verifyNew`,
-            {
-              method: "POST",
-              headers: {
-                "content-type": "application/json",
-              },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                user_id: user?._id,
-                course_id: CoursesData?._id,
-                coursePrice: CoursesData?.price || 0,
-                purchasePrice:
-                  discount?.subTotal !== undefined
-                    ? discount?.subTotal === 0
-                      ? 1
-                      : (discount?.subTotal).toFixed(2)
-                    : CoursesData?.price,
-                couponCode: code,
-                couponApplied: code ? true : false,
-                discount: discount?.discount || 0,
-                coursevalidation: "2025-03-01",
-              }),
-            }
-          );
+          const res = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/payment/verify`, {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              user_id: user?._id,
+              course_id: CoursesData?._id,
+              coursePrice: CoursesData?.price || 0,
+              purchasePrice:
+                discount?.subTotal !== undefined
+                  ? discount?.subTotal === 0
+                    ? 1
+                    : (discount?.subTotal).toFixed(2)
+                  : CoursesData?.price,
+              couponCode: couponCode,
+              couponApplied: couponCode ? true : false,
+              discount: discount?.discount || 0,
+              coursevalidation: "2025-03-01",
+            }),
+          })
 
-          const verifyData = await res.json();
+          const verifyData = await res.json()
 
-          console.log("VerifyData", verifyData);
+          console.log("VerifyData", verifyData)
           if (verifyData.message === "Payment Successful") {
-            navigate(verifyData.Url);
+            navigate(verifyData.Url)
+          } else {
+            navigate(verifyData.Url)
+            toast.success(`Purchase successful! However, we couldn't send the confirmation email. Please check your course in the "My Courses" section.`, {
+              position: "top-right",
+              duration: 5000,
+              icon: "⚠️",
+            });
           }
         } catch (error) {
-          console.error("Error verifying payment:", error);
+          console.error("Error verifying payment:", error)
         } finally {
-          setpageLoading(false);
+          setpageLoading(false)
         }
       },
       theme: {
         color: "#5f63b8",
       },
-    };
-    //console.log("Options", options)
-    const rzp1 = new window.Razorpay(options);
-    rzp1.open();
-  };
+    }
+    const rzp1 = new window.Razorpay(options)
+    rzp1.open()
+  }
 
   const colors = [
     { bgColor: "bg-blue-50", textColor: "text-blue-600" },
     { bgColor: "bg-purple-50", textColor: "text-purple-600" },
-  ];
+  ]
 
   const tabs = useMemo(() => {
     const baseTabs = [
@@ -243,19 +314,19 @@ const NewtestPage = () => {
       { name: "About", ref: aboutRef },
       { name: "FAQ'S", ref: faqRef },
       { name: "More Details", ref: moreDetailsRef },
-    ];
+    ]
 
     if (CoursesData?.schedule?.length > 0) {
-      baseTabs.splice(2, 0, { name: "Schedule", ref: scheduleRef }); // Insert "Schedule" at index 2
+      baseTabs.splice(2, 0, { name: "Schedule", ref: scheduleRef }) // Insert "Schedule" at index 2
     }
 
-    return baseTabs;
-  }, [featuresRef, aboutRef, scheduleRef, faqRef, moreDetailsRef, CoursesData]);
+    return baseTabs
+  }, [featuresRef, aboutRef, scheduleRef, faqRef, moreDetailsRef, CoursesData])
 
   const scrollToSection = (ref, tabName) => {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
-    setActiveTab(tabName); // Set the active tab when clicked
-  };
+    ref.current?.scrollIntoView({ behavior: "smooth" })
+    setActiveTab(tabName) // Set the active tab when clicked
+  }
 
   useEffect(() => {
     // Create an IntersectionObserver to track section visibility
@@ -264,32 +335,33 @@ const NewtestPage = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             // Update activeTab when the section comes into view
-            setActiveTab(entry.target.dataset.tab);
+            setActiveTab(entry.target.dataset.tab)
           }
-        });
+        })
       },
       {
         threshold: 0.5, // Trigger when 50% of the section is visible
-      }
-    );
+      },
+    )
 
     // Observe all sections
     tabs.forEach((tab) => {
       if (tab.ref.current) {
-        tab.ref.current.dataset.tab = tab.name.toLowerCase();
-        observer.observe(tab.ref.current);
+        tab.ref.current.dataset.tab = tab.name.toLowerCase()
+        observer.observe(tab.ref.current)
       }
-    });
+    })
 
     // Cleanup the observer on component unmount
     return () => {
-      observer.disconnect();
-    };
-  }, [tabs]);
+      observer.disconnect()
+    }
+  }, [tabs])
 
-  if(mloading){
+  if (mloading) {
     return <CoursePageSkeleton />
   }
+
   return (
     <Fragment>
       {pageLoading && (
@@ -298,31 +370,29 @@ const NewtestPage = () => {
         </div>
       )}
 
-      <div className="-mt-3 overflow-auto h-screen flex flex-wrap bg-gray-50">
+      <div
+        className={`-mt-3 overflow-auto h-screen flex flex-wrap bg-gray-50 transition-opacity duration-500 ease-in-out ${contentVisible ? "opacity-100" : "opacity-0"}`}
+      >
         {/* Top Banner */}
         <div className="w-full flex justify-center items-center relative">
           {CoursesData.posterUrl ? (
             <>
               {/* Blurred Placeholder (Visible Until Image Loads) */}
-              {!imageLoaded && (
-                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 animate-pulse" />
-              )}
+              <div
+                className={`absolute inset-0 w-full h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 transition-opacity duration-700 ${bannerImageLoaded ? "opacity-0" : "opacity-100"}`}
+              />
 
               {/* Course Poster Image */}
               <img
-                src={CoursesData.posterUrl}
+                src={CoursesData.posterUrl || "/placeholder.svg"}
                 crossOrigin="anonymous"
                 alt="Course Poster"
-                className={`w-full lg:h-full md:h-40 h-36 lg:object-contain object-fill transition-opacity duration-500 ${imageLoaded ? "opacity-100" : "opacity-0"
-                  }`}
-                onLoad={() => setImageLoaded(true)}
+                className={`w-full lg:h-full md:h-40 h-36 lg:object-contain object-fill transition-opacity duration-700 ${bannerImageLoaded ? "opacity-100" : "opacity-0"}`}
               />
             </>
           ) : (
             <div className="w-full h-40 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 flex justify-center items-center text-white">
-              <h1 className="text-2xl lg:text-3xl font-bold tracking-wide">
-                Welcome to the {CoursesData.title} Batch
-              </h1>
+              <h1 className="text-2xl lg:text-3xl font-bold tracking-wide">Welcome to the {CoursesData.title} Batch</h1>
             </div>
           )}
         </div>
@@ -359,18 +429,12 @@ const NewtestPage = () => {
             </div>
 
             <div ref={aboutRef} className="py-8 ">
-              <h2 className=" text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 text-gray-800">
-                Course Details
-              </h2>
+              <h2 className=" text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 text-gray-800">Course Details</h2>
 
               {/* Course Overview Card */}
               <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-8 border border-blue-100 shadow-sm">
-                <h3 className="text-lg lg:text-xl font-bold text-blue-800 mb-4">
-                  Course Overview
-                </h3>
-                <p className="text-gray-700 leading-relaxed">
-                  {CoursesData.description}
-                </p>
+                <h3 className="text-lg lg:text-xl font-bold text-blue-800 mb-4">Course Overview</h3>
+                <p className="text-gray-700 leading-relaxed">{CoursesData.description}</p>
                 <div className="mt-4 bg-white rounded-lg p-4 border border-blue-100 flex items-center space-x-3">
                   <div className="bg-blue-100 p-3 rounded-full">
                     <svg
@@ -392,22 +456,17 @@ const NewtestPage = () => {
                     <p className="text-sm text-gray-500">Course Start Date</p>
                     <p className="font-semibold text-gray-800">
                       {" "}
-                      {new Date(CoursesData.startTime).toLocaleDateString(
-                        "en-GB",
-                        {
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                        }
-                      )}
+                      {new Date(CoursesData.startTime).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      })}
                     </p>
                   </div>
                 </div>
               </div>
 
-              <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 text-gray-800">
-                About the Batch
-              </h2>
+              <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 text-gray-800">About the Batch</h2>
               <ul className="space-y-4">
                 <li className="flex items-start">
                   <span className="text-yellow-500 text-xl mr-3">⭐ </span>{" "}
@@ -415,25 +474,19 @@ const NewtestPage = () => {
                     <strong>Course Duration : </strong>{" "}
                     {CoursesData.startTime ? (
                       <>
-                        {new Date(CoursesData.startTime).toLocaleDateString(
-                          "en-GB",
-                          {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                          }
-                        )}{" "}
+                        {new Date(CoursesData.startTime).toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        })}{" "}
                         {CoursesData.endTime ? (
                           <>
                             |{" "}
-                            {new Date(CoursesData.endTime).toLocaleDateString(
-                              "en-GB",
-                              {
-                                day: "2-digit",
-                                month: "short",
-                                year: "numeric",
-                              }
-                            )}
+                            {new Date(CoursesData.endTime).toLocaleDateString("en-GB", {
+                              day: "2-digit",
+                              month: "short",
+                              year: "numeric",
+                            })}
                           </>
                         ) : (
                           <span className="ml-1 bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-medium">
@@ -448,8 +501,7 @@ const NewtestPage = () => {
                 </li>
 
                 {CoursesData?.features?.map((item, index) => {
-                  const [beforeColon, afterColon] =
-                    item.features.split(/:(.+)/); // Splitting at the first colon
+                  const [beforeColon, afterColon] = item.features.split(/:(.+)/) // Splitting at the first colon
 
                   return (
                     <li key={index} className="flex items-start">
@@ -458,24 +510,20 @@ const NewtestPage = () => {
                         <strong>{beforeColon}:</strong> {afterColon}
                       </span>
                     </li>
-                  );
+                  )
                 })}
 
                 <li className="flex items-start">
-                  <span className="text-yellow-500 text-xl mr-3">⭐ </span>{" "}
-                  <strong>Subjects:&nbsp;</strong>{" "}
+                  <span className="text-yellow-500 text-xl mr-3">⭐ </span> <strong>Subjects:&nbsp;</strong>{" "}
                   <div className="flex flex-wrap">
                     {" "}
                     {CoursesData?.subjects?.slice(0, 6).map((item, index) => (
                       <span key={index} className="mr-2">
                         {item.subject}
-                        {index < Math.min(5, CoursesData.subjects.length - 1) &&
-                          ", "}
+                        {index < Math.min(5, CoursesData.subjects.length - 1) && ", "}
                       </span>
                     ))}
-                    {CoursesData?.subjects?.length > 6 && (
-                      <span> and more</span>
-                    )}
+                    {CoursesData?.subjects?.length > 6 && <span> and more</span>}
                   </div>
                 </li>
               </ul>
@@ -486,28 +534,21 @@ const NewtestPage = () => {
                 <div className="max-w-md">
                   <h2 className="text-2xl font-bold mb-6">Batch Schedules</h2>
                   <div className="space-y-4">
-                    {(showAll
-                      ? CoursesData.schedule
-                      : CoursesData.schedule?.slice(0, 3)
-                    )?.map((item, index) => (
+                    {(showAll ? CoursesData.schedule : CoursesData.schedule?.slice(0, 3))?.map((item, index) => (
                       <div
                         key={index}
-                        className={`group rounded-lg border ${openIndex === index
-                          ? "border-gray-300"
-                          : "border-transparent"
+                        className={`group rounded-lg border ${openIndex === index ? "border-gray-300" : "border-transparent"
                           }`}
                       >
                         <div
-                          className={`cursor-pointer flex flex-col gap-2 p-4 ${colors[index % colors.length].bgColor
-                            } ${colors[index % colors.length].textColor
+                          className={`cursor-pointer flex flex-col gap-2 p-4 ${colors[index % colors.length].bgColor} ${colors[index % colors.length].textColor
                             } font-semibold rounded-lg`}
                           onClick={() => handleToggle(index)}
                         >
                           <div className="flex justify-between items-center">
                             <span>{item.title}</span>
                             <span
-                              className={`transform transition-transform ${openIndex === index ? "rotate-180" : ""
-                                }`}
+                              className={`transform transition-transform ${openIndex === index ? "rotate-180" : ""}`}
                             >
                               ▼
                             </span>
@@ -519,23 +560,17 @@ const NewtestPage = () => {
                                 }`}
                             >
                               <BiCalendar />
-                              {new Date(item.startDate).toLocaleDateString(
-                                "en-GB",
-                                {
-                                  day: "2-digit",
-                                  month: "short",
-                                  year: "numeric",
-                                }
-                              )}{" "}
+                              {new Date(item.startDate).toLocaleDateString("en-GB", {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                              })}{" "}
                               -{"  "}
-                              {new Date(item.endDate).toLocaleDateString(
-                                "en-GB",
-                                {
-                                  day: "2-digit",
-                                  month: "short",
-                                  year: "numeric",
-                                }
-                              )}
+                              {new Date(item.endDate).toLocaleDateString("en-GB", {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                              })}
                             </span>
                           </div>
                         </div>
@@ -543,10 +578,7 @@ const NewtestPage = () => {
                         {openIndex === index && (
                           <div className="p-4 bg-white text-gray-700">
                             {item.description && (
-                              <p
-                                className={`mb-2 text-sm ${colors[index % colors.length].textColor
-                                  }`}
-                              >
+                              <p className={`mb-2 text-sm ${colors[index % colors.length].textColor}`}>
                                 {item.description}
                               </p>
                             )}
@@ -563,18 +595,12 @@ const NewtestPage = () => {
                     ))}
                   </div>
                   {!showAll && CoursesData?.schedule?.length > 3 && (
-                    <button
-                      className="mt-4 px-4 py-2 font-bold text-purple-600 rounded-lg"
-                      onClick={handleShowMore}
-                    >
+                    <button className="mt-4 px-4 py-2 font-bold text-purple-600 rounded-lg" onClick={handleShowMore}>
                       Show More...
                     </button>
                   )}
                   {showAll && (
-                    <button
-                      className="mt-4 px-4 py-2 font-bold text-purple-600 rounded-lg"
-                      onClick={handleShowMore}
-                    >
+                    <button className="mt-4 px-4 py-2 font-bold text-purple-600 rounded-lg" onClick={handleShowMore}>
                       Show less...
                     </button>
                   )}
@@ -591,9 +617,7 @@ const NewtestPage = () => {
                 >
                   <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
                     <div>
-                      <h3 className="text-2xl font-bold mb-2">
-                        Exclusive Offer
-                      </h3>
+                      <h3 className="text-2xl font-bold mb-2">Exclusive Offer</h3>
                       <ul className="space-y-2">
                         <li className="flex items-center">
                           <svg
@@ -641,7 +665,7 @@ const NewtestPage = () => {
                               ? discount.subTotal === 0
                                 ? 1
                                 : discount.subTotal.toFixed(2)
-                              : CoursesData?.price
+                              : CoursesData?.price,
                           )
                         }
                         disabled={payloading}
@@ -650,7 +674,7 @@ const NewtestPage = () => {
                       </button>
                     ) : (
                       <button
-                        onClick={() => navigate(`/login/${CoursesData._id}`)}
+                        onClick={() => navigate(`/login/${coursename}`)}
                         className="mt-4 md:mt-0 bg-white text-indigo-600 font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300"
                       >
                         {item.buttonText}
@@ -674,53 +698,33 @@ const NewtestPage = () => {
                       >
                         <span>{item.question}</span>
                         <span
-                          className={`transform transition-transform ${openFaqIndex === index ? "rotate-180" : ""
-                            }`}
+                          className={`transform transition-transform ${openFaqIndex === index ? "rotate-180" : ""}`}
                         >
                           ▼
                         </span>
                       </div>
-                      {openFaqIndex === index && (
-                        <div className="p-4 text-gray-600 bg-blue-50">
-                          {item.answer}
-                        </div>
-                      )}
+                      {openFaqIndex === index && <div className="p-4 text-gray-600 bg-blue-50">{item.answer}</div>}
                     </div>
                   ))}
               </div>
             </div>
 
             <div ref={moreDetailsRef} className="py-4">
-              <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-4 text-gray-800">
-                More Details...
-              </h2>
+              <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-4 text-gray-800">More Details...</h2>
             </div>
 
             <div ref={moreDetailsRef}>
               {/* Class Features */}
               <div className="grid md:grid-cols-2 gap-6 mb-8">
                 {CoursesData?.dynamicSections?.map((section, index) => {
-                  const isMentorship = section.title
-                    .toLowerCase()
-                    .includes("mentorship");
+                  const isMentorship = section.title.toLowerCase().includes("mentorship")
                   return (
-                    <div
-                      key={index}
-                      className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm"
-                    >
+                    <div key={index} className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
                       <div className="flex items-center mb-4">
-                        <div
-                          className={`${section.bgColor || "bg-gray-200"
-                            } p-2 rounded-full mr-3`}
-                        >
-                          <DynamicIcon
-                            iconName={section.icon}
-                            className={`w-6 h-6 ${section.textColor}`}
-                          />
+                        <div className={`${section.bgColor || "bg-gray-200"} p-2 rounded-full mr-3`}>
+                          <DynamicIcon iconName={section.icon} className={`w-6 h-6 ${section.textColor}`} />
                         </div>
-                        <h3 className="text-lg lg:text-xl font-bold text-gray-800">
-                          {section.title}
-                        </h3>
+                        <h3 className="text-lg lg:text-xl font-bold text-gray-800">{section.title}</h3>
                       </div>
                       {isMentorship ? (
                         <>
@@ -749,9 +753,7 @@ const NewtestPage = () => {
                                   />
                                 </svg>
                               </div>
-                              <span className="font-medium">
-                                Personal Guidance
-                              </span>
+                              <span className="font-medium">Personal Guidance</span>
                             </div>
                             <div className="flex items-center">
                               <div className="bg-green-100 p-2 rounded-full mr-3">
@@ -770,9 +772,7 @@ const NewtestPage = () => {
                                   />
                                 </svg>
                               </div>
-                              <span className="font-medium">
-                                Doubt Clearing Sessions
-                              </span>
+                              <span className="font-medium">Doubt Clearing Sessions</span>
                             </div>
                             <div className="flex items-center">
                               <div className="bg-green-100 p-2 rounded-full mr-3">
@@ -791,9 +791,7 @@ const NewtestPage = () => {
                                   />
                                 </svg>
                               </div>
-                              <span className="font-medium">
-                                Motivational Sessions
-                              </span>
+                              <span className="font-medium">Motivational Sessions</span>
                             </div>
                           </div>
                         </>
@@ -802,22 +800,17 @@ const NewtestPage = () => {
                           {section?.contents?.map((item, i) => (
                             <li
                               key={i}
-                              className={`flex items-start space-x-2 ${item.highlight
-                                ? "font-medium scale-105 transition-all duration-200"
-                                : ""
+                              className={`flex items-start space-x-2 ${item.highlight ? "font-medium scale-105 transition-all duration-200" : ""
                                 }`}
                             >
-                              <GoVerified
-                                size={20}
-                                className={`text-green-500 mt-1`}
-                              />
+                              <GoVerified size={20} className={`text-green-500 mt-1`} />
                               <span>{item.text}</span>
                             </li>
                           ))}
                         </ul>
                       )}
                     </div>
-                  );
+                  )
                 })}
               </div>
 
@@ -840,19 +833,12 @@ const NewtestPage = () => {
                       />
                     </svg>
                   </div>
-                  <h3 className=" text-lg lg:text-xl font-bold text-gray-800">
-                    Subjects Covered
-                  </h3>
+                  <h3 className=" text-lg lg:text-xl font-bold text-gray-800">Subjects Covered</h3>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-3 justify-center items-center">
                   {CoursesData?.subjects?.map((subject, index) => (
-                    <div
-                      key={index}
-                      className="bg-indigo-50 rounded-lg p-3 text-center border border-indigo-100"
-                    >
-                      <span className="p-1 text-indigo-700 text-lg font-medium">
-                        {subject.subject}
-                      </span>
+                    <div key={index} className="bg-indigo-50 rounded-lg p-3 text-center border border-indigo-100">
+                      <span className="p-1 text-indigo-700 text-lg font-medium">{subject.subject}</span>
                     </div>
                   ))}
                 </div>
@@ -893,22 +879,16 @@ const NewtestPage = () => {
                         } text-gray-900 font-bold py-3 px-8 rounded-lg `}
                       onClick={() =>
                         handlePayment(
-                          discount
-                            ? discount.subTotal === 0
-                              ? 1
-                              : discount.subTotal.toFixed(2)
-                            : CoursesData?.price
+                          discount ? (discount.subTotal === 0 ? 1 : discount.subTotal.toFixed(2)) : CoursesData?.price,
                         )
                       }
                       disabled={payloading}
                     >
-                      {payloading
-                        ? "Wait..."
-                        : "Enroll Now and Start Your UPSC Journey!"}
+                      {payloading ? "Wait..." : "Enroll Now and Start Your UPSC Journey!"}
                     </button>
                   ) : (
                     <button
-                      onClick={() => navigate(`/login/${CoursesData._id}`)}
+                      onClick={() => navigate(`/login/${coursename}`)}
                       className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 px-8 rounded-lg hover:from-yellow-500 hover:to-yellow-600 transition duration-300 shadow-lg"
                     >
                       Enroll Now and Start Your UPSC Journey!
@@ -923,18 +903,23 @@ const NewtestPage = () => {
           <div className="w-full lg:w-[40%] bg-gray-50 p-2 md:p-5 lg:p-10">
             <div className="sticky top-20 bg-white border border-gray-200 shadow-lg rounded-lg p-6">
               {/* Image Section */}
-              <img
-                src={CoursesData.imageUrl}
-                crossOrigin="anonymous"
-                alt="Course Thumbnail"
-                className="w-full mb-4 lg:object-contain object-contain border-2 border-gray-200 rounded-lg"
-              />
+              <div className="relative w-full mb-4 aspect-video">
+                {/* Blurred Placeholder (Visible Until Image Loads) */}
+                <div
+                  className={`absolute inset-0 w-full h-full bg-gradient-to-r from-blue-100 to-indigo-100 rounded-lg transition-opacity duration-700 ${thumbnailImageLoaded ? "opacity-0" : "opacity-100"}`}
+                />
+
+                <img
+                  src={CoursesData.imageUrl || "/placeholder.svg"}
+                  crossOrigin="anonymous"
+                  alt="Course Thumbnail"
+                  className={`w-full h-full object-contain border-2 border-gray-200 rounded-lg transition-opacity duration-700 ${thumbnailImageLoaded ? "opacity-100" : "opacity-0"}`}
+                />
+              </div>
 
               {/* Course Title */}
               <div className="flex flex-row justify-between items-center mb-4">
-                <div className="font-bold text-lg text-blue-600 truncate">
-                  {CoursesData.title}
-                </div>
+                <div className="font-bold text-lg text-blue-600 truncate">{CoursesData.title}</div>
                 <div className="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-full shadow-sm">
                   {CoursesData.language?.name}
                 </div>
@@ -943,29 +928,30 @@ const NewtestPage = () => {
               {/* Pricing Section */}
               <div className="flex flex-col md:flex-row lg:flex-row md:justify-between lg:justify-between lg:items-center mb-6">
                 <p className="text-xl font-bold text-gray-800 mb-2 sm:mb-0">
-                  ₹{CoursesData.price}{" "}
-                  <span className="text-red-500 line-through text-sm">
-                    ₹{CoursesData?.value}
-                  </span>
+                  ₹{discount?.subTotal ? discount?.subTotal.toFixed(2) : CoursesData.price}{" "}
+                  <span className="text-red-500 line-through text-sm">₹{CoursesData?.value}</span>
                 </p>
+
+                {discount?.subTotal && (
+                  <p className="text-blue-700 text-sm">
+                    Extra discount applied! You saved ₹{(CoursesData.price - discount?.subTotal).toFixed(2)}
+                  </p>
+                )}
+
                 <p className="text-green-700 rounded-l-md font-semibold px-3 py-1 border-l-4 border-green-600 bg-green-200 text-sm">
-                  Save{" "}
-                  {Math.round(
-                    ((CoursesData?.value - CoursesData?.price) /
-                      CoursesData?.value) *
-                    100
-                  )}
-                  %
+                  Save {Math.round(((CoursesData?.value - CoursesData?.price) / CoursesData?.value) * 100)}%
                 </p>
               </div>
 
               {/* Apply Coupon Link */}
-              <button
-                className="text-blue-600 text-sm font-semibold hover:text-blue-800 hover:underline mb-3"
-                onClick={() => setIsModalOpen(true)}
-              >
-                Have a coupon? Apply it here.
-              </button>
+              {currentUser && (
+                <button
+                  className="text-blue-600 text-sm font-semibold hover:text-blue-800 hover:underline mb-3"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  Have a coupon? Apply it here.
+                </button>
+              )}
 
               {/* CTA Button */}
               {currentUser ? (
@@ -976,11 +962,7 @@ const NewtestPage = () => {
                     }  text-white font-medium py-3 px-8 rounded-lg transition duration-300 w-full`}
                   onClick={() =>
                     handlePayment(
-                      discount
-                        ? discount.subTotal === 0
-                          ? 1
-                          : discount.subTotal.toFixed(2)
-                        : CoursesData?.price
+                      discount ? (discount.subTotal === 0 ? 1 : discount.subTotal.toFixed(2)) : CoursesData?.price,
                     )
                   }
                   disabled={payloading}
@@ -989,7 +971,7 @@ const NewtestPage = () => {
                 </button>
               ) : (
                 <button
-                  onClick={() => navigate(`/login/${CoursesData._id}`)}
+                  onClick={() => navigate(`/login/${coursename}`)}
                   className="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium py-3 px-8 rounded-lg transition duration-300 w-full "
                 >
                   Login to Purchase
@@ -1001,9 +983,7 @@ const NewtestPage = () => {
             {isModalOpen && (
               <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
                 <div className="bg-white rounded-lg shadow-2xl w-96 p-6 relative">
-                  <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                    Apply Coupon Code
-                  </h2>
+                  <h2 className="text-lg font-semibold text-gray-800 mb-4">Apply Coupon Code</h2>
                   <input
                     type="text"
                     value={couponCode}
@@ -1020,7 +1000,8 @@ const NewtestPage = () => {
                     </button>
                     <button
                       onClick={handleApplyCoupon}
-                      className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition"
+                      disabled={couponLoading}
+                      className={`${couponLoading ? "bg-red-600 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} text-white font-medium py-2 px-4 rounded-lg transition`}
                     >
                       Apply
                     </button>
@@ -1030,9 +1011,9 @@ const NewtestPage = () => {
             )}
           </div>
         </div>
-      </div >
-    </Fragment >
-  );
-};
+      </div>
+    </Fragment>
+  )
+}
 
-export default NewtestPage;
+export default LiveCourseDetailsPage
