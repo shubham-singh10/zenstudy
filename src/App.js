@@ -18,6 +18,7 @@ import TestResult from "./studentDashboard/components/testseries/TestResult.jsx"
 import TestResultSeries from "./studentDashboard/components/testseries/TestResultSeries.jsx";
 import Demopage from "./studentDashboard/components/Demopage.jsx";
 import NewCourseDetailPage from "./components/course/CourseDetailNew.jsx";
+import LiveCourseDetailStudent from "./studentDashboard/components/LiveCourseDetailsStudent.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -93,6 +94,7 @@ function App() {
               <Route path="/course-details-student" element={<CoursesPage />} />
               <Route path="/course-details-view/:courseId" element={<CourseDetailsStudentView />} />
               <Route path="/mycourse" element={<MyCoursesNew />} />
+              <Route path="/livecourse-details-student/:courseId" element={<LiveCourseDetailStudent />} />
               <Route path="/liveClass" element={<LiveClass />} />
               <Route path="/upsc-student" element={<UPSCStudent />} />
               <Route path="/watch-course/:id" element={<WatchCourse />} />

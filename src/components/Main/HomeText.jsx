@@ -87,7 +87,7 @@ const HomeText = () => {
           className="relative image-section md:w-1/2 flex justify-center items-center"
         >
           <img
-            src="/assets/herosection-logo.jpeg"
+            src="/assets/boylogo.webp"
             alt="Description of the"
             style={{ width: "100%", height: "auto" }}
             className="md:w-[400px] md:h-[400px] w-[400px] h-[400px] z-50 rounded-lg"

@@ -42,6 +42,7 @@ const MonthlyAffairs = () => {
             pdfUrls: `${process.env.REACT_APP_API}/zenstudy/api/image/getpdf/${item.pdfUrl}`,
           }));
           setCurrentAffairs(filterData);
+          
         }
       } catch (error) {
         console.error(
@@ -151,11 +152,18 @@ const MonthlyAffairs = () => {
                   <div className="flex flex-col items-center gap-4">
                     {/* Month and Year */}
                     <div className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold text-lg px-6 py-4 rounded-md shadow">
-                      {monthName}, {selectedYear}
+                    {new Date(data.date).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    }).replace(",", "")}
                     </div>
                     <p className="text-gray-600 text-sm text-center">
-                      Access the latest current affairs for {monthName}{" "}
-                      {selectedYear}.
+                      Access the latest current affairs for {new Date(data.date).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      }).replace(",", "")}.
                     </p>
                   </div>
 

@@ -6,7 +6,11 @@ import axios from "axios";
 import { Loader } from "../../../components/loader/Loader";
 
 function DailyAffairs() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(() => {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      return yesterday;
+    });
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [currentAffairs, setCurrentAffairs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);

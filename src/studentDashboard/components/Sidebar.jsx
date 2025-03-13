@@ -6,6 +6,7 @@ import {
   FiChevronDown,
   FiChevronRight,
   FiFileText,
+  FiHome,
   FiLayout,
   FiMenu,
   FiSquare,
@@ -41,7 +42,10 @@ const Sidebar = () => {
     () => [
       {
         title: "General",
-        items: [{ href: "/profile", label: "Profile", icon: FiLayout }],
+        items: [
+          { href: "/", label: "Home", icon: FiHome },
+          { href: "/profile", label: "Profile", icon: FiLayout },
+        ],
       },
       {
         title: "Pages",
@@ -105,10 +109,10 @@ const Sidebar = () => {
 
   const initials = user?.name
     ? user.name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
     : "G";
 
   return (
@@ -152,7 +156,8 @@ const Sidebar = () => {
               <div>
                 <p className="font-bold text-lg">Zenstudy</p>
                 <p className="text-xs text-blue-700 text-nowrap">
-                  Making Education Imaginative</p>
+                  Making Education Imaginative
+                </p>
               </div>
             </div>
           </div>
@@ -177,10 +182,11 @@ const Sidebar = () => {
                                     : [...prev, item.label]
                                 )
                               }
-                              className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-colors ${openDropdowns.includes(item.label)
+                              className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-colors ${
+                                openDropdowns.includes(item.label)
                                   ? "bg-gray-200"
                                   : "hover:bg-gray-200"
-                                }`}
+                              }`}
                             >
                               <div className="flex items-center gap-3">
                                 <item.icon className="w-5 h-5" />
@@ -198,10 +204,11 @@ const Sidebar = () => {
                                   <li key={subItem.label}>
                                     <Link
                                       to={subItem.href}
-                                      className={`block px-3 py-2 rounded-lg transition-colors ${isActive(subItem.href)
+                                      className={`block px-3 py-2 rounded-lg transition-colors ${
+                                        isActive(subItem.href)
                                           ? "bg-gray-200 text-sidebar-accent-primary"
                                           : "hover:bg-gray-200"
-                                        }`}
+                                      }`}
                                       onClick={() =>
                                         isMobile && setIsOpen(false)
                                       }
@@ -219,10 +226,11 @@ const Sidebar = () => {
                         ) : (
                           <Link
                             to={item.href}
-                            className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive(item.href)
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                              isActive(item.href)
                                 ? "bg-gray-200"
                                 : "hover:bg-gray-200"
-                              }`}
+                            }`}
                             onClick={() => isMobile && setIsOpen(false)}
                           >
                             <item.icon className="w-5 h-5" />
@@ -241,7 +249,9 @@ const Sidebar = () => {
             <div className="absolute top-0 left-0 w-full h-full -translate-y-0 bg-gradient-to-b from-black/10 to-transparent z-[-1] rounded-t-md shadow-lg"></div>
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center">
-                <span className="text-sm font-medium text-gray-200">{initials}</span>
+                <span className="text-sm font-medium text-gray-200">
+                  {initials}
+                </span>
               </div>
               <div className="min-w-0">
                 <p className="font-medium truncate">{user?.name || "Guest"}</p>

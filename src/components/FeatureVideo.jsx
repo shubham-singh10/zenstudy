@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 
 const FeatureVideo = () => {
   const [mainVideo, setMainVideo] = useState(
-    "https://www.youtube.com/embed/GEmeo2uMAnA?si=Oqai2O3hcVVgipYR"
+    "https://www.youtube.com/embed/AG864au506w?si=GVRC4EWr-zkyDivQ"
   );
   const [otherVideos, setOtherVideos] = useState([
-    "https://www.youtube.com/embed/ThstiF2Q5VU?si=dVdvaFHfGwkmSo5S",
-    "https://www.youtube.com/embed/Z6Jx_vvbSag?si=2vswzWpq674VMeD6",
-    "https://www.youtube.com/embed/tsJXyeKFlto?si=qOLj7aDck_zSApjm",
-    "https://www.youtube.com/embed/1vf6AyPuzGE?si=nDvsbK1dCRz8VPrX",
+    "https://www.youtube.com/embed/J6TplwoZ9vs?si=X-9zaftr5RlDbSdg",
+    "https://www.youtube.com/embed/BXTyVqhgx7g?si=SrKRvCQxodnJTbhf",
+    "https://www.youtube.com/embed/QDEEF3SEISI?si=6KEthpl3TP8qwaDA",
+    "https://www.youtube.com/embed/5yUspRCx-kI?si=Y-XVNg1AVlNRsbyk",
   ]);
 
   const handleSwap = (index) => {
