@@ -5,7 +5,7 @@ import { RiSortAsc, RiSortDesc } from "react-icons/ri"
 import { useAuth } from "../../context/auth-context"
 import Loading from "../../Loading"
 import Pagination from "../../components/pagination/Pagination"
-import {useNavigate, useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([])
@@ -149,49 +149,64 @@ const CoursesPage = () => {
             <div className="text-center text-gray-500 text-lg py-10">
               No courses found
             </div>
-          ) : (courses.map((course) => (
-            <div key={course._id} className="bg-white rounded-lg shadow-md overflow-hidden">
-              {loading.imageLoading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
-                  <div className="w-24 h-24 bg-gray-400 rounded-full"></div>
-                </div>
-              )}
-              <img
-                src={course?.imageUrl || "/assets/upcoming.webp"}
-                crossOrigin="anonymous"
-                alt={course?.title}
-                className={`w-full h-48 object-cover transition-opacity duration-500 ${loading.imageLoading ? "opacity-0" : "opacity-100"}`}
-                onLoad={() => setLoading(false)}
-              />
-              <div className="p-4">
-                <h2 className="text-xl font-semibold text-gray-800 mb-2">{course?.title}</h2>
-                <p className="text-gray-600 mb-2">{course?.language?.name}</p>
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-2xl font-bold text-blue-600">  {" "}
-                    <span className="line-through text-gray-400 text-sm mr-1">
-                      {" "}
-                      ₹ {course.value}
-                    </span>{" "}
-                    ₹ {course.price}
-                  </span>
+          ) : (courses.map((course) => {
+            const newPage = course.title?.includes("UPSC Foundation Batch")
+            return (
+              <div key={course._id} className="bg-white rounded-lg shadow-md overflow-hidden">
+                {loading.imageLoading && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
+                    <div className="w-24 h-24 bg-gray-400 rounded-full"></div>
+                  </div>
+                )}
+                <img
+                  src={course?.imageUrl || "/assets/upcoming.webp"}
+                  crossOrigin="anonymous"
+                  alt={course?.title}
+                  className={`w-full h-48 object-cover transition-opacity duration-500 ${loading.imageLoading ? "opacity-0" : "opacity-100"}`}
+                  onLoad={() => setLoading(false)}
+                />
+                <div className="p-4">
+                  <h2 className="text-xl font-semibold text-gray-800 mb-2">{course?.title}</h2>
+                  <p className="text-gray-600 mb-2">{course?.language?.name}</p>
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-2xl font-bold text-blue-600">  {" "}
+                      <span className="line-through text-gray-400 text-sm mr-1">
+                        {" "}
+                        ₹ {course.value}
+                      </span>{" "}
+                      ₹ {course.price}
+                    </span>
 
-                </div>
-                <div className="flex space-x-2">
-
-                  <button
-                    className="flex-1 border border-blue-600 text-blue-600 py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors"
-                    onClick={() =>
-                      navigate(`/course-details-view/${course.title.replace(/\s+/g, '-')}`, {
-                        state: { courseId: course._id },
-                      })
-                    }
-                  >
-                    View Details
-                  </button>
+                  </div>
+                  <div className="flex space-x-2">
+                    {newPage ? (
+                      <button
+                        className="flex-1 border border-blue-600 text-blue-600 py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors"
+                        onClick={() =>
+                          navigate(`/livecourse-details-student/${course.title.replace(/\s+/g, '-')}`, {
+                            state: { courseId: course._id },
+                          })
+                        }
+                      >
+                        View Details
+                      </button>
+                    ) : (
+                      <button
+                        className="flex-1 border border-blue-600 text-blue-600 py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors"
+                        onClick={() =>
+                          navigate(`/course-details-view/${course.title.replace(/\s+/g, '-')}`, {
+                            state: { courseId: course._id },
+                          })
+                        }
+                      >
+                        View Details
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          )))}
+            )
+          }))}
         </div>
 
         {/* Pagination */}

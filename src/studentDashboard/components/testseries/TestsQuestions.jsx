@@ -56,7 +56,7 @@ export const TestQuestionsPage = ({ test, series }) => {
 
         try {
             setTestLoading(true);
-            const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/main/test-series-result`, {
+            const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/main/test-series-result`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

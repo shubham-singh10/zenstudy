@@ -94,7 +94,7 @@ function App() {
               <Route path="/course-details-student" element={<CoursesPage />} />
               <Route path="/course-details-view/:courseId" element={<CourseDetailsStudentView />} />
               <Route path="/mycourse" element={<MyCoursesNew />} />
-              <Route path="/livecourse-details-student/:courseId" element={<LiveCourseDetailStudent />} />
+              <Route path="/livecourse-details-student/:coursename" element={<LiveCourseDetailStudent />} />
               <Route path="/liveClass" element={<LiveClass />} />
               <Route path="/upsc-student" element={<UPSCStudent />} />
               <Route path="/watch-course/:id" element={<WatchCourse />} />

@@ -84,7 +84,7 @@ export function PreviewTest({ test, onBack }) {
     setPayLoading(true);
     try {
       const res = await fetch(
-        `${process.env.REACT_APP_API2}zenstudy/api/payment/orderNew`,
+        `${process.env.REACT_APP_API2}zenstudy/api/payment/order`,
         {
           method: "POST",
           headers: {
@@ -133,7 +133,7 @@ export function PreviewTest({ test, onBack }) {
         setpageLoading(true);
         try {
           const res = await fetch(
-            `${process.env.REACT_APP_API2}zenstudy/api/payment/verifyNew`,
+            `${process.env.REACT_APP_API2}zenstudy/api/payment/verify`,
             {
               method: "POST",
               headers: {

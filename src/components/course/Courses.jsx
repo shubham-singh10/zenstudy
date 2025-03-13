@@ -71,7 +71,7 @@ const Courses = () => {
       setContentVisible(false)
 
       try {
-        const response = await fetch(`${process.env.REACT_APP_API2}zenstudy/api/course/${api}`, {
+        const response = await fetch(`${process.env.REACT_APP_API}zenstudy/api/course/${api}`, {
           method: "GET",
           headers: {
             Accept: "application/json",

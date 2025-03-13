@@ -29,7 +29,7 @@ const LiveCourseDetailStudent = () => {
   const faqRef = useRef(null);
   const moreDetailsRef = useRef(null);
   const { coursename } = useParams();
-
+  const [error, setError] = useState(null);
   // State to track the active tab
   const [activeTab, setActiveTab] = useState("features");
   const [showAll, setShowAll] = useState(false);
@@ -138,7 +138,7 @@ const LiveCourseDetailStudent = () => {
 
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API}zenstudy/api/course/coursedetailslug/UPSC-Foundation-Batch`,
+          `${process.env.REACT_APP_API}zenstudy/api/course/coursedetailslug/${coursename}`,
           {
             method: "GET",
             headers: {
@@ -153,7 +153,6 @@ const LiveCourseDetailStudent = () => {
         }
 
         const data = await response.json();
-        console.log("data", data);
         const mainData = data.coursedetail;
 
         const posterUrl = `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.poster}`;
@@ -191,6 +190,7 @@ const LiveCourseDetailStudent = () => {
           }, 300);
         }, 1000);
       } catch (error) {
+        setError(error);
         setmloading(false);
         setContentVisible(true);
         setBannerImageLoaded(true);
@@ -380,6 +380,18 @@ const LiveCourseDetailStudent = () => {
     return <CoursePageSkeleton />;
   }
 
+  if (error) {
+    navigate("/course-details-student");
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-4xl font-bold text-red-600">
+          {" "}
+          Error: Please refresh the page.
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Fragment>
       {pageLoading && (
@@ -389,9 +401,8 @@ const LiveCourseDetailStudent = () => {
       )}
 
       <div
-        className={`-mt-3 overflow-auto h-screen flex flex-wrap bg-gray-50 transition-opacity duration-500 ease-in-out ${
-          contentVisible ? "opacity-100" : "opacity-0"
-        }`}
+        className={`-mt-3 overflow-auto h-screen flex flex-wrap bg-gray-50 transition-opacity duration-500 ease-in-out ${contentVisible ? "opacity-100" : "opacity-0"
+          }`}
       >
         {/* Top Banner */}
         <div className="w-full flex justify-center items-center relative">
@@ -399,9 +410,8 @@ const LiveCourseDetailStudent = () => {
             <>
               {/* Blurred Placeholder (Visible Until Image Loads) */}
               <div
-                className={`absolute inset-0 w-full h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 transition-opacity duration-700 ${
-                  bannerImageLoaded ? "opacity-0" : "opacity-100"
-                }`}
+                className={`absolute inset-0 w-full h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 transition-opacity duration-700 ${bannerImageLoaded ? "opacity-0" : "opacity-100"
+                  }`}
               />
 
               {/* Course Poster Image */}
@@ -409,9 +419,8 @@ const LiveCourseDetailStudent = () => {
                 src={CoursesData.posterUrl || "/placeholder.svg"}
                 crossOrigin="anonymous"
                 alt="Course Poster"
-                className={`w-full lg:h-full md:h-40 h-36 lg:object-contain object-fill transition-opacity duration-700 ${
-                  bannerImageLoaded ? "opacity-100" : "opacity-0"
-                }`}
+                className={`w-full lg:h-full md:h-40 h-36 lg:object-contain object-fill transition-opacity duration-700 ${bannerImageLoaded ? "opacity-100" : "opacity-0"
+                  }`}
               />
             </>
           ) : (
@@ -422,7 +431,10 @@ const LiveCourseDetailStudent = () => {
             </div>
           )}
           <div className="absolute left-5 top-5">
-            <button className=" flex gap-1 items-center justify-center bg-blue-500 text-white px-4 py-2 rounded-xl">
+            <button
+              onClick={() => navigate("/course-details-student")}
+              className=" flex gap-1 items-center justify-center bg-blue-500 text-white px-4 py-2 rounded-xl"
+            >
               <IoMdArrowRoundBack />
               Back
             </button>
@@ -431,16 +443,15 @@ const LiveCourseDetailStudent = () => {
 
         {/* Tabs Section */}
         <div className="w-full h-14 bg-white sticky top-0 z-10 shadow-lg flex justify-start lg:px-36 items-center lg:space-x-8 px-2 scrollable-tabs">
-        
+
           {tabs.map((tab, index) => (
             <button
               key={index}
               onClick={() => scrollToSection(tab.ref, tab.name.toLowerCase())}
-              className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${
-                activeTab === tab.name.toLowerCase()
-                  ? "text-blue-600 border-b-2 border-blue-600"
-                  : "hover:text-blue-600"
-              }`}
+              className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${activeTab === tab.name.toLowerCase()
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "hover:text-blue-600"
+                }`}
             >
               {tab.name}
             </button>
@@ -596,26 +607,22 @@ const LiveCourseDetailStudent = () => {
                     )?.map((item, index) => (
                       <div
                         key={index}
-                        className={`group rounded-lg border ${
-                          openIndex === index
-                            ? "border-gray-300"
-                            : "border-transparent"
-                        }`}
+                        className={`group rounded-lg border ${openIndex === index
+                          ? "border-gray-300"
+                          : "border-transparent"
+                          }`}
                       >
                         <div
-                          className={`cursor-pointer flex flex-col gap-2 p-4 ${
-                            colors[index % colors.length].bgColor
-                          } ${
-                            colors[index % colors.length].textColor
-                          } font-semibold rounded-lg`}
+                          className={`cursor-pointer flex flex-col gap-2 p-4 ${colors[index % colors.length].bgColor
+                            } ${colors[index % colors.length].textColor
+                            } font-semibold rounded-lg`}
                           onClick={() => handleToggle(index)}
                         >
                           <div className="flex justify-between items-center">
                             <span>{item.title}</span>
                             <span
-                              className={`transform transition-transform ${
-                                openIndex === index ? "rotate-180" : ""
-                              }`}
+                              className={`transform transition-transform ${openIndex === index ? "rotate-180" : ""
+                                }`}
                             >
                               ▼
                             </span>
@@ -623,9 +630,8 @@ const LiveCourseDetailStudent = () => {
                           <div className="text-gray-500 flex justify-between items-center text-sm">
                             ({item.other2} lectures)
                             <span
-                              className={`ml-4 text-sm flex gap-1 items-center ${
-                                colors[index % colors.length].textColor
-                              }`}
+                              className={`ml-4 text-sm flex gap-1 items-center ${colors[index % colors.length].textColor
+                                }`}
                             >
                               <BiCalendar />
                               {new Date(item.startDate).toLocaleDateString(
@@ -653,9 +659,8 @@ const LiveCourseDetailStudent = () => {
                           <div className="p-4 bg-white text-gray-700">
                             {item.description && (
                               <p
-                                className={`mb-2 text-sm ${
-                                  colors[index % colors.length].textColor
-                                }`}
+                                className={`mb-2 text-sm ${colors[index % colors.length].textColor
+                                  }`}
                               >
                                 {item.description}
                               </p>
@@ -741,11 +746,10 @@ const LiveCourseDetailStudent = () => {
                     </div>
                     {currentUser ? (
                       <button
-                        className={` ${
-                          payloading
-                            ? "bg-gradient-to-r from-red-600 to-red-800 cursor-not-allowed"
-                            : "mt-4 md:mt-0 bg-white text-indigo-600 hover:bg-gray-100 transition duration-300"
-                        } font-bold py-3 px-6 rounded-lg `}
+                        className={` ${payloading
+                          ? "bg-gradient-to-r from-red-600 to-red-800 cursor-not-allowed"
+                          : "mt-4 md:mt-0 bg-white text-indigo-600 hover:bg-gray-100 transition duration-300"
+                          } font-bold py-3 px-6 rounded-lg `}
                         onClick={() =>
                           handlePayment(
                             discount
@@ -785,9 +789,8 @@ const LiveCourseDetailStudent = () => {
                       >
                         <span>{item.question}</span>
                         <span
-                          className={`transform transition-transform ${
-                            openFaqIndex === index ? "rotate-180" : ""
-                          }`}
+                          className={`transform transition-transform ${openFaqIndex === index ? "rotate-180" : ""
+                            }`}
                         >
                           ▼
                         </span>
@@ -822,9 +825,8 @@ const LiveCourseDetailStudent = () => {
                     >
                       <div className="flex items-center mb-4">
                         <div
-                          className={`${
-                            section.bgColor || "bg-gray-200"
-                          } p-2 rounded-full mr-3`}
+                          className={`${section.bgColor || "bg-gray-200"
+                            } p-2 rounded-full mr-3`}
                         >
                           <DynamicIcon
                             iconName={section.icon}
@@ -915,11 +917,10 @@ const LiveCourseDetailStudent = () => {
                           {section?.contents?.map((item, i) => (
                             <li
                               key={i}
-                              className={`flex items-start space-x-2 ${
-                                item.highlight
-                                  ? "font-medium scale-105 transition-all duration-200"
-                                  : ""
-                              }`}
+                              className={`flex items-start space-x-2 ${item.highlight
+                                ? "font-medium scale-105 transition-all duration-200"
+                                : ""
+                                }`}
                             >
                               <GoVerified
                                 size={20}
@@ -1001,11 +1002,10 @@ const LiveCourseDetailStudent = () => {
                 <div className="mt-6 flex justify-center">
                   {currentUser ? (
                     <button
-                      className={` ${
-                        payloading
-                          ? "bg-gradient-to-r from-red-600 to-red-800 cursor-not-allowed"
-                          : "bg-gradient-to-r from-yellow-400 to-yellow-500  hover:from-yellow-500 hover:to-yellow-600 transition duration-300 shadow-lg"
-                      } text-gray-900 font-bold py-3 px-8 rounded-lg `}
+                      className={` ${payloading
+                        ? "bg-gradient-to-r from-red-600 to-red-800 cursor-not-allowed"
+                        : "bg-gradient-to-r from-yellow-400 to-yellow-500  hover:from-yellow-500 hover:to-yellow-600 transition duration-300 shadow-lg"
+                        } text-gray-900 font-bold py-3 px-8 rounded-lg `}
                       onClick={() =>
                         handlePayment(
                           discount
@@ -1041,18 +1041,16 @@ const LiveCourseDetailStudent = () => {
               <div className="relative w-full mb-4 aspect-video">
                 {/* Blurred Placeholder (Visible Until Image Loads) */}
                 <div
-                  className={`absolute inset-0 w-full h-full bg-gradient-to-r from-blue-100 to-indigo-100 rounded-lg transition-opacity duration-700 ${
-                    thumbnailImageLoaded ? "opacity-0" : "opacity-100"
-                  }`}
+                  className={`absolute inset-0 w-full h-full bg-gradient-to-r from-blue-100 to-indigo-100 rounded-lg transition-opacity duration-700 ${thumbnailImageLoaded ? "opacity-0" : "opacity-100"
+                    }`}
                 />
 
                 <img
                   src={CoursesData.imageUrl || "/placeholder.svg"}
                   crossOrigin="anonymous"
                   alt="Course Thumbnail"
-                  className={`w-full h-full object-contain border-2 border-gray-200 rounded-lg transition-opacity duration-700 ${
-                    thumbnailImageLoaded ? "opacity-100" : "opacity-0"
-                  }`}
+                  className={`w-full h-full object-contain border-2 border-gray-200 rounded-lg transition-opacity duration-700 ${thumbnailImageLoaded ? "opacity-100" : "opacity-0"
+                    }`}
                 />
               </div>
 
@@ -1090,7 +1088,7 @@ const LiveCourseDetailStudent = () => {
                   {Math.round(
                     ((CoursesData?.value - CoursesData?.price) /
                       CoursesData?.value) *
-                      100
+                    100
                   )}
                   %
                 </p>
@@ -1109,11 +1107,10 @@ const LiveCourseDetailStudent = () => {
               {/* CTA Button */}
               {currentUser ? (
                 <button
-                  className={` ${
-                    payloading
-                      ? "bg-gradient-to-r from-red-600 to-red-800 cursor-not-allowed"
-                      : "bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900"
-                  }  text-white font-medium py-3 px-8 rounded-lg transition duration-300 w-full`}
+                  className={` ${payloading
+                    ? "bg-gradient-to-r from-red-600 to-red-800 cursor-not-allowed"
+                    : "bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900"
+                    }  text-white font-medium py-3 px-8 rounded-lg transition duration-300 w-full`}
                   onClick={() =>
                     handlePayment(
                       discount
@@ -1161,11 +1158,10 @@ const LiveCourseDetailStudent = () => {
                     <button
                       onClick={handleApplyCoupon}
                       disabled={couponLoading}
-                      className={`${
-                        couponLoading
-                          ? "bg-red-600 cursor-not-allowed"
-                          : "bg-blue-600 hover:bg-blue-700"
-                      } text-white font-medium py-2 px-4 rounded-lg transition`}
+                      className={`${couponLoading
+                        ? "bg-red-600 cursor-not-allowed"
+                        : "bg-blue-600 hover:bg-blue-700"
+                        } text-white font-medium py-2 px-4 rounded-lg transition`}
                     >
                       Apply
                     </button>
