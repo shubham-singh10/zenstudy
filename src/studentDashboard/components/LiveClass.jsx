@@ -34,7 +34,7 @@ function LiveClass() {
         // Filter meetings based on purchased course IDs
         const filteredMeetings = meetingData?.filter((meeting) =>
           purchasedCourses.some(
-            (course) => course.course_id?._id === meeting.courseId._id
+            (purchase) => purchase.course?._id === meeting.courseId._id
           )
         );
   
