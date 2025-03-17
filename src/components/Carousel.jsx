@@ -8,13 +8,13 @@ const Carousel = () => {
   const [isHovered, setIsHovered] = useState(false);
   const img = [
     {
-      imgurl: "assets/1.webp"
+      imgurl: "assets/newBanner1.webp"
     },
     {
-      imgurl: "assets/2.webp"
+      imgurl: "assets/newBanner2.webp"
     },
     {
-      imgurl: "assets/3.webp"
+      imgurl: "assets/newBanner3.webp"
     },
 
   ];
@@ -73,7 +73,7 @@ const Carousel = () => {
             >
               <img
                 src={im.imgurl}
-                className="absolute block w-[100%] h-[100%] lg:w-[60%] lg:h-[100%] -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                className="absolute block w-[100%] h-[100%] lg:w-[100%] lg:h-[100%] -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                 alt="..."
 
 
