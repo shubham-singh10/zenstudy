@@ -73,7 +73,7 @@ const NavBar = () => {
           ))}
 
           {/* More Dropdown */}
-          <div className="relative">
+          <div className="relative z-50">
             <button
               className="px-3 py-2 rounded-md font-medium text-gray-700 hover:text-[#054BB4] flex items-center"
               onClick={handleMoreToggle}
@@ -115,7 +115,7 @@ const NavBar = () => {
               </button>
             </div>
           ) : (
-            <div className="relative">
+            <div className="relative z-50">
               {/* Button to Toggle Dropdown */}
               <button
                 className="px-4 py-2 bg-[#054BB4] text-white rounded-full flex items-center gap-2 shadow-lg hover:bg-[#063e92] transition-all"

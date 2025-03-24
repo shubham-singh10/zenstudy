@@ -123,7 +123,7 @@ export function PreviewTest({ test, onBack }) {
 
   const handlePaymentVerify = async (data, selectedcourseId) => {
     const options = {
-      key: process.env.REACT_APP_RAZORPAY_TEST_KEY_ID,
+      key: process.env.REACT_APP_RAZORPAY_KEY_ID,
       amount: data.amount,
       currency: data.currency,
       name: "ZenStudy",
@@ -184,6 +184,8 @@ export function PreviewTest({ test, onBack }) {
     );
   }
 
+  const newPage = test.courses[0]?.title?.includes("UPSC Foundation Batch")
+
   return (
     <Fragment>
       {pageloading && (
@@ -195,29 +197,38 @@ export function PreviewTest({ test, onBack }) {
         <div className="max-w-7xl mx-auto">
           <div className="bg-white rounded-xl shadow-lg overflow-hidden">
             {/* Header with Image */}
-            <div className="relative h-48 sm:h-56 md:h-64">
-              <img
-                src={test.imageUrl}
-                crossOrigin="anonymous"
-                alt={test.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
-                <div className="p-4 sm:p-6 w-full">
-                  {test.includedInCourse && (
-                    <div className="text-xs sm:text-sm font-medium mb-2 bg-indigo-500 text-white inline-block px-3 py-1 rounded-full">
-                      Included in: {test.courses[0]?.title}
-                    </div>
-                  )}
-                  <h1 className="text-lg sm:text-2xl md:text-3xl font-bold mb-2 text-white">
-                    {test.title}
-                  </h1>
-                  <p className="text-sm sm:text-base text-white/90">
-                    {test.shortDescription}
-                  </p>
-                </div>
+            <div className="relative h-56 md:h-64 lg:h-96 w-full rounded-lg overflow-hidden shadow-lg">
+            {/* Image */}
+            <img
+              src={test.imageUrl}
+              crossOrigin="anonymous"
+              alt={test.title}
+              className="object-fill w-full h-full"
+            />
+          
+            {/* Darker Gradient for Better Readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex items-end">
+              <div className="px-3 sm:px-6 py-3 sm:py-6 w-full">
+                {/* Course Badge */}
+                {test.includedInCourse && (
+                  <div className="text-[10px] sm:text-xs md:text-sm font-medium mb-2 bg-indigo-600 text-white px-2 sm:px-3 py-1 rounded-full shadow-md inline-block">
+                    Included in: {test.courses[0]?.title}
+                  </div>
+                )}
+          
+                {/* Title */}
+                <h1 className="text-base sm:text-xl md:text-2xl font-bold text-white leading-snug">
+                  {test.title}
+                </h1>
+          
+                {/* Description */}
+                <p className="text-xs sm:text-sm md:text-base text-white/90 mt-1">
+                  {test.shortDescription}
+                </p>
               </div>
             </div>
+          </div>
+          
 
             {/* Navigation Tabs */}
             <div className="border-b">
@@ -476,7 +487,15 @@ export function PreviewTest({ test, onBack }) {
 
                   {test.includedInCourse ? (
                     <button
-                      onClick={() =>
+                      onClick={() =>{newPage ?  navigate(
+                        `/courseDetailslive/${test.courses[0].title.replace(
+                          /\s+/g,
+                          "-"
+                        )}`,
+                        {
+                          state: { courseId: test.courses[0]._id },
+                        }
+                      ) : 
                         navigate(
                           `/course-details/${test.courses[0].title.replace(
                             /\s+/g,
@@ -485,7 +504,7 @@ export function PreviewTest({ test, onBack }) {
                           {
                             state: { courseId: test.courses[0]._id },
                           }
-                        )
+                        )}
                       }
                       className="flex-1 sm:flex-initial px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 text-sm"
                     >

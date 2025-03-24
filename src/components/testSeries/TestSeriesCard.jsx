@@ -6,7 +6,7 @@ export function TestSeriesCard({ test, onPreview }) {
   return (
     <div className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl">
       <div className="relative">
-        <img src={test.imageUrl} alt={test.title} crossOrigin="anonymous" className="w-full h-48 sm:h-48 object-cover" />
+        <img src={test.imageUrl} alt={test.title} crossOrigin="anonymous"/>
         {test.includedInCourse ? (
           <div className="absolute top-2 right-2 bg-indigo-500 px-2 py-1 rounded-full text-white text-xs font-medium">
             Included in Course
