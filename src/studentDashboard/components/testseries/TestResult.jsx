@@ -192,9 +192,12 @@ const TestResult = ({series, onBack}) => {
                     className="border rounded-lg p-4 shadow-md bg-white"
                   >
                     <div className="flex justify-between items-center mb-2">
-                      <h3 className="text-lg font-semibold">
-                        {index + 1}. {item.question}
-                      </h3>
+                    <h3
+                    className="text-lg font-semibold"
+                    dangerouslySetInnerHTML={{
+                      __html: `${index + 1}. ${item.question}`,
+                    }}
+                  ></h3>
 
                       {/* Points Display */}
                       {item.selectedAnswer === item.correctAnswer ? (
