@@ -158,7 +158,7 @@ const NewCourseDetailPage = () => {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-        <div className="text-4xl font-bold animate-pulse">ZenStudy.</div>
+        <div className="text-4xl font-bold animate-pulse">Zenstudy</div>
       </div>
     );
   }
@@ -232,7 +232,7 @@ const NewCourseDetailPage = () => {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID,
       amount: data.amount,
       currency: data.currency,
-      name: "ZenStudy",
+      name: "Zenstudy",
       description: "Making Education Imaginative",
       order_id: data.id,
       handler: async (response) => {

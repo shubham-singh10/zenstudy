@@ -40,7 +40,7 @@ const HomeText = () => {
             </span>
             <span className="text-3xl md:text-4xl lg:text-4xl text-[#054BB4]">
               {" "}
-              ZenStudy
+              Zenstudy
             </span>
           </h2>
           <h1 className="text-4xl font-bold mb-4 text-center lg:text-start md:text-start ">

@@ -223,7 +223,7 @@ const SignUp = () => {
         Swal.fire({
           icon: "success",
           title: "Registration Successful!",
-          text: `Welcome ${name}! Your account has been created successfully. Please log in to start exploring ZenStudy.`,
+          text: `Welcome ${name}! Your account has been created successfully. Please log in to start exploring Zenstudy.`,
         });
         login(resData.user, resData.user.role, resData.token);
         
@@ -261,7 +261,7 @@ const SignUp = () => {
               style={SlideUp}
               className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500"
             >
-              Join the ZenStudy Community
+              Join the Zenstudy Community
             </animated.h2>
             <animated.p
               ref={slideUpRef}
@@ -279,7 +279,7 @@ const SignUp = () => {
               className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300"
             >
               <h1 className="text-4xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-400">
-                Welcome to ZenStudy
+                Welcome to Zenstudy
               </h1>
               <p className="text-lg font-medium">
                 Unlock the power of learning with our vibrant community!

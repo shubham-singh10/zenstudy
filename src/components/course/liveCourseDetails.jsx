@@ -245,7 +245,7 @@ const LiveCourseDetailsPage = () => {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID,
       amount: data.amount,
       currency: data.currency,
-      name: "ZenStudy",
+      name: "Zenstudy",
       description: "Making Education Imaginative",
       order_id: data.id,
       handler: async (response) => {

@@ -77,17 +77,9 @@ function OurTeamSlider() {
 
   const facultyData = [
 
+ 
     {
       id: 1,
-      title: "Sachin Srivastava",
-      role: "GS Faculty",
-      description:
-        "He is a senior teacher with over 10 years of experience in teaching UPSC aspirants. He graduated from Allahabad University and completed his post-graduation in Geography. He has excellent communication skills and explains topics with ease. Under his guidance, many students have successfully cleared the UPSC examination.",
-      thumbnail:
-        "/assets/sachin.webp",
-    },
-    {
-      id: 2,
       title: "Krittika Mishra",
       role: "GS Faculty",
       description:
@@ -98,7 +90,7 @@ function OurTeamSlider() {
     },
 
     {
-      id: 3,
+      id: 2,
       title: "Ansh Arora",
       role: "Designing Head",
       description:
@@ -107,7 +99,7 @@ function OurTeamSlider() {
 
     },
     {
-      id: 4,
+      id: 3,
       title: "Gaurav Rai",
       role: "Chief Technical Officer",
       description:

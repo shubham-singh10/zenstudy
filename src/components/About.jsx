@@ -190,7 +190,7 @@ const About = () => {
               <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
-                  At ZenStudy UPSC, after analyzing the UPSC pattern over the
+                  At Zenstudy UPSC, after analyzing the UPSC pattern over the
                   last decade and drawing from our team's 20 years of collective
                   experience, we've learned that the UPSC syllabus is incredibly
                   engaging for anyone eager to learn about India and the world.
@@ -210,7 +210,7 @@ const About = () => {
               <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
-                  At ZenStudy, we aim to evolve the process, making UPSC
+                  At Zenstudy, we aim to evolve the process, making UPSC
                   preparation more engaging, enhancing intellect, and enriching
                   the learning experience about India and the world.
                 </p>
@@ -386,7 +386,7 @@ const About = () => {
                   We've always been told that choosing friends is one of the
                   most important decisions in life. But when it comes to
                   choosing our teachers, we often have limited information,
-                  relying on societal norms or the internet. At ZenStudy, we are
+                  relying on societal norms or the internet. At Zenstudy, we are
                   creating a unique teaching approach for UPSC aspirants. With
                   our extensive experience as former aspirants, we've gained
                   deep insights into the UPSC syllabus and process. Through
@@ -402,7 +402,7 @@ const About = () => {
                   Our vision is to make learning more intuitive and engaging,
                   enabling students to learn faster, think sharper, and stay
                   better informed about India and the world. If you're seeking a
-                  great teaching assistant, we believe ZenStudy can enhance your
+                  great teaching assistant, we believe Zenstudy can enhance your
                   learning experience and guide you toward success. For us, your
                   success brings fulfillment, as our approach is fresh and
                   innovative, especially in the UPSC field. Join us, and let's

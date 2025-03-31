@@ -1,59 +1,71 @@
 import React, { useState, useEffect, Fragment } from 'react';
 
-
-
-
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const img = [
-    {
-      imgurl: "assets/newBanner1.webp"
-    },
-    {
-      imgurl: "assets/newBanner2.webp"
-    },
-    {
-      imgurl: "assets/newBanner3.webp"
-    },
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+  const desktopImages = [
+    {
+      imgurl: "assets/newBanner1.webp",
+      link: "https://zenstudy.in/courseDetailslive/UPSC-Foundation-Batch"
+    },
+    {
+      imgurl: "assets/newBanner2.webp",
+      link: "https://zenstudy.in/courseDetailslive/UPSC-Foundation-Batch"
+    },
+    {
+      imgurl: "assets/newBanner3.webp",
+      link: "https://zenstudy.in/courseDetailslive/UPSC-Foundation-Batch"
+    }
   ];
 
+  const mobileImages = [
+    {
+      imgurl: "assets/mobileBanner1.webp",
+      link: "https://zenstudy.in/courseDetailslive/UPSC-Foundation-Batch"
+    },
+    {
+      imgurl: "assets/mobileBanner2.webp",
+      link: "https://zenstudy.in/courseDetailslive/UPSC-Foundation-Batch"
+    },
+    {
+      imgurl: "assets/mobileBanner3.webp",
+      link: "https://zenstudy.in/courseDetailslive/UPSC-Foundation-Batch"
+    }
+  ];
 
+  const images = isMobile ? mobileImages : desktopImages;
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 786);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (!isHovered) {
       const interval = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % img.length);
+        setCurrentSlide((prev) => (prev + 1) % images.length);
       }, 5000);
       return () => clearInterval(interval);
     }
-  }, [isHovered, img.length]);
-
-
-
+  }, [isHovered, images.length]);
 
   const goToSlide = (index) => {
     setCurrentSlide(index);
   };
 
-
-
-
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + img.length) % img.length);
+    setCurrentSlide((prev) => (prev - 1 + images.length) % images.length);
   };
-
-
-
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % img.length);
+    setCurrentSlide((prev) => (prev + 1) % images.length);
   };
-
-
-
 
   return (
     <Fragment>
@@ -64,29 +76,26 @@ const Carousel = () => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div className="relative h-40 overflow-hidden bg-black rounded-lg md:h-64">
-          {img.map((im, index) => (
+        <div className="relative h-60 overflow-hidden bg-black rounded-lg md:h-64">
+          {images.map((im, index) => (
             <div
               key={index}
               className={`duration-700 ease-in-out ${currentSlide === index ? 'block' : 'hidden'}`}
               data-carousel-item
             >
-              <img
-                src={im.imgurl}
-                className="absolute block w-[100%] h-[100%] lg:w-[100%] lg:h-[100%] -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-                alt="..."
-
-
-              />
+              <a href={im.link} rel="noopener noreferrer">
+                <img
+                  src={im.imgurl}
+                  className="absolute block w-[100%] h-[100%] lg:w-[100%] lg:h-[100%] -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                  alt={`Banner ${index + 1}`}
+                />
+              </a>
             </div>
           ))}
         </div>
 
-
-
-
         <div className="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-          {img.map((_, index) => (
+          {images.map((_, index) => (
             <button
               key={index}
               type="button"
@@ -98,7 +107,6 @@ const Carousel = () => {
             ></button>
           ))}
         </div>
-
 
         <button
           type="button"
@@ -139,13 +147,8 @@ const Carousel = () => {
           </span>
         </button>
       </div>
-
-
     </Fragment>
-
-
-
-
   );
 };
+
 export default Carousel;

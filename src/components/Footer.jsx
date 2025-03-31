@@ -81,13 +81,13 @@ const Footer = () => {
           <div className="w-full md:w-1/2 flex flex-col gap-6 mb-5 md:mb-0">
             <div>
               <p className="text-3xl font-bold">
-                ZenStudy<span>.</span>
+                Zenstudy<span>.</span>
               </p>
               <p className="text-[10px]">Making Education Imaginative</p>
             </div>
             <div>
               <p className="font-medium text-sm">
-                ZenStudy is a result of the vision of "MAKING EDUCATION
+                Zenstudy is a result of the vision of "MAKING EDUCATION
                 IMAGINATIVE". We have ventured into the field of education.
               </p>
             </div>
@@ -271,7 +271,7 @@ const Footer = () => {
           <div className="text-center flex flex-wrap items-center justify-between w-full">
             <p>Copyright (c) All Rights Reserved {date.getFullYear()}</p>
             <Link to="/" className="hover:text-white">
-              <p>ZenStudy</p>
+              <p>Zenstudy</p>
             </Link>
           </div>
           <div></div>

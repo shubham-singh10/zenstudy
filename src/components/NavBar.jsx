@@ -31,9 +31,16 @@ const NavBar = () => {
 
   // Toggle body scroll based on hamburger menu state
   useEffect(() => {
-    document.body.style.overflow = hamBurger ? "hidden" : "auto";
+    if (hamBurger) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+    }
     return () => {
       document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
     };
   }, [hamBurger]);
   
@@ -50,7 +57,7 @@ const NavBar = () => {
         {/* Logo */}
         <Link to={"/"} className="flex flex-col items-start">
           <p className="text-3xl font-bold">
-            ZenStudy<span className="text-[#054BB4] text-4xl">.</span>
+            Zenstudy
           </p>
           <p className="text-[10px] font-medium text-[#054BB4]">
             Making Education Imaginative
@@ -189,70 +196,74 @@ const NavBar = () => {
       }
 
       {hamBurger && (
-        <div className="lg:hidden h-[100vh] w-full bg-[#054BB4] text-white">
-          <ul className="flex flex-col items-center space-y-4 py-4">
-            {navLink.map((item) => (
-              <li key={item.label} className="w-full text-center">
-                <Link
-                  to={item.link}
-                  onClick={() => setHamBurger(false)}
-                  className="block w-full px-4 py-2 hover:bg-[#063e92] transition-all"
-                >
-                  {item.label}
-                </Link>
-
-              </li>
-            ))}
-            {!isAuthenticated ? (
-              <Fragment>
-                <button
-                  className="w-full px-4 py-2 bg-white text-[#054BB4] rounded-full hover:bg-gray-200"
-                  onClick={() => {
-                    navigate("/sign-In");
-                    setHamBurger(false);
-                  }}
-                >
-                  Login
-                </button>
-                <button
-                  className="w-full px-4 py-2 bg-white text-[#054BB4] rounded-full hover:bg-gray-200"
-                  onClick={() => {
-                    navigate("/sign-Up");
-                    setHamBurger(false);
-                  }}
-                >
-                  Sign Up
-                </button>
-              </Fragment>
-            ) : (
-              <Fragment>
-
-                <button
-                  className="flex items-center justify-center w-[50%] px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-full shadow-md hover:from-blue-600 hover:to-blue-800 hover:shadow-lg transition-all"
-                  onClick={() => {
-                    navigate("/profile");
-                    setHamBurger(false);
-                  }}
-                >
-                  <RxDashboard className="text-xl mr-2" />
-                  My Dashboard
-                </button>
-
-                {/* Logout Option */}
-                <button
-                  className="flex items-center justify-center w-[50%] px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white font-semibold rounded-full shadow-md hover:from-red-600 hover:to-red-800 hover:shadow-lg transition-all"
-                  disabled={logoutLoading}
-                  onClick={() => logout()}
-                >
-                  <FiLogOut className="text-xl mr-2" />
-                  {logoutLoading ? "Logging out..." : "Logout"}
-                </button>
-              </Fragment>
-
-            )}
-          </ul>
+        <div className="lg:hidden fixed top-0 left-0 w-full h-full bg-[#054BB4] text-white z-50 flex flex-col">
+          <div className="flex justify-end p-4">
+            <RxCross2
+              className="text-2xl text-white cursor-pointer"
+              onClick={() => setHamBurger(false)}
+            />
+          </div>
+          <div className="flex-1 overflow-y-auto px-4">
+            <ul className="flex flex-col items-center space-y-4 py-4">
+              {navLink.map((item) => (
+                <li key={item.label} className="w-full text-center">
+                  <Link
+                    to={item.link}
+                    onClick={() => setHamBurger(false)}
+                    className="block w-full px-4 py-2 hover:bg-[#063e92] transition-all"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+              {!isAuthenticated ? (
+                <Fragment>
+                  <button
+                    className="w-full px-4 py-2 bg-white text-[#054BB4] rounded-full hover:bg-gray-200"
+                    onClick={() => {
+                      navigate("/sign-In");
+                      setHamBurger(false);
+                    }}
+                  >
+                    Login
+                  </button>
+                  <button
+                    className="w-full px-4 py-2 bg-white text-[#054BB4] rounded-full hover:bg-gray-200"
+                    onClick={() => {
+                      navigate("/sign-Up");
+                      setHamBurger(false);
+                    }}
+                  >
+                    Sign Up
+                  </button>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <button
+                    className="flex items-center justify-center w-[50%] px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-full shadow-md hover:from-blue-600 hover:to-blue-800 hover:shadow-lg transition-all"
+                    onClick={() => {
+                      navigate("/profile");
+                      setHamBurger(false);
+                    }}
+                  >
+                    <RxDashboard className="text-xl mr-2" />
+                    My Dashboard
+                  </button>
+                  <button
+                    className="flex items-center justify-center w-[50%] px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white font-semibold rounded-full shadow-md hover:from-red-600 hover:to-red-800 hover:shadow-lg transition-all"
+                    disabled={logoutLoading}
+                    onClick={() => logout()}
+                  >
+                    <FiLogOut className="text-xl mr-2" />
+                    {logoutLoading ? "Logging out..." : "Logout"}
+                  </button>
+                </Fragment>
+              )}
+            </ul>
+          </div>
         </div>
       )}
+      
     </Fragment>
   );
 };

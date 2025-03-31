@@ -334,7 +334,7 @@ function SignInDynamic() {
                 Welcome Back
               </h2>
               <p className="text-xl text-gray-600">
-                Sign in to continue your learning journey with ZenStudy.
+                Sign in to continue your learning journey with Zenstudy.
               </p>
             </div>
 
@@ -342,7 +342,7 @@ function SignInDynamic() {
               {/* Left Section */}
               <div className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-400 rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300">
                 <h1 className="lg:text-3xl md:text-2xl text-xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-400">
-                  Welcome to ZenStudy
+                  Welcome to Zenstudy
                 </h1>
                 <p className="lg:text-lg text-md font-medium">
                   Unlock the power of learning with our vibrant community!

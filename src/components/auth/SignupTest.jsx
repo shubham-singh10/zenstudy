@@ -84,7 +84,7 @@ function SignUpTest() {
         {/* Left Section */}
         <div className="bg-blue-600  rounded-2xl text-center flex items-center text-white p-6 lg:p-12 lg:w-1/3">
           <h1 className="text-3xl font-extrabold mb-4 animate-fade-in">
-            Welcome to ZenStudy
+            Welcome to Zenstudy
           </h1>
         </div>
 

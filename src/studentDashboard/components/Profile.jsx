@@ -265,7 +265,7 @@ const Profile = () => {
   if (Dloading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="text-4xl font-bold animate-pulse">ZenStudy.</div>
+        <div className="text-4xl font-bold animate-pulse">Zenstudy</div>
       </div>
     );
   }

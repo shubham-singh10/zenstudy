@@ -112,7 +112,7 @@ function LiveClass() {
     <div>
       {loading ? (
         <div className="flex items-center justify-center h-screen">
-          <div className="text-4xl font-bold animate-pulse">ZenStudy.</div>
+          <div className="text-4xl font-bold animate-pulse">Zenstudy</div>
         </div>
       ) : meetingData.length === 0 ? (
         <p className="flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl text-gray-500">
