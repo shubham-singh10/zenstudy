@@ -47,6 +47,8 @@ const WatchCourse = lazy(() => import("./studentDashboard/components/WatchCourse
 const CoursesPage = lazy(() => import("./studentDashboard/components/CoursePage.jsx"));
 const MaterialsPage = lazy(() => import("./studentDashboard/components/materials/index.jsx"));
 const TestSeriesPreview = lazy(() => import("./components/testSeries/index.jsx"));
+const FreeResources = lazy(() => import("./studentDashboard/components/free-resources/index.jsx"));
+const FreeResourcesWatch = lazy(() => import("./studentDashboard/components/free-resources/WatchCourseFree.jsx"));
 
 
 function App() {
@@ -74,8 +76,6 @@ function App() {
               <Route path="/testing" element={<Testing />} />
               <Route path="/test-series-preview" element={<TestSeriesPreview />} />
               
-
-
               {/* Public Route Start */}
               <Route path="/sign-Up" element={<PublicRoute element={<SignUp />} />} />
               <Route path="/sign-Up-Dynamic/:courseId" element={<PublicRoute element={<DynamicSignUp />} />} />
@@ -105,6 +105,8 @@ function App() {
               <Route path="/testSeries" element={<TestSeriesPage />} />
               <Route path="/testResult" element={<TestResult />} />
               <Route path="/resultSeries" element={<TestResultSeries />} />
+              <Route path="/free-resources" element={<FreeResources />} />
+              <Route path="/watch-course-free/:id" element={<FreeResourcesWatch />} /> 
               <Route path="/demo" element={<Demopage />} />
 
               {/* Protected Student Routes End */}

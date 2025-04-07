@@ -15,6 +15,7 @@ import {
   FiX,
 } from "react-icons/fi";
 import { useAuth } from "../../context/auth-context";
+import { BiBrain } from "react-icons/bi";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -62,6 +63,7 @@ const Sidebar = () => {
       {
         title: "Self Learning",
         items: [
+          { href: "/free-resources", label: "Free Resources", icon: BiBrain },
           {
             label: "Current Affairs",
             icon: FiFileText,
@@ -109,10 +111,10 @@ const Sidebar = () => {
 
   const initials = user?.name
     ? user.name
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase()
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
     : "G";
 
   return (
@@ -182,11 +184,10 @@ const Sidebar = () => {
                                     : [...prev, item.label]
                                 )
                               }
-                              className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-colors ${
-                                openDropdowns.includes(item.label)
+                              className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-colors ${openDropdowns.includes(item.label)
                                   ? "bg-gray-200"
                                   : "hover:bg-gray-200"
-                              }`}
+                                }`}
                             >
                               <div className="flex items-center gap-3">
                                 <item.icon className="w-5 h-5" />
@@ -204,11 +205,10 @@ const Sidebar = () => {
                                   <li key={subItem.label}>
                                     <Link
                                       to={subItem.href}
-                                      className={`block px-3 py-2 rounded-lg transition-colors ${
-                                        isActive(subItem.href)
+                                      className={`block px-3 py-2 rounded-lg transition-colors ${isActive(subItem.href)
                                           ? "bg-gray-200 text-sidebar-accent-primary"
                                           : "hover:bg-gray-200"
-                                      }`}
+                                        }`}
                                       onClick={() =>
                                         isMobile && setIsOpen(false)
                                       }
@@ -226,11 +226,10 @@ const Sidebar = () => {
                         ) : (
                           <Link
                             to={item.href}
-                            className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                              isActive(item.href)
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive(item.href)
                                 ? "bg-gray-200"
                                 : "hover:bg-gray-200"
-                            }`}
+                              }`}
                             onClick={() => isMobile && setIsOpen(false)}
                           >
                             <item.icon className="w-5 h-5" />
