@@ -1,63 +1,82 @@
-"use client"
+"use client";
 
-import axios from "axios"
-import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/auth-context";
 
 function CommonCard({ course, link, linknew, differentClass }) {
-  const navigate = useNavigate()
-  const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`)
-  const [imageLoaded, setImageLoaded] = useState(false)
-  const [reviewsCount, setReviewsCount] = useState(0)
-  const [averageRating, setAverageRating] = useState(0)
-  const [contentVisible, setContentVisible] = useState(false)
+  const navigate = useNavigate();
+  const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [reviewsCount, setReviewsCount] = useState(0);
+  const [averageRating, setAverageRating] = useState(0);
+  const [contentVisible, setContentVisible] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
+   const {user} = useAuth()
+
+     useEffect(() => {
+     
+       if (user) {
+         try {
+           setCurrentUser(user?._id);
+         } catch (error) {
+           console.error("Error decoding user:", error);
+         }
+       }
+     }, [user]);
+
 
   useEffect(() => {
     if (course.imageUrl) {
       // Preload the image
-      const img = new Image()
-      img.crossOrigin = "anonymous"
+      const img = new Image();
+      img.crossOrigin = "anonymous";
       img.onload = () => {
-        setImageSrc(course.imageUrl)
-        setImageLoaded(true)
+        setImageSrc(course.imageUrl);
+        setImageLoaded(true);
         // Add a small delay before showing content for a smoother transition
         setTimeout(() => {
-          setContentVisible(true)
-        }, 100)
-      }
+          setContentVisible(true);
+        }, 100);
+      };
       img.onerror = () => {
         // Fallback to default image if loading fails
-        setImageSrc(`/assets/upcoming.webp`)
-        setImageLoaded(true)
+        setImageSrc(`/assets/upcoming.webp`);
+        setImageLoaded(true);
         setTimeout(() => {
-          setContentVisible(true)
-        }, 100)
-      }
-      img.src = course.imageUrl
+          setContentVisible(true);
+        }, 100);
+      };
+      img.src = course.imageUrl;
     } else {
-      setImageLoaded(true)
+      setImageLoaded(true);
       setTimeout(() => {
-        setContentVisible(true)
-      }, 100)
+        setContentVisible(true);
+      }, 100);
     }
-  }, [course.imageUrl])
+  }, [course.imageUrl]);
 
   useEffect(() => {
     const fetchAverageRating = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API}zenstudy/api/course/${course._id}/getReviews`)
-        setAverageRating(response.data.averageRating)
-        setReviewsCount(response.data.reviews.length)
+        const response = await axios.get(
+          `${process.env.REACT_APP_API}zenstudy/api/course/${course._id}/getReviews`
+        );
+        setAverageRating(response.data.averageRating);
+        setReviewsCount(response.data.reviews.length);
       } catch (error) {
-        console.log("Error fetching reviews", error)
+        console.log("Error fetching reviews", error);
       }
-    }
+    };
 
-    fetchAverageRating()
-  }, [course])
+    fetchAverageRating();
+  }, [course]);
 
-  const isUpcoming = course.other1 === "upcoming"
-  const newPage = course.title?.includes("UPSC Foundation Batch")
+  const isUpcoming = course.other1 === "upcoming";
+  const newPage = course.title?.includes("UPSC Foundation Batch");
+  const freeCourse = course.isFree;
 
   return (
     <div
@@ -66,7 +85,9 @@ function CommonCard({ course, link, linknew, differentClass }) {
           ? `${differentClass} space-y-1 rounded-2xl overflow-hidden shadow-lg m-4 p-4`
           : "max-w-xs space-y-1 rounded-2xl overflow-hidden shadow-lg m-4 p-4"
       } course-card transition-all duration-500 ${
-        contentVisible ? "opacity-100 transform translate-y-0" : "opacity-0 transform translate-y-4"
+        contentVisible
+          ? "opacity-100 transform translate-y-0"
+          : "opacity-0 transform translate-y-4"
       }`}
     >
       <div className="relative">
@@ -90,7 +111,9 @@ function CommonCard({ course, link, linknew, differentClass }) {
 
       <div className="px-2 py-4">
         <div className="flex flex-row justify-between items-center gap-2">
-          <div className="font-bold text-sm text-blue-600 truncate">{course.title}</div>
+          <div className="font-bold text-sm text-blue-600 truncate">
+            {course.title}
+          </div>
           <div className="px-3 py-1 w-auto text-sm font-medium text-gray-700 bg-gray-100 rounded-full shadow-sm">
             {course.language?.name}
           </div>
@@ -98,10 +121,18 @@ function CommonCard({ course, link, linknew, differentClass }) {
       </div>
 
       <div className="flex flex-row px-0 lg:px-6 md:px-2 pt-4 justify-between items-center border-t-2">
-        {course.value ? (
+        {course.isFree ? (
+          <p className="px-3 py-1 bg-green-100 text-green-600 font-semibold rounded-full text-sm shadow-sm">
+            Free Course
+          </p>
+        ) : course.value ? (
           <p className="text-blue-600 font-bold text-lg">
             {" "}
-            <span className="line-through text-gray-400 text-sm mr-1"> ₹ {course.value}</span> ₹ {course.price}
+            <span className="line-through text-gray-400 text-sm mr-1">
+              {" "}
+              ₹ {course.value}
+            </span>{" "}
+            ₹ {course.price}
           </p>
         ) : (
           <p className="text-blue-600 font-bold text-xl"> ₹ {course.price}</p>
@@ -109,6 +140,16 @@ function CommonCard({ course, link, linknew, differentClass }) {
 
         {isUpcoming ? (
           <p className="text-red-600 font-bold text-sm">Coming Soon</p>
+        ) : freeCourse ? (
+          <button
+            className="custom-btn"
+            onClick={() =>
+             currentUser ? navigate(`/watch-course-free/${course._id}`) : navigate("/sign-In")
+            }
+          >
+            <span className="custom-btn-bg"></span>
+            <span className="custom-btn-text text-xs">{currentUser ? "Watch Course" : "Login to watch"}</span>
+          </button>
         ) : newPage ? (
           <button
             className="custom-btn"
@@ -136,7 +177,7 @@ function CommonCard({ course, link, linknew, differentClass }) {
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export default CommonCard
+export default CommonCard;
