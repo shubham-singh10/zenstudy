@@ -120,7 +120,7 @@ function CommonCard({ course, link, linknew, differentClass }) {
         </div>
       </div>
 
-      <div className="flex flex-row px-0 lg:px-6 md:px-2 pt-4 justify-between items-center border-t-2">
+      <div className="flex flex-row px-0 lg:px-1 md:px-2 pt-4 justify-between items-center border-t-2">
         {course.isFree ? (
           <p className="px-3 py-1 bg-green-100 text-green-600 font-semibold rounded-full text-sm shadow-sm">
             Free Course
@@ -132,7 +132,7 @@ function CommonCard({ course, link, linknew, differentClass }) {
               {" "}
               ₹ {course.value}
             </span>{" "}
-            ₹ {course.price}
+            ₹ {course.price} {course.title?.toLowerCase().includes("mentorship and answer") && <span className="text-xs text-gray-500">/month</span>}
           </p>
         ) : (
           <p className="text-blue-600 font-bold text-xl"> ₹ {course.price}</p>

@@ -412,7 +412,10 @@ const CourseDetailsView = () => {
                     </span>
                   </div>
                 ) : (
-                  <span>₹ {Math.round(coursePost?.price)}</span>
+                 <>
+                  <span>₹ {Math.round(coursePost?.price)}</span> 
+                  {coursePost?.title?.toLowerCase().includes("mentorship and answer") && <span className="text-xs text-gray-500">/month</span>}
+                  </>
                 )}
               </div>
 

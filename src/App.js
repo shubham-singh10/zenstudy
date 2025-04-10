@@ -19,6 +19,7 @@ import TestResultSeries from "./studentDashboard/components/testseries/TestResul
 import Demopage from "./studentDashboard/components/Demopage.jsx";
 import NewCourseDetailPage from "./components/course/CourseDetailNew.jsx";
 import LiveCourseDetailStudent from "./studentDashboard/components/LiveCourseDetailsStudent.jsx";
+import NotFound from "./components/NotFound.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -116,9 +117,7 @@ function App() {
             <Route
               path="*"
               element={
-                <div className="text-red-600 lg:text-4xl md:text-3xl text-2xl font-bold flex items-center justify-center h-screen ">
-                  <div>Page Not Found</div>
-                </div>
+               <NotFound />
               }
             />
           </Routes>
