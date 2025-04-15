@@ -50,13 +50,12 @@ const RecentlyAddedCourse = () => {
           }
         };
     
-    
         getcourse();
       }, []);
 
     return (
         <div>
-            <div className="relative lg:mt-20 lg:mb-20 md:mt-15 md:mb-15 mt-10 mb-10">
+           {courses && courses.length === 0 ?  "" : <div className="relative lg:mt-20 lg:mb-20 md:mt-15 md:mb-15 mt-10 mb-10">
                 
                 <animated.h1
                     ref={slideUpRef}
@@ -72,7 +71,7 @@ const RecentlyAddedCourse = () => {
                 <CardSlider 
                     courseData={courses}
                 />
-            </div>
+            </div>}
         </div>
     );
 };

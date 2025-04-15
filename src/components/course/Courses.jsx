@@ -123,7 +123,9 @@ const Courses = () => {
   }, [paginatedData.currentPage, searchText, paginatedData.itemperpage, activeTab, user])
 
   if (loading.mainLoading) {
-    return <Loading />
+    return  <div className="flex flex-wrap justify-center transition-opacity duration-500 ease-in-out">
+          <CourseCardSkeleton count={paginatedData.itemperpage} />
+        </div>
   }
 
   return (
