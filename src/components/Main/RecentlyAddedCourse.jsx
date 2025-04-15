@@ -19,7 +19,7 @@ const RecentlyAddedCourse = () => {
         const getcourse = async () => {
           try {
             const response = await fetch(
-              `${process.env.REACT_APP_API}zenstudy/api/course/getCoursesPNew?page=1&limit=4`,
+              `${process.env.REACT_APP_API}zenstudy/api/course/fetchCoursesWithFilters?page=1&limit=4`,
               {
                 method: "GET",
                 headers: {
@@ -53,6 +53,8 @@ const RecentlyAddedCourse = () => {
         getcourse();
       }, []);
 
+
+      console.log("courses", courses) 
     return (
         <div>
            {courses && courses.length === 0 ?  "" : <div className="relative lg:mt-20 lg:mb-20 md:mt-15 md:mb-15 mt-10 mb-10">

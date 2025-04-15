@@ -43,6 +43,7 @@ const Courses = () => {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
+  console.log("activeTab", activeTab);
   useEffect(() => {
     const fetchData = async () => {
       try {
