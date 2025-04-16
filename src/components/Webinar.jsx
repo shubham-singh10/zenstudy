@@ -16,10 +16,10 @@ import toast from "react-hot-toast";
 const RegistrationForm = ({
   isPopup = false,
   Loading,
-  formData = { name: "", email: "", phone: "" },
-  handleChange = () => {},
-  handleSubmit = () => {},
-  closePopup = () => {},
+  formData = { name: "", email: "", phone: "", education: "", customEducation: "" },
+  handleChange = () => { },
+  handleSubmit = () => { },
+  closePopup = () => { },
 }) => (
   <div
     className={`bg-white rounded-lg shadow-lg p-8 ${isPopup ? "relative" : ""}`}
@@ -96,48 +96,55 @@ const RegistrationForm = ({
 
 
       <div>
-  <label
-    htmlFor="education"
-    className="block text-sm font-medium text-gray-700"
-  >
-    Educational Qualification
-  </label>
-  <select
-    id="education"
-    name="education"
-    required
-    value={formData.education}
-    onChange={handleChange}
-    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm outline-none focus:border-blue-500 focus:ring-blue-500 px-4 py-2 border"
-  >
-    <option value="">Select your qualification</option>
-    <option value="school">School</option>
-    <option value="college">College</option>
-    <option value="working">Working</option>
-    <option value="others">Others</option>
-  </select>
-</div>
-
-    <div>
-     { formData.education === "others" && (
-        <input
-          type="text"
+        <label
+          htmlFor="education"
+          className="block text-sm font-medium text-gray-700"
+        >
+          What are you doing now?
+        </label>
+        <select
           id="education"
           name="education"
           required
+          value={formData.education}
           onChange={handleChange}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm outline-none focus:border-blue-500 focus:ring-blue-500 px-4 py-2 border"
-          placeholder="Enter your phone number"
-        />
-      )}
-            
-    </div>
+        >
+          <option value="">Please Select</option>
+          <option value="school">School</option>
+          <option value="college">College</option>
+          <option value="working">Working</option>
+          <option value="others">Others</option>
+        </select>
+      </div>
 
-     {Loading ?  <button
-      className="w-full cursor-not-allowed bg-red-600 text-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
-    >
-      Please Wait...
-    </button> : <button
+      {formData.education === "others" && (
+        <div className="mt-4">
+          <label
+            htmlFor="customEducation"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Please specify
+          </label>
+          <input
+            type="text"
+            id="customEducation"
+            name="customEducation"
+            required
+            value={formData.customEducation || ""}
+            onChange={handleChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm outline-none focus:border-blue-500 focus:ring-blue-500 px-4 py-2 border"
+            placeholder="Enter your qualification"
+          />
+        </div>
+      )}
+
+
+      {Loading ? <button
+        className="w-full cursor-not-allowed bg-red-600 text-white rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
+      >
+        Please Wait...
+      </button> : <button
         type="submit"
         className="w-full bg-blue-600 text-white rounded-md py-3 px-4 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
       >
@@ -155,6 +162,8 @@ function Webinar() {
     name: "",
     email: "",
     phone: "",
+    education: "",
+    customEducation: ""
   });
 
   useEffect(() => {
@@ -170,38 +179,55 @@ function Webinar() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setFormSubmitted(true);
-    setLoading(true);
-    setShowPopup(false);
-    localStorage.setItem("hasClosedPopup", "true");
-    const data = {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      type: "webinar",
-    };
-    const res = await axios.post(
-      `${process.env.REACT_APP_API2}zenstudy/api/contact`,
-      data,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
+
+    try {
+      setFormSubmitted(true);
+      setLoading(true);
+      setShowPopup(false);
+      localStorage.setItem("hasClosedPopup", "true");
+
+      const data = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        type: "webinar",
+        message:
+          formData.education === "others"
+            ? formData.customEducation
+            : formData.education,
+      };
+
+      const res = await axios.post(
+        `${process.env.REACT_APP_API2}zenstudy/api/contact`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (res.status === 201) {
+        toast.success("Registration successful! Check your email for details.");
+        // Clear form only on success
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          education: "",
+          customEducation: "",
+        });
+      } else {
+        toast.error("Registration failed. Please try again.");
       }
-    );
-    console.log(res.data);
-    setLoading(false);
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-    });
-    if (res.status === 201) {
-      toast.success("Registration successful! Check your email for details.");
-    } else {
-      toast.error("Registration failed. Please try again.");
+    } catch (err) {
+      console.error("Submission error:", err);
+      toast.error("Something went wrong. Please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
+
 
   const handleChange = (e) => {
     setFormData({
@@ -257,7 +283,7 @@ function Webinar() {
             <Loader fill="#fff" />
           </div>
         </div>
-      )} 
+      )}
 
       {/* Hero Section */}
       <div className="relative overflow-hidden">
@@ -437,11 +463,11 @@ function Webinar() {
               </p>
             </div>
           ) : (
-            <RegistrationForm  formData={formData}
-            Loading={Loading}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
-            closePopup={closePopup}/>
+            <RegistrationForm formData={formData}
+              Loading={Loading}
+              handleChange={handleChange}
+              handleSubmit={handleSubmit}
+              closePopup={closePopup} />
           )}
         </div>
       </div>

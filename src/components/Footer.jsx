@@ -9,10 +9,12 @@ const Footer = () => {
   const date = new Date();
   const [nameFocused, setNameFocused] = useState(false);
   const [emailFocused, setEmailFocused] = useState(false);
+  const [phoneFocused, setPhoneFocused] = useState(false);
   const [messageFocused, setMessageFocused] = useState(false);
   const [Loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
+    phone: "",
     email: "",
     message: "",
   });
@@ -25,7 +27,7 @@ const Footer = () => {
       [name]: value,
     }));
 
-  
+
   };
 
   const onSubmit = async (e) => {
@@ -36,10 +38,12 @@ const Footer = () => {
       const sendData = {
         name: formData.fullName,
         email: formData.email,
+        phone: formData.phone,
+        type: "enquiry",
         message: formData.message,
       };
       const response = await fetch(
-        `${process.env.REACT_APP_API}zenstudy/api/contact`,
+        `${process.env.REACT_APP_API2}zenstudy/api/contact`,
         {
           method: "POST",
           headers: {
@@ -70,7 +74,7 @@ const Footer = () => {
     }
 
     // Clear form data
-    setFormData({ fullName: "", email: "", message: "" });
+    setFormData({ fullName: "", email: "", message: "", phone: "" });
   };
 
   return (
@@ -211,6 +215,20 @@ const Footer = () => {
                   className="p-2 border w-full text-gray-600 bg-[#cadefb] border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 placeholder-gray-500"
                   onFocus={() => setEmailFocused(true)}
                   onBlur={() => setEmailFocused(false)}
+                  onChange={(e) => handleChange(e)}
+                  required
+                />
+              </div>
+
+              <div className="relative">
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  placeholder={!phoneFocused ? "Enter your phone" : ""}
+                  className="p-2 border w-full text-gray-600 bg-[#cadefb] border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 placeholder-gray-500"
+                  onFocus={() => setPhoneFocused(true)}
+                  onBlur={() => setPhoneFocused(false)}
                   onChange={(e) => handleChange(e)}
                   required
                 />

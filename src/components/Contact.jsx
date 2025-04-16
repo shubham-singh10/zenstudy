@@ -52,12 +52,14 @@ const ContactUs = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
+    phone: "",
     message: "",
   });
   const [Loading, setLoading] = useState(false);
 
   const [errors, setErrors] = useState({
     email: "",
+    phone: ""
   });
 
   // Handle form change
@@ -81,7 +83,16 @@ const ContactUs = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     let valid = true;
-
+    // Check if any field is empty
+    if (!formData.fullName || !formData.email || !formData.phone || !formData.message) {
+      Swal.fire({
+        icon: "warning",
+        title: "Please fill all the fields!",
+        timer: 2500,
+      });
+      return;
+    }
+    
     // Email validation
     if (!validateEmail(formData.email)) {
       setErrors((prevErrors) => ({
@@ -97,10 +108,12 @@ const ContactUs = () => {
         const sendData = {
           name: formData.fullName,
           email: formData.email,
+          phone: formData.phone,
+          type: "enquiry",
           message: formData.message,
         };
         const response = await fetch(
-          `${process.env.REACT_APP_API}zenstudy/api/contact`,
+          `${process.env.REACT_APP_API2}zenstudy/api/contact`,
           {
             method: "POST",
             headers: {
@@ -135,6 +148,7 @@ const ContactUs = () => {
         fullName: "",
         email: "",
         message: "",
+        phone: ""
       });
     }
   };
@@ -166,7 +180,7 @@ const ContactUs = () => {
                 <FaLocationDot />
               </i>{" "}
               7/46, Shankar Rd, Block 7, Old Rajinder Nagar, Rajinder Nagar, New
-              Delhi, Delhi, 110060
+              Delhi, Delhi, 110060
             </p>
           </div>
           <h3 className="text-2xl font-bold mb-4">Connect with us</h3>
@@ -236,6 +250,18 @@ const ContactUs = () => {
                 label="Enter Your Email"
                 error={!!errors.email}
                 helperText={errors.email}
+                variant="outlined"
+              />
+              <TextField
+                className="w-full"
+                id="outlined-basic"
+                name="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={handleChange}
+                label="Enter Your Phone"
+                error={!!errors.phone}
+                helperText={errors.phone}
                 variant="outlined"
               />
               <TextField
