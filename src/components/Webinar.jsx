@@ -101,6 +101,27 @@ const RegistrationForm = ({
           htmlFor="education"
           className="block text-sm font-medium text-gray-700"
         >
+          Are you a student or parent?
+        </label>
+        <select
+          id="userInfo"
+          name="userInfo"
+          required
+          value={formData.userInfo}
+          onChange={handleChange}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm outline-none focus:border-blue-500 focus:ring-blue-500 px-4 py-2 border"
+        >
+          <option value="">Please Select</option>
+          <option value="student">Student</option>
+          <option value="parent">Parent</option>
+        </select>
+      </div>
+
+      <div>
+        <label
+          htmlFor="education"
+          className="block text-sm font-medium text-gray-700"
+        >
           What are you doing now?
         </label>
         <select
@@ -164,7 +185,8 @@ function Webinar() {
     email: "",
     phone: "",
     education: "",
-    customEducation: ""
+    customEducation: "",
+    userInfo: "",
   });
 
   useEffect(() => {
@@ -192,6 +214,7 @@ function Webinar() {
         email: formData.email,
         phone: formData.phone,
         type: "webinar",
+        others: formData.userInfo,
         message:
           formData.education === "others"
             ? formData.customEducation
@@ -217,6 +240,7 @@ function Webinar() {
           phone: "",
           education: "",
           customEducation: "",
+          userInfo:"",
         });
       } else {
         toast.error("Registration failed. Please try again.");
