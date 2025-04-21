@@ -310,38 +310,37 @@ function Webinar() {
         </div>
       )}
 
-         {/* Hero Section */}
-         <div className="relative overflow-hidden">
-         <div className="absolute inset-0">
-           <img
-             src="https://images.unsplash.com/photo-1606761568499-6d2451b23c66?auto=format&fit=crop&q=80"
-             alt="Background"
-             className="w-full h-full object-cover opacity-20"
-           />
-         </div>
- 
-         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-           <div className="text-center">
-             <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-               Thinking beyond degrees: Crafting careers with Imagination and
-               UPSC vision
-             </h3>
-             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-               Join our comprehensive webinar to learn about new form of
-               education that could spark curosity and imaginative learning,
-               where we help to reimagine your future.
-             </p>
-             <div className="mt-8">
-               <button
-                 onClick={() => setShowPopup(true)}
-                 className="inline-block bg-blue-600 text-white rounded-full px-8 py-4 text-lg font-semibold hover:bg-blue-700 transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-               >
-                 Reserve Your Spot Now
-               </button>
-             </div>
-           </div>
-         </div>
-       </div>
+        {/* Hero Section */}
+<div className="relative overflow-hidden">
+{/* Banner Image */}
+<div className="w-full">
+  <img
+    src="../assets/webinar.png"
+    alt="Background"
+    className="w-full h-auto object-cover"
+  />
+</div>
+
+{/* Text and Button Section */}
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center bg-white">
+  <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-6">
+    Thinking Beyond Degrees: <br />
+    <span className="text-blue-600">Crafting Careers with Imagination & UPSC Vision</span>
+  </h3>
+  <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+    Join our exclusive webinar and discover a revolutionary approach to education that inspires curiosity and fuels imaginative learning. Let us help you reimagine your future.
+  </p>
+  <div className="mt-10">
+    <button
+      onClick={() => setShowPopup(true)}
+      className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full px-10 py-4 text-lg font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
+    >
+      🎓 Reserve Your Spot Now
+    </button>
+  </div>
+</div>
+</div>
+
  
        {/* Features Section */}
        <div className="py-16 bg-white">
