@@ -240,7 +240,7 @@ function Webinar() {
           phone: "",
           education: "",
           customEducation: "",
-          userInfo:"",
+          userInfo: "",
         });
       } else {
         toast.error("Registration failed. Please try again.");
@@ -310,236 +310,236 @@ function Webinar() {
         </div>
       )}
 
-        {/* Hero Section */}
-<div className="relative overflow-hidden">
-{/* Banner Image */}
-<div className="w-full">
-  <img
-    src="../assets/webinar.png"
-    alt="Background"
-    className="w-full h-auto object-cover"
-  />
-</div>
+      {/* Hero Section */}
+      <div className="relative overflow-hidden">
+        {/* Banner Image */}
+        <div className="w-full">
+          <img
+            src="../assets/webinar.png"
+            alt="Background"
+            className="w-full h-auto object-cover"
+          />
+        </div>
 
-{/* Text and Button Section */}
-<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center bg-white">
-  <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-6">
-    Thinking Beyond Degrees: <br />
-    <span className="text-blue-600">Crafting Careers with Imagination & UPSC Vision</span>
-  </h3>
-  <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-    Join our exclusive webinar and discover a revolutionary approach to education that inspires curiosity and fuels imaginative learning. Let us help you reimagine your future.
-  </p>
-  <div className="mt-10">
-    <button
-      onClick={() => setShowPopup(true)}
-      className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full px-10 py-4 text-lg font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
-    >
-      🎓 Reserve Your Spot Now
-    </button>
-  </div>
-</div>
-</div>
+        {/* Text and Button Section */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center bg-white">
+          <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-6">
+            Thinking Beyond Degrees: <br />
+            <span className="text-blue-600">Crafting Careers with Imagination & UPSC Vision</span>
+          </h3>
+          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Join our exclusive webinar and discover a revolutionary approach to education that inspires curiosity and fuels imaginative learning. Let us help you reimagine your future.
+          </p>
+          <div className="mt-10">
+            <button
+              onClick={() => setShowPopup(true)}
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full px-10 py-4 text-lg font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
+            >
+              🎓 Reserve Your Spot Now
+            </button>
+          </div>
+        </div>
+      </div>
 
- 
-       {/* Features Section */}
-       <div className="py-16 bg-white">
-         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-             <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">
-               <BiCalendar className="w-8 h-8 text-blue-600" />
-               <div>
-                 <h3 className="font-semibold">Date</h3>
-                 <p>April 27, 2025</p>
-               </div>
-             </div>
-             <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">
-               <FaClock className="w-8 h-8 text-blue-600" />
-               <div>
-                 <h3 className="font-semibold">Duration</h3>
-                 <p>7pm , 2 Hours</p>
-               </div>
-             </div>
-             <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">
-               <BiMapPin className="w-8 h-8 text-blue-600" />
-               <div>
-                 <h3 className="font-semibold">Platform</h3>
-                 <p>Online (Zoom)</p>
-               </div>
-             </div>
-             <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">
-               <BiBookOpen className="w-8 h-8 text-blue-600" />
-               <div>
-                 <h3 className="font-semibold">Language</h3>
-                 <p>English & Hindi</p>
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
- 
-       {/* Why Join Section */}
-       <div className="py-16 bg-gray-50">
-         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-           <div className="text-center mb-12">
-             <h2 className="text-3xl font-bold text-gray-900">
-               Why Join This Webinar?
-             </h2>
-             <p className="mt-4 text-lg text-gray-600">
-               Discover how our expert-led session can transform your UPSC
-               preparation journey
-             </p>
-           </div>
-           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-             <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200">
-               <FiTarget className="w-12 h-12 text-blue-600 mb-4" />
-               <h3 className="text-xl font-semibold mb-3">Strategic Approach</h3>
-               <p className="text-gray-600">
-                 Learn proven techniques and methodologies to tackle the UPSC
-                 syllabus effectively
-               </p>
-             </div>
-             <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200">
-               <BiAward className="w-12 h-12 text-blue-600 mb-4" />
-               <h3 className="text-xl font-semibold mb-3">Expert Guidance</h3>
-               <p className="text-gray-600">
-                 Get insights from top educators and successful UPSC candidates
-               </p>
-             </div>
-             <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200">
-               <FaUsers className="w-12 h-12 text-blue-600 mb-4" />
-               <h3 className="text-xl font-semibold mb-3">
-                 Interactive Session
-               </h3>
-               <p className="text-gray-600">
-                 Engage in Q&A sessions and get your doubts cleared by experts
-               </p>
-             </div>
-           </div>
-         </div>
-       </div>
- 
-       {/* What You'll Get Section */}
-       <div className="py-16 bg-white">
-         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-           <div className="text-center mb-12">
-             <h2 className="text-3xl font-bold text-gray-900">
-               What You'll Get
-             </h2>
-             <p className="mt-4 text-lg text-gray-600">
-               By attending this webinar, you're not just gaining clarity —
-               you're getting real value to kickstart your journey with ZenStudy:
-             </p>
-           </div>
-           <div className="grid md:grid-cols-2 gap-8">
-             <div className="flex items-start space-x-4">
-               <BiBook className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
-               <div>
-                 <h3 className="font-semibold text-lg mb-2">
-                   Free Career Clarity & UPSC Guidance
-                 </h3>
- 
-                 <div className="flex items-start gap-1 text-gray-600 mb-1">
-                   <span className="mt-1">
-                     <VscDebugBreakpointLog />
-                   </span>
-                   <p>Discover the best career paths after Class 12.</p>
-                 </div>
- 
-                 <div className="flex items-start gap-1 text-gray-600 mb-1">
-                   <span className="mt-1">
-                     <VscDebugBreakpointLog />
-                   </span>
-                   <p>Understand how to prepare for UPSC from an early stage.</p>
-                 </div>
- 
-                 <div className="flex items-start gap-1 text-gray-600">
-                   <span className="mt-1">
-                     <VscDebugBreakpointLog />
-                   </span>
-                   <p>
-                     Learn how ZenStudy is reshaping education with imagination.
-                   </p>
-                 </div>
-               </div>
-             </div>
-             <div className="flex items-start space-x-4">
-               <BiBook className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
-               <div>
-                 <h3 className="font-semibold text-lg mb-2">
-                   Exclusive Access to Our Learning Platform
-                 </h3>
-                 <div className="flex items-start gap-1 text-gray-600 mb-1">
-                   <span className="mt-1">
-                     <VscDebugBreakpointLog />
-                   </span>
-                   <p>Get free access to ZenStudy’s website dashboard.</p>
-                 </div>
- 
-                 <div className="flex items-start gap-1 text-gray-600 mb-1">
-                   <span className="mt-1">
-                     <VscDebugBreakpointLog />
-                   </span>
-                   <p>
-                     Explore our features, notes, and learning tools built for
-                     UPSC aspirants.
-                   </p>
-                 </div>
-               </div>
-             </div>
-             <div className="flex items-start space-x-4">
-               <BiBook className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
-               <div>
-                 <h3 className="font-semibold text-lg mb-2">
-                   Special Discount on Our UPSC Foundation Batch
-                 </h3>
-                 <div className="flex items-start gap-1 text-gray-600 mb-1">
-                   <span className="mt-1">
-                     <VscDebugBreakpointLog />
-                   </span>
-                   <p>
-                     Receive a special discount on our upcoming UPSC Foundation
-                     Batch.
-                   </p>
-                 </div>
-                 <div className="flex items-start gap-1 text-gray-600 mb-1">
-                   <span className="mt-1">
-                     <VscDebugBreakpointLog />
-                   </span>
-                   <p>
-                     Start strong with structured classes, mentorship, and expert
-                     guidance.
-                   </p>
-                 </div>
-               </div>
-             </div>
-             <div className="flex items-start space-x-4">
-               <BiBook className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
-               <div>
-                 <h3 className="font-semibold text-lg mb-2">
-                   Free Access to Premium Recorded Courses
-                 </h3>
-                 <div className="flex items-start gap-1 text-gray-600 mb-1">
-                   <span className="mt-1">
-                     <VscDebugBreakpointLog />
-                   </span>
-                   <p>Get 100% free access to select recorded video courses.</p>
-                 </div>
-                 <div className="flex items-start gap-1 text-gray-600 mb-1">
-                   <span className="mt-1">
-                     <VscDebugBreakpointLog />
-                   </span>
-                   <p>
-                     {" "}
-                     These are paid courses we are offering exclusively to
-                     webinar attendees.
-                   </p>
-                 </div>
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
+
+      {/* Features Section */}
+      <div className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">
+              <BiCalendar className="w-8 h-8 text-blue-600" />
+              <div>
+                <h3 className="font-semibold">Date</h3>
+                <p>April 27, 2025</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">
+              <FaClock className="w-8 h-8 text-blue-600" />
+              <div>
+                <h3 className="font-semibold">Duration</h3>
+                <p>7pm - 8pm</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">
+              <BiMapPin className="w-8 h-8 text-blue-600" />
+              <div>
+                <h3 className="font-semibold">Platform</h3>
+                <p>Online (Zoom)</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">
+              <BiBookOpen className="w-8 h-8 text-blue-600" />
+              <div>
+                <h3 className="font-semibold">Language</h3>
+                <p>English & Hindi</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Why Join Section */}
+      <div className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900">
+              Why Join This Webinar?
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">
+              Discover how our expert-led session can transform your UPSC
+              preparation journey
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200">
+              <FiTarget className="w-12 h-12 text-blue-600 mb-4" />
+              <h3 className="text-xl font-semibold mb-3">Strategic Approach</h3>
+              <p className="text-gray-600">
+                Learn proven techniques and methodologies to tackle the UPSC
+                syllabus effectively
+              </p>
+            </div>
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200">
+              <BiAward className="w-12 h-12 text-blue-600 mb-4" />
+              <h3 className="text-xl font-semibold mb-3">Expert Guidance</h3>
+              <p className="text-gray-600">
+                Get insights from top educators and successful UPSC candidates
+              </p>
+            </div>
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200">
+              <FaUsers className="w-12 h-12 text-blue-600 mb-4" />
+              <h3 className="text-xl font-semibold mb-3">
+                Interactive Session
+              </h3>
+              <p className="text-gray-600">
+                Engage in Q&A sessions and get your doubts cleared by experts
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* What You'll Get Section */}
+      <div className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900">
+              What You'll Get
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">
+              By attending this webinar, you're not just gaining clarity —
+              you're getting real value to kickstart your journey with ZenStudy:
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="flex items-start space-x-4">
+              <BiBook className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="font-semibold text-lg mb-2">
+                  Free Career Clarity & UPSC Guidance
+                </h3>
+
+                <div className="flex items-start gap-1 text-gray-600 mb-1">
+                  <span className="mt-1">
+                    <VscDebugBreakpointLog />
+                  </span>
+                  <p>Discover the best career paths after Class 12.</p>
+                </div>
+
+                <div className="flex items-start gap-1 text-gray-600 mb-1">
+                  <span className="mt-1">
+                    <VscDebugBreakpointLog />
+                  </span>
+                  <p>Understand how to prepare for UPSC from an early stage.</p>
+                </div>
+
+                <div className="flex items-start gap-1 text-gray-600">
+                  <span className="mt-1">
+                    <VscDebugBreakpointLog />
+                  </span>
+                  <p>
+                    Learn how ZenStudy is reshaping education with imagination.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-start space-x-4">
+              <BiBook className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="font-semibold text-lg mb-2">
+                  Exclusive Access to Our Learning Platform
+                </h3>
+                <div className="flex items-start gap-1 text-gray-600 mb-1">
+                  <span className="mt-1">
+                    <VscDebugBreakpointLog />
+                  </span>
+                  <p>Get free access to ZenStudy’s website dashboard.</p>
+                </div>
+
+                <div className="flex items-start gap-1 text-gray-600 mb-1">
+                  <span className="mt-1">
+                    <VscDebugBreakpointLog />
+                  </span>
+                  <p>
+                    Explore our features, notes, and learning tools built for
+                    UPSC aspirants.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-start space-x-4">
+              <BiBook className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="font-semibold text-lg mb-2">
+                  Special Discount on Our UPSC Foundation Batch
+                </h3>
+                <div className="flex items-start gap-1 text-gray-600 mb-1">
+                  <span className="mt-1">
+                    <VscDebugBreakpointLog />
+                  </span>
+                  <p>
+                    Receive a special discount on our upcoming UPSC Foundation
+                    Batch.
+                  </p>
+                </div>
+                <div className="flex items-start gap-1 text-gray-600 mb-1">
+                  <span className="mt-1">
+                    <VscDebugBreakpointLog />
+                  </span>
+                  <p>
+                    Start strong with structured classes, mentorship, and expert
+                    guidance.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-start space-x-4">
+              <BiBook className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="font-semibold text-lg mb-2">
+                  Free Access to Premium Recorded Courses
+                </h3>
+                <div className="flex items-start gap-1 text-gray-600 mb-1">
+                  <span className="mt-1">
+                    <VscDebugBreakpointLog />
+                  </span>
+                  <p>Get 100% free access to select recorded video courses.</p>
+                </div>
+                <div className="flex items-start gap-1 text-gray-600 mb-1">
+                  <span className="mt-1">
+                    <VscDebugBreakpointLog />
+                  </span>
+                  <p>
+                    {" "}
+                    These are paid courses we are offering exclusively to
+                    webinar attendees.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Registration Form */}
       <div id="register" className="py-16">
