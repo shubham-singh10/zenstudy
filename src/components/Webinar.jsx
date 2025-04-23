@@ -13,6 +13,7 @@ import { LuCheckCircle2 } from "react-icons/lu";
 import { Loader } from "./loader/Loader";
 import toast from "react-hot-toast";
 import { VscDebugBreakpointLog } from "react-icons/vsc";
+import { usePageTracking } from "../usePageTracking";
 
 const RegistrationForm = ({
   isPopup = false,
@@ -177,6 +178,9 @@ const RegistrationForm = ({
 );
 
 function Webinar() {
+  // Track page view for Google Analytics
+  usePageTracking();
+
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [Loading, setLoading] = useState(false);
@@ -203,6 +207,11 @@ function Webinar() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    window.gtag('event', 'form_submission', {
+      event_category: 'Webinar',
+      event_label: 'Register Form',
+    });
+    
     try {
       setFormSubmitted(true);
       setLoading(true);
@@ -310,16 +319,16 @@ function Webinar() {
         </div>
       )}
 
-        {/* Hero Section */}
-<div className="relative overflow-hidden">
-{/* Banner Image */}
-<div className="w-full">
-  <img
-    src="../assets/webinar2.png"
-    alt="Background"
-    className="w-full h-auto object-cover"
-  />
-</div>
+      {/* Hero Section */}
+      <div className="relative overflow-hidden">
+        {/* Banner Image */}
+        <div className="w-full">
+          <img
+            src="../assets/webinar.png"
+            alt="Background"
+            className="w-full h-auto object-cover"
+          />
+        </div>
 
         {/* Text and Button Section */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center bg-white">
