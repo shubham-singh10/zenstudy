@@ -324,7 +324,7 @@ function Webinar() {
         {/* Banner Image */}
         <div className="w-full">
           <img
-            src="../assets/webinar.png"
+            src="../assets/webinar2.png"
             alt="Background"
             className="w-full h-auto object-cover"
           />
