@@ -1,51 +1,70 @@
-import React, { useEffect, useRef } from 'react';
-import shaka from 'shaka-player';
+import { useEffect, useRef } from "react";
+import shaka from "shaka-player";
 
-const ShakaPlayerComponent = () => {
+export const VideoPlayer = ({ videopath, thumbnailUrl }) => {
   const videoRef = useRef(null);
   const playerRef = useRef(null);
 
   useEffect(() => {
-    shaka.polyfill.installAll();
+    const loadShaka = async () => {
+      try {
+        if (!videoRef.current) {
+          console.error("Video element not found!");
+          return;
+        }
 
-    if (shaka.Player.isBrowserSupported()) {
-      const video = videoRef.current;
-      const player = new shaka.Player(video);
+        // Initialize Shaka
+        shaka.polyfill.installAll();
 
-      playerRef.current = player;
+        if (!shaka.Player.isBrowserSupported()) {
+          console.error("Shaka Player is not supported on this browser.");
+          return;
+        }
 
-      player.addEventListener('error', (e) => {
-        console.error('Shaka Player Error:', e.detail);
-      });
+        const response = await fetch(
+          `${process.env.REACT_APP_API}zenstudy/api/course/get-signed-url?videoPath=${videopath}`
+        );
+        const data = await response.json();
+        console.log("Response:", data);
+        const fetchedManifestUrl = data.signedUrl;
 
-      // Test with demo URL
-      player
-        .load('https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd')
-        .then(() => console.log('The video has been loaded!'))
-        .catch((e) => console.error('Error loading video:', e));
-    } else {
-      console.error('Browser not supported!');
-    }
+        if (!fetchedManifestUrl) {
+          console.error("Failed to get signed URL for video.");
+          return;
+        }
+
+        const player = new shaka.Player(videoRef.current);
+        playerRef.current = player;
+
+        // Optional: you can add error event listener
+        // player.addEventListener("error", (event) => {
+        //   console.error("Shaka Player error:", event.detail);
+        // });
+
+        await player.load(fetchedManifestUrl);
+      } catch (err) {
+        console.error("Failed to load Shaka Player or fetch signed URL:", err);
+      }
+    };
+
+    loadShaka();
 
     return () => {
       if (playerRef.current) {
         playerRef.current.destroy();
       }
     };
-  }, []);
+  }, [videopath]);
 
   return (
-    <div className='video-container' style={{ maxWidth: '800px', margin: '0 auto' }}>
-      <video
-        ref={videoRef}
-        width="100%"
-        controls
-        autoPlay
-        muted
-        style={{ maxWidth: '100%', borderRadius: '8px' }}
-      />
-    </div>
+    <video
+      ref={videoRef}
+      controls
+      // autoPlay
+      className="w-full h-full rounded-lg"
+      controlsList="nodownload"
+      onContextMenu={(e) => e.preventDefault()}
+      // poster={thumbnailUrl}
+    />
   );
 };
-
-export default ShakaPlayerComponent;

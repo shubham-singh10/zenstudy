@@ -12,6 +12,7 @@ import VerifyEmailMsg from "../VerifyEmailMsg"
 import { Loader } from "../loader/Loader"
 import CoursePageSkeleton from "./course-detailslive-skeleton"
 import toast from "react-hot-toast"
+import { VideoPlayer } from "../VideoPage"
 
 // Combine all imported icon sets
 const AllIcons = { ...MdIcons, ...BiIcons }
@@ -419,13 +420,16 @@ const LiveCourseDetailsPage = () => {
           <div className="w-full lg:w-[60%] bg-white p-2 md:p-3 lg:p-6">
             {/* Sections corresponding to tabs */}
             <div ref={featuresRef} className="py-8">
-              <iframe
-                title={CoursesData.title}
-                src={`https://player.vdocipher.com/v2/?otp=${CoursesData?.previewVideo?.previewVideoUrl}&playbackInfo=${CoursesData?.previewVideo?.previewVideoDescription}`}
-                className="w-full h-96"
-                allowFullScreen
-                allow="encrypted-media"
-              ></iframe>
+              {
+              //   <iframe
+              //   title={CoursesData.title}
+              //   src={`https://player.vdocipher.com/v2/?otp=${CoursesData?.previewVideo?.previewVideoUrl}&playbackInfo=${CoursesData?.previewVideo?.previewVideoDescription}`}
+              //   className="w-full h-96"
+              //   allowFullScreen
+              //   allow="encrypted-media"
+              // ></iframe>
+              }
+                      <VideoPlayer videopath={CoursesData?.previewVideo?.previewVideoDescription}  />              
             </div>
 
             <div ref={aboutRef} className="py-8 ">

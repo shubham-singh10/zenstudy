@@ -63,8 +63,7 @@ function App() {
           <Routes>
             {/* Public Routes */}
             <Route element={<MainLayout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/video" element={<VideoPage />} />
+              <Route path="/" element={<Home />} />            
               <Route path="/about" element={<About />} />
               <Route path="/webinar" element={<Webinar />} />
               <Route path="/ourteam" element={<OurTeam />} />
