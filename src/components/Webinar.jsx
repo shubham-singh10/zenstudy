@@ -319,59 +319,67 @@ function Webinar() {
         </div>
       )}
 
-  {/* Hero Section */}
-<div className="relative overflow-hidden bg-gradient-to-r from-blue-50 via-white to-blue-50 py-10">
-{/* Banner Image and Date */}
-<div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center max-w-7xl mx-auto px-6 lg:px-6 md:px-6">
+{/* Hero Section */}
+<div className="relative overflow-hidden bg-gradient-to-br from-blue-100 via-white to-blue-100 py-16">
+  {/* Banner Image and Date */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch max-w-7xl mx-auto px-6">
   
   {/* Image */}
-  <div className="overflow-hidden rounded-3xl shadow-lg">
+  <div className="overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition duration-500 h-full">
     <img
       src="../assets/webinar2.png"
       alt="Webinar Banner"
-      className="w-full h-full object-contain hover:scale-105 transition-transform duration-500"
+      className="w-full h-full object-fill hover:scale-105 transition-transform duration-500"
     />
   </div>
 
   {/* Date Card */}
-  <div className="backdrop-blur-md bg-white/70 p-8 rounded-3xl shadow-md hover:shadow-xl transition duration-300">
-    <div className="flex flex-wrap gap-2 justify-center items-center space-x-6">
-      <BiCalendar className="w-12 h-12 text-blue-600" />
-      <div>
-        <h3 className="text-2xl font-bold text-gray-800">Date</h3>
-        <p className="text-gray-600 text-lg">April 27, 2025</p>
-      </div>
-      <button
-      onClick={() => setShowPopup(true)}
-      className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full px-10 py-4 text-sm font-semibold shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
-    >
-      🎓 Reserve Your Spot Now
-    </button>
+  <div className="backdrop-blur-md bg-white/80 border border-gray-200 p-10 rounded-3xl shadow-md hover:shadow-xl transition duration-300 h-full flex flex-col justify-between">
+    <div>
+    <div className="flex items-center justify-center gap-6 mb-6 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 shadow-lg">
+    <div className="flex-shrink-0">
+      <BiCalendar className="w-14 h-14 text-blue-700 drop-shadow-md" />
     </div>
-    <p className="mt-6 text-gray-500 leading-relaxed">
-      Save the date! Join us for a transformative webinar experience designed for future leaders and thinkers.
-    </p>
-   
-  
+    <div className="text-center">
+      <h3 className="text-2xl md:text-2xl font-medium text-blue-800 mb-1">
+        Save the Date!
+      </h3>
+      <p className="text-lg md:text-3xl font-extrabold text-gray-700 ">
+      27,  April , 2025
+      </p>
+    </div>
+  </div>
+
+      <p className="text-gray-700 text-base leading-relaxed mb-6 text-center">
+        📌 Save the date! Join us for a transformative webinar designed for future leaders and thinkers.
+      </p>
+    </div>
+
+    <div className="flex justify-center items-center mt-2">
+      <button
+        onClick={() => setShowPopup(true)}
+        className="w-full animate-glow px-8 py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full shadow-lg hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transition-transform duration-300"
+      > 
+        <span className="inline-block animate-bounce">🎓 Reserve Your Spot Now</span>
+      </button>
+    </div>
   </div>
 </div>
 
-{/* Hero Text and Button */}
-<div className="text-center mt-16 px-6">
-  <h1 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight mb-6">
-    Thinking Beyond Degrees: <br />
-    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-      Crafting Careers with Imagination & UPSC Vision
-    </span>
-  </h1>
-  <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-    Join our exclusive webinar and discover a revolutionary approach to education that sparks curiosity and fuels imaginative learning. Reimagine your future with us!
-  </p>
-  
-</div>
-</div>
 
-
+  {/* Hero Text and Button */}
+  <div className="text-center mt-20 px-6">
+    <h1 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight mb-6">
+      Thinking Beyond Degrees: <br />
+      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+        Crafting Careers with Imagination & UPSC Vision
+      </span>
+    </h1>
+    <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+      🚀 Join our exclusive webinar and discover a revolutionary approach to education that sparks curiosity and fuels imaginative learning. Reimagine your future with us!
+    </p>
+  </div>
+</div>
 
       {/* Features Section */}
       <div className="py-16 bg-white">
