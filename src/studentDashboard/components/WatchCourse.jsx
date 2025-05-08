@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { FiArrowLeft, FiChevronDown, FiChevronRight, FiFileText, FiPlay, FiStar } from 'react-icons/fi';
 import { useAuth } from '../../context/auth-context';
+import { DashVideoPlayer } from './DashVideoPlayer';
 
 const WatchCourse = () => {
   const [activeTab, setActiveTab] = useState('about');
@@ -20,8 +21,13 @@ const WatchCourse = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth()
-
+  const [loading, setLoading] = useState({
+    course: false,
+    reviews: false,
+  });
+  
   const fetchReviews = useCallback(async (courseId) => {
+    setLoading(prev => ({ ...prev, reviews: true }));
     try {
       const response = await axios.get(`${process.env.REACT_APP_API}zenstudy/api/course/${courseId}/getReviews`);
       const reviews = response.data.reviews.map((review) => ({
@@ -37,19 +43,20 @@ const WatchCourse = () => {
       }
     } catch (error) {
       console.error('Error fetching reviews:', error);
+    } finally {
+      setLoading(prev => ({ ...prev, reviews: false }));
     }
   }, [user?._id]);
-
-
+  
   useEffect(() => {
     const fetchCourseData = async () => {
+      setLoading(prev => ({ ...prev, course: true }));
       try {
         const response = await axios.post(`${process.env.REACT_APP_API}zenstudy/api/payment/watchCourse`, { id });
         setCourses(response.data.response?.modules || []);
-     
+  
         if (response.data.response?.course._id) {
-          fetchReviews(response.data.response.course._id);
-          // Simulating fetching materials
+          await fetchReviews(response.data.response.course._id);
           setMaterials([
             { id: 1, name: 'Course Syllabus', type: 'pdf' },
             { id: 2, name: 'Supplementary Reading', type: 'pdf' },
@@ -59,11 +66,14 @@ const WatchCourse = () => {
       } catch (error) {
         console.error('Error fetching course data:', error);
         navigate('/mycourse');
+      } finally {
+        setLoading(prev => ({ ...prev, course: false }));
       }
     };
-
+  
     fetchCourseData();
   }, [id, navigate, fetchReviews]);
+  
 
   useEffect(() => {
     if (courses.length > 0) {
@@ -126,13 +136,18 @@ const WatchCourse = () => {
           <div className="lg:col-span-2 space-y-6">
             {/* Video Player */}
             <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-lg">
-              <iframe
-                title={selectedVideoTitle}
-                src={`https://player.vdocipher.com/v2/?otp=${videoOtp}&playbackInfo=${videoPlayback}`}
-                className="w-full h-full"
-                allowFullScreen
-                allow="encrypted-media"
-              ></iframe>
+             {
+               // <iframe
+              //   title={selectedVideoTitle}
+              //   src={`https://player.vdocipher.com/v2/?otp=${videoOtp}&playbackInfo=${videoPlayback}`}
+              //   className="w-full h-full"
+              //   allowFullScreen
+              //   allow="encrypted-media"
+              // ></iframe>
+              }
+
+              <DashVideoPlayer videopath={videoOtp} thumbnailUrl={videoPlayback} />
+
             </div>
 
             <h1 className="lg:text-xl text-lg font-bold text-gray-800">{selectedVideoTitle}</h1>
@@ -168,6 +183,11 @@ const WatchCourse = () => {
               </div>
 
               {/* Tab Content */}
+             {loading.reviews ? (
+              <div className="p-6 text-center">
+                <p className="text-gray-600">Loading...</p>
+              </div>
+              ) :
               <div className="p-6">
                 {activeTab === 'about' && (
                   <p className="text-gray-600 leading-relaxed">{selectedVideoDesc}</p>
@@ -264,6 +284,8 @@ const WatchCourse = () => {
                   </div>
                 )}
               </div>
+              }
+
             </div>
           </div>
 
@@ -271,7 +293,12 @@ const WatchCourse = () => {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow-md overflow-hidden sticky top-6">
               <h2 className="text-xl font-bold p-4 bg-gray-50 border-b">Course Content</h2>
-              <div className="p-4 max-h-[calc(100vh-10rem)] overflow-y-auto">
+              {loading.course ? (
+                <div className="p-6 text-center">
+                  <p className="text-gray-600">Loading...</p>
+                </div>
+                ) :
+                <div className="p-4 max-h-[calc(100vh-10rem)] overflow-y-auto">
                 {courses.map((module, index) => (
                   <div key={index} className="mb-4">
                     <button
@@ -307,7 +334,7 @@ const WatchCourse = () => {
                   </div>
                 ))}
 
-              </div>
+              </div>}
             </div>
           </div>
         </div>
