@@ -22,7 +22,7 @@ export const DashVideoPlayer = ({ videopath, thumbnailUrl }) => {
 
         // Step 1: Set signed cookies for the folder path
         const cookieResponse = await fetch(
-          `${process.env.REACT_APP_API}/zenstudy/api/course/get-signed-url?videoPath=${encodeURIComponent(videopath)}`,
+          `${process.env.REACT_APP_API2}zenstudy/api/course/get-signed-url?videoPath=${encodeURIComponent(videopath)}`,
           { credentials: "include" }
         );
 
@@ -40,8 +40,7 @@ export const DashVideoPlayer = ({ videopath, thumbnailUrl }) => {
         });
 
         // Step 3: Load the manifest
-        const manifestUrl = `https://${process.env.REACT_APP_API}/${videopath}/index.m3u8`;
-
+        const manifestUrl = `https://${process.env.REACT_APP_CLOUDFRONT_DOMAIN}/${videopath}/index.m3u8`;
         await player.load(manifestUrl);
         console.log("✅ Video loaded successfully");
       } catch (error) {
