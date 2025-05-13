@@ -42,7 +42,7 @@ export const DashVideoPlayer = ({ videopath, thumbnailUrl }) => {
         // Step 3: Load the manifest
         const manifestUrl = `https://${process.env.REACT_APP_CLOUDFRONT_DOMAIN}/${videopath}/index.m3u8`;
         await player.load(manifestUrl);
-        console.log("✅ Video loaded successfully");
+        // console.log("✅ Video loaded successfully");
       } catch (error) {
         console.error("🚫 Error loading Shaka Player:", error);
       }

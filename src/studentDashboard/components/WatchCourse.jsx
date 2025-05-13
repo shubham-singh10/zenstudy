@@ -25,7 +25,7 @@ const WatchCourse = () => {
     course: false,
     reviews: false,
   });
-  
+
   const fetchReviews = useCallback(async (courseId) => {
     setLoading(prev => ({ ...prev, reviews: true }));
     try {
@@ -47,14 +47,14 @@ const WatchCourse = () => {
       setLoading(prev => ({ ...prev, reviews: false }));
     }
   }, [user?._id]);
-  
+
   useEffect(() => {
     const fetchCourseData = async () => {
       setLoading(prev => ({ ...prev, course: true }));
       try {
         const response = await axios.post(`${process.env.REACT_APP_API}zenstudy/api/payment/watchCourse`, { id });
         setCourses(response.data.response?.modules || []);
-  
+        // console.log('Course data:', response.data.response);
         if (response.data.response?.course._id) {
           await fetchReviews(response.data.response.course._id);
           setMaterials([
@@ -70,16 +70,18 @@ const WatchCourse = () => {
         setLoading(prev => ({ ...prev, course: false }));
       }
     };
-  
+
     fetchCourseData();
   }, [id, navigate, fetchReviews]);
-  
+
 
   useEffect(() => {
     if (courses.length > 0) {
       const introModule = courses.find(module => module.moduleTitle.toLowerCase() === 'introduction') || courses[0];
-      if (introModule.videos.length > 0) {
-        const firstVideo = introModule.videos[0];
+      // Filter videos with status "ready"
+      const readyVideos = introModule.videos.filter(video => video.status === 'ready');
+      if (readyVideos.length > 0) {
+        const firstVideo = readyVideos[0];
         setVideoOtp(firstVideo.videoCode);
         setVideoPlayback(firstVideo.playBackInfo);
         setSelectedVideoTitle(firstVideo.videoTitle);
@@ -88,7 +90,7 @@ const WatchCourse = () => {
     }
   }, [courses]);
 
-  
+
 
   const handleVideoClick = (video) => {
     setVideoOtp(video.videoCode);
@@ -136,14 +138,14 @@ const WatchCourse = () => {
           <div className="lg:col-span-2 space-y-6">
             {/* Video Player */}
             <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-lg">
-             {
-               // <iframe
-              //   title={selectedVideoTitle}
-              //   src={`https://player.vdocipher.com/v2/?otp=${videoOtp}&playbackInfo=${videoPlayback}`}
-              //   className="w-full h-full"
-              //   allowFullScreen
-              //   allow="encrypted-media"
-              // ></iframe>
+              {
+                // <iframe
+                //   title={selectedVideoTitle}
+                //   src={`https://player.vdocipher.com/v2/?otp=${videoOtp}&playbackInfo=${videoPlayback}`}
+                //   className="w-full h-full"
+                //   allowFullScreen
+                //   allow="encrypted-media"
+                // ></iframe>
               }
 
               <DashVideoPlayer videopath={videoOtp} thumbnailUrl={videoPlayback} />
@@ -183,107 +185,107 @@ const WatchCourse = () => {
               </div>
 
               {/* Tab Content */}
-             {loading.reviews ? (
-              <div className="p-6 text-center">
-                <p className="text-gray-600">Loading...</p>
-              </div>
+              {loading.reviews ? (
+                <div className="p-6 text-center">
+                  <p className="text-gray-600">Loading...</p>
+                </div>
               ) :
-              <div className="p-6">
-                {activeTab === 'about' && (
-                  <p className="text-gray-600 leading-relaxed">{selectedVideoDesc}</p>
-                )}
-                {activeTab === 'notes' && (
-                  <div>
-                    <textarea
-                      value={notes}
-                      onChange={(e) => setNotes(e.target.value)}
-                      placeholder="Take notes here..."
-                      className="w-full h-40 p-4 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                  </div>
-                )}
-                {activeTab === 'materials' && (
-                  <div className="space-y-4">
-                    <h3 className="font-semibold text-lg">Course Materials</h3>
-                    {materials.map((material) => (
-                      <div key={material.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                        <FiFileText className="text-blue-500" />
-                        <span>{material.name}</span>
-                        <span className="text-xs text-gray-500 uppercase">{material.type}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {activeTab === 'qa' && (
-                  <p className="text-gray-600 italic">Q&A feature coming soon!</p>
-                )}
-                {activeTab === 'reviews' && (
-                  <div className="space-y-6">
-                    {userReview === 0 && (
-                      <form onSubmit={submitReview} className="space-y-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">Your Rating</label>
-                          <div className="flex items-center space-x-1">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <button
-                                key={star}
-                                type="button"
-                                onClick={() => setUserReview(prev => ({ ...prev, rating: star }))}
-                                className="focus:outline-none"
-                              >
-                                <FiStar
-                                  className={`w-8 h-8 ${star <= userReview.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                                    }`}
-                                />
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                        <div>
-                          <label htmlFor="review" className="block text-sm font-medium text-gray-700 mb-1">Your Review</label>
-                          <textarea
-                            id="review"
-                            value={userReview.content}
-                            onChange={(e) => setUserReview(prev => ({ ...prev, content: e.target.value }))}
-                            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            rows={3}
-                          />
-                        </div>
-                        <button type="submit" className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md">
-                          Submit Review
-                        </button>
-                      </form>
-                    )}
+                <div className="p-6">
+                  {activeTab === 'about' && (
+                    <p className="text-gray-600 leading-relaxed">{selectedVideoDesc}</p>
+                  )}
+                  {activeTab === 'notes' && (
+                    <div>
+                      <textarea
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
+                        placeholder="Take notes here..."
+                        className="w-full h-40 p-4 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                  )}
+                  {activeTab === 'materials' && (
                     <div className="space-y-4">
-                      {reviews.map((review) => (
-                        <div key={review._id} className="bg-gray-50 rounded-lg p-4 shadow">
-                          <div className="flex items-center mb-2">
-                            <img
-                              src={review.imageUrl}
-                              crossOrigin="anonymous"
-                              alt={`${review.userId.name} avatar`}
-                              className="w-10 h-10 rounded-full mr-3 object-cover"
-                            />
-                            <div>
-                              <div className="font-medium text-gray-800">{review.userId.name}</div>
-                              <div className="flex">
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                  <FiStar
-                                    key={star}
-                                    className={`w-4 h-4 ${star <= review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                                      }`}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                          <p className="text-gray-700 mt-2">{review.reviewContent}</p>
+                      <h3 className="font-semibold text-lg">Course Materials</h3>
+                      {materials.map((material) => (
+                        <div key={material.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                          <FiFileText className="text-blue-500" />
+                          <span>{material.name}</span>
+                          <span className="text-xs text-gray-500 uppercase">{material.type}</span>
                         </div>
                       ))}
                     </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                  {activeTab === 'qa' && (
+                    <p className="text-gray-600 italic">Q&A feature coming soon!</p>
+                  )}
+                  {activeTab === 'reviews' && (
+                    <div className="space-y-6">
+                      {userReview === 0 && (
+                        <form onSubmit={submitReview} className="space-y-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Your Rating</label>
+                            <div className="flex items-center space-x-1">
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <button
+                                  key={star}
+                                  type="button"
+                                  onClick={() => setUserReview(prev => ({ ...prev, rating: star }))}
+                                  className="focus:outline-none"
+                                >
+                                  <FiStar
+                                    className={`w-8 h-8 ${star <= userReview.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                                      }`}
+                                  />
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                          <div>
+                            <label htmlFor="review" className="block text-sm font-medium text-gray-700 mb-1">Your Review</label>
+                            <textarea
+                              id="review"
+                              value={userReview.content}
+                              onChange={(e) => setUserReview(prev => ({ ...prev, content: e.target.value }))}
+                              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              rows={3}
+                            />
+                          </div>
+                          <button type="submit" className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md">
+                            Submit Review
+                          </button>
+                        </form>
+                      )}
+                      <div className="space-y-4">
+                        {reviews.map((review) => (
+                          <div key={review._id} className="bg-gray-50 rounded-lg p-4 shadow">
+                            <div className="flex items-center mb-2">
+                              <img
+                                src={review.imageUrl}
+                                crossOrigin="anonymous"
+                                alt={`${review.userId.name} avatar`}
+                                className="w-10 h-10 rounded-full mr-3 object-cover"
+                              />
+                              <div>
+                                <div className="font-medium text-gray-800">{review.userId.name}</div>
+                                <div className="flex">
+                                  {[1, 2, 3, 4, 5].map((star) => (
+                                    <FiStar
+                                      key={star}
+                                      className={`w-4 h-4 ${star <= review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                                        }`}
+                                    />
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                            <p className="text-gray-700 mt-2">{review.reviewContent}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               }
 
             </div>
@@ -297,44 +299,44 @@ const WatchCourse = () => {
                 <div className="p-6 text-center">
                   <p className="text-gray-600">Loading...</p>
                 </div>
-                ) :
+              ) :
                 <div className="p-4 max-h-[calc(100vh-10rem)] overflow-y-auto">
-                {courses.map((module, index) => (
-                  <div key={index} className="mb-4">
-                    <button
-                      onClick={() => toggleModule(module._id, module.moduleTitle)}
-                      className={`${selectedModule === module.moduleTitle ? "bg-blue-400" : ""} w-full px-4 py-3 flex items-center border-2 justify-between text-left rounded-lg `}
-                    >
-                      <span className={`font-medium  ${selectedModule === module.moduleTitle ? " text-white" : "text-gray-800"}`}>
-                        {module.moduleTitle}
-                      </span>
-                      {expandedModules.includes(module._id) ? (
-                        <FiChevronDown size={20} className={`${selectedModule === module.moduleTitle ? "text-white" : "text-gray-500"}`} />
-                      ) : (
-                        <FiChevronRight size={20} className={`${selectedModule === module.moduleTitle ? "text-white" : "text-gray-500"}`} />
+                  {courses.map((module, index) => (
+                    <div key={index} className="mb-4">
+                      <button
+                        onClick={() => toggleModule(module._id, module.moduleTitle)}
+                        className={`${selectedModule === module.moduleTitle ? "bg-blue-400" : ""} w-full px-4 py-3 flex items-center border-2 justify-between text-left rounded-lg `}
+                      >
+                        <span className={`font-medium  ${selectedModule === module.moduleTitle ? " text-white" : "text-gray-800"}`}>
+                          {module.moduleTitle}
+                        </span>
+                        {expandedModules.includes(module._id) ? (
+                          <FiChevronDown size={20} className={`${selectedModule === module.moduleTitle ? "text-white" : "text-gray-500"}`} />
+                        ) : (
+                          <FiChevronRight size={20} className={`${selectedModule === module.moduleTitle ? "text-white" : "text-gray-500"}`} />
+                        )}
+                      </button>
+                      {expandedModules.includes(module._id) && (
+                        <div className="mt-2 space-y-2">
+                          {module.videos.filter(video => video.status === "ready").map((video, vIndex) => (
+                            <button
+                              key={vIndex}
+                              onClick={() => handleVideoClick(video)}
+                              className={`w-full px-4 py-2 flex items-center border-2 justify-between text-left rounded-lg transition-colors ${selectedVideoTitle === video.videoTitle ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 bg-blue-50 text-gray-700'
+                                }`}
+                            >
+                              <div className="flex items-center">
+                                <FiPlay size={16} className={`mr-2 ${selectedVideoTitle === video.videoTitle ? 'text-blue-600' : 'text-gray-400 '}`} />
+                                <span className="text-sm">{video.videoTitle}</span>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
                       )}
-                    </button>
-                    {expandedModules.includes(module._id) && (
-                      <div className="mt-2 space-y-2">
-                        {module.videos.map((video, vIndex) => (
-                          <button
-                            key={vIndex}
-                            onClick={() => handleVideoClick(video)}
-                            className={`w-full px-4 py-2 flex items-center border-2 justify-between text-left rounded-lg transition-colors ${selectedVideoTitle === video.videoTitle ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 bg-blue-50 text-gray-700'
-                              }`}
-                          >
-                            <div className="flex items-center">
-                              <FiPlay size={16} className={`mr-2 ${selectedVideoTitle === video.videoTitle ? 'text-blue-600' : 'text-gray-400 '}`} />
-                              <span className="text-sm">{video.videoTitle}</span>
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                    </div>
+                  ))}
 
-              </div>}
+                </div>}
             </div>
           </div>
         </div>
