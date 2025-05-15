@@ -9,50 +9,49 @@ export const VideoPlayer = ({ videopath, thumbnailUrl }) => {
     const loadShaka = async () => {
       try {
         if (!videoRef.current) {
-          console.error("Video element not found!");
+          console.error("❌ Video element not found");
           return;
         }
 
-        // Initialize Shaka
         shaka.polyfill.installAll();
 
         if (!shaka.Player.isBrowserSupported()) {
-          console.error("Shaka Player is not supported on this browser.");
+          console.error("❌ Shaka Player not supported in this browser");
           return;
         }
 
-        const response = await fetch(
-          `${process.env.REACT_APP_API}zenstudy/api/course/get-signed-url?videoPath=${videopath}`
+        // Step 1: Set signed cookies for the folder path
+        const cookieResponse = await fetch(
+          `${process.env.REACT_APP_API}zenstudy/api/course/get-signed-url?videoPath=${encodeURIComponent(videopath)}`,
+          { credentials: "include" }
         );
-        const data = await response.json();
-        console.log("Response:", data);
-        const fetchedManifestUrl = data.signedUrl;
 
-        if (!fetchedManifestUrl) {
-          console.error("Failed to get signed URL for video.");
-          return;
+        if (!cookieResponse.ok) {
+          throw new Error(`Cookie error: ${cookieResponse.statusText}`);
         }
 
+        // Step 2: Initialize Shaka Player
         const player = new shaka.Player(videoRef.current);
         playerRef.current = player;
 
-        // Optional: you can add error event listener
-        // player.addEventListener("error", (event) => {
-        //   console.error("Shaka Player error:", event.detail);
-        // });
+        // Optional: listen for errors
+        player.addEventListener("error", (event) => {
+          console.error("📛 Shaka Player error:", event.detail);
+        });
 
-        await player.load(fetchedManifestUrl);
-      } catch (err) {
-        console.error("Failed to load Shaka Player or fetch signed URL:", err);
+        // Step 3: Load the manifest
+        const manifestUrl = `https://${process.env.REACT_APP_CLOUDFRONT_DOMAIN}/${videopath}/index.m3u8`;
+        await player.load(manifestUrl);
+        // console.log("✅ Video loaded successfully");
+      } catch (error) {
+        console.error("🚫 Error loading Shaka Player:", error);
       }
     };
 
     loadShaka();
 
     return () => {
-      if (playerRef.current) {
-        playerRef.current.destroy();
-      }
+      playerRef.current?.destroy();
     };
   }, [videopath]);
 
@@ -60,11 +59,11 @@ export const VideoPlayer = ({ videopath, thumbnailUrl }) => {
     <video
       ref={videoRef}
       controls
-      // autoPlay
+      autoPlay
       className="w-full h-full rounded-lg"
       controlsList="nodownload"
       onContextMenu={(e) => e.preventDefault()}
-      // poster={thumbnailUrl}
+    // poster={thumbnailUrl}
     />
   );
 };

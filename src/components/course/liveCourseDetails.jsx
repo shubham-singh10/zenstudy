@@ -421,15 +421,15 @@ const LiveCourseDetailsPage = () => {
             {/* Sections corresponding to tabs */}
             <div ref={featuresRef} className="py-8">
               {
-              //   <iframe
-              //   title={CoursesData.title}
-              //   src={`https://player.vdocipher.com/v2/?otp=${CoursesData?.previewVideo?.previewVideoUrl}&playbackInfo=${CoursesData?.previewVideo?.previewVideoDescription}`}
-              //   className="w-full h-96"
-              //   allowFullScreen
-              //   allow="encrypted-media"
-              // ></iframe>
+                //   <iframe
+                //   title={CoursesData.title}
+                //   src={`https://player.vdocipher.com/v2/?otp=${CoursesData?.previewVideo?.previewVideoUrl}&playbackInfo=${CoursesData?.previewVideo?.previewVideoDescription}`}
+                //   className="w-full h-96"
+                //   allowFullScreen
+                //   allow="encrypted-media"
+                // ></iframe>
               }
-                      <VideoPlayer videopath={CoursesData?.previewVideo?.previewVideoDescription}  />              
+              <VideoPlayer videopath={CoursesData?.previewVideo?.previewVideoDescription} />
             </div>
 
             <div ref={aboutRef} className="py-8 ">
