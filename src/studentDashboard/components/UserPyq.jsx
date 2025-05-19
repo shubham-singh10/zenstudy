@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
-import { FiDownload, FiFileText } from "react-icons/fi";
+import { FiFileText } from "react-icons/fi";
+import { FaEye } from "react-icons/fa";
+import { Loader } from "../../components/loader/Loader";
 
 
 const UserPYQ = () => {
   const [Pyqs, setPyqs] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState({
@@ -60,9 +62,9 @@ useEffect(() => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="loader"></div>
-      </div>
+       <div className="loading-overlay fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+          <Loader fill="white" />
+        </div>
     );
   }
 
@@ -205,8 +207,8 @@ useEffect(() => {
                   href={pyq.fileUrl}
                   className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
-                  <FiDownload className="h-4 w-4 mr-2" />
-                  Download Paper
+                  <FaEye className="h-4 w-4 mr-2" />
+                  View PYQs
                 </a>
               </div>
             </div>
