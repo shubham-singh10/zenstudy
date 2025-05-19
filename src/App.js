@@ -22,6 +22,7 @@ import LiveCourseDetailStudent from "./studentDashboard/components/LiveCourseDet
 import NotFound from "./components/NotFound.jsx";
 import Webinar from "./components/Webinar.jsx";
 import VideoPage from "./components/VideoPage.jsx";
+import UserPYQ from "./studentDashboard/components/UserPyq.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -111,7 +112,9 @@ function App() {
               <Route path="/resultSeries" element={<TestResultSeries />} />
               <Route path="/free-resources" element={<FreeResources />} />
               <Route path="/watch-course-free/:id" element={<FreeResourcesWatch />} /> 
-              <Route path="/demo" element={<Demopage />} />
+              <Route path="/demo" element={<Demopage />} />                      
+              <Route path="/pyqs" element={<UserPYQ />} />                      
+
 
               {/* Protected Student Routes End */}
             </Route>

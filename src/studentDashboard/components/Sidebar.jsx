@@ -16,6 +16,7 @@ import {
 } from "react-icons/fi";
 import { useAuth } from "../../context/auth-context";
 import { BiBrain } from "react-icons/bi";
+import { GiNotebook } from 'react-icons/gi';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -64,6 +65,7 @@ const Sidebar = () => {
         title: "Self Learning",
         items: [
           { href: "/free-resources", label: "Free Resources", icon: BiBrain },
+          { href: "/pyqs", label: "PYQs", icon: GiNotebook },
           {
             label: "Current Affairs",
             icon: FiFileText,
