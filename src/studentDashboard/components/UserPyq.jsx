@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { FiFileText } from "react-icons/fi";
 import { FaEye } from "react-icons/fa";
-import { Loader } from "../../components/loader/Loader";
+import Loading from "../../Loading";
 
 
 const UserPYQ = () => {
@@ -60,13 +60,9 @@ useEffect(() => {
   });
 
 
-  if (loading) {
-    return (
-       <div className="loading-overlay fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-          <Loader fill="white" />
-        </div>
-    );
-  }
+    if (loading) {
+      return <Loading />;
+    }
 
   return (
     <div>

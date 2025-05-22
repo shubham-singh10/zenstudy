@@ -169,7 +169,7 @@ const RegistrationForm = ({
         Please Wait...
       </button> : <button
         type="submit"
-        className="w-full bg-blue-600 text-white rounded-md py-3 px-4 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+        className="w-full bg-[#543a5d] text-white rounded-md py-3 px-4 hover:bg-[#795187] focus:outline-none focus:ring-2 focus:ring-[#543a5d] focus:ring-offset-2 transition-colors"
       >
         Register Now
       </button>}
@@ -320,32 +320,32 @@ function Webinar() {
       )}
 
 {/* Hero Section */}
-<div className="relative overflow-hidden bg-gradient-to-br from-blue-100 via-white to-blue-100 py-16">
+<div className="relative overflow-hidden bg-gradient-to-br from-blue-100 via-white to-blue-100 lg:py-16 md:py-12 py-6">
   {/* Banner Image and Date */}
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch max-w-7xl mx-auto px-6">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch max-w-7xl mx-auto lg:px-6 md:px-4 px-2">
   
   {/* Image */}
   <div className="overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition duration-500 h-full">
     <img
-      src="../assets/webinar2.png"
+      src="../assets/newWebinar.png"
       alt="Webinar Banner"
       className="w-full h-full object-fill hover:scale-105 transition-transform duration-500"
     />
   </div>
 
   {/* Date Card */}
-  <div className="backdrop-blur-md bg-white/80 border border-gray-200 p-10 rounded-3xl shadow-md hover:shadow-xl transition duration-300 h-full flex flex-col justify-between">
+  <div className="backdrop-blur-md bg-white/80 border border-gray-200 lg:p-10 md:p-8 p-2 rounded-3xl shadow-md hover:shadow-xl transition duration-300 h-full flex flex-col justify-between">
     <div>
     <div className="flex items-center justify-center gap-6 mb-6 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 shadow-lg">
     <div className="flex-shrink-0">
-      <BiCalendar className="w-14 h-14 text-blue-700 drop-shadow-md" />
+      <BiCalendar className="lg:w-14 lg:h-14 w-8 h-8 text-[#543a5d] drop-shadow-md" />
     </div>
     <div className="text-center">
-      <h3 className="text-2xl md:text-2xl font-medium text-blue-800 mb-1">
+      <h3 className="text-md md:text-2xl font-medium text-[#543a5d] mb-1">
         Save the Date!
       </h3>
       <p className="text-lg md:text-3xl font-extrabold text-gray-700 ">
-      27,  April , 2025
+      1 June, 2025
       </p>
     </div>
   </div>
@@ -358,7 +358,7 @@ function Webinar() {
     <div className="flex justify-center items-center mt-2">
       <button
         onClick={() => setShowPopup(true)}
-        className="w-full animate-glow px-8 py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full shadow-lg hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transition-transform duration-300"
+        className="w-full  px-8 lg:py-4 md:py-4 py-3 text-lg font-semibold bg-gradient-to-r from-[#543a5d] to-[#935aa6] text-white rounded-full shadow-lg hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transition-transform duration-300"
       > 
         <span className="inline-block animate-bounce">🎓 Reserve Your Spot Now</span>
       </button>
@@ -371,7 +371,7 @@ function Webinar() {
   <div className="text-center mt-20 px-6">
     <h1 className="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight mb-6">
       Thinking Beyond Degrees: <br />
-      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+      <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#543a5d] to-[#935aa6]">
         Crafting Careers with Imagination & UPSC Vision
       </span>
     </h1>
@@ -386,28 +386,28 @@ function Webinar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">
-              <BiCalendar className="w-8 h-8 text-blue-600" />
+              <BiCalendar className="w-8 h-8 text-[#543a5d]" />
               <div>
                 <h3 className="font-semibold">Date</h3>
-                <p>April 27, 2025</p>
+                <p>1 June, 2025</p>
               </div>
             </div>
             <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">
-              <FaClock className="w-8 h-8 text-blue-600" />
+              <FaClock className="w-8 h-8 text-[#543a5d]" />
               <div>
                 <h3 className="font-semibold">Duration</h3>
                 <p>7pm - 8pm</p>
               </div>
             </div>
             <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">
-              <BiMapPin className="w-8 h-8 text-blue-600" />
+              <BiMapPin className="w-8 h-8 text-[#543a5d]" />
               <div>
                 <h3 className="font-semibold">Platform</h3>
                 <p>Online (Zoom)</p>
               </div>
             </div>
             <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">
-              <BiBookOpen className="w-8 h-8 text-blue-600" />
+              <BiBookOpen className="w-8 h-8 text-[#543a5d]" />
               <div>
                 <h3 className="font-semibold">Language</h3>
                 <p>English & Hindi</p>
@@ -431,7 +431,7 @@ function Webinar() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200">
-              <FiTarget className="w-12 h-12 text-blue-600 mb-4" />
+              <FiTarget className="w-12 h-12 text-[#543a5d] mb-4" />
               <h3 className="text-xl font-semibold mb-3">Strategic Approach</h3>
               <p className="text-gray-600">
                 Learn proven techniques and methodologies to tackle the UPSC
@@ -439,14 +439,14 @@ function Webinar() {
               </p>
             </div>
             <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200">
-              <BiAward className="w-12 h-12 text-blue-600 mb-4" />
+              <BiAward className="w-12 h-12 text-[#543a5d] mb-4" />
               <h3 className="text-xl font-semibold mb-3">Expert Guidance</h3>
               <p className="text-gray-600">
                 Get insights from top educators and successful UPSC candidates
               </p>
             </div>
             <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200">
-              <FaUsers className="w-12 h-12 text-blue-600 mb-4" />
+              <FaUsers className="w-12 h-12 text-[#543a5d] mb-4" />
               <h3 className="text-xl font-semibold mb-3">
                 Interactive Session
               </h3>
@@ -472,7 +472,7 @@ function Webinar() {
           </div>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="flex items-start space-x-4">
-              <BiBook className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+              <BiBook className="w-6 h-6 text-[#5d6e53] flex-shrink-0 mt-1" />
               <div>
                 <h3 className="font-semibold text-lg mb-2">
                   Free Career Clarity & UPSC Guidance
@@ -503,7 +503,7 @@ function Webinar() {
               </div>
             </div>
             <div className="flex items-start space-x-4">
-              <BiBook className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+              <BiBook className="w-6 h-6 text-[#5d6e53] flex-shrink-0 mt-1" />
               <div>
                 <h3 className="font-semibold text-lg mb-2">
                   Exclusive Access to Our Learning Platform
@@ -527,7 +527,7 @@ function Webinar() {
               </div>
             </div>
             <div className="flex items-start space-x-4">
-              <BiBook className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+              <BiBook className="w-6 h-6 text-[#5d6e53] flex-shrink-0 mt-1" />
               <div>
                 <h3 className="font-semibold text-lg mb-2">
                   Special Discount on Our UPSC Foundation Batch
@@ -553,7 +553,7 @@ function Webinar() {
               </div>
             </div>
             <div className="flex items-start space-x-4">
-              <BiBook className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+              <BiBook className="w-6 h-6 text-[#5d6e53] flex-shrink-0 mt-1" />
               <div>
                 <h3 className="font-semibold text-lg mb-2">
                   Free Access to Premium Recorded Courses

@@ -59,7 +59,7 @@ export const DashVideoPlayer = ({ videopath, thumbnailUrl }) => {
     <video
       ref={videoRef}
       controls
-      autoPlay
+      // autoPlay
       className="w-full h-full rounded-lg"
       controlsList="nodownload"
       onContextMenu={(e) => e.preventDefault()}
