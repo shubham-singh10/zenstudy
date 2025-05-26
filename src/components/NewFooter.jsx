@@ -5,7 +5,7 @@ import { FiFacebook, FiInstagram, FiTwitter, FiYoutube } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const Footer = () => {
+const NewFooter = () => {
   const date = new Date();
   const [nameFocused, setNameFocused] = useState(false);
   const [emailFocused, setEmailFocused] = useState(false);
@@ -19,15 +19,12 @@ const Footer = () => {
     message: "",
   });
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-
-
   };
 
   const onSubmit = async (e) => {
@@ -78,19 +75,19 @@ const Footer = () => {
   };
 
   return (
-    <div className="bg-[#054BB4] w-full min-h-[35vh] text-[#CADEFB]">
+    <div className="bg-[#543a5d] w-full min-h-[35vh] text-[#CADEFB]">
       <div className="lg:px-12 md:px-8 px-4 py-4 flex flex-wrap items-start justify-between">
         {/* Upper Section */}
         <div className="w-full mt-4 lg:w-1/2 flex flex-wrap">
           <div className="w-full md:w-1/2 flex flex-col gap-6 mb-5 md:mb-0">
             <div>
-              <p className="text-3xl font-bold">
-                Zenstudy
+              <p className="text-3xl font-bold text-[#efdb78]">Zenstudy</p>
+              <p className="text-[10px] text-[#efdb78]">
+                Making Education Imaginative
               </p>
-              <p className="text-[10px]">Making Education Imaginative</p>
             </div>
             <div>
-              <p className="font-medium text-sm">
+              <p className="font-medium text-sm text-[#fdfdfd]">
                 Zenstudy is a result of the vision of "MAKING EDUCATION
                 IMAGINATIVE". We have ventured into the field of education.
               </p>
@@ -101,28 +98,40 @@ const Footer = () => {
                 target="blank"
                 className="hover:bg-red-500 rounded-full p-2"
               >
-                <FiYoutube size={25} className="hover:text-white" />
+                <FiYoutube
+                  size={25}
+                  className="hover:text-white text-[#fdfdfd]"
+                />
               </Link>
               <Link
                 to="https://www.instagram.com/zenstudyz/"
                 target="blank"
                 className="hover:bg-gradient-to-br from-[#405DE6] via-[#5B51D8] to-[#E1306C] rounded-full p-2"
               >
-                <FiInstagram size={25} className="hover:text-white" />
+                <FiInstagram
+                  size={25}
+                  className="hover:text-white text-[#fdfdfd]"
+                />
               </Link>
               <Link
                 to="https://www.facebook.com/people/Zenstudy/61555473406607/"
                 target="blank"
                 className="hover:bg-[#4267B2] rounded-full p-2"
               >
-                <FiFacebook size={25} className="hover:text-white" />
+                <FiFacebook
+                  size={25}
+                  className="hover:text-white text-[#fdfdfd]"
+                />
               </Link>
               <Link
                 to="https://twitter.com/ZenstudyZ"
                 target="blank"
                 className="hover:bg-[#1DA1F2] rounded-full p-2"
               >
-                <FiTwitter size={25} className="hover:text-white" />
+                <FiTwitter
+                  size={25}
+                  className="hover:text-white text-[#fdfdfd]"
+                />
               </Link>
               <Link
                 to="https://wa.me/919810246095"
@@ -138,31 +147,51 @@ const Footer = () => {
 
           <div className="w-full md:w-1/2 flex justify-center ">
             <ul className="flex  flex-col gap-2 text-sm md:items-start lg:px-20 md:px-14 px-0 items-start w-full">
-              <li className=" text-2xl font-semibold mb-4">Menu</li>
-              <Link to="/" className="hover:text-white">
+              <li className=" text-2xl font-semibold mb-4 text-[#efdb78]">
+                Menu
+              </li>
+              <Link to="/" className="hover:text-[#efdb78] text-[#fdfdfd]">
                 <li>Home</li>
               </Link>
-              <Link to="/about" className="hover:text-white">
+              <Link to="/about" className="hover:text-[#efdb78] text-[#fdfdfd]">
                 <li>About</li>
               </Link>
 
-              <Link to="/ourteam" className="hover:text-white">
+              <Link
+                to="/ourteam"
+                className="hover:text-[#efdb78] text-[#fdfdfd]"
+              >
                 <li>Our Team</li>
               </Link>
 
-              <Link to="/courses" className="hover:text-white">
+              <Link
+                to="/courses"
+                className="hover:text-[#efdb78] text-[#fdfdfd]"
+              >
                 <li>Courses</li>
               </Link>
-              <Link to="https://blog.zenstudy.in/" className="hover:text-white">
+              <Link
+                to="https://blog.zenstudy.in/"
+                className="hover:text-[#efdb78] text-[#fdfdfd]"
+              >
                 <li>Blogs</li>
               </Link>
-              <Link to="/contact" className="hover:text-white">
+              <Link
+                to="/contact"
+                className="hover:text-[#efdb78] text-[#fdfdfd]"
+              >
                 <li>Contact</li>
               </Link>
-              <Link to="/privacyPolicy" className="hover:text-white">
+              <Link
+                to="/privacyPolicy"
+                className="hover:text-[#efdb78] text-[#fdfdfd]"
+              >
                 <li>Privacy Policy</li>
               </Link>
-              <Link to="/termandConditions" className="hover:text-white">
+              <Link
+                to="/termandConditions"
+                className="hover:text-[#efdb78] text-[#fdfdfd]"
+              >
                 <li>Term & Conditions</li>
               </Link>
             </ul>
@@ -172,12 +201,14 @@ const Footer = () => {
         {/* Lower Section */}
         <div className="w-full lg:w-1/2 mt-4 flex flex-wrap">
           <div className="w-full md:w-1/2 flex flex-col gap-7 text-sm mb-5 md:mb-0">
-            <div className="text-2xl font-semibold">Contact with us</div>
-            <div className="flex items-start gap-2">
-              <IoCallSharp className="text-xl" />
+            <div className="text-2xl font-semibold text-[#efdb78]">
+              Contact with us
+            </div>
+            <div className="flex items-start gap-2 text-[#fdfdfd]">
+              <IoCallSharp className="text-xl " />
               <p>+91- 9810246095</p>
             </div>
-            <div className="flex items-start gap-2">
+            <div className="flex items-start gap-2 text-[#fdfdfd]">
               <FaSearchLocation className="text-2xl" />
               <p>
                 7/46, Shankar Rd, Block 7, Old Rajinder Nagar, Rajinder Nagar,
@@ -187,10 +218,10 @@ const Footer = () => {
           </div>
           <div className="w-full md:w-1/2 flex flex-col lg:items-center md:items-start items-start">
             <form
-              className="flex w-full flex-col gap-4 px-4 pb-4 shadow-md shadow-[#648ecd] rounded-lg max-w-md mx-auto"
+              className="flex w-full flex-col gap-4 px-4 pb-4 shadow-md shadow-[#fdfdfd] rounded-lg max-w-md mx-auto"
               onSubmit={onSubmit}
             >
-              <p className=" text-2xl font-semibold mb-2 ">
+              <p className=" text-2xl font-semibold mb-2 text-[#efdb78]">
                 Get In Touch
               </p>
               <div className="relative">
@@ -199,7 +230,7 @@ const Footer = () => {
                   placeholder={!nameFocused ? "Enter your name" : ""}
                   name="fullName"
                   value={formData.fullName}
-                  className="p-2 border w-full text-gray-600 bg-[#cadefb] border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 placeholder-gray-500"
+                  className="p-2 border w-full text-gray-600 bg-[#fdfdfd] border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#efdb78]  transition duration-200 placeholder-gray-500"
                   onFocus={() => setNameFocused(true)}
                   onBlur={() => setNameFocused(false)}
                   onChange={(e) => handleChange(e)}
@@ -212,7 +243,7 @@ const Footer = () => {
                   name="email"
                   value={formData.email}
                   placeholder={!emailFocused ? "Enter your email" : ""}
-                  className="p-2 border w-full text-gray-600 bg-[#cadefb] border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 placeholder-gray-500"
+                  className="p-2 border w-full text-gray-600 bg-[#fdfdfd] border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#efdb78]  transition duration-200 placeholder-gray-500"
                   onFocus={() => setEmailFocused(true)}
                   onBlur={() => setEmailFocused(false)}
                   onChange={(e) => handleChange(e)}
@@ -226,7 +257,7 @@ const Footer = () => {
                   name="phone"
                   value={formData.phone}
                   placeholder={!phoneFocused ? "Enter your phone" : ""}
-                  className="p-2 border w-full text-gray-600 bg-[#cadefb] border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 placeholder-gray-500"
+                  className="p-2 border w-full text-gray-600 bg-[#fdfdfd] border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#efdb78]  transition duration-200 placeholder-gray-500"
                   onFocus={() => setPhoneFocused(true)}
                   onBlur={() => setPhoneFocused(false)}
                   onChange={(e) => handleChange(e)}
@@ -238,7 +269,7 @@ const Footer = () => {
                   placeholder={!messageFocused ? "Message..." : ""}
                   name="message"
                   value={formData.message}
-                  className="p-2 border w-full text-gray-600 bg-[#cadefb] border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 h-20 resize-none transition duration-200 placeholder-gray-500"
+                  className="p-2 border w-full text-gray-600 bg-[#fdfdfd] border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#efdb78] h-20 resize-none transition duration-200 placeholder-gray-500"
                   onFocus={() => setMessageFocused(true)}
                   onBlur={() => setMessageFocused(false)}
                   onChange={(e) => handleChange(e)}
@@ -273,7 +304,7 @@ const Footer = () => {
               ) : (
                 <button
                   type="submit"
-                  className="transition duration-200 font-semibold text-white rounded-lg py-2 bg-blue-500 hover:bg-blue-600"
+                  className="transition duration-200 font-semibold text-black rounded-lg py-2 bg-gradient-to-r from-[#efdb78] to-[#f5eeb4] hover:from-[#d6c664] hover:to-[#b2a652]"
                 >
                   Submit
                 </button>
@@ -286,7 +317,7 @@ const Footer = () => {
       <div className="lg:px-12 md:px-8 px-4 py-4 border-t border-[#CADEFB]">
         <div className="flex justify-between items-center">
           <div></div>
-          <div className="text-center flex flex-wrap items-center justify-between w-full">
+          <div className="text-center flex flex-wrap items-center justify-between w-full text-[#efdb78]">
             <p>Copyright (c) All Rights Reserved {date.getFullYear()}</p>
             <Link to="/" className="hover:text-white">
               <p>Zenstudy</p>
@@ -298,4 +329,4 @@ const Footer = () => {
     </div>
   );
 };
-export default Footer;
+export default NewFooter;

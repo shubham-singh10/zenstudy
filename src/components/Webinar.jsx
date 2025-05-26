@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import {
   BiAward,
   BiBook,
@@ -14,6 +14,7 @@ import { Loader } from "./loader/Loader";
 import toast from "react-hot-toast";
 import { VscDebugBreakpointLog } from "react-icons/vsc";
 import { usePageTracking } from "../usePageTracking";
+import NewFooter from "./NewFooter";
 
 const RegistrationForm = ({
   isPopup = false,
@@ -276,6 +277,7 @@ function Webinar() {
   };
 
   return (
+    <Fragment>
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
       {/* Popup Modal */}
       {showPopup && !formSubmitted && (
@@ -604,6 +606,8 @@ function Webinar() {
         </div>
       </div>
     </div>
+    
+    </Fragment>
   );
 }
 
