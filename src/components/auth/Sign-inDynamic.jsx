@@ -302,9 +302,13 @@ function SignInDynamic() {
       login(resData, resData.role, resData.token);
 
       const newPage = courseId?.toLowerCase().includes("upsc-foundation-batch");
+     const mentor = courseId
+          ?.toLowerCase()
+          .includes("personalised-mentorship-programme");
 
       const from = newPage
-        ? `/courseDetailslive/${courseId}`
+        ? `/courseDetailslive/${courseId}` :
+        mentor ? `/courseDetailNew/${courseId}`
         : `/course-details/${courseId}`;
 
       // navigate(from);

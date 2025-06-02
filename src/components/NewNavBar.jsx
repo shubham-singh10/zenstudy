@@ -59,7 +59,7 @@ const NewNavBar = () => {
           <p className="text-3xl font-bold">
             Zenstudy
           </p>
-          <p className="text-[10px] font-bold text-[#543a5d]">
+          <p className="text-[10px] font-bold  textPurple">
             Making Education Imaginative
           </p>
         </Link>
@@ -71,7 +71,7 @@ const NewNavBar = () => {
               key={item.label}
               to={item.link}
               className={`px-3 py-2 rounded-md font-medium transition-all duration-300 ${location.pathname === item.link
-                ? "text-[#543a5d] border-b-2 border-[#543a5d]"
+                ? " textPurple border-b-2 border-[#543a5d]"
                 : "hover:text-[#efdb78] text-gray-700"
                 }`}
             >
@@ -109,7 +109,7 @@ const NewNavBar = () => {
           {!isAuthenticated ? (
             <div className="flex items-center gap-4">
               <button
-                className="px-6 py-2 bg-gradient-to-r from-[#543a5d] to-[#935aa6] text-white font-semibold rounded-full shadow-lg hover:from-[#935aa6] hover:to-[#543a5d] hover:shadow-xl transition-all duration-300"
+                className="px-6 py-2 bgGredient-purpletext-white font-semibold rounded-full shadow-lg hover:from-[#935aa6] hover:to-[#543a5d] hover:shadow-xl transition-all duration-300"
                 onClick={() => navigate("/sign-In")}
               >
                 Login
@@ -125,7 +125,7 @@ const NewNavBar = () => {
             <div className="relative z-50">
               {/* Button to Toggle Dropdown */}
               <button
-                className="px-4 py-2 bg-[#054BB4] text-white rounded-full flex items-center gap-2 shadow-lg hover:bg-[#063e92] transition-all"
+                className="px-4 py-2 bgGredient-purple text-white rounded-full flex items-center gap-2 shadow-lg hover:bg-[#063e92] transition-all"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 <FaUserAlt className="text-lg" />
@@ -137,34 +137,34 @@ const NewNavBar = () => {
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-60 bg-white shadow-lg rounded-lg border border-gray-200 z-10">
                   {/* Welcome Section */}
-                  <div className="px-4 py-3 bg-gray-100 rounded-t-lg border-b border-gray-200">
+                  <div className="px-4 py-3 bg-purple-50 rounded-t-lg border-b border-gray-200">
                     <p className="text-sm text-gray-600">Welcome,</p>
-                    <p className="text-base font-semibold text-[#054BB4]">{user?.name || "User"}</p>
+                    <p className="text-base font-semibold  textPurple">{user?.name || "User"}</p>
                   </div>
 
                   {/* Links Section */}
                   <div className="flex flex-col">
                     <button
-                      className="flex items-center gap-2 px-4 py-3 text-sm text-gray-800 hover:bg-blue-100 hover:text-blue-600 transition-all"
+                      className="flex items-center gap-2 px-4 py-3 text-sm  textPurple hover:bg-purple-50  transition-all"
                       onClick={() => navigate("/profile")}
                     >
-                      <FaUserAlt className="text-blue-600" />
+                      <FaUserAlt  />
                       <span>Profile</span>
                     </button>
                     <button
-                      className="flex items-center gap-2 px-4 py-3 text-sm text-gray-800 hover:bg-blue-100 hover:text-blue-600 transition-all"
+                      className="flex items-center gap-2 px-4 py-3 text-sm  textPurple hover:bg-purple-50 transition-all"
                       onClick={() => navigate("/mycourse")}
                     >
-                      <FaBookOpenReader className="text-blue-600" />
+                      <FaBookOpenReader  />
                       <span>My Courses</span>
                     </button>
                     <button
-                      className="flex items-center gap-2 px-4 py-3 text-sm text-white bg-red-600 hover:bg-red-700 transition-all rounded-b-lg"
+                      className="flex font-bold items-center gap-2 px-4 py-3 text-sm bg-gradient-to-r from-[#efdb78] to-[#f5eeb4] hover:from-[#f5eeb4] hover:to-[#efdb78]  textPurple transition-all rounded-b-lg"
                       disabled={logoutLoading}
                       onClick={() => logout()}
                     >
-                      <FiLogOut className="text-white" />
-                      <span>{logoutLoading ? "Logging out..." : "Logout"}</span>
+                      <FiLogOut />
+                      <span >{logoutLoading ? "Logging out..." : "Logout"}</span>
                     </button>
                   </div>
                 </div>
@@ -196,7 +196,7 @@ const NewNavBar = () => {
       }
 
       {hamBurger && (
-        <div className="lg:hidden fixed top-0 left-0 w-full h-full bg-[#054BB4] text-white z-50 flex flex-col">
+        <div className="lg:hidden fixed top-0 left-0 w-full h-full bgGredient-purpletext-white z-50 flex flex-col">
           <div className="flex justify-end p-4">
             <RxCross2
               className="text-2xl text-white cursor-pointer"

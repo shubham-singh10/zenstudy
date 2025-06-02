@@ -74,7 +74,7 @@ function App() {
               <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
               <Route path="/termandConditions" element={<TermandConditions />} />
               <Route path="/coursesNew" element={<CoursesNew />} />
-              <Route path="/courseDetailNew" element={<NewCourseDetailPage />} />
+              <Route path="/courseDetailNew/:courseId" element={<NewCourseDetailPage />} />
               <Route path="/courseDetailslive/:coursename" element={<CourseDetailsLive />} />
               <Route path="/course-details/:courseId" element={<CourseDetails />} />
               <Route path="/contact" element={<ContactUs />} />

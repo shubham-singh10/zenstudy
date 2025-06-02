@@ -75,14 +75,14 @@ const NewFooter = () => {
   };
 
   return (
-    <div className="bg-[#543a5d] w-full min-h-[35vh] text-[#CADEFB]">
+    <div className="bg-gradient-to-r from-[#6b4977] to-[#543a5d] w-full min-h-[35vh] text-[#CADEFB]">
       <div className="lg:px-12 md:px-8 px-4 py-4 flex flex-wrap items-start justify-between">
         {/* Upper Section */}
         <div className="w-full mt-4 lg:w-1/2 flex flex-wrap">
           <div className="w-full md:w-1/2 flex flex-col gap-6 mb-5 md:mb-0">
             <div>
-              <p className="text-3xl font-bold text-[#efdb78]">Zenstudy</p>
-              <p className="text-[10px] text-[#efdb78]">
+              <p className="text-3xl font-bold textGold">Zenstudy</p>
+              <p className="text-[10px] textGold">
                 Making Education Imaginative
               </p>
             </div>
@@ -147,7 +147,7 @@ const NewFooter = () => {
 
           <div className="w-full md:w-1/2 flex justify-center ">
             <ul className="flex  flex-col gap-2 text-sm md:items-start lg:px-20 md:px-14 px-0 items-start w-full">
-              <li className=" text-2xl font-semibold mb-4 text-[#efdb78]">
+              <li className=" text-2xl font-semibold mb-4 textGold">
                 Menu
               </li>
               <Link to="/" className="hover:text-[#efdb78] text-[#fdfdfd]">
@@ -201,7 +201,7 @@ const NewFooter = () => {
         {/* Lower Section */}
         <div className="w-full lg:w-1/2 mt-4 flex flex-wrap">
           <div className="w-full md:w-1/2 flex flex-col gap-7 text-sm mb-5 md:mb-0">
-            <div className="text-2xl font-semibold text-[#efdb78]">
+            <div className="text-2xl font-semibold textGold">
               Contact with us
             </div>
             <div className="flex items-start gap-2 text-[#fdfdfd]">
@@ -221,7 +221,7 @@ const NewFooter = () => {
               className="flex w-full flex-col gap-4 px-4 pb-4 shadow-md shadow-[#fdfdfd] rounded-lg max-w-md mx-auto"
               onSubmit={onSubmit}
             >
-              <p className=" text-2xl font-semibold mb-2 text-[#efdb78]">
+              <p className=" text-2xl font-semibold mb-2 textGold">
                 Get In Touch
               </p>
               <div className="relative">
@@ -304,7 +304,7 @@ const NewFooter = () => {
               ) : (
                 <button
                   type="submit"
-                  className="transition duration-200 font-semibold text-black rounded-lg py-2 bg-gradient-to-r from-[#efdb78] to-[#f5eeb4] hover:from-[#d6c664] hover:to-[#b2a652]"
+                  className="transition duration-200 font-semibold rounded-lg py-2 bg-gradient-to-r from-[#efdb78] to-[#f5eeb4] hover:from-[#f5eeb4] hover:to-[#efdb78]  textPurple"
                 >
                   Submit
                 </button>
@@ -317,7 +317,7 @@ const NewFooter = () => {
       <div className="lg:px-12 md:px-8 px-4 py-4 border-t border-[#CADEFB]">
         <div className="flex justify-between items-center">
           <div></div>
-          <div className="text-center flex flex-wrap items-center justify-between w-full text-[#efdb78]">
+          <div className="text-center flex flex-wrap items-center justify-between w-full textGold">
             <p>Copyright (c) All Rights Reserved {date.getFullYear()}</p>
             <Link to="/" className="hover:text-white">
               <p>Zenstudy</p>

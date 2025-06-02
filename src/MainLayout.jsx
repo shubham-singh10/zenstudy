@@ -15,7 +15,7 @@ const MainLayout = () => {
     location.pathname.startsWith(route)
   );
 
-  const isWebinarPage = location.pathname === "/webinar";
+  const isWebinarPage = location.pathname === "/webinar" || location.pathname === "/courseDetailNew/Personalised-Mentorship-Programme";
 
   return (
     <Fragment>

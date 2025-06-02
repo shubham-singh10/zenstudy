@@ -189,7 +189,7 @@ const Courses = () => {
             className={`flex flex-wrap justify-center transition-opacity duration-500 ease-in-out ${contentVisible ? "opacity-100" : "opacity-0"}`}
           >
             {courses.map((course, index) => (
-              <CommonCard key={index} course={course} link={"course-details"} linknew={"courseDetailslive"} />
+              <CommonCard key={index} course={course} link={"course-details"} linknew={"courseDetailslive"} mentorLink={"courseDetailNew"} />
             ))}
           </div>
           <div

@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth-context";
 
-function CommonCard({ course, link, linknew, differentClass }) {
+function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`);
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -76,6 +76,7 @@ function CommonCard({ course, link, linknew, differentClass }) {
 
   const isUpcoming = course.other1 === "upcoming";
   const newPage = course.title?.includes("UPSC Foundation Batch");
+  const mentor = course.title?.includes("Personalised Mentorship Programme");
   const freeCourse = course.isFree;
 
   return (
@@ -155,6 +156,18 @@ function CommonCard({ course, link, linknew, differentClass }) {
             className="custom-btn"
             onClick={() =>
               navigate(`/${linknew}/${course.title.replace(/\s+/g, "-")}`, {
+                state: { courseId: course._id },
+              })
+            }
+          >
+            <span className="custom-btn-bg"></span>
+            <span className="custom-btn-text text-xs">View Details</span>
+          </button>
+        ) : mentor ? (
+          <button
+            className="custom-btn"
+            onClick={() =>
+              navigate(`/${mentorLink}/${course.title.replace(/\s+/g, "-")}`, {
                 state: { courseId: course._id },
               })
             }

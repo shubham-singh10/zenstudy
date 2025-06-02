@@ -194,11 +194,15 @@ function DynamicSignUp() {
         });
         login(data.user, data.user.role, data.token);
         const newPage = courseId?.toLowerCase().includes("upsc-foundation-batch");
+        const mentor = courseId
+          ?.toLowerCase()
+          .includes("personalised-mentorship-programme");
 
-        const from = newPage
-          ? `/courseDetailslive/${courseId}`
-          : `/course-details/${courseId}`;
-
+      const from = newPage
+        ? `/courseDetailslive/${courseId}` :
+        mentor ? `/courseDetailNew/${courseId}`
+        : `/course-details/${courseId}`;
+     
         navigation(from);
       }
     } catch (error) {

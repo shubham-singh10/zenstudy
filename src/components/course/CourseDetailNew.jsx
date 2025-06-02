@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { GrLanguage } from "react-icons/gr";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -15,6 +15,7 @@ import {
   FiLoader,
   FiUser,
 } from "react-icons/fi";
+import { Loader } from "../loader/Loader";
 
 const NewCourseDetailPage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -114,7 +115,7 @@ const NewCourseDetailPage = () => {
     const getCourse = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API}zenstudy/api/course/coursedetailslug/Indian-Economy`,
+          `${process.env.REACT_APP_API}zenstudy/api/course/coursedetailslug/${courseId}`,
           {
             method: "GET",
             headers: {
@@ -123,6 +124,7 @@ const NewCourseDetailPage = () => {
             },
           }
         );
+        console.log("Response:", response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -287,53 +289,31 @@ const NewCourseDetailPage = () => {
     rzp1.open();
   };
 
-  const faqItems = [
-    {
-      question: "Who is this course for?",
-      answer:
-        "This course is designed for beginners with no prior coding experience, as well as intermediate developers looking to expand their skills in web development.",
-    },
-    {
-      question: "How long do I have access to the course?",
-      answer:
-        "You will have lifetime access to the course content, including any future updates and additions.",
-    },
-    {
-      question: "Is there a certificate upon completion?",
-      answer:
-        "Yes, you will receive a certificate of completion once you finish all the course modules and pass the final project assessment.",
-    },
-    {
-      question: "What if I'm not satisfied with the course?",
-      answer:
-        "We offer a 30-day money-back guarantee. If you're not satisfied with the course content, you can request a full refund within 30 days of purchase.",
-    },
-    {
-      question: "Do I need any special software or hardware?",
-      answer:
-        "You'll need a computer with an internet connection. All the necessary software used in this course is free and open-source. We'll guide you through the installation process.",
-    },
-  ];
-
   const firstModule = coursePost?.modules[0];
 
   return (
-    <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen">
+    <Fragment>
+          {pageloading && (
+            <div className="loading-overlay fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+              <Loader fill="white" />
+            </div>
+          )}
+    <div className="bg-gradient-to-b from-purple-50 to-white min-h-screen">
       {/* Sticky Header */}
       <div
         className={`fixed top-0 left-0 right-0 bg-white shadow-md transition-transform duration-300 z-50 ${
           showStickyHeader ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-blue-600 truncate">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap gap-2 items-center lg:justify-between md:justify-between justify-center">
+          <h2 className="lg:text-lg md:text-lg text-sm font-semibold textPurple truncate">
             {coursePost?.title}
           </h2>
           <div className="flex items-center">
-            <span className="text-2xl font-bold text-blue-600 mr-4">
+            <div className="lg:text-2xl md:text-xl text-sm font-bold textPurple mr-4">
               {discount ? (
-                <div className="flex items-center">
-                  <span className="line-through opacity-75 text-lg mr-2">
+                <div className="flex items-baseline gap-2">
+                  <span className="line-through opacity-75 text-lg">
                     ₹ {Math.round(coursePost?.price)}
                   </span>
                   <span>
@@ -342,12 +322,13 @@ const NewCourseDetailPage = () => {
                   </span>
                 </div>
               ) : (
-                <span>₹ {Math.round(coursePost?.price)}</span>
+                <span>₹{Math.round(coursePost?.price)}</span>
               )}
-            </span>
+            </div>
+
             {currentUser ? (
               <button
-                className={`w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg flex items-center justify-center ${
+                className={`lg:text-lg md:text-lg text-sm w-full sm:w-auto bg-gradient-to-r from-[#543a5d] to-[#784688]  hover:from-[#784688] hover:to-[#543a5d] textGold font-bold py-3 px-8 rounded-lg flex items-center justify-center ${
                   payloading ? "cursor-not-allowed" : ""
                 }`}
                 onClick={() =>
@@ -372,8 +353,8 @@ const NewCourseDetailPage = () => {
               </button>
             ) : (
               <button
-                className="border border-blue-600 text-blue-600 px-4 py-2 rounded-md hover:bg-blue-50 transition-colors"
-                onClick={() => navigate(`/login/${coursePost?._id}`)}
+                className="border border-[#543a5d] textPurple px-4 py-2 rounded-md hover:bg-yellow-50 transition-colors"
+                onClick={() => navigate(`/login/${courseId}`)}
               >
                 Log In to Enroll
               </button>
@@ -384,42 +365,45 @@ const NewCourseDetailPage = () => {
 
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Hero Section */}
-        <div
-          className="grid md:grid-cols-2 gap-8 items-center mb-12"
-        >
+        <div className="grid md:grid-cols-2 gap-8 items-center mb-12">
           <div>
-            <span className="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full mb-4">
+            <span className="inline-block bg-[#fdfdfd] textPurple text-sm font-semibold px-3 py-1 rounded-full mb-4">
               Bestseller
             </span>
-            <h1 className="text-4xl font-bold mb-4 text-gray-900">
+            <h1 className="lg:text-3xl md:text-2xl text-xl font-bold mb-4 text-[#543a5d]">
               {coursePost && coursePost.title}
             </h1>
-            <p className="text-xl mb-6 text-gray-600">
-              Learn HTML, CSS, JavaScript, React, and Node.js in this
-              comprehensive course
+            <p className="text-lg mb-6 text-gray-600">
+              {coursePost && coursePost?.description}
             </p>
 
             <div className="flex flex-wrap items-center text-sm text-gray-600 mb-6 gap-4">
-              <div className="flex items-center gap-1">
-                <FiUser />
-                <span>10,000+ students</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <FiClock />
-                <span>50 hours</span>
-              </div>
+              {
+                // <div className="flex items-center gap-1">
+                //   <FiUser />
+                //   <span>10,000+ students</span>
+                // </div>
+                // <div className="flex items-center gap-1">
+                //   <FiClock />
+                //   <span>50 hours</span>
+                // </div>
+              }
               <div className="flex items-center justify-center gap-1">
                 <GrLanguage />
                 <span>{coursePost && coursePost?.language?.name}</span>
               </div>
             </div>
             <div className="flex items-center">
-              <div className="text-3xl font-bold text-blue-600 mr-3">
+              <div className="text-3xl font-bold textPurple mr-3">
                 ₹ {coursePost && coursePost?.price}
               </div>
               <div className="text-lg text-gray-500 line-through">
                 ₹ {coursePost?.value}
               </div>
+              <span className=" textPurple font-semibold ml-1 text-xl">
+                {" "}
+                / month
+              </span>
             </div>
           </div>
           <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg group">
@@ -454,64 +438,68 @@ const NewCourseDetailPage = () => {
                   src={imageSrc}
                   crossOrigin="anonymous"
                   alt="Course Thumbnail"
-                  className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${
+                  className={`w-full object-contain rounded-2xl transition-opacity duration-500 ${
                     imgloading ? "opacity-0" : "opacity-100"
                   }`}
                   onLoad={() => setImgLoading(false)}
                 />
               </div>
             )}
-            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <button className="bg-white text-blue-600 px-6 py-3 rounded-md font-semibold flex items-center">
-                <svg
-                  className="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                Watch Preview
-              </button>
-            </div>
+            {
+              // <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              //   <button className="bg-white text-blue-600 px-6 py-3 rounded-md font-semibold flex items-center">
+              //     <svg
+              //       className="w-5 h-5 mr-2"
+              //       fill="none"
+              //       stroke="currentColor"
+              //       viewBox="0 0 24 24"
+              //       xmlns="http://www.w3.org/2000/svg"
+              //     >
+              //       <path
+              //         strokeLinecap="round"
+              //         strokeLinejoin="round"
+              //         strokeWidth={2}
+              //         d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+              //       />
+              //       <path
+              //         strokeLinecap="round"
+              //         strokeLinejoin="round"
+              //         strokeWidth={2}
+              //         d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              //       />
+              //     </svg>
+              //     Watch Preview
+              //   </button>
+              // </div>
+            }
           </div>
         </div>
 
         {/* Course Overview */}
         <div className="bg-white p-6 rounded-lg shadow-md mb-8 transition-all duration-300 hover:shadow-xl">
-          <h2 className="text-2xl font-semibold mb-4">Course Overview</h2>
+          <h2 className="text-2xl font-semibold textPurple mb-4">
+            Course Overview
+          </h2>
           <p
             className={`text-gray-700 ${
               showFullDescription ? "" : "line-clamp-3"
             }`}
           >
-            {coursePost && coursePost?.description}
-            <br></br>
             {coursePost && coursePost?.other1}
+            <br></br>
+            {coursePost && coursePost?.other2}
           </p>
           <button
             className="text-blue-600 mt-2 flex items-center"
             onClick={() => setShowFullDescription(!showFullDescription)}
           >
             {showFullDescription ? (
-              <span className="flex items-center gap-1">
+              <span className="flex textGold font-bold items-center gap-1">
                 Show less
                 <FiArrowUp />
               </span>
             ) : (
-              <span className="flex items-center gap-1">
+              <span className="flex textGold font-bold items-center gap-1">
                 Show more
                 <FiArrowDown />
               </span>
@@ -521,24 +509,24 @@ const NewCourseDetailPage = () => {
 
         {/* What You'll Learn */}
         <div className="bg-white p-6 rounded-lg shadow-md mb-8 transition-all duration-300 hover:shadow-xl">
-          <h2 className="text-2xl font-semibold mb-4">What You'll Learn</h2>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              "HTML5 structure and semantics",
-              "CSS3 styling and responsive design",
-              "JavaScript fundamentals and ES6+ features",
-              "React.js for building dynamic user interfaces",
-              "Node.js and Express for server-side development",
-              "Database integration with MongoDB",
-              "RESTful API design and implementation",
-              "Authentication and authorization techniques",
-            ].map((item, index) => (
-              <li key={index} className="flex  gap-1 items-center">
-                <MdOutlineVerified color="lightgreen" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
+          {coursePost?.dynamicSections.map((section) => (
+            <div key={section._id}>
+              <h2 className="text-2xl font-semibold textPurple mb-4">
+                {section.title}
+              </h2>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {section.contents.map((point) => (
+                  <li
+                    key={point._id}
+                    className={`flex gap-2 items-center ${section.textColor}`}
+                  >
+                    <MdOutlineVerified className="text-[#5d6353]" />
+                    <span>{point.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
         {/* Course Content */}
@@ -546,7 +534,10 @@ const NewCourseDetailPage = () => {
           <div className="bg-white p-6 rounded-lg shadow-md mb-8 transition-all duration-300 hover:shadow-xl">
             <h2 className="text-2xl font-semibold mb-4">Course Content</h2>
             {coursePost?.modules?.map((section, index) => (
-              <div key={index} className="border-2 border-gray-100 rounded-lg mb-4 px-4 py-1"> 
+              <div
+                key={index}
+                className="border-2 border-gray-100 rounded-lg mb-4 px-4 py-1"
+              >
                 <button
                   className="w-full py-4 flex justify-between items-center focus:outline-none"
                   onClick={() =>
@@ -556,12 +547,13 @@ const NewCourseDetailPage = () => {
                   }
                 >
                   <span className="font-medium">{section?.moduleTitle}</span>
-                  <FaChevronDown className={`w-5 h-5 transition-transform ${
+                  <FaChevronDown
+                    className={`w-5 h-5 transition-transform ${
                       expandedAccordionItem === index
                         ? "transform rotate-180"
                         : ""
-                    }`}/>
-                 
+                    }`}
+                  />
                 </button>
                 {expandedAccordionItem === index && (
                   <div className="py-0">
@@ -593,8 +585,8 @@ const NewCourseDetailPage = () => {
         )}
 
         {/* Pricing and Enrollment */}
-        <div className="bg-gradient-to-r from-blue-500 to-blue-700 text-white p-8 rounded-lg shadow-lg mb-8 transition-all duration-300 hover:shadow-xl">
-          <h2 className="text-3xl font-bold mb-6">
+        <div className=" bgGredient-purple text-white p-8 rounded-lg shadow-lg mb-8 transition-all duration-300 hover:shadow-xl">
+          <h2 className="lg:text-3xl md:text-2xl text-xl textGold  font-bold mb-6">
             Enroll Now and Start Your Journey
           </h2>
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
@@ -616,8 +608,12 @@ const NewCourseDetailPage = () => {
                   <span>₹ {Math.round(coursePost?.price)}</span>
                 )}
               </span>
+              <span className=" text-[#fdfdfd] font-semibold ml-1 text-xl">
+                {" "}
+                / month
+              </span>
 
-              <p className="text-lg mt-2">
+              <p className="text-lg mt-2 textGold">
                 {isCouponApplied
                   ? "60% discount applied!"
                   : "50% discount - Limited time offer!"}
@@ -631,7 +627,7 @@ const NewCourseDetailPage = () => {
                     id="coupon"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
-                    className="rounded-l-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-300 text-gray-900"
+                    className="rounded-l-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#f5eeb4] text-gray-900"
                     placeholder="Enter Coupon Code"
                   />
                   <button
@@ -640,8 +636,8 @@ const NewCourseDetailPage = () => {
                     className={`${
                       couponLoading
                         ? `bg-red-800 cursor-not-allowed`
-                        : "bg-blue-800 hover:bg-blue-900 "
-                    } text-white px-4 py-2 rounded-r-md transition-colors`}
+                        : "bg-gradient-to-r from-[#efdb78] to-[#f5eeb4] hover:from-[#f5eeb4] hover:to-[#efdb78] textPurple "
+                    } font-bold px-4 py-2 rounded-r-md transition-colors`}
                   >
                     <span className="text-xs block w-full">
                       {couponLoading ? "Wait..." : "Apply"}
@@ -652,7 +648,7 @@ const NewCourseDetailPage = () => {
 
               {currentUser ? (
                 <button
-                  className={`w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg flex items-center justify-center ${
+                  className={`w-full sm:w-auto bg-gradient-to-r from-[#efdb78] to-[#f5eeb4] hover:from-[#f5eeb4] hover:to-[#efdb78] textPurple font-bold py-3 px-8 rounded-lg flex items-center justify-center ${
                     payloading ? "cursor-not-allowed" : ""
                   }`}
                   onClick={() =>
@@ -677,8 +673,8 @@ const NewCourseDetailPage = () => {
                 </button>
               ) : (
                 <button
-                  onClick={() => navigate(`/login/${coursePost?._id}`)}
-                  className="w-full md:w-auto bg-blue-800 text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-900 transition-colors"
+                  onClick={() => navigate(`/login/${courseId}`)}
+                  className="w-full md:w-auto  bg-gradient-to-r from-[#efdb78] to-[#f5eeb4] hover:from-[#d6c664] hover:to-[#b2a652] text-black  px-6 py-3 rounded-md font-bold hover:bg-blue-900 transition-colors"
                 >
                   Log In to Enroll
                 </button>
@@ -689,49 +685,51 @@ const NewCourseDetailPage = () => {
 
         {/* FAQ Section */}
         <div className="bg-white p-6 rounded-lg shadow-md transition-all duration-300 hover:shadow-xl">
-          <h2 className="text-2xl font-semibold mb-4">
+          <h2 className="text-xl textPurple font-semibold mb-4">
             Frequently Asked Questions
           </h2>
-          {faqItems.map((item, index) => (
-            <div key={index} className="border-b last:border-b-0">
-              <button
-                className="w-full py-4 flex justify-between items-center focus:outline-none"
-                onClick={() =>
-                  setExpandedAccordionItem(
-                    expandedAccordionItem === index ? null : index
-                  )
-                }
-              >
-                <span className="font-medium">{item.question}</span>
-                <svg
-                  className={`w-5 h-5 transition-transform ${
-                    expandedAccordionItem === index
-                      ? "transform rotate-180"
-                      : ""
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+          {coursePost &&
+            coursePost.fAndQ.map((item, index) => (
+              <div key={index} className="border-b last:border-b-0">
+                <button
+                  className="w-full py-4 flex justify-between items-center focus:outline-none"
+                  onClick={() =>
+                    setExpandedAccordionItem(
+                      expandedAccordionItem === index ? null : index
+                    )
+                  }
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-              {expandedAccordionItem === index && (
-                <div className="py-2">
-                  <p>{item.answer}</p>
-                </div>
-              )}
-            </div>
-          ))}
+                  <span className="font-medium">{item.question}</span>
+                  <svg
+                    className={`w-5 h-5 transition-transform ${
+                      expandedAccordionItem === index
+                        ? "transform rotate-180"
+                        : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                {expandedAccordionItem === index && (
+                  <div className="py-2 bg-purple-50 p-2 rounded-md">
+                    <p>{item.answer}</p>
+                  </div>
+                )}
+              </div>
+            ))}
         </div>
       </div>
     </div>
+    </Fragment>
   );
 };
 
