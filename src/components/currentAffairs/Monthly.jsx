@@ -72,13 +72,13 @@ export const Monthly = () => {
     { name: "DEC", color: "bg-yellow-300", monthNo: 12 },
   ];
 
-  const formatDate = (date) => {
-    const options = { day: "numeric", month: "long", year: "numeric" }; // Format for Jan, 2024
-    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
-      new Date(date)
-    );
-    return formattedDate;
-  };
+  // const formatDate = (date) => {
+  //   const options = { day: "numeric", month: "long", year: "numeric" }; // Format for Jan, 2024
+  //   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+  //     new Date(date)
+  //   );
+  //   return formattedDate;
+  // };
 
   // Handle month click and scroll into view
   const handleMonthClick = (monthNo, monthName) => {

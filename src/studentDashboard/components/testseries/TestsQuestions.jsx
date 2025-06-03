@@ -184,7 +184,7 @@ export const TestQuestionsPage = ({ test, series }) => {
       (ans, index) => ans !== -1 && ans !== questions[index].correctAnswer
     ).length;
     const skippedAnswers = selectedAnswers.filter((ans) => ans === -1).length;
-    const percentage = ((score / questions.length) * 100).toFixed(2);
+    // const percentage = ((score / questions.length) * 100).toFixed(2);
 
     return (
       <div className="min-h-screen p-4 sm:p-6 md:p-8">

@@ -21,7 +21,7 @@ import NewCourseDetailPage from "./components/course/CourseDetailNew.jsx";
 import LiveCourseDetailStudent from "./studentDashboard/components/LiveCourseDetailsStudent.jsx";
 import NotFound from "./components/NotFound.jsx";
 import Webinar from "./components/Webinar.jsx";
-import VideoPage from "./components/VideoPage.jsx";
+// import VideoPage from "./components/VideoPage.jsx";
 import UserPYQ from "./studentDashboard/components/UserPyq.jsx";
 
 const Home = lazy(() => import("./components/Home.jsx"));

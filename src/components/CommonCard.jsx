@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth-context";
@@ -9,8 +8,8 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [reviewsCount, setReviewsCount] = useState(0);
-  const [averageRating, setAverageRating] = useState(0);
+  // const [reviewsCount, setReviewsCount] = useState(0);
+  // const [averageRating, setAverageRating] = useState(0);
   const [contentVisible, setContentVisible] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -58,21 +57,21 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
     }
   }, [course.imageUrl]);
 
-  useEffect(() => {
-    const fetchAverageRating = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_API}zenstudy/api/course/${course._id}/getReviews`
-        );
-        setAverageRating(response.data.averageRating);
-        setReviewsCount(response.data.reviews.length);
-      } catch (error) {
-        console.log("Error fetching reviews", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchAverageRating = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${process.env.REACT_APP_API}zenstudy/api/course/${course._id}/getReviews`
+  //       );
+  //       setAverageRating(response.data.averageRating);
+  //       setReviewsCount(response.data.reviews.length);
+  //     } catch (error) {
+  //       console.log("Error fetching reviews", error);
+  //     }
+  //   };
 
-    fetchAverageRating();
-  }, [course]);
+  //   fetchAverageRating();
+  // }, [course]);
 
   const isUpcoming = course.other1 === "upcoming";
   const newPage = course.title?.includes("UPSC Foundation Batch");

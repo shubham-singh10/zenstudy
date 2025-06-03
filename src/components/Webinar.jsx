@@ -14,7 +14,7 @@ import { Loader } from "./loader/Loader";
 import toast from "react-hot-toast";
 import { VscDebugBreakpointLog } from "react-icons/vsc";
 import { usePageTracking } from "../usePageTracking";
-import NewFooter from "./NewFooter";
+// import NewFooter from "./NewFooter";
 
 const RegistrationForm = ({
   isPopup = false,
@@ -398,7 +398,7 @@ function Webinar() {
               <FaClock className="w-8 h-8 text-[#543a5d]" />
               <div>
                 <h3 className="font-semibold">Duration</h3>
-                <p>7pm - 8pm</p>
+                <p>5pm - 6pm</p>
               </div>
             </div>
             <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">

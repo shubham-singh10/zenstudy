@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { GrLanguage } from "react-icons/gr";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -11,17 +11,15 @@ import { FaChevronDown } from "react-icons/fa";
 import {
   FiArrowDown,
   FiArrowUp,
-  FiClock,
   FiLoader,
-  FiUser,
 } from "react-icons/fi";
 import { Loader } from "../loader/Loader";
 
 const NewCourseDetailPage = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [showStickyHeader, setShowStickyHeader] = useState(false);
-  const [couponCode, setCouponCode] = useState("");
+  // const [couponCode, setCouponCode] = useState("");
   const [isCouponApplied, setIsCouponApplied] = useState(false);
   const [expandedAccordionItem, setExpandedAccordionItem] = useState(null);
 
@@ -33,7 +31,7 @@ const NewCourseDetailPage = () => {
   const [payloading, setPayLoading] = useState(false);
   const [discount, setDiscount] = useState(null);
   const [code, setCode] = useState(null);
-  const [showConfetti, setShowConfetti] = useState(true);
+  // const [showConfetti, setShowConfetti] = useState(true);
   const [couponLoading, setCouponLoading] = useState(false);
   const [pageloading, setpageLoading] = useState(false);
   const navigate = useNavigate();
@@ -45,6 +43,7 @@ const NewCourseDetailPage = () => {
   const ApplyCoupon = async (price) => {
     try {
       setCouponLoading(true);
+      setIsCouponApplied(false); // temproary puropse use
       const sendData = {
         code: code,
         coursePrice: price,
@@ -124,13 +123,13 @@ const NewCourseDetailPage = () => {
             },
           }
         );
-        console.log("Response:", response);
+        // console.log("Response:", response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
 
-        console.log("Course_data: ", data);
+        // console.log("Course_data: ", data);
         const ImgData = {
           ...data,
           imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`,
@@ -144,13 +143,13 @@ const NewCourseDetailPage = () => {
       }
     };
     getCourse();
-  }, []);
+  }, [courseId]);
 
   useEffect(() => {
     if (discount) {
       // Assuming you only want to show confetti if there's a discount
       const timer = setTimeout(() => {
-        setShowConfetti(false);
+        // setShowConfetti(false);
       }, 3000); // 3 seconds
       return () => clearTimeout(timer);
     }
@@ -607,6 +606,9 @@ const NewCourseDetailPage = () => {
                 ) : (
                   <span>₹ {Math.round(coursePost?.price)}</span>
                 )}
+              </span>
+              <span className="text-lg ml-1 text-gray-300 line-through">
+                ₹ {coursePost?.value}
               </span>
               <span className=" text-[#fdfdfd] font-semibold ml-1 text-xl">
                 {" "}

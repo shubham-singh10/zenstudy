@@ -296,7 +296,7 @@ const WatchCourse = () => {
                   )}
                   {activeTab === "reviews" && (
                     <div className="space-y-6">
-                      {userReview != 0 && (
+                      {userReview !== 0 && (
                         <form onSubmit={submitReview} className="space-y-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">

@@ -1,5 +1,4 @@
 import { useEffect, useState, Fragment } from "react"
-import Loading from "../../Loading"
 import toast from "react-hot-toast"
 import CommonCard from "../CommonCard"
 import { FaSearch } from "react-icons/fa"

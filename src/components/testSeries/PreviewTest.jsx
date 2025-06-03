@@ -23,8 +23,8 @@ export function PreviewTest({ test, onBack }) {
   const [loading, setLoading] = useState(true);
   const [payloading, setPayLoading] = useState(false);
   const [pageloading, setpageLoading] = useState(false);
-  const [discount, setDiscount] = useState(null);
-  const [code, setCode] = useState(null);
+  // const [discount, setDiscount] = useState(null);
+  // const [code, setCode] = useState(null);
 
   const { user } = useAuth();
   const { userStatus } = VerifyEmailMsg();
@@ -147,9 +147,12 @@ export function PreviewTest({ test, onBack }) {
                 test_series_id: test?._id,
                 coursePrice: test?.price || 0,
                 purchasePrice: test?.price || 0,
-                couponCode: code,
-                couponApplied: code ? true : false,
-                discount: discount?.discount || 0,
+                // couponCode: code,
+                // couponApplied: code ? true : false,
+                // discount: discount?.discount || 0,
+                couponCode: null,
+                couponApplied: false,
+                discount: 0,
                 coursevalidation: "2026-03-01",
               }),
             }
@@ -198,37 +201,37 @@ export function PreviewTest({ test, onBack }) {
           <div className="bg-white rounded-xl shadow-lg overflow-hidden">
             {/* Header with Image */}
             <div className="relative h-56 md:h-64 lg:h-96 w-full rounded-lg overflow-hidden shadow-lg">
-            {/* Image */}
-            <img
-              src={test.imageUrl}
-              crossOrigin="anonymous"
-              alt={test.title}
-              className="object-fill w-full h-full"
-            />
-          
-            {/* Darker Gradient for Better Readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex items-end">
-              <div className="px-3 sm:px-6 py-3 sm:py-6 w-full">
-                {/* Course Badge */}
-                {test.includedInCourse && (
-                  <div className="text-[10px] sm:text-xs md:text-sm font-medium mb-2 bg-indigo-600 text-white px-2 sm:px-3 py-1 rounded-full shadow-md inline-block">
-                    Included in: {test.courses[0]?.title}
-                  </div>
-                )}
-          
-                {/* Title */}
-                <h1 className="text-base sm:text-xl md:text-2xl font-bold text-white leading-snug">
-                  {test.title}
-                </h1>
-          
-                {/* Description */}
-                <p className="text-xs sm:text-sm md:text-base text-white/90 mt-1">
-                  {test.shortDescription}
-                </p>
+              {/* Image */}
+              <img
+                src={test.imageUrl}
+                crossOrigin="anonymous"
+                alt={test.title}
+                className="object-fill w-full h-full"
+              />
+
+              {/* Darker Gradient for Better Readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent flex items-end">
+                <div className="px-3 sm:px-6 py-3 sm:py-6 w-full">
+                  {/* Course Badge */}
+                  {test.includedInCourse && (
+                    <div className="text-[10px] sm:text-xs md:text-sm font-medium mb-2 bg-indigo-600 text-white px-2 sm:px-3 py-1 rounded-full shadow-md inline-block">
+                      Included in: {test.courses[0]?.title}
+                    </div>
+                  )}
+
+                  {/* Title */}
+                  <h1 className="text-base sm:text-xl md:text-2xl font-bold text-white leading-snug">
+                    {test.title}
+                  </h1>
+
+                  {/* Description */}
+                  <p className="text-xs sm:text-sm md:text-base text-white/90 mt-1">
+                    {test.shortDescription}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-          
+
 
             {/* Navigation Tabs */}
             <div className="border-b">
@@ -246,11 +249,10 @@ export function PreviewTest({ test, onBack }) {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`flex items-center space-x-2 py-4 border-b-2 transition-colors whitespace-nowrap ${
-                        activeTab === tab.id
+                      className={`flex items-center space-x-2 py-4 border-b-2 transition-colors whitespace-nowrap ${activeTab === tab.id
                           ? "border-indigo-600 text-indigo-600"
                           : "border-transparent text-gray-500 hover:text-gray-700"
-                      }`}
+                        }`}
                     >
                       <tab.icon className="w-4 h-4 sm:w-5 sm:h-5" />
                       <span className="text-sm font-medium">{tab.label}</span>
@@ -382,15 +384,14 @@ export function PreviewTest({ test, onBack }) {
                           </div>
                           <span
                             className={`px-2 py-1 rounded-full text-xs font-medium 
-                          ${
-                            testItem.difficulty === "Basic"
-                              ? "bg-green-100 text-green-800"
-                              : testItem.difficulty === "Medium"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : testItem.difficulty === "Moderate"
-                              ? "bg-blue-100 text-blue-800"
-                              : "bg-purple-100 text-purple-800"
-                          }`}
+                          ${testItem.difficulty === "Basic"
+                                ? "bg-green-100 text-green-800"
+                                : testItem.difficulty === "Medium"
+                                  ? "bg-yellow-100 text-yellow-800"
+                                  : testItem.difficulty === "Moderate"
+                                    ? "bg-blue-100 text-blue-800"
+                                    : "bg-purple-100 text-purple-800"
+                              }`}
                           >
                             {testItem.difficulty}
                           </span>
@@ -487,24 +488,26 @@ export function PreviewTest({ test, onBack }) {
 
                   {test.includedInCourse ? (
                     <button
-                      onClick={() =>{newPage ?  navigate(
-                        `/courseDetailslive/${test.courses[0].title.replace(
-                          /\s+/g,
-                          "-"
-                        )}`,
-                        {
-                          state: { courseId: test.courses[0]._id },
-                        }
-                      ) : 
-                        navigate(
-                          `/course-details/${test.courses[0].title.replace(
+                      onClick={() => {
+                        newPage ? navigate(
+                          `/courseDetailslive/${test.courses[0].title.replace(
                             /\s+/g,
                             "-"
                           )}`,
                           {
                             state: { courseId: test.courses[0]._id },
                           }
-                        )}
+                        ) :
+                          navigate(
+                            `/course-details/${test.courses[0].title.replace(
+                              /\s+/g,
+                              "-"
+                            )}`,
+                            {
+                              state: { courseId: test.courses[0]._id },
+                            }
+                          )
+                      }
                       }
                       className="flex-1 sm:flex-initial px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 text-sm"
                     >
@@ -515,11 +518,10 @@ export function PreviewTest({ test, onBack }) {
                     <button
                       onClick={() => handlePayment(test.price)}
                       disabled={payloading}
-                      className={` ${
-                        payloading
+                      className={` ${payloading
                           ? "bg-red-600 cursor-not-allowed"
                           : "bg-indigo-600 hover:bg-indigo-700"
-                      } flex-1 sm:flex-initial px-4 py-2  text-white rounded-lg font-medium  transition-colors flex items-center justify-center gap-2 text-sm`}
+                        } flex-1 sm:flex-initial px-4 py-2  text-white rounded-lg font-medium  transition-colors flex items-center justify-center gap-2 text-sm`}
                     >
                       <FiLock className="w-4 h-4" />
                       {payloading ? "Please Wait.." : "Enroll Now"}

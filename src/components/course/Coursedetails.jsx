@@ -19,7 +19,7 @@ const CourseDetailsView = () => {
   const [payloading, setPayLoading] = useState(false);
   const [discount, setDiscount] = useState(null);
   const [code, setCode] = useState(null);
-  const [showConfetti, setShowConfetti] = useState(true);
+  // const [showConfetti, setShowConfetti] = useState(true);
   const [couponLoading, setCouponLoading] = useState(false);
   const [error, setError] = useState(null);
   const [pageloading, setpageLoading] = useState(false);
@@ -79,7 +79,7 @@ const CourseDetailsView = () => {
     if (discount) {
       // Assuming you only want to show confetti if there's a discount
       const timer = setTimeout(() => {
-        setShowConfetti(false);
+        // setShowConfetti(false);
       }, 3000); // 3 seconds
       return () => clearTimeout(timer);
     }
