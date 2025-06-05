@@ -437,6 +437,31 @@
   @apply text-[#543a5d];
 }
 
+.textGreen {
+  @apply text-[#5d6e53];
+}
+
+.textdark {
+  @apply text-[#292b27];
+}
+
+.textLight {
+  @apply text-[#fdfdfd];
+}
+
+
+.bgGredient-green {
+  @apply bg-gradient-to-r from-[#5d6e53] to-[#343e25] 
+}
+
+.bgGredient-gold{
+  @apply bg-gradient-to-r from-[#efdb78] to-[#cc9a04] 
+}
+
 .bgGredient-purple {
   @apply bg-gradient-to-r from-[#543a5d] to-[#935aa6] 
+}
+
+.bgGredient-purple-lr {
+  @apply bg-gradient-to-r from-[#935aa6] to-[#543a5d] 
 }

@@ -380,7 +380,7 @@ const LiveCourseDetailsPage = () => {
             <>
               {/* Blurred Placeholder (Visible Until Image Loads) */}
               <div
-                className={`absolute inset-0 w-full h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 transition-opacity duration-700 ${bannerImageLoaded ? "opacity-0" : "opacity-100"}`}
+                className={`absolute inset-0 w-full h-full bgGredient-purple transition-opacity duration-700 ${bannerImageLoaded ? "opacity-0" : "opacity-100"}`}
               />
 
               {/* Course Poster Image */}
@@ -392,21 +392,21 @@ const LiveCourseDetailsPage = () => {
               />
             </>
           ) : (
-            <div className="w-full h-40 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 flex justify-center items-center text-white">
+            <div className="w-full h-40 bgGredient-purple flex justify-center items-center text-white">
               <h1 className="text-2xl lg:text-3xl font-bold tracking-wide">Welcome to the {CoursesData.title} Batch</h1>
             </div>
           )}
         </div>
 
         {/* Tabs Section */}
-        <div className="w-full h-14 bg-white sticky top-0 z-10 shadow-lg flex justify-start lg:px-36 items-center lg:space-x-8 px-2 scrollable-tabs">
+        <div className="w-full h-14 bgGredient-purple sticky top-0 z-10 shadow-lg flex justify-start lg:px-36 items-center lg:space-x-8 px-2 scrollable-tabs">
           {tabs.map((tab, index) => (
             <button
               key={index}
               onClick={() => scrollToSection(tab.ref, tab.name.toLowerCase())}
-              className={`text-gray-700 font-semibold text-sm lg:text-md transition duration-300 ${activeTab === tab.name.toLowerCase()
-                ? "text-blue-600 border-b-2 border-blue-600"
-                : "hover:text-blue-600"
+              className={`textLight font-semibold text-sm lg:text-md transition duration-300 ${activeTab === tab.name.toLowerCase()
+                ? "textGold border-b-2 border-[#efdb78]"
+                : "hover:text-[#efdb78]"
                 }`}
             >
               {tab.name}
@@ -433,17 +433,17 @@ const LiveCourseDetailsPage = () => {
             </div>
 
             <div ref={aboutRef} className="py-8 ">
-              <h2 className=" text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 text-gray-800">Course Details</h2>
+              <h2 className=" text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 textPurple">Course Details</h2>
 
               {/* Course Overview Card */}
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-8 border border-blue-100 shadow-sm">
-                <h3 className="text-lg lg:text-xl font-bold text-blue-800 mb-4">Course Overview</h3>
+              <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl p-6 mb-8 border border-blue-100 shadow-sm">
+                <h3 className="text-lg lg:text-xl font-bold textPurple mb-4">Course Overview</h3>
                 <p className="text-gray-700 leading-relaxed">{CoursesData.description}</p>
                 <div className="mt-4 bg-white rounded-lg p-4 border border-blue-100 flex items-center space-x-3">
                   <div className="bg-blue-100 p-3 rounded-full">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-blue-600"
+                      className="h-6 w-6 textPurple"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -470,7 +470,7 @@ const LiveCourseDetailsPage = () => {
                 </div>
               </div>
 
-              <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 text-gray-800">About the Batch</h2>
+              <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 textPurple">About the Batch</h2>
               <ul className="space-y-4">
                 <li className="flex items-start">
                   <span className="text-yellow-500 text-xl mr-3">⭐ </span>{" "}
@@ -493,7 +493,7 @@ const LiveCourseDetailsPage = () => {
                             })}
                           </>
                         ) : (
-                          <span className="ml-1 bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full text-sm font-medium">
+                          <span className="ml-1 bg-purple-100 textPurple px-2 py-0.5 rounded-full text-sm font-medium">
                             1.5 Years Comprehensive Program
                           </span>
                         )}
@@ -616,12 +616,12 @@ const LiveCourseDetailsPage = () => {
             {CoursesData &&
               CoursesData.Offer?.map((item, index) => (
                 <div
-                  className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl p-6 text-white mb-8"
+                  className="bgGredient-purple-lr rounded-xl p-6 text-white mb-8"
                   key={index}
                 >
                   <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
                     <div>
-                      <h3 className="text-2xl font-bold mb-2">Exclusive Offer</h3>
+                      <h3 className="text-2xl textGold font-bold mb-2">Exclusive Offer</h3>
                       <ul className="space-y-2">
                         <li className="flex items-center">
                           <svg
@@ -661,7 +661,7 @@ const LiveCourseDetailsPage = () => {
                       <button
                         className={` ${payloading
                           ? "bg-gradient-to-r from-red-600 to-red-800 cursor-not-allowed"
-                          : "mt-4 md:mt-0 bg-white text-indigo-600 hover:bg-gray-100 transition duration-300"
+                          : "mt-4 md:mt-0 bgGredient-gold textDark hover:bg-gray-100 transition duration-300"
                           } font-bold py-3 px-6 rounded-lg `}
                         onClick={() =>
                           handlePayment(
@@ -679,7 +679,7 @@ const LiveCourseDetailsPage = () => {
                     ) : (
                       <button
                         onClick={() => navigate(`/login/${coursename}`)}
-                        className="mt-4 md:mt-0 bg-white text-indigo-600 font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300"
+                        className="mt-4 md:mt-0  bgGredient-gold textDark font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300"
                       >
                         {item.buttonText}
                       </button>
@@ -689,13 +689,13 @@ const LiveCourseDetailsPage = () => {
               ))}
 
             <div ref={faqRef} className="py-8">
-              <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 text-gray-800">
+              <h2 className="text-xl textPurple md:text-2xl lg:text-3xl font-extrabold mb-6">
                 Frequently Asked Questions
               </h2>
               <div className="space-y-4">
                 {CoursesData.fAndQ !== undefined &&
                   CoursesData.fAndQ.map((item, index) => (
-                    <div key={index} className="bg-blue-100 border rounded-lg">
+                    <div key={index} className="bg-purple-50 border rounded-lg">
                       <div
                         className="cursor-pointer flex justify-between items-center p-4 text-gray-800 font-medium"
                         onClick={() => handleFaqToggle(index)}
@@ -707,14 +707,14 @@ const LiveCourseDetailsPage = () => {
                           ▼
                         </span>
                       </div>
-                      {openFaqIndex === index && <div className="p-4 text-gray-600 bg-blue-50">{item.answer}</div>}
+                      {openFaqIndex === index && <div className="p-4 text-gray-600 bg-[#fdfdfd]">{item.answer}</div>}
                     </div>
                   ))}
               </div>
             </div>
 
             <div ref={moreDetailsRef} className="py-4">
-              <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-4 text-gray-800">More Details...</h2>
+              <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-4 textPurple">More Details...</h2>
             </div>
 
             <div ref={moreDetailsRef}>
@@ -728,11 +728,11 @@ const LiveCourseDetailsPage = () => {
                         <div className={`${section.bgColor || "bg-gray-200"} p-2 rounded-full mr-3`}>
                           <DynamicIcon iconName={section.icon} className={`w-6 h-6 ${section.textColor}`} />
                         </div>
-                        <h3 className="text-lg lg:text-xl font-bold text-gray-800">{section.title}</h3>
+                        <h3 className="text-lg lg:text-xl font-bold textPurple">{section.title}</h3>
                       </div>
                       {isMentorship ? (
                         <>
-                          <div className="p-4 bg-green-50 rounded-lg mb-4 border border-green-100">
+                          <div className="p-4 bg-purple-50 rounded-lg mb-4 border border-purple-100">
                             {section?.contents?.map((item, i) => (
                               <Fragment key={i}>
                                 <p className="text-gray-700">{item.text}</p>
@@ -744,7 +744,7 @@ const LiveCourseDetailsPage = () => {
                               <div className="bg-green-100 p-2 rounded-full mr-3">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
-                                  className="h-5 w-5 text-green-600"
+                                  className="h-5 w-5 textGreen"
                                   fill="none"
                                   viewBox="0 0 24 24"
                                   stroke="currentColor"
@@ -763,7 +763,7 @@ const LiveCourseDetailsPage = () => {
                               <div className="bg-green-100 p-2 rounded-full mr-3">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
-                                  className="h-5 w-5 text-green-600"
+                                  className="h-5 w-5 textGreen"
                                   fill="none"
                                   viewBox="0 0 24 24"
                                   stroke="currentColor"
@@ -782,7 +782,7 @@ const LiveCourseDetailsPage = () => {
                               <div className="bg-green-100 p-2 rounded-full mr-3">
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
-                                  className="h-5 w-5 text-green-600"
+                                  className="h-5 w-5 textGreen"
                                   fill="none"
                                   viewBox="0 0 24 24"
                                   stroke="currentColor"
@@ -807,7 +807,7 @@ const LiveCourseDetailsPage = () => {
                               className={`flex items-start space-x-2 ${item.highlight ? "font-medium scale-105 transition-all duration-200" : ""
                                 }`}
                             >
-                              <GoVerified size={20} className={`text-green-500 mt-1`} />
+                              <GoVerified size={20} className={`textGreen mt-1`} />
                               <span>{item.text}</span>
                             </li>
                           ))}
@@ -821,10 +821,10 @@ const LiveCourseDetailsPage = () => {
               {/* Subjects Covered */}
               <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm mb-8">
                 <div className="flex items-center mb-4">
-                  <div className="bg-indigo-100 p-2 rounded-full mr-3">
+                  <div className="bg-yellow-100 p-2 rounded-full mr-3">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-indigo-600"
+                      className="h-6 w-6 textGold"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -837,19 +837,19 @@ const LiveCourseDetailsPage = () => {
                       />
                     </svg>
                   </div>
-                  <h3 className=" text-lg lg:text-xl font-bold text-gray-800">Subjects Covered</h3>
+                  <h3 className=" text-lg lg:text-xl font-bold textPurple">Subjects Covered</h3>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-3 justify-center items-center">
                   {CoursesData?.subjects?.map((subject, index) => (
-                    <div key={index} className="bg-indigo-50 rounded-lg p-3 text-center border border-indigo-100">
-                      <span className="p-1 text-indigo-700 text-lg font-medium">{subject.subject}</span>
+                    <div key={index} className="bg-indigo-50 rounded-lg p-3 text-center border border-purple-100">
+                      <span className="p-1 textPurple text-lg font-medium">{subject.subject}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Why Choose Us */}
-              <div className="mt-8 bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl p-6 text-white">
+              <div className="mt-8 bgGredient-green  rounded-xl p-6 text-white">
                 <h3 className="text-2xl font-bold mb-4">Why Choose Us?</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   {CoursesData &&
@@ -893,7 +893,7 @@ const LiveCourseDetailsPage = () => {
                   ) : (
                     <button
                       onClick={() => navigate(`/login/${coursename}`)}
-                      className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold py-3 px-8 rounded-lg hover:from-yellow-500 hover:to-yellow-600 transition duration-300 shadow-lg"
+                      className="bgGredient-gold text-gray-900 font-bold py-3 px-8 rounded-lg hover:from-yellow-500 hover:to-yellow-600 transition duration-300 shadow-lg"
                     >
                       Enroll Now and Start Your UPSC Journey!
                     </button>
@@ -923,7 +923,7 @@ const LiveCourseDetailsPage = () => {
 
               {/* Course Title */}
               <div className="flex flex-row justify-between items-center mb-4">
-                <div className="font-bold text-lg text-blue-600 truncate">{CoursesData.title}</div>
+                <div className="font-bold text-lg textPurple truncate">{CoursesData.title}</div>
                 <div className="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-full shadow-sm">
                   {CoursesData.language?.name}
                 </div>
@@ -931,18 +931,18 @@ const LiveCourseDetailsPage = () => {
 
               {/* Pricing Section */}
               <div className="flex flex-col md:flex-row lg:flex-row md:justify-between lg:justify-between lg:items-center mb-6">
-                <p className="text-xl font-bold text-gray-800 mb-2 sm:mb-0">
+                <p className="text-xl font-bold textPurple mb-2 sm:mb-0">
                   ₹{discount?.subTotal ? discount?.subTotal.toFixed(2) : CoursesData.price}{" "}
                   <span className="text-red-500 line-through text-sm">₹{CoursesData?.value}</span>
                 </p>
 
                 {discount?.subTotal && (
-                  <p className="text-blue-700 text-sm">
+                  <p className="textGold text-sm">
                     Extra discount applied! You saved ₹{(CoursesData.price - discount?.subTotal).toFixed(2)}
                   </p>
                 )}
 
-                <p className="text-green-700 rounded-l-md font-semibold px-3 py-1 border-l-4 border-green-600 bg-green-200 text-sm">
+                <p className="textGold rounded-l-md font-semibold px-3 py-1 border-l-4 border-[#efdb78] bgGredient-green text-sm">
                   Save {Math.round(((CoursesData?.value - CoursesData?.price) / CoursesData?.value) * 100)}%
                 </p>
               </div>
@@ -950,7 +950,7 @@ const LiveCourseDetailsPage = () => {
               {/* Apply Coupon Link */}
               {currentUser && (
                 <button
-                  className="text-blue-600 text-sm font-semibold hover:text-blue-800 hover:underline mb-3"
+                  className="textPurple text-sm font-semibold hover:text-[#292b27] hover:underline mb-3"
                   onClick={() => setIsModalOpen(true)}
                 >
                   Have a coupon? Apply it here.
@@ -962,7 +962,7 @@ const LiveCourseDetailsPage = () => {
                 <button
                   className={` ${payloading
                     ? "bg-gradient-to-r from-red-600 to-red-800 cursor-not-allowed"
-                    : "bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900"
+                    : "bgGredient-purple hover:from-[#935aa6] hover:to-[#543a5d]"
                     }  text-white font-medium py-3 px-8 rounded-lg transition duration-300 w-full`}
                   onClick={() =>
                     handlePayment(
@@ -976,7 +976,7 @@ const LiveCourseDetailsPage = () => {
               ) : (
                 <button
                   onClick={() => navigate(`/login/${coursename}`)}
-                  className="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium py-3 px-8 rounded-lg transition duration-300 w-full "
+                  className="bgGredient-purple-lr hover:from-[#543a5d] hover:to-[#935aa6] text-white font-medium py-3 px-8 rounded-lg transition duration-300 w-full "
                 >
                   Login to Purchase
                 </button>
@@ -987,7 +987,7 @@ const LiveCourseDetailsPage = () => {
             {isModalOpen && (
               <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
                 <div className="bg-white rounded-lg shadow-2xl w-96 p-6 relative">
-                  <h2 className="text-lg font-semibold text-gray-800 mb-4">Apply Coupon Code</h2>
+                  <h2 className="text-lg font-semibold textPurple mb-4">Apply Coupon Code</h2>
                   <input
                     type="text"
                     value={couponCode}
@@ -1005,7 +1005,7 @@ const LiveCourseDetailsPage = () => {
                     <button
                       onClick={handleApplyCoupon}
                       disabled={couponLoading}
-                      className={`${couponLoading ? "bg-red-600 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"} text-white font-medium py-2 px-4 rounded-lg transition`}
+                      className={`${couponLoading ? "bg-red-600 cursor-not-allowed" : "bgGredient-purple hover:bg-purple-900 hover:text-[#efdb78]"} text-white font-medium py-2 px-4 rounded-lg transition`}
                     >
                       Apply
                     </button>
