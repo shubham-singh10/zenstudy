@@ -80,7 +80,7 @@ const Courses = () => {
 
       try {
         const response = await fetch(
-          `https://apinew.zenstudy.in/zenstudy/api/course/${api}`,
+          `${process.env.REACT_APP_API3}zenstudy/api/course/${api}`,
           {
             method: "GET",
             headers: {
