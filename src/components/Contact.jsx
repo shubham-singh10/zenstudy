@@ -59,7 +59,7 @@ const ContactUs = () => {
 
   const [errors, setErrors] = useState({
     email: "",
-    phone: ""
+    phone: "",
   });
 
   // Handle form change
@@ -84,7 +84,12 @@ const ContactUs = () => {
     e.preventDefault();
     let valid = true;
     // Check if any field is empty
-    if (!formData.fullName || !formData.email || !formData.phone || !formData.message) {
+    if (
+      !formData.fullName ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.message
+    ) {
       Swal.fire({
         icon: "warning",
         title: "Please fill all the fields!",
@@ -92,7 +97,7 @@ const ContactUs = () => {
       });
       return;
     }
-    
+
     // Email validation
     if (!validateEmail(formData.email)) {
       setErrors((prevErrors) => ({
@@ -148,10 +153,21 @@ const ContactUs = () => {
         fullName: "",
         email: "",
         message: "",
-        phone: ""
+        phone: "",
       });
     }
   };
+
+
+  const purpleOutline = {
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": { borderColor: "#935aa6" },
+    "&:hover fieldset": { borderColor: "#935aa6" },
+    "&.Mui-focused fieldset": { borderColor: "#935aa6" },
+  },
+  "& label.Mui-focused": { color: "#935aa6" },
+};
+
 
   return (
     <div>
@@ -159,9 +175,11 @@ const ContactUs = () => {
         <animated.div
           style={SlideLeft}
           ref={refSlideLeft}
-          className="bg-blue-600 text-white p-4 lg:p-16 rounded-3xl flex-1"
+          className="bgGredient-purple-lr text-white p-4 lg:p-16  lg:rounded-br-[40%] md:rounded-br-[30%] rounded-br-[20%] flex-1"
         >
-          <h2 className="text-3xl font-bold mb-4">Contact Us</h2>
+          <h2 className="text-3xl textGoldGradient font-bold mb-4">
+            Contact Us
+          </h2>
           <div className="space-y-4 mb-8">
             <p className="flex gap-2 items-center">
               <i className="fas fa-envelope text-xl">
@@ -183,9 +201,11 @@ const ContactUs = () => {
               Delhi, Delhi, 110060
             </p>
           </div>
-          <h3 className="text-2xl font-bold mb-4">Connect with us</h3>
+          <h3 className="text-2xl font-bold mb-4 textGoldGradient">
+            Connect with us
+          </h3>
           <div className="flex space-x-4">
-            <div className="flex space-x-4 justify-center">
+            <div className="flex space-x-4 justify-center items-center">
               <Link
                 to="https://youtube.com/@zenstudyz?si=iN4l51faOy1_mjYu"
                 target="blank"
@@ -220,9 +240,9 @@ const ContactUs = () => {
         <animated.div
           style={SlideRight}
           ref={refSlideRight}
-          className="flex-1 p-8"
+          className="flex-1 lg:p-8 md-p-4 p-1"
         >
-          <h2 className="text-3xl font-bold mb-8 text-blue-600">
+          <h2 className="text-3xl font-bold mb-8 textPurpleGradient">
             Get In Touch
           </h2>
           <form className="space-y-4" onSubmit={onSubmit}>
@@ -239,6 +259,7 @@ const ContactUs = () => {
                 value={formData.fullName}
                 onChange={handleChange}
                 variant="outlined"
+                sx={purpleOutline}
               />
               <TextField
                 className="w-full"
@@ -251,6 +272,7 @@ const ContactUs = () => {
                 error={!!errors.email}
                 helperText={errors.email}
                 variant="outlined"
+                sx={purpleOutline}
               />
               <TextField
                 className="w-full"
@@ -263,6 +285,7 @@ const ContactUs = () => {
                 error={!!errors.phone}
                 helperText={errors.phone}
                 variant="outlined"
+                sx={purpleOutline}
               />
               <TextField
                 className="w-full"
@@ -274,12 +297,13 @@ const ContactUs = () => {
                 variant="outlined"
                 multiline
                 rows={4}
+                sx={purpleOutline}
               />
             </Box>
 
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md"
+              className="bgGredient-purple bg-gradient-to-r hover:from-[#935aa6] hover:to-[#543a5d]  text-white py-2 px-4 rounded-md"
               disabled={Loading}
             >
               {Loading ? "Please wait..." : "Submit"}
@@ -291,7 +315,7 @@ const ContactUs = () => {
       <div ref={refSlideLeftMap} className="p-4 lg:p-16 md:p-8">
         <animated.h2
           style={SlideLeftMap}
-          className="text-3xl font-bold mb-8 text-blue-600"
+          className="text-3xl font-bold mb-8 textPurpleGradient"
         >
           Find Us On Map
         </animated.h2>

@@ -37,7 +37,7 @@ function PopUpMsg() {
         </p>
         <button
           onClick={handleOkClick}
-          className="bg-blue-600 w-[50%] text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+          className="bgGredient-purple w-[50%] text-white py-2 px-4 rounded-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#543a5d] focus:ring-offset-2"
         >
           OK
         </button>

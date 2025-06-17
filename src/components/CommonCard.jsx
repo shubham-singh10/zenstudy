@@ -8,8 +8,7 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`);
   const [imageLoaded, setImageLoaded] = useState(false);
-  // const [reviewsCount, setReviewsCount] = useState(0);
-  // const [averageRating, setAverageRating] = useState(0);
+
   const [contentVisible, setContentVisible] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -57,21 +56,7 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
     }
   }, [course.imageUrl]);
 
-  // useEffect(() => {
-  //   const fetchAverageRating = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `${process.env.REACT_APP_API}zenstudy/api/course/${course._id}/getReviews`
-  //       );
-  //       setAverageRating(response.data.averageRating);
-  //       setReviewsCount(response.data.reviews.length);
-  //     } catch (error) {
-  //       console.log("Error fetching reviews", error);
-  //     }
-  //   };
 
-  //   fetchAverageRating();
-  // }, [course]);
 
   const isUpcoming = course.other1 === "upcoming";
   const newPage = course.title?.includes("UPSC Foundation Batch");
@@ -93,7 +78,7 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
       <div className="relative">
         {/* Blurred Placeholder (Visible Until Image Loads) */}
         <div
-          className={`absolute inset-0 w-full h-52 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-2xl transition-opacity duration-700 ${
+          className={`absolute inset-0 w-full h-52 bgGradient-purple-light rounded-2xl transition-opacity duration-700 ${
             imageLoaded ? "opacity-0" : "opacity-100"
           } shimmer`}
         />
@@ -111,10 +96,10 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
 
       <div className="px-2 py-4">
         <div className="flex flex-row justify-between items-center gap-2">
-          <div className="font-bold text-sm text-blue-600 truncate">
+          <div className="font-bold text-sm textPurple  truncate">
             {course.title}
           </div>
-          <div className="px-3 py-1 w-auto text-sm font-medium text-gray-700 bg-gray-100 rounded-full shadow-sm">
+          <div className="px-3 py-1 text-sm font-medium textGold bgGredient-green  w-fit rounded-tr-xl rounded-bl-xl shadow-sm">
             {course.language?.name}
           </div>
         </div>
@@ -126,16 +111,16 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
             Free Course
           </p>
         ) : course.value ? (
-          <p className="text-blue-600 font-bold text-lg">
+          <p className="textPurple  font-bold text-lg">
             {" "}
             <span className="line-through text-gray-400 text-sm mr-1">
               {" "}
               ₹ {course.value}
             </span>{" "}
-            ₹ {course.price} {course.title?.toLowerCase().includes("mentorship and answer") && <span className="text-xs text-gray-500">/month</span>}
+            ₹ {course.price} {(course.title?.toLowerCase().includes("personalised mentorship programme") || course.title?.toLowerCase().includes("upsc foundation batch")) && <span className="text-xs text-gray-500">/month</span>}
           </p>
         ) : (
-          <p className="text-blue-600 font-bold text-xl"> ₹ {course.price}</p>
+          <p className="textPurple  font-bold text-xl"> ₹ {course.price}</p>
         )}
 
         {isUpcoming ? (

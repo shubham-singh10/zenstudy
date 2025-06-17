@@ -9,21 +9,21 @@ const TermandConditions = () => {
             <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
                 <div className="overflow-hidden rounded-xl bg-white shadow">
                     {/* Header */}
-                    <div className="bg-gradient-to-r from-blue-600 to-blue-700  px-6 py-8 sm:px-8">
+                    <div className="bgGredient-purple  px-6 py-8 sm:px-8">
                         <div className="flex items-center gap-3">
-                            <LuScrollText className="h-8 w-8 text-white" />
-                            <h1 className="text-2xl font-bold text-white sm:text-3xl">Terms and Conditions</h1>
+                            <LuScrollText className="h-8 w-8 textGold" />
+                            <h1 className="text-2xl font-bold textGold sm:text-3xl">Terms and Conditions</h1>
                         </div>
-                        <p className="mt-2 text-indigo-100">Last updated: March 14, 2024</p>
+                        <p className="mt-2 textLight">Last updated: March 14, 2024</p>
                     </div>
 
                     {/* Content */}
                     <div className="px-6 py-8 sm:px-8">
                         <div className="space-y-8">
                             {/* Introduction */}
-                            <section className="rounded-lg bg-indigo-50 p-6">
+                            <section className="rounded-lg bgGradient-purple-light p-6">
                                 <div className="flex items-center gap-3 mb-4">
-                                    <FiShield className="h-6 w-6 text-blue-600" />
+                                    <FiShield className="h-6 w-6 textPurple" />
                                     <h2 className="text-xl font-semibold text-gray-900">1. Introduction</h2>
                                 </div>
                                 <p className="text-gray-600 leading-relaxed">
@@ -34,7 +34,7 @@ const TermandConditions = () => {
                             {/* User Eligibility & Registration */}
                             <section>
                                 <div className="flex items-center gap-3 mb-4">
-                                    <PiUserCircle className="h-6 w-6 text-blue-600" />
+                                    <PiUserCircle className="h-6 w-6 textPurple" />
                                     <h2 className="text-xl font-semibold text-gray-900">2. User Eligibility & Registration</h2>
                                 </div>
                                 <div className="grid gap-6 sm:grid-cols-2">
@@ -59,7 +59,7 @@ const TermandConditions = () => {
                             {/* Services & Content */}
                             <section>
                                 <div className="flex items-center gap-3 mb-4">
-                                    <BiBookOpen className="h-6 w-6 text-blue-600" />
+                                    <BiBookOpen className="h-6 w-6 textPurple" />
                                     <h2 className="text-xl font-semibold text-gray-900">3. Services & Content</h2>
                                 </div>
                                 <div className="rounded-lg bg-gray-50 p-6">
@@ -72,7 +72,7 @@ const TermandConditions = () => {
                             {/* Payment & Subscription */}
                             <section>
                                 <div className="flex items-center gap-3 mb-4">
-                                    <BiCreditCard className="h-6 w-6 text-blue-600" />
+                                    <BiCreditCard className="h-6 w-6 textPurple" />
                                     <h2 className="text-xl font-semibold text-gray-900">4. Payment & Subscription</h2>
                                 </div>
                                 <div className="rounded-lg border border-gray-200 p-4">
@@ -88,32 +88,32 @@ const TermandConditions = () => {
                             {[
                                 {
                                     title: "5. User Conduct",
-                                    icon: <FiAlertCircle className="h-6 w-6 text-blue-600" />,
+                                    icon: <FiAlertCircle className="h-6 w-6 textPurple" />,
                                     content: "Users must not engage in illegal, abusive, or disruptive activities on the Platform."
                                 },
                                 {
                                     title: "6. Privacy & Data Use",
-                                    icon: <FiShield className="h-6 w-6 text-blue-600" />,
+                                    icon: <FiShield className="h-6 w-6 textPurple" />,
                                     content: "Personal information is collected per our Privacy Policy. Users can request account deletion via contact@zenstudy.in, subject to legal retention requirements."
                                 },
                                 {
                                     title: "7. Intellectual Property",
-                                    icon: <BiBookOpen className="h-6 w-6 text-blue-600" />,
+                                    icon: <BiBookOpen className="h-6 w-6 textPurple" />,
                                     content: "All content is owned by Zenstudy or licensors and cannot be copied or modified without permission."
                                 },
                                 {
                                     title: "8. Third-Party Links",
-                                    icon: <FiExternalLink className="h-6 w-6 text-blue-600" />,
+                                    icon: <FiExternalLink className="h-6 w-6 textPurple" />,
                                     content: "Zenstudy is not responsible for external content or services linked on the Platform."
                                 },
                                 {
                                     title: "9. Limitation of Liability & Termination",
-                                    icon: <FiAlertCircle className="h-6 w-6 text-blue-600" />,
+                                    icon: <FiAlertCircle className="h-6 w-6 textPurple" />,
                                     content: "Zenstudy is not liable for damages arising from Platform use. Accounts may be suspended for violations."
                                 },
                                 {
                                     title: "10. Amendments & Governing Law",
-                                    icon: <LuScrollText className="h-6 w-6 text-blue-600" />,
+                                    icon: <LuScrollText className="h-6 w-6 textPurple" />,
                                     content: "Zenstudy may update these Terms. The laws of India govern disputes, with jurisdiction in West Bengal."
                                 }
                             ].map((section, index) => (
@@ -127,13 +127,13 @@ const TermandConditions = () => {
                             ))}
 
                             {/* Contact Information */}
-                            <section className="rounded-lg bg-indigo-50 p-6">
+                            <section className="rounded-lg bgGradient-purple-light  p-6">
                                 <div className="flex items-center gap-3 mb-4">
-                                    <FiMail className="h-6 w-6 text-blue-600" />
+                                    <FiMail className="h-6 w-6 textPurple" />
                                     <h2 className="text-xl font-semibold text-gray-900">11. Contact Information</h2>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    <a href="mailto:contact@zenstudy.in" className="text-blue-600 hover:underline">
+                                    <a href="mailto:contact@zenstudy.in" className="textPurple hover:underline">
                                         contact@zenstudy.in
                                     </a>
                                 </div>

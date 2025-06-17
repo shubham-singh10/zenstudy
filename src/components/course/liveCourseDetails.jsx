@@ -420,15 +420,7 @@ const LiveCourseDetailsPage = () => {
           <div className="w-full lg:w-[60%] bg-white p-2 md:p-3 lg:p-6">
             {/* Sections corresponding to tabs */}
             <div ref={featuresRef} className="py-8">
-              {
-                //   <iframe
-                //   title={CoursesData.title}
-                //   src={`https://player.vdocipher.com/v2/?otp=${CoursesData?.previewVideo?.previewVideoUrl}&playbackInfo=${CoursesData?.previewVideo?.previewVideoDescription}`}
-                //   className="w-full h-96"
-                //   allowFullScreen
-                //   allow="encrypted-media"
-                // ></iframe>
-              }
+            
               <VideoPlayer videopath={CoursesData?.previewVideo?.previewVideoDescription} />
             </div>
 
@@ -436,11 +428,11 @@ const LiveCourseDetailsPage = () => {
               <h2 className=" text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 textPurple">Course Details</h2>
 
               {/* Course Overview Card */}
-              <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl p-6 mb-8 border border-blue-100 shadow-sm">
+              <div className="bgGradient-purple-light rounded-xl p-6 mb-8 border border-[#543a5d] shadow-sm">
                 <h3 className="text-lg lg:text-xl font-bold textPurple mb-4">Course Overview</h3>
                 <p className="text-gray-700 leading-relaxed">{CoursesData.description}</p>
-                <div className="mt-4 bg-white rounded-lg p-4 border border-blue-100 flex items-center space-x-3">
-                  <div className="bg-blue-100 p-3 rounded-full">
+                <div className="mt-4 bg-white rounded-lg p-4 border border-p-urple100 flex items-center space-x-3">
+                  <div className="bg-purple-100 p-3 rounded-full">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6 textPurple"
@@ -637,7 +629,7 @@ const LiveCourseDetailsPage = () => {
                             />
                           </svg>
                           <span>
-                            {item.title} {item.description}
+                            {item.title} {item.description} per month
                           </span>
                         </li>
                         <li className="flex items-center">
@@ -732,7 +724,7 @@ const LiveCourseDetailsPage = () => {
                       </div>
                       {isMentorship ? (
                         <>
-                          <div className="p-4 bg-purple-50 rounded-lg mb-4 border border-purple-100">
+                          <div className="p-4 bg-purple-50 rounded-lg mb-4 border border-[#543a5d]">
                             {section?.contents?.map((item, i) => (
                               <Fragment key={i}>
                                 <p className="text-gray-700">{item.text}</p>
@@ -841,7 +833,7 @@ const LiveCourseDetailsPage = () => {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-3 justify-center items-center">
                   {CoursesData?.subjects?.map((subject, index) => (
-                    <div key={index} className="bg-indigo-50 rounded-lg p-3 text-center border border-purple-100">
+                    <div key={index} className="bg-indigo-50 rounded-lg p-3 text-center border border-[#543a5d]">
                       <span className="p-1 textPurple text-lg font-medium">{subject.subject}</span>
                     </div>
                   ))}
@@ -910,7 +902,7 @@ const LiveCourseDetailsPage = () => {
               <div className="relative w-full mb-4 aspect-video">
                 {/* Blurred Placeholder (Visible Until Image Loads) */}
                 <div
-                  className={`absolute inset-0 w-full h-full bg-gradient-to-r from-blue-100 to-indigo-100 rounded-lg transition-opacity duration-700 ${thumbnailImageLoaded ? "opacity-0" : "opacity-100"}`}
+                  className={`absolute inset-0 w-full h-full bg-gradient-to-r from-purple-100 to-purple-100 rounded-lg transition-opacity duration-700 ${thumbnailImageLoaded ? "opacity-0" : "opacity-100"}`}
                 />
 
                 <img
@@ -924,7 +916,7 @@ const LiveCourseDetailsPage = () => {
               {/* Course Title */}
               <div className="flex flex-row justify-between items-center mb-4">
                 <div className="font-bold text-lg textPurple truncate">{CoursesData.title}</div>
-                <div className="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-full shadow-sm">
+                <div className="px-3 py-1 text-sm font-medium textGold bgGredient-green bg-gray-100 rounded-full shadow-sm">
                   {CoursesData.language?.name}
                 </div>
               </div>
@@ -932,8 +924,9 @@ const LiveCourseDetailsPage = () => {
               {/* Pricing Section */}
               <div className="flex flex-col md:flex-row lg:flex-row md:justify-between lg:justify-between lg:items-center mb-6">
                 <p className="text-xl font-bold textPurple mb-2 sm:mb-0">
-                  ₹{discount?.subTotal ? discount?.subTotal.toFixed(2) : CoursesData.price}{" "}
-                  <span className="text-red-500 line-through text-sm">₹{CoursesData?.value}</span>
+                 <span className="text-red-500 line-through text-sm mr-2">₹{CoursesData?.value}</span>
+                  ₹{discount?.subTotal ? discount?.subTotal.toFixed(2) : CoursesData.price}{" "} <span className="text-sm">/ month</span>
+                 
                 </p>
 
                 {discount?.subTotal && (
@@ -993,7 +986,7 @@ const LiveCourseDetailsPage = () => {
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value)}
                     placeholder="Enter coupon code"
-                    className="w-full border border-gray-300 rounded-lg p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                    className="w-full border border-gray-300 rounded-lg p-3 mb-4 focus:outline-none focus:ring-2 focus:ring-[#543a5d] transition"
                   />
                   <div className="flex justify-end gap-3">
                     <button

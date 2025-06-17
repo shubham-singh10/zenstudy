@@ -4,6 +4,7 @@ import axios from 'axios';
 import { FiArrowLeft, FiChevronDown, FiChevronRight, FiFileText, FiPlay, FiStar } from 'react-icons/fi';
 import { useAuth } from '../../../context/auth-context';
 import WatchCourseSkeleton from './WatchCourseSkeleton';
+import { DashVideoPlayer } from '../DashVideoPlayer';
 
 const WatchCourseFree = () => {
   const [activeTab, setActiveTab] = useState('about');
@@ -77,18 +78,25 @@ const WatchCourseFree = () => {
   }, [id, navigate, fetchReviews]);
 
   useEffect(() => {
-    if (courses.length > 0) {
-      const introModule = courses.find(module => module.moduleTitle.toLowerCase() === 'introduction') || courses[0];
-      if (introModule.videos.length > 0) {
-        const firstVideo = introModule.videos[0];
-        setVideoOtp(firstVideo.videoCode);
-        setVideoPlayback(firstVideo.playBackInfo);
-        setSelectedVideoTitle(firstVideo.videoTitle);
-        setSelectedVideoDesc(firstVideo.videoDescription || '');
-      }
-    }
-  }, [courses]);
-
+     if (courses.length > 0) {
+       const introModule =
+         courses.find(
+           (module) => module.moduleTitle.toLowerCase() === "introduction"
+         ) || courses[0];
+       // Filter videos with status "ready"
+       const readyVideos = introModule.videos.filter(
+         (video) => video.status === "ready"
+       );
+       if (readyVideos.length > 0) {
+         const firstVideo = readyVideos[0];
+         setVideoOtp(firstVideo.videoCode);
+         setVideoPlayback(firstVideo.playBackInfo);
+         setSelectedVideoTitle(firstVideo.videoTitle);
+         setSelectedVideoDesc(firstVideo.videoDescription || "");
+          
+       }
+     }
+   }, [courses]);
 
   const handleVideoClick = (video) => {
     setVideoOtp(video.videoCode);
@@ -131,7 +139,7 @@ const WatchCourseFree = () => {
       <div className="container mx-auto px-4 py-6">
         <button
           onClick={() => navigate('/free-resources')}
-          className="mb-6 px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors flex items-center space-x-2 shadow-md"
+          className="mb-6 px-4 py-2 bgGredient-purple text-white rounded-full hover:scale-105 transition-colors flex items-center space-x-2 shadow-md"
         >
           <FiArrowLeft size={20} />
           <span>Back to Courses</span>
@@ -142,40 +150,35 @@ const WatchCourseFree = () => {
           <div className="lg:col-span-2 space-y-6">
             {/* Video Player */}
             <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-lg">
-              <iframe
-                title={selectedVideoTitle}
-                src={`https://player.vdocipher.com/v2/?otp=${videoOtp}&playbackInfo=${videoPlayback}`}
-                className="w-full h-full"
-                allowFullScreen
-                allow="encrypted-media"
-              ></iframe>
+              {
+                // <iframe
+              //   title={selectedVideoTitle}
+              //   src={`https://player.vdocipher.com/v2/?otp=${videoOtp}&playbackInfo=${videoPlayback}`}
+              //   className="w-full h-full"
+              //   allowFullScreen
+              //   allow="encrypted-media"
+              // ></iframe>
+              }
+
+              <DashVideoPlayer
+                              videopath={videoOtp}
+                              thumbnailUrl={videoPlayback}
+                            />
             </div>
 
-            <h1 className="lg:text-xl text-lg font-bold text-gray-800">{selectedVideoTitle}</h1>
+            <h1 className="lg:text-xl text-lg font-bold textPurple">{selectedVideoTitle}</h1>
 
             {/* Tabs */}
-            <div className="bg-white rounded-xl shadow-md overflow-hidden">
-              <div className="flex flex-wrap border-b">
-                {/* {['about', 'notes', 'materials', 'qa', 'reviews'].map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`px-4 py-3 text-sm font-medium transition-colors flex-grow sm:flex-grow-0 ${activeTab === tab
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-600 hover:bg-gray-100'
-                      }`}
-                  >
-                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                  </button>
-                ))} */}
+            <div className="bg-purple-50 rounded-xl shadow-md overflow-hidden">
+              <div className="flex flex-wrap border-b">               
 
                 {['about', 'reviews'].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
                     className={`px-4 py-3 text-sm font-medium transition-colors flex-grow sm:flex-grow-0 ${activeTab === tab
-                      ? 'bg-blue-600 text-white rounded-2xl'
-                      : 'text-gray-600 hover:bg-gray-100 rounded-lg'
+                      ? 'bgGredient-purple text-white rounded-2xl'
+                      : 'text-gray-600 hover:bg-purple-100 rounded-lg'
                       }`}
                   >
                     {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -194,7 +197,7 @@ const WatchCourseFree = () => {
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       placeholder="Take notes here..."
-                      className="w-full h-40 p-4 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full h-40 p-4 border rounded-lg focus:ring-2 focus:ring-[#543a5d] focus:border-transparent"
                     />
                   </div>
                 )}
@@ -202,22 +205,22 @@ const WatchCourseFree = () => {
                   <div className="space-y-4">
                     <h3 className="font-semibold text-lg">Course Materials</h3>
                     {materials.map((material) => (
-                      <div key={material.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                        <FiFileText className="text-blue-500" />
+                      <div key={material.id} className="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg">
+                        <FiFileText className="textPurple" />
                         <span>{material.name}</span>
-                        <span className="text-xs text-gray-500 uppercase">{material.type}</span>
+                        <span className="text-xs textPurple uppercase">{material.type}</span>
                       </div>
                     ))}
                   </div>
                 )}
                 {activeTab === 'qa' && (
-                  <p className="text-gray-600 italic">Q&A feature coming soon!</p>
+                  <p className="textPurple italic">Q&A feature coming soon!</p>
                 )}
                 {activeTab === 'reviews' && (
                   <div className="space-y-6">
                     <form onSubmit={submitReview} className="space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Your Rating</label>
+                        <label className="block text-sm font-medium textPurple mb-1">Your Rating</label>
                         <div className="flex items-center space-x-1">
                           {[1, 2, 3, 4, 5].map((star) => (
                             <button
@@ -239,7 +242,7 @@ const WatchCourseFree = () => {
                         </div>
                       </div>
                       <div>
-                        <label htmlFor="review" className="block text-sm font-medium text-gray-700 mb-1">Your Review</label>
+                        <label htmlFor="review" className="block text-sm font-medium textPurple mb-1">Your Review</label>
                         <textarea
                           id="review"
                           value={userReview.content}
@@ -247,14 +250,14 @@ const WatchCourseFree = () => {
                             !hasSubmittedReview &&
                             setUserReview((prev) => ({ ...prev, content: e.target.value }))
                           }
-                          className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#543a5d] focus:border-transparent"
                           rows={3}
                           disabled={hasSubmittedReview}
                         />
                       </div>
                       <button
                         type="submit"
-                        className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+                        className="w-full px-4 py-2 bgGredient-purple text-white rounded-lg hover:scale-105 transition-colors shadow-md"
                         disabled={hasSubmittedReview || sLoading}
                       >
                        {sLoading ? "Please wait..." : "Submit Review"}
@@ -298,11 +301,11 @@ const WatchCourseFree = () => {
           {/* Course Content Sidebar */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow-md overflow-hidden sticky top-6">
-              <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-200 px-6 py-4 flex items-center justify-between rounded-t-lg shadow-sm">
-                <h2 className="text-lg font-semibold text-blue-800 flex items-center gap-2">
+              <div className="bgGradient-purple-light px-6 py-4 flex items-center justify-between rounded-t-lg shadow-sm">
+                <h2 className="text-lg font-semibold textPurple flex items-center gap-2">
                   📘 Course Content
                 </h2>
-                <span className="text-sm italic text-gray-600">({courseName})</span>
+                <span className="text-sm italic textPurple">({courseName})</span>
               </div>
 
               <div className="p-4 max-h-[calc(100vh-10rem)] overflow-y-auto">
@@ -310,28 +313,30 @@ const WatchCourseFree = () => {
                   <div key={index} className="mb-4">
                     <button
                       onClick={() => toggleModule(module._id, module.moduleTitle)}
-                      className={`${selectedModule === module.moduleTitle ? "bg-blue-400" : ""} w-full px-4 py-3 flex items-center border-2 justify-between text-left rounded-lg `}
+                      className={`${selectedModule === module.moduleTitle ? "bgGredient-purple text-white" : "bgGradient-purple-light textPurple hover:bg-purple-100"} w-full px-4 py-3 flex items-center border-2 justify-between text-left rounded-lg `}
                     >
-                      <span className={`font-medium  ${selectedModule === module.moduleTitle ? " text-white" : "text-gray-800"}`}>
+                      <span className={`font-medium  ${selectedModule === module.moduleTitle ? " textLight" : "textPurple"}`}>
                         {module.moduleTitle}
                       </span>
                       {expandedModules.includes(module._id) ? (
-                        <FiChevronDown size={20} className={`${selectedModule === module.moduleTitle ? "text-white" : "text-gray-500"}`} />
+                        <FiChevronDown size={20} className={`${selectedModule === module.moduleTitle ? "textLight" : "text-gray-500"}`} />
                       ) : (
-                        <FiChevronRight size={20} className={`${selectedModule === module.moduleTitle ? "text-white" : "text-gray-500"}`} />
+                        <FiChevronRight size={20} className={`${selectedModule === module.moduleTitle ? "textLight" : "text-gray-500"}`} />
                       )}
                     </button>
                     {expandedModules.includes(module._id) && (
                       <div className="mt-2 space-y-2">
-                        {module.videos.map((video, vIndex) => (
+                        {module.videos
+                            .filter((video) => video.status === "ready")
+                            .map((video, vIndex) => (
                           <button
                             key={vIndex}
                             onClick={() => handleVideoClick(video)}
-                            className={`w-full px-4 py-2 flex items-center border-2 justify-between text-left rounded-lg transition-colors ${selectedVideoTitle === video.videoTitle ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 bg-blue-50 text-gray-700'
+                            className={`w-full px-4 py-2 flex items-center border-2 justify-between text-left rounded-lg transition-colors ${selectedVideoTitle === video.videoTitle ? 'bg-purple-100 textPurple' : 'hover:bg-purple-100 bg-purple-50 text-gray-700'
                               }`}
                           >
                             <div className="flex items-center">
-                              <FiPlay size={16} className={`mr-2 ${selectedVideoTitle === video.videoTitle ? 'text-blue-600' : 'text-gray-400 '}`} />
+                              <FiPlay size={16} className={`mr-2 ${selectedVideoTitle === video.videoTitle ? 'textPurple' : 'text-gray-400 '}`} />
                               <span className="text-sm">{video.videoTitle}</span>
                             </div>
                           </button>

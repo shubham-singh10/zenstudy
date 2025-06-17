@@ -125,20 +125,20 @@ const About = () => {
             alt="Team"
             className="w-full h-auto object-cover"
           />
-          <animated.div className="absolute rounded-xl top-0 right-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4 border-blue-600"></animated.div>
-          <animated.div className="absolute rounded-xl bottom-0 left-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></animated.div>
+          <animated.div className="absolute rounded-xl top-0 right-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4 border-[#543a5d]"></animated.div>
+          <animated.div className="absolute rounded-xl bottom-0 left-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-[#543a5d]"></animated.div>
         </animated.div>
         <animated.div
           style={slideFromRightAboutUs}
           className="flex flex-col items-start lg:w-[50%] w-[100%]"
         >
-          <div className="text-2xl mt-10 md:text-3xl lg:text-4xl mb-8 text-center text-[#054BB4] font-semibold">
-            A<span className="border-b-4 border-[#054BB4]">bout U</span>s
+          <div className="text-2xl mt-10 md:text-3xl lg:text-4xl mb-8 text-center textPurpleGradient font-semibold">
+            A<span className="border-b-4 border-[#543a5d]">bout U</span>s
           </div>
 
           <div className="flex flex-col space-y-8">
             <div className="flex items-start">
-              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="flex-shrink-0 w-2 h-2 bgGredient-purple rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
                   Zenstudy is an innovative educational startup revolutionizing
@@ -148,7 +148,7 @@ const About = () => {
               </div>
             </div>
             <div className="flex items-start">
-              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="flex-shrink-0 w-2 h-2 bgGredient-purple rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
                   We specialize in personalized student-centered education, with
@@ -157,7 +157,7 @@ const About = () => {
               </div>
             </div>
             <div className="flex items-start">
-              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="flex-shrink-0 w-2 h-2 bgGredient-purple rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
                   Our dedicated team and competent educators are working
@@ -175,7 +175,7 @@ const About = () => {
       <animated.div
         style={scaleUpMission}
         ref={refMission}
-        className="flex w-[100%] h-[90px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bg-blue-600 text-center justify-center items-center"
+        className="flex w-[100%] h-[90px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bgGredient-purple text-center  justify-center items-center"
       >
         <p className="lg:text-3xl md:text-2xl text-xl">Our Mission</p>
       </animated.div>
@@ -187,7 +187,7 @@ const About = () => {
         >
           <div className="flex flex-col space-y-8">
             <div className="flex items-start">
-              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="flex-shrink-0 w-2 h-2 bgGredient-purple rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
                   At Zenstudy UPSC, after analyzing the UPSC pattern over the
@@ -198,7 +198,7 @@ const About = () => {
               </div>
             </div>
             <div className="flex items-start">
-              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="flex-shrink-0 w-2 h-2 bgGredient-purple rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
                   However, students often struggle with outdated content, which
@@ -207,7 +207,7 @@ const About = () => {
               </div>
             </div>
             <div className="flex items-start">
-              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="flex-shrink-0 w-2 h-2 bgGredient-purple rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
                   At Zenstudy, we aim to evolve the process, making UPSC
@@ -228,8 +228,8 @@ const About = () => {
             alt="Mission"
             className="w-full h-auto object-cover"
           />
-          <div className="absolute rounded-xl top-0 left-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-t-8 lg:border-l-8 border-t-4 border-l-4  border-blue-600"></div>
-          <div className="absolute rounded-xl bottom-0 right-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-b-8 lg:border-r-8 border-b-4 border-r-4 border-blue-600"></div>
+          <div className="absolute rounded-xl top-0 left-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-t-8 lg:border-l-8 border-t-4 border-l-4  border-[#543a5d]"></div>
+          <div className="absolute rounded-xl bottom-0 right-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-b-8 lg:border-r-8 border-b-4 border-r-4 border-[#543a5d]"></div>
         </animated.div>
       </div>
 
@@ -237,7 +237,7 @@ const About = () => {
       <animated.div
         style={scaleUpVision}
         ref={refVision}
-        className="flex w-[100%] h-[90px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bg-blue-600 text-center justify-center items-center"
+        className="flex w-[100%] h-[90px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bgGredient-purple text-center  justify-center items-center"
       >
         <p className="lg:text-3xl md:text-2xl text-xl">Our Vision</p>
       </animated.div>
@@ -253,8 +253,8 @@ const About = () => {
             alt="Team"
             className="w-full h-auto object-cover"
           />
-          <animated.div className="absolute rounded-xl top-0 right-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4 border-blue-600"></animated.div>
-          <animated.div className="absolute rounded-xl bottom-0 left-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></animated.div>
+          <animated.div className="absolute rounded-xl top-0 right-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4 border-[#543a5d]"></animated.div>
+          <animated.div className="absolute rounded-xl bottom-0 left-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-[#543a5d]"></animated.div>
         </animated.div>
         <animated.div
           style={slideFromRightVision}
@@ -262,7 +262,7 @@ const About = () => {
         >
           <div className="flex flex-col space-y-8">
             <div className="flex items-start">
-              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="flex-shrink-0 w-2 h-2 bgGredient-purple rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
                   Education has been an integral part of a child's upbringing.
@@ -272,7 +272,7 @@ const About = () => {
               </div>
             </div>
             <div className="flex items-start">
-              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="flex-shrink-0 w-2 h-2 bgGredient-purple rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
                   We at Zen Study is trying to change it through, keeping the
@@ -284,7 +284,7 @@ const About = () => {
               </div>
             </div>
             <div className="flex items-start">
-              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="flex-shrink-0 w-2 h-2 bgGredient-purple rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
                   Our ultimate aim is to make education imaginative and to truly
@@ -301,7 +301,7 @@ const About = () => {
       <animated.div
         style={scaleUpWhoWeAre}
         ref={refWhoWeAre}
-        className="flex w-[100%] h-[90px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bg-blue-600 text-center justify-center items-center"
+        className="flex w-[100%] h-[90px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bgGredient-purple text-center  justify-center items-center"
       >
         <p className="lg:text-3xl md:text-2xl text-xl">Who Are We</p>
       </animated.div>
@@ -313,7 +313,7 @@ const About = () => {
         >
           <div className="flex flex-col space-y-8">
             <div className="flex items-start">
-              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="flex-shrink-0 w-2 h-2 bgGredient-purple rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
                   We are an emerging ed-tech company, currently specializing in
@@ -325,7 +325,7 @@ const About = () => {
               </div>
             </div>
             <div className="flex items-start">
-              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="flex-shrink-0 w-2 h-2 bgGredient-purple rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
                   Since the UPSC syllabus covers a large portion of school
@@ -347,8 +347,8 @@ const About = () => {
             alt="Who We Are"
             className="w-full h-auto object-cover"
           />
-          <div className="absolute rounded-xl top-0 left-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-t-8 lg:border-l-8 border-t-4 border-l-4  border-blue-600"></div>
-          <div className="absolute rounded-xl bottom-0 right-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-b-8 lg:border-r-8 border-b-4 border-r-4 border-blue-600"></div>
+          <div className="absolute rounded-xl top-0 left-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-t-8 lg:border-l-8 border-t-4 border-l-4  border-[#543a5d]"></div>
+          <div className="absolute rounded-xl bottom-0 right-0 w-[50px] h-[50px] lg:w-[100px] lg:h-[100px] lg:border-b-8 lg:border-r-8 border-b-4 border-r-4 border-[#543a5d]"></div>
         </animated.div>
       </div>
 
@@ -356,7 +356,7 @@ const About = () => {
       <animated.div
         style={scaleUpWhyChooseUs}
         ref={refWhyChooseUs}
-        className="flex w-[100%] h-[90px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bg-blue-600 text-center justify-center items-center"
+        className="flex w-[100%] h-[90px] mt-4 mb-4 lg:mb-10 lg:mt-10 md:mt-6 md:mb-6 text-white bgGredient-purple text-center  justify-center items-center"
       >
         <p className="lg:text-3xl md:text-2xl text-xl">Why Choose Us</p>
       </animated.div>
@@ -371,8 +371,8 @@ const About = () => {
             alt="Team"
             className="w-full h-auto object-cover"
           />
-          <animated.div className="absolute rounded-xl top-0 right-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4 border-blue-600"></animated.div>
-          <animated.div className="absolute rounded-xl bottom-0 left-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-blue-600"></animated.div>
+          <animated.div className="absolute rounded-xl top-0 right-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-t-8 lg:border-r-8 border-t-4 border-r-4 border-[#543a5d]"></animated.div>
+          <animated.div className="absolute rounded-xl bottom-0 left-0 lg:w-[100px] lg:h-[100px] w-[50px] h-[50px] lg:border-b-8 lg:border-l-8 border-b-4 border-l-4 border-[#543a5d]"></animated.div>
         </animated.div>
         <animated.div
           style={slideFromRightWhyChooseUs}
@@ -380,7 +380,7 @@ const About = () => {
         >
           <div className="flex flex-col space-y-8">
             <div className="flex items-start">
-              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="flex-shrink-0 w-2 h-2 bgGredient-purple rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
                   We've always been told that choosing friends is one of the
@@ -396,7 +396,7 @@ const About = () => {
               </div>
             </div>
             <div className="flex items-start">
-              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+              <div className="flex-shrink-0 w-2 h-2 bgGredient-purple rounded-full mt-2"></div>
               <div className="ml-4">
                 <p>
                   Our vision is to make learning more intuitive and engaging,

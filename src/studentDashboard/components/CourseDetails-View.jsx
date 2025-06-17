@@ -27,10 +27,10 @@ const CourseDetailsView = () => {
   const { width, height } = useWindowSize();
   const navigate = useNavigate();
   const { courseId } = useParams();
-  const {state} = useLocation()
-  const selectedcourseId = state?.courseId
-  const { userStatus , userData} = VerifyEmailMsg();
-  
+  const { state } = useLocation();
+  const selectedcourseId = state?.courseId;
+  const { userStatus, userData } = VerifyEmailMsg();
+
   useEffect(() => {
     if (discount) {
       // Assuming you only want to show confetti if there's a discount
@@ -185,7 +185,12 @@ const CourseDetailsView = () => {
                 user_id: userData?._id,
                 course_id: selectedcourseId,
                 coursePrice: coursePost?.price || 0,
-                purchasePrice: discount?.subTotal !== undefined ? (discount?.subTotal === 0 ? 1 : (discount?.subTotal).toFixed(2)) : coursePost?.price,
+                purchasePrice:
+                  discount?.subTotal !== undefined
+                    ? discount?.subTotal === 0
+                      ? 1
+                      : (discount?.subTotal).toFixed(2)
+                    : coursePost?.price,
                 couponCode: code,
                 couponApplied: code ? true : false,
                 discount: discount?.discount || 0,
@@ -275,16 +280,16 @@ const CourseDetailsView = () => {
       <div className="">
         {showConfetti && discount && <Confetti width={width} height={height} />}
 
-        <div className="p-4 lg:p-12 bg-blue-100 w-full md:p-8 rounded-md flex flex-col justify-start items-start">
+        <div className="p-4 lg:p-12 bgGradient-purple-light  w-full rounded-md flex flex-col justify-start items-start">
           <button
-            className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-4 flex items-center lg:-mt-10 md:-mt-6 sm:mt-0"
+            className="text-white bgGredient-green  hover:scale-105 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-4 flex items-center lg:-mt-10 md:-mt-6 sm:mt-0"
             onClick={() => navigate("/course-details-student")}
           >
             <FiArrowLeft className="w-5 h-5 mr-2" />
             Back
           </button>
           <div>
-            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold">
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold textGreen">
               {coursePost?.title}
             </h1>
             <p
@@ -296,14 +301,17 @@ const CourseDetailsView = () => {
             <div className="flex items-center mt-4">
               <div className="flex items-center mr-4">
                 <GrLanguage />
-                <span className="ml-2"> {coursePost?.language.name}</span>
+                <span className="ml-2">{coursePost?.language.name}</span>
               </div>
             </div>
           </div>
         </div>
-        <div className="p-4 md:p-12 lg:p-12 mt-8 flex flex-col md:flex-row lg:flex-row gap-1 md:gap-4 lg:gap-10 md:items-center lg:items-start items-center">
-          <div className=" border-l-8 border-blue-600 p-2  w-full md:w-1/2 lg:w-2/3">
-            <h2 className="text-lg md:text-xl font-bold">About Course</h2>
+
+        <div className="flex flex-col-reverse lg:flex-row w-full items-center justify-center lg:p-20 md:p-14 p-2 gap-10  rounded-lg shadow-md">
+          <div className="border-l-4 lg:border-l-4 md:border-l-4 md:border-r-4 lg:border-r-4 border-[#543a5d] w-full lg:rounded-br-[10%] lg:rounded-tl-[10%] md:rounded-br-[10%] md:rounded-tl-[10%] lg:w-[60%] bg-white p-2 md:p-3 lg:p-6 ">
+            <h2 className="text-lg md:text-xl textPurple font-bold">
+              About Course
+            </h2>
             <ul className="mt-4 space-y-2 flex flex-col gap-4">
               <li
                 className="flex items-start text-justify"
@@ -311,7 +319,6 @@ const CourseDetailsView = () => {
                   __html: he.decode(coursePost?.other1),
                 }}
               />
-
               <li
                 className="flex items-start text-justify"
                 dangerouslySetInnerHTML={{
@@ -320,7 +327,8 @@ const CourseDetailsView = () => {
               />
             </ul>
           </div>
-          <div className="bg-white justify-center lg:sticky lg:top-4 items-center max-w-sm  mt-[20px] md:mt-[-80px] lg:mt-[-120px] relative rounded-2xl overflow-hidden shadow-lg m-4 p-4 w-full h-1/2">
+
+          <div className="w-full max-w-sm lg:w-[40%] shadow-md border-1 border-[#543a5d] p-2 md:p-5 lg:p-6 ">
             {firstModule ? (
               // First module exists
               <div key={0}>
@@ -335,9 +343,7 @@ const CourseDetailsView = () => {
                         className="w-full aspect-video rounded-md"
                         allowFullScreen={true}
                         allow="encrypted-media"
-                      >
-                      </iframe>
-
+                      ></iframe>
                     ) : (
                       <div>No video URL provided</div>
                     )}
@@ -349,200 +355,187 @@ const CourseDetailsView = () => {
               </div>
             ) : (
               // No firstModule; render fallback image with loading state
-              <div className="relative">
-                {imgloading && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
-                    <div className="w-24 h-24 bg-gray-400 rounded-full"></div>
-                  </div>
-                )}
-                <img
-                  src={imageSrc}
-                  crossOrigin="anonymous"
-                  alt="Course Thumbnail"
-                  className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${imgloading ? "opacity-0" : "opacity-100"
-                    }`}
-                  onLoad={() => setImgLoading(false)}
-                />
-              </div>
+                <div className="relative">
+              {imgloading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
+                  <div className="w-24 h-24 bg-gray-400 rounded-full"></div>
+                </div>
+              )}
+              <img
+                src={imageSrc}
+                crossOrigin="anonymous"
+                alt="Course Thumbnail"
+                className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${
+                  imgloading ? "opacity-0" : "opacity-100"
+                }`}
+                onLoad={() => setImgLoading(false)}
+              />
+            </div>
             )}
 
             <div className="p-2 pt-4 rounded-lg space-y-6 ">
-              <div>
-                <h2 className="text-lg font-bold text-blue-600">
-                  {coursePost?.title}
-                </h2>
-                <p className="text-gray-500 text-xs mt-2">
-                  Created at: {formatDate(coursePost?.createdAt)}
-                </p>
+             <div className="flex flex-row justify-between items-center gap-2">
+              <div className="font-bold text-sm textPurple  truncate">
+                {coursePost.title}
               </div>
+              <div className="px-3 py-1 text-sm font-medium textGold bgGredient-green  w-fit rounded-tr-xl rounded-bl-xl shadow-sm">
+                {coursePost.language?.name}
+              </div>
+            </div>
 
-              <div className="flex items-center gap-1">
+             <div className="text-xl font-bold  textPurple">
+              {discount ? (
+                <div className="flex items-center">
+                  <span className="line-through text-gray-400 text-sm mr-2">
+                    ₹ {Math.round(coursePost?.price)}
+                  </span>
+                  <span>
+                    ₹{" "}
+                    {discount.subTotal === 0 ? 1 : discount.subTotal.toFixed(2)}
+                  </span>
+                </div>
+              ) : (
+                <>
+                  <span>₹ {Math.round(coursePost?.price)}</span>
+                  <span className="text-red-500 line-through text-sm ml-2">
+                    ₹{coursePost?.value}
+                  </span>
+                  {coursePost?.title
+                    ?.toLowerCase()
+                    .includes("mentorship and answer") && (
+                    <span className="text-xs text-gray-500">/month</span>
+                  )}
+                </>
+              )}
+            </div>
+
+               <div className="flex items-center gap-1">
                 <input
                   type="text"
                   id="coupon"
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
-                  className="flex-grow w-[70%] border border-gray-300 p-2  rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
+                  className="flex-grow w-[70%] border border-[#343e25] p-2 rounded-lg focus:outline-none focus:ring focus:ring-[#343e25]"
                   placeholder="Enter Coupon Code"
                 />
                 <button
                   onClick={() => ApplyCoupon(coursePost?.price)}
-                  disabled={!code || couponLoading} // Disable button if no input or loading
-                  className={`${couponLoading || !code
-                    ? `bg-gray-400 cursor-not-allowed w-[30%] ${couponLoading ? "py-3" : "py-1"
-                    }`
-                    : "bg-blue-600 hover:bg-blue-700 w-[30%] py-1"
-                    } text-sm text-white font-bold px-6 rounded-lg transition-all`}
+                  disabled={!code || couponLoading}
+                  className={`${
+                    couponLoading || !code
+                      ? "bg-gray-300 cursor-not-allowed textGreen"
+                      : "bgGredient-green hover:scale-105 textGold"
+                  } w-[30%] h-[46px] text-xs  font-bold rounded-lg transition-all flex items-center justify-center`}
                 >
-                  {couponLoading ? (
-                    <span className="flex items-center justify-center">
-                      <svg
-                        className="w-5 h-5 mr-2 animate-spin text-white text-xs"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
-                        ></path>
-                      </svg>
-                      Applying...
-                    </span>
-                  ) : (
-                    <span className="text-xs">Apply Coupon</span>
-                  )}
+                  {couponLoading ? "Wait..." : "Apply"}
                 </button>
               </div>
-              <div className="border-t pt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <div className="text-xl font-bold text-blue-600">
-                  {discount ? (
-                    <div className="flex items-center">
-                      <span className="line-through text-gray-400 text-sm mr-2">
-                        ₹ {Math.round(coursePost?.price)}
-                      </span>
-                      <span>
-                        ₹{" "}
-                        {discount.subTotal === 0
-                          ? 1
-                          : discount.subTotal.toFixed(2)}
-                      </span>
-                    </div>
-                  ) : (
-                    <span>₹ {Math.round(coursePost?.price)}</span>
-                  )}
-                </div>
 
-                <button
-                  className={`w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg flex items-center justify-center ${payloading ? "cursor-not-allowed" : ""
+               <div className="flex items-center justify-between border-t border-gray-200 ">
+              <div className="mt-4 w-full">
+               
+                  <button
+                    className={`w-full hover:scale-105 bgGredient-purple text-white font-bold py-2 px-8 rounded-lg flex items-center justify-center ${
+                      payloading ? "cursor-not-allowed" : ""
                     }`}
-                  onClick={() =>
-                    handlePayment(
-                      discount
-                        ? discount.subTotal === 0
-                          ? 1
-                          : discount.subTotal.toFixed(2)
-                        : coursePost?.price
-                    )
-                  }
-                  disabled={payloading}
-                >
-                  {payloading ? (
-                    <span className="flex items-center">
-                      <svg
-                        className="w-5 h-5 mr-2 animate-spin text-white"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        ></circle>
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
-                        ></path>
-                      </svg>
-                      Processing...
-                    </span>
-                  ) : (
-                    "Pay Now"
-                  )}
-                </button>
+                    onClick={() =>
+                      handlePayment(
+                        discount
+                          ? discount.subTotal === 0
+                            ? 1
+                            : discount.subTotal.toFixed(2)
+                          : coursePost?.price
+                      )
+                    }
+                    disabled={payloading}
+                  >
+                    {payloading ? (
+                      <span className="flex items-center">
+                        <svg
+                          className="w-5 h-5 mr-2 animate-spin text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V2a10 10 0 00-10 10h2z"
+                          ></path>
+                        </svg>
+                        Processing...
+                      </span>
+                    ) : (
+                      "Pay Now"
+                    )}
+                  </button>               
               </div>
+            </div>
             </div>
           </div>
         </div>
 
-        {coursePost.modules.length > 0 &&
-        <div className="p-2 md:p-12 lg:p-12 bg-blue-100 ">
-          {coursePost.modules.map((title, index) => (
-            <details
-              key={index}
-              className="mb-4 bg-white rounded-2xl shadow overflow-hidden"
-            >
-              <summary className="flex items-center p-4 cursor-pointer">
-                <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center mr-4" />
-
-                <span className="flex-1 font-semibold">
-                  {title.moduleTitle}
-                </span>
-                <div className="transform rotate-0 transition-transform">
-                  <svg
-                    className="w-4 h-4 text-blue-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    ></path>
-                  </svg>
-                </div>
-              </summary>
-              {title.videos.length > 0 ? (
-                title.videos.map(({ _id, videoTitle, IsFree }) => (
-                  <div
-                    className="pb-2 px-10 flex items-center justify-start"
-                    key={_id}
-                  >
-                    <MdSlowMotionVideo className="text-blue-500" />
-                    <p className="px-4 text-gray-500 bg-gray-50 w-full ">
-                      {videoTitle || "no videos"}
-                    </p>
-                    {IsFree ? (
-                      <FaLockOpen className="text-blue-400 " />
-                    ) : (
-                      <FaLock className="text-blue-400 " />
-                    )}
-                  </div>
-                ))
-              ) : (
-                <h2>No videos</h2>
-              )}
-            </details>
-          ))}
-        </div>
-}
+     {coursePost.tags !== "live" && ( coursePost.modules.length > 0 && (
+             <div className="p-2 md:p-12 lg:p-12 w-full  bgGradient-purple-light">
+               {coursePost.modules.map((title, index) => (
+                 <details
+                   key={index}
+                   className="mb-4 bg-white rounded-2xl shadow overflow-hidden"
+                 >
+                   <summary className="flex items-center p-4 cursor-pointer">
+                     <div className="w-4 h-4 bgGredient-purple rounded-full flex items-center justify-center mr-4" />
+                     <span className="flex-1 font-semibold">
+                       {title.moduleTitle}
+                     </span>
+                     <div className="transform rotate-0 transition-transform">
+                       <svg
+                         className="w-4 h-4 textPurple"
+                         fill="none"
+                         stroke="currentColor"
+                         viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg"
+                       >
+                         <path
+                           strokeLinecap="round"
+                           strokeLinejoin="round"
+                           strokeWidth="2"
+                           d="M19 9l-7 7-7-7"
+                         ></path>
+                       </svg>
+                     </div>
+                   </summary>
+                   {title.videos.length > 0 ? (
+                     title.videos.map(({ _id, videoTitle, IsFree }) => (
+                       <div
+                         className="pb-2 px-10 flex items-center justify-start"
+                         key={_id}
+                       >
+                         <MdSlowMotionVideo className="textPurple" />
+                         <p className="px-4 textGreen bgGradient-green-light w-full">
+                           {videoTitle || "no videos"}
+                         </p>
+                         {IsFree ? (
+                           <FaLockOpen className="textPurple" />
+                         ) : (
+                           <FaLock className="textPurple" />
+                         )}
+                       </div>
+                     ))
+                   ) : (
+                     <h2>No videos</h2>
+                   )}
+                 </details>
+               ))}
+             </div>
+                   ))}
       </div>
     </Fragment>
   );

@@ -7,6 +7,7 @@ import Loading from "../../Loading";
 import { FaPlay, FaVideo } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import ResourceSkeleton from "./free-resources/resource-skeleton";
 
 const MyPurchaseCourse = () => {
   const [courses, setCourses] = useState({ recorded: [], live: [] });
@@ -115,7 +116,7 @@ const MyPurchaseCourse = () => {
         icon: "info",
         confirmButtonText: "Close",
         customClass: {
-          confirmButton: "bg-blue-600 hover:bg-blue-700",
+          confirmButton: "bgGredient-purple hover:scale-105",
         },
       });
     } else {
@@ -144,33 +145,33 @@ const MyPurchaseCourse = () => {
             />
           </div>
           <div className="p-4">
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">
+            <h2 className="text-xl font-semibold textPurple mb-2">
               {course?.title}
             </h2>
-            <p className="text-gray-600 mb-4">{course?.language.name}</p>
+            <p className="textGold mb-4 bgGredient-green px-4 text-xs py-1 w-fit rounded-tr-xl rounded-bl-xl">{course?.language.name}</p>
             {course?.tags === "live" ? (
               <div className="flex gap-2">
                 <button
-                  className="flex items-center justify-center w-1/2 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors"
+                  className="flex items-center text-xs justify-center w-1/2 bgGredient-green textGold py-2 px-4 rounded-lg hover:scale-105 transition-colors"
                   onClick={() => handleRecordedLectureClick(course)}
                 >
-                  <FaVideo className="mr-2" /> Visit Live Class
+                  <FaVideo className="mr-2 text-xs" /> Visit Live Class
                 </button>
                 <button
-                  className={`flex items-center justify-center w-1/2 ${
+                  className={`flex items-center text-xs justify-center w-1/2 ${
                     course?.modules?.length <= 0
-                      ? "bg-red-400 hover:bg-red-700"
-                      : "bg-blue-600 hover:bg-blue-700"
+                      ? "bgGredient-purple cursor-not-allowed"
+                      : "bgGredient-purple-lr hover:scale-105"
                   } text-white py-2 px-4 rounded-lg transition-colors`}
                   disabled={(course?.modules).length <= 0}
                   onClick={() => navigate(`/watch-course/${course.paymentId}`)}
                 >
-                  <FaPlay className="mr-2" /> Recorded Lecture
+                  <FaPlay className="mr-2 text-xs" />{course?.modules?.length <= 0 ? "No Recorded Lecture yet" : "Recorded Lecture"}
                 </button>
               </div>
             ) : (
               <button
-                className="flex items-center justify-center w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+                className="flex items-center justify-center w-full bgGredient-purple-lr text-white py-2 px-4 rounded-lg hover:scale-105 transition-colors"
                 onClick={() => navigate(`/watch-course/${course.paymentId}`)}
               >
                 <FaPlay className="mr-2" /> Continue Learning
@@ -182,14 +183,20 @@ const MyPurchaseCourse = () => {
     </div>
   );
 
-  if (loading) {
-    return <Loading />;
-  }
+ if (loading) {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[...Array(6)].map((_, index) => (
+        <ResourceSkeleton key={index} />
+      ))}
+    </div>
+  );
+}
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-purple-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">
+        <h1 className="text-3xl font-bold textPurpleGradient mb-6">
           Your Purchased Courses
         </h1>
 
@@ -198,7 +205,7 @@ const MyPurchaseCourse = () => {
             <input
               type="text"
               placeholder="Search courses..."
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#543a5d]"
               value={searchTerm}
               onChange={(e) => handleSearch(e.target.value)}
             />
@@ -225,11 +232,11 @@ const MyPurchaseCourse = () => {
 
         <div className="space-y-8">
           <section>
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            <h2 className="text-2xl font-semibold textPurple mb-4">
               Your Recorded Courses
             </h2>
             {getFilteredAndSortedCourses(courses.recorded).length === 0 ? (
-              <p className="text-center text-gray-500 text-lg py-10">
+              <p className="text-center textdark text-lg py-10">
                 No recorded courses found
               </p>
             ) : (
@@ -249,11 +256,11 @@ const MyPurchaseCourse = () => {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            <h2 className="text-2xl font-semibold textdark mb-4">
               Your Live Courses
             </h2>
             {getFilteredAndSortedCourses(courses.live).length === 0 ? (
-              <p className="text-center text-gray-500 text-lg py-10">
+              <p className="text-center textdark text-lg py-10">
                 No live courses found
               </p>
             ) : (

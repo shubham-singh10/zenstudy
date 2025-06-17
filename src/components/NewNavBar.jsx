@@ -56,7 +56,7 @@ const NewNavBar = () => {
       <div className="w-full h-[15vh] mb-4 flex items-center justify-between px-6 lg:px-12 shadow-md">
         {/* Logo */}
         <Link to={"/"} className="flex flex-col items-start">
-          <p className="text-3xl font-bold">
+          <p className="text-3xl textdark font-bold">
             Zenstudy
           </p>
           <p className="text-[10px] font-bold  textPurple">
@@ -109,13 +109,13 @@ const NewNavBar = () => {
           {!isAuthenticated ? (
             <div className="flex items-center gap-4">
               <button
-                className="px-6 py-2 bgGredient-purpletext-white font-semibold rounded-full shadow-lg hover:from-[#935aa6] hover:to-[#543a5d] hover:shadow-xl transition-all duration-300"
+                className="px-6 py-2 bgGredient-purple text-white font-semibold rounded-full shadow-lg hover:from-[#935aa6] hover:to-[#543a5d] hover:shadow-xl transition-all duration-300"
                 onClick={() => navigate("/sign-In")}
               >
                 Login
               </button>
               <button
-                className="px-6 py-2 bg-gradient-to-r from-[#5d6e53] to-[#91aa83] text-white font-semibold rounded-full shadow-lg hover:from-[#91aa83] hover:to-[#5d6e53] hover:shadow-xl transition-all duration-300"
+                className="px-6 py-2 bgGredient-green-lr text-white font-semibold rounded-full shadow-lg hover:from-[#5d6e53] hover:to-[#343e25] hover:shadow-xl transition-all duration-300"
                 onClick={() => navigate("/sign-Up")}
               >
                 Sign Up
@@ -179,12 +179,12 @@ const NewNavBar = () => {
         <div className="lg:hidden flex items-center">
           {!hamBurger ? (
             <RxHamburgerMenu
-              className="text-2xl text-[#054BB4] cursor-pointer"
+              className="text-2xl textPurple cursor-pointer"
               onClick={() => setHamBurger(true)}
             />
           ) : (
             <RxCross2
-              className="text-2xl text-[#054BB4] cursor-pointer"
+              className="text-2xl textPurple cursor-pointer"
               onClick={() => setHamBurger(false)}
             />
           )}
@@ -196,7 +196,7 @@ const NewNavBar = () => {
       }
 
       {hamBurger && (
-        <div className="lg:hidden fixed top-0 left-0 w-full h-full bgGredient-purpletext-white z-50 flex flex-col">
+        <div className=" bgGredient-purple lg:hidden fixed top-0 left-0 w-full h-full bgGredient-purpletext-white z-50 flex flex-col">
           <div className="flex justify-end p-4">
             <RxCross2
               className="text-2xl text-white cursor-pointer"
@@ -210,7 +210,7 @@ const NewNavBar = () => {
                   <Link
                     to={item.link}
                     onClick={() => setHamBurger(false)}
-                    className="block w-full px-4 py-2 hover:bg-[#063e92] transition-all"
+                    className="block w-full px-4 py-2 textLight hover:bg-[#efdb78] hover:text-black border-2 rounded-3xl border-white transition-all"
                   >
                     {item.label}
                   </Link>
@@ -219,7 +219,7 @@ const NewNavBar = () => {
               {!isAuthenticated ? (
                 <Fragment>
                   <button
-                    className="w-full px-4 py-2 bg-white text-[#054BB4] rounded-full hover:bg-gray-200"
+                    className="w-full px-4 py-2 bgGredient-gold textGreen rounded-full hover:scale-105 transition-all"
                     onClick={() => {
                       navigate("/sign-In");
                       setHamBurger(false);
@@ -228,7 +228,7 @@ const NewNavBar = () => {
                     Login
                   </button>
                   <button
-                    className="w-full px-4 py-2 bg-white text-[#054BB4] rounded-full hover:bg-gray-200"
+                    className="w-full px-4 py-2 bgGredient-green textGold rounded-full hover:scale-105"
                     onClick={() => {
                       navigate("/sign-Up");
                       setHamBurger(false);
@@ -240,7 +240,7 @@ const NewNavBar = () => {
               ) : (
                 <Fragment>
                   <button
-                    className="flex items-center justify-center w-[50%] px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-full shadow-md hover:from-blue-600 hover:to-blue-800 hover:shadow-lg transition-all"
+                    className="flex items-center justify-center w-[50%] px-6 py-3 bgGredient-green textGold rounded-full hover:scale-105 transition-all"
                     onClick={() => {
                       navigate("/profile");
                       setHamBurger(false);
@@ -250,7 +250,7 @@ const NewNavBar = () => {
                     My Dashboard
                   </button>
                   <button
-                    className="flex items-center justify-center w-[50%] px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white font-semibold rounded-full shadow-md hover:from-red-600 hover:to-red-800 hover:shadow-lg transition-all"
+                    className="flex items-center justify-center w-[50%] px-6 py-3 hover:scale-105 bgGredient-gold textGreen rounded-full transition-all"
                     disabled={logoutLoading}
                     onClick={() => logout()}
                   >

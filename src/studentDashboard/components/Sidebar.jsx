@@ -158,8 +158,8 @@ const Sidebar = () => {
                 />
               </div>
               <div>
-                <p className="font-bold text-lg">Zenstudy</p>
-                <p className="text-xs text-blue-700 text-nowrap">
+                <p className="font-bold textdark text-lg">Zenstudy</p>
+                <p className="text-xs textPurple text-nowrap">
                   Making Education Imaginative
                 </p>
               </div>
@@ -187,18 +187,18 @@ const Sidebar = () => {
                                 )
                               }
                               className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-colors ${openDropdowns.includes(item.label)
-                                  ? "bg-gray-200"
-                                  : "hover:bg-gray-200"
+                                  ? "bg-purple-100"
+                                  : "hover:bg-purple-100"
                                 }`}
                             >
                               <div className="flex items-center gap-3">
-                                <item.icon className="w-5 h-5" />
-                                <span>{item.label}</span>
+                                <item.icon className="w-5 h-5 textPurple" />
+                                <span className="textPurple">{item.label}</span>
                               </div>
                               {openDropdowns.includes(item.label) ? (
-                                <FiChevronDown className="w-4 h-4" />
+                                <FiChevronDown className="w-4 h-4 textPurple" />
                               ) : (
-                                <FiChevronRight className="w-4 h-4" />
+                                <FiChevronRight className="w-4 h-4 textPurple" />
                               )}
                             </button>
                             {openDropdowns.includes(item.label) && (
@@ -208,15 +208,15 @@ const Sidebar = () => {
                                     <Link
                                       to={subItem.href}
                                       className={`block px-3 py-2 rounded-lg transition-colors ${isActive(subItem.href)
-                                          ? "bg-gray-200 text-sidebar-accent-primary"
-                                          : "hover:bg-gray-200"
+                                          ? "bg-purple-100 text-sidebar-accent-primary"
+                                          : "hover:bg-purple-100"
                                         }`}
                                       onClick={() =>
                                         isMobile && setIsOpen(false)
                                       }
                                     >
-                                      <div className="flex items-center gap-3">
-                                        <subItem.icon className="w-5 h-5" />
+                                      <div className="flex items-center textPurple gap-3">
+                                        <subItem.icon className="w-5 h-5 textPurple" />
                                         {subItem.label}
                                       </div>
                                     </Link>
@@ -229,13 +229,13 @@ const Sidebar = () => {
                           <Link
                             to={item.href}
                             className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive(item.href)
-                                ? "bg-gray-200"
-                                : "hover:bg-gray-200"
+                                ? "bg-purple-100"
+                                : "hover:bg-purple-100"
                               }`}
                             onClick={() => isMobile && setIsOpen(false)}
                           >
-                            <item.icon className="w-5 h-5" />
-                            <span>{item.label}</span>
+                            <item.icon className="w-5 h-5 textPurple" />
+                            <span className="textPurple">{item.label}</span>
                           </Link>
                         )}
                       </li>
@@ -247,16 +247,16 @@ const Sidebar = () => {
           </nav>
 
           <div className="p-4 relative">
-            <div className="absolute top-0 left-0 w-full h-full -translate-y-0 bg-gradient-to-b from-black/10 to-transparent z-[-1] rounded-t-md shadow-lg"></div>
+            <div className="absolute top-0 left-0 w-full h-full -translate-y-0 bgGredient-purple z-[-1] rounded-t-md shadow-lg"></div>
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-8 h-8 bg-gray-400 rounded-full flex items-center justify-center">
-                <span className="text-sm font-medium text-gray-200">
+              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                <span className="text-sm font-medium textGold">
                   {initials}
                 </span>
               </div>
               <div className="min-w-0">
-                <p className="font-medium truncate">{user?.name || "Guest"}</p>
-                <p className="text-xs text-gray-400 truncate">
+                <p className="font-medium textGold truncate">{user?.name || "Guest"}</p>
+                <p className="text-xs textGold truncate">
                   {user?.email || "Please update email"}
                 </p>
               </div>

@@ -80,16 +80,16 @@ function DailyAffairs() {
                 className="relative w-full bg-gradient-to-r from-gray-100 to-white border border-gray-300 rounded-xl p-6 shadow-md hover:shadow-2xl transition-all duration-300"
               >
                 {/* Card Title */}
-                <h2 className="text-xl font-bold text-gray-800 mb-4">
+                <h2 className="text-xl font-bold textPurple mb-4">
                   Daily Current Affairs
                 </h2>
               
                 {/* Card Content */}
                 <div className="flex flex-col items-center gap-4">
-                  <div className="bg-gradient-to-r from-green-400 to-green-600 text-white flex justify-center items-center w-full px-6 py-4 font-semibold rounded-lg shadow-md">
+                  <div className="bgGredient-purple-lr text-white flex justify-center items-center w-full px-6 py-4 font-semibold rounded-lg shadow-md">
                     {formattedDate}
                   </div>
-                  <p className="text-gray-600 text-sm text-center">
+                  <p className="textdrak text-sm text-center">
                     Stay updated with the latest current affairs for your competitive exams.
                   </p>
                 </div>
@@ -97,7 +97,7 @@ function DailyAffairs() {
                 {/* View PDF Button (hidden by default, visible on hover) */}
                 <div className="absolute inset-0 bg-black bg-opacity-60 flex justify-center items-center opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-xl">
                   <button
-                    className="px-6 py-3 bg-white text-green-600 font-semibold rounded-lg hover:bg-green-600 hover:text-white transition duration-300 shadow-md"
+                    className="px-6 py-3 bg-white textGreen font-semibold rounded-lg bg-gradient-to-r hover:from-[#343e25] hover:to-[#5d6e53] hover:text-white transition duration-300 shadow-md"
                     onClick={() => window.open(data.pdfUrls, "_blank")}
                   >
                     View PDF
@@ -106,13 +106,13 @@ function DailyAffairs() {
               </div>
               ))
             ) : (
-              <div className="bg-white border-2 rounded-xl p-6 w-full shadow-xl transform transition-all duration-300 hover:scale-105">
+              <div className="bg-purple-50 border-2 rounded-xl p-6 w-full shadow-xl transform transition-all duration-300 hover:scale-105">
                 <div className="flex flex-row gap-4 mb-4">
-                  <div className="bg-red-500 p-4 text-white font-semibold rounded-md shadow-md">
+                  <div className="bgGredient-purple p-4 text-white font-semibold rounded-md shadow-md">
                     {formattedDate}
                   </div>
                   <div className="flex flex-col justify-center sm:ml-4">
-                    <h3 className="font-bold text-xl text-gray-800 mb-2">
+                    <h3 className="font-bold text-xl textPurple mb-2">
                       No Data Found
                     </h3>
                     <p className="text-gray-600">
@@ -128,7 +128,7 @@ function DailyAffairs() {
           {/* Date Picker */}
           <div className="relative flex flex-col mx-auto mt-6 items-center w-[30%]">
             <button
-              className="font-semibold px-8 py-3 border-2 border-blue-500 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-md shadow-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 ease-in-out"
+              className="font-semibold px-8 py-3 border-2 border-[#543a5d] bgGredient-purple-lr text-white rounded-md shadow-lg hover:scale-105 transition-all duration-300 ease-in-out"
               onClick={() => setShowDatePicker(!showDatePicker)}
             >
               Select Date

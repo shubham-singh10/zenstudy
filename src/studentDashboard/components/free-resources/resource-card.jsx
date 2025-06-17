@@ -41,18 +41,18 @@ export default function ResourceCard({
                         }`}
                     onLoad={() => setImageLoaded(true)}
                 />
-                <span className="absolute top-3 right-3 z-10 bg-blue-600 text-white text-xs font-medium px-2.5 py-1 rounded-full">
+                <span className="absolute top-3 right-3 z-10 bgGredient-gold text-white text-xs font-medium px-2.5 py-1 rounded-tr-xl rounded-bl-xl">
                     {language?.name || "English"}
                 </span>
             </div>
             <div className="p-5">
                 <div className="flex items-center gap-2 mb-2">
-                    <div className="p-1.5 bg-blue-100 rounded-full text-blue-600">{getIcon()}</div>
-                    <h3 className="font-semibold text-xl line-clamp-1">{title}</h3>
+                    <div className="p-1.5 bg-purple-100 rounded-full textPurple">{getIcon()}</div>
+                    <h3 className="font-semibold text-xl line-clamp-1 textPurple">{title}</h3>
                 </div>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">{description}</p>
+                <p className="textdark text-sm mb-4 line-clamp-2">{description}</p>
                 <button
-                    className="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors"
+                    className="flex items-center justify-center gap-2 w-full bgGredient-purple-lr hover:scale-105 text-white py-2 px-4 rounded-md transition-colors"
                     onClick={() => navigate(`/watch-course-free/${courseId}`)}
                 >
                     <FaPlay /> {buttonText}

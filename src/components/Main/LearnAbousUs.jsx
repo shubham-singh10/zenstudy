@@ -59,10 +59,10 @@ const LearnAbousUs = () => {
             <animated.p
               ref={slideUpTitleRef}
               style={slideUpTitleStyles}
-              className="text-center py-5 mb-10 text-2xl md:text-3xl lg:text-4xl font-semibold text-[#054BB4]"
+              className="text-center py-5 mb-10 text-2xl md:text-3xl lg:text-4xl font-semibold textPurpleGradient "
             >
               Le
-              <span className="border-b-4 border-[#054BB4]">arn About</span>
+              <span className="border-b-4 border-[#543a5d]">arn About</span>
               Us
             </animated.p>
           </div>
@@ -70,13 +70,13 @@ const LearnAbousUs = () => {
             <animated.div
               ref={slideUp01Ref}
               style={slideUp01Styles}
-              className="relative lg:rounded-full md:rounded-full bg-[#CADEFB] flex items-center justify-center min-h-[30vh] lg:w-full md:w-full min-w-[30vw]"
+              className="relative lg:rounded-full md:rounded-full bg-[#fcedfb]   flex items-center justify-center min-h-[30vh] lg:w-full md:w-full min-w-[30vw]"
             >
-              <div className="absolute lg:top-[-30px] md:top-[-30px] top-[-25px] lg:left-20 md:left-20 left-4 lg:text-6xl md:text-6xl text-5xl text-[#054BB4] font-semibold">
+              <div className="absolute lg:top-[-30px] md:top-[-30px] top-[-25px] lg:left-20 md:left-20 left-4 lg:text-6xl md:text-6xl text-5xl textPurpleGradient font-semibold">
                 01
               </div>
               <div className="flex items-end flex-col lg:px-14 md:px-14 px-6 lg:gap-4 gap-2 py-5">
-                <p className="text-[#054BB4] font-semibold lg:text-3xl md:text-2xl text-xl">
+                <p className="textGreenGradient font-semibold lg:text-3xl md:text-2xl text-xl">
                   About Us
                 </p>
                 <p className="lg:w-3/4 md:w-3/4 w-full text-[#5D6169] text-end sm:text-sm">
@@ -97,13 +97,13 @@ const LearnAbousUs = () => {
             <animated.div
               ref={slideUp02Ref}
               style={slideUp02Styles}
-              className="relative lg:rounded-full md:rounded-full bg-[#CADEFB] flex items-center justify-center min-h-[30vh] lg:w-full md:w-full min-w-[30vw]"
+              className="relative lg:rounded-full md:rounded-full bg-[#fcedfb]   flex items-center justify-center min-h-[30vh] lg:w-full md:w-full min-w-[30vw]"
             >
-              <div className="absolute lg:top-[-30px] md:top-[-30px] top-[-25px] lg:right-20 md:right-20 right-4 lg:text-6xl md:text-6xl text-5xl text-[#054BB4] font-semibold">
+              <div className="absolute lg:top-[-30px] md:top-[-30px] top-[-25px] lg:right-20 md:right-20 right-4 lg:text-6xl md:text-6xl text-5xl textPurpleGradient font-semibold">
                 02
               </div>
               <div className="flex items-start flex-col lg:px-14 md:px-14 px-6 lg:gap-4 gap-2 py-5">
-                <p className="text-[#054BB4] font-semibold lg:text-3xl md:text-2xl text-xl">
+                <p className="textGreenGradient font-semibold lg:text-3xl md:text-2xl text-xl">
                   Our Vision
                 </p>
                 <p className="lg:w-3/4 md:w-3/4 w-full text-[#5D6169] text-start sm:text-sm">
@@ -123,13 +123,13 @@ const LearnAbousUs = () => {
             <animated.div
               ref={slideUp03Ref}
               style={slideUp03Styles}
-              className="relative lg:rounded-full md:rounded-full bg-[#CADEFB] flex items-center justify-center min-h-[30vh] lg:w-full md:w-full min-w-[30vw]"
+              className="relative lg:rounded-full md:rounded-full bg-[#fcedfb] flex items-center justify-center min-h-[30vh] lg:w-full md:w-full min-w-[30vw]"
             >
-              <div className="absolute lg:top-[-30px] md:top-[-30px] top-[-25px] lg:left-20 md:left-20 left-4 lg:text-6xl md:text-6xl text-5xl text-[#054BB4] font-semibold">
+              <div className="absolute lg:top-[-30px] md:top-[-30px] top-[-25px] lg:left-20 md:left-20 left-4 lg:text-6xl md:text-6xl text-5xl textPurpleGradient font-semibold">
                 03
               </div>
               <div className="flex items-end flex-col lg:px-14 md:px-14 px-6 lg:gap-4 gap-2 py-5">
-                <p className="text-[#054BB4] font-semibold lg:text-3xl md:text-2xl text-xl">
+                <p className="textGreenGradient font-semibold lg:text-3xl md:text-2xl text-xl">
                   Our Mission
                 </p>
                 <p className="lg:w-3/4 md:w-3/4 w-full text-[#5D6169] text-end sm:text-sm">

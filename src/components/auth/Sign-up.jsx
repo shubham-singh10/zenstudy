@@ -249,17 +249,26 @@ const SignUp = () => {
     await handlePhoneNumberAuth(`+91${formData.phone}`);
   };
 
+  const purpleOutline = {
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": { borderColor: "#935aa6" },
+      "&:hover fieldset": { borderColor: "#935aa6" },
+      "&.Mui-focused fieldset": { borderColor: "#935aa6" },
+    },
+    "& label.Mui-focused": { color: "#935aa6" },
+  };
+
   return (
     <div className="min-h-screen lg:p-12 md:p-6 p-4 bg-white flex items-center justify-center">
       <div id="recaptcha-container"></div>
       <div className="relative w-full max-w-5xl p-1  rounded-lg shadow-xl">
-        <div className="absolute inset-0 border-0 border-transparent rounded-lg animate-border bg-gradient-to-r from-blue-500 via-blue-900 to-blue-400 bg-clip-border"></div>
+        <div className="absolute inset-0 border-0 border-transparent rounded-lg animate-border bg-gradient-to-r from-[#543a5d] via-[#7d2999] to-[#bca601] bg-clip-border"></div>
         <div className="relative z-10 bg-white rounded-lg lg:p-10 p-4">
           <div className="text-center hidden md:block">
             <animated.h2
               ref={slideUpRef}
               style={SlideUp}
-              className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500"
+              className="text-3xl font-bold mb-4 bg-clip-text text-transparent textPurpleGradient"
             >
               Join the Zenstudy Community
             </animated.h2>
@@ -276,7 +285,7 @@ const SignUp = () => {
             <animated.div
               ref={slideLeftRef}
               style={SlideLeft}
-              className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300"
+              className="bgGredient-purple-lr rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300"
             >
               <h1 className="text-4xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-400">
                 Welcome to Zenstudy
@@ -313,6 +322,7 @@ const SignUp = () => {
                         </InputAdornment>
                       ),
                     }}
+                    sx={purpleOutline}
                   />
                   <TextField
                     className="w-full"
@@ -343,6 +353,7 @@ const SignUp = () => {
                         </InputAdornment>
                       ),
                     }}
+                    sx={purpleOutline}
                   />
 
                   <TextField
@@ -379,6 +390,7 @@ const SignUp = () => {
                         </InputAdornment>
                       ),
                     }}
+                    sx={purpleOutline}
                   />
                   <TextField
                     className="w-full"
@@ -414,6 +426,7 @@ const SignUp = () => {
                         </InputAdornment>
                       ),
                     }}
+                    sx={purpleOutline}
                   />
                 </Box>
                 <div className="flex justify-between">
@@ -421,7 +434,7 @@ const SignUp = () => {
                     Already have an account ?{" "}
                     <Link
                       to="/sign-In"
-                      className="underline text-blue-500 hover:text-blue-700"
+                      className="underline textPurple hover:text-[#935aa6] transition-colors duration-300"
                     >
                       Login
                     </Link>
@@ -429,14 +442,14 @@ const SignUp = () => {
                   {loading ? (
                     <button
                       disabled
-                      className="bg-red-600 text-white py-2 lg:py-2 lg:px-10 px-4 rounded-full"
+                      className="bgGredient-gold text-white py-2 lg:py-2 lg:px-10 px-4 rounded-full"
                     >
                       Please wait...
                     </button>
                   ) : (
                     <button
                       type="submit"
-                      className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 hover:shadow-lg text-white py-2 lg:py-2 lg:px-10 px-4 rounded-full"
+                      className="bgGredient-purple hover:shadow-lg hover:scale-105 text-white py-2 lg:py-2 lg:px-10 px-4 rounded-full"
                     >
                       Register
                     </button>
@@ -462,20 +475,21 @@ const SignUp = () => {
                     {...register2("otp", { required: "OTP is required" })}
                     error={!!errors2.otp || !!otpError}
                     helperText={errors2.otp ? errors2.otp.message : otpError}
+                    sx={purpleOutline}
                   />
                 </Box>
                 <div className="flex flex-row justify-between items-center">
                   {otploading ? (
                     <button
                       disabled
-                      className="bg-red-600 text-white py-2 px-10 rounded-full"
+                      className="bgGredient-gold text-white py-2 px-10 rounded-full"
                     >
                       Please wait...
                     </button>
                   ) : (
                     <button
                       type="submit"
-                      className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 hover:shadow-lg text-white py-2 px-10 rounded-full "
+                      className="bgGredient-purple hover:shadow-lg hover:scale-105 text-white py-2 px-10 rounded-full "
                     >
                       Verify OTP
                     </button>
@@ -483,13 +497,13 @@ const SignUp = () => {
                   {otpSent && (
                     <p className="text-gray-500 text-md ">
                       Resend OTP in{" "}
-                      <span className="text-blue-600">{timer}</span> seconds
+                      <span className="textPurple">{timer}</span> seconds
                     </p>
                   )}
                   {!otpSent && (
                     <button
                       onClick={resendOtp}
-                      className=" py-2 px-4 bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300 hover:shadow-lg text-white rounded-full"
+                      className=" py-2 px-4 bgGredient-green hover:shadow-lg hover:scale-105 text-white rounded-full"
                     >
                       Resend OTP
                     </button>

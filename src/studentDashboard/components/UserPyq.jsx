@@ -67,28 +67,28 @@ useEffect(() => {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-2xl font-bold textPurpleGradient">
           Previous Year Questions
         </h1>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-sm textPurple">
           Access UPSC previous year question papers for better preparation
         </p>
       </div>
 
       {/* Search and Filters */}
-      <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
+      <div className="bg-purple-50 p-4 rounded-lg shadow-sm mb-6">
         <div className="space-y-4">
           <div className="max-w-lg">
             <div className="relative rounded-md shadow-sm">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <BiSearch
-                  className="h-5 w-5 text-gray-400"
+                  className="text-gray-400"
                   aria-hidden="true"
                 />
               </div>
               <input
                 type="text"
-                className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                className="focus:ring-[#543a5d] p-2  block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
                 placeholder="Search question papers..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -106,7 +106,7 @@ useEffect(() => {
               </label>
               <select
                 id="yearFilter"
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#543a5d] sm:text-sm rounded-md"
                 value={filter.year}
                 onChange={(e) =>
                   setFilter((prev) => ({ ...prev, year: e.target.value }))
@@ -130,7 +130,7 @@ useEffect(() => {
               </label>
               <select
                 id="paperFilter"
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#543a5d]   sm:text-sm rounded-md"
                 value={filter.paper}
                 onChange={(e) =>
                   setFilter((prev) => ({ ...prev, paper: e.target.value }))
@@ -151,7 +151,7 @@ useEffect(() => {
               </label>
               <select
                 id="subjectFilter"
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#543a5d]   sm:text-sm rounded-md"
                 value={filter.subject}
                 onChange={(e) =>
                   setFilter((prev) => ({ ...prev, subject: e.target.value }))
@@ -174,12 +174,12 @@ useEffect(() => {
         {filteredPYQs && filteredPYQs?.map((pyq) => (
           <div
             key={pyq._id}
-            className="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-md transition-shadow duration-200"
+            className="bg-purple-50 overflow-hidden shadow-sm rounded-lg hover:shadow-md transition-shadow duration-200"
           >
             <div className="p-6">
               <div className="flex items-center mb-4">
                 <div className="flex-shrink-0">
-                  <FiFileText className="h-8 w-8 text-blue-500" />
+                  <FiFileText className="h-8 w-8 textPurple" />
                 </div>
                 <div className="ml-4">
                   <h3 className="text-lg font-medium text-gray-900">
@@ -190,10 +190,10 @@ useEffect(() => {
               </div>
 
               <div className="flex flex-wrap gap-2 mb-4">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 textPurple">
                   {pyq.year}
                 </span>
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 textGreen">
                   {pyq.paper.charAt(0).toUpperCase() + pyq.paper.slice(1)}
                 </span>
               </div>
@@ -201,7 +201,7 @@ useEffect(() => {
               <div className="mt-4">
                 <a
                   href={pyq.fileUrl}
-                  className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bgGredient-purple-lr hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#543a5d]"
                 >
                   <FaEye className="h-4 w-4 mr-2" />
                   View PYQs

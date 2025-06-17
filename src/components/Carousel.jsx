@@ -99,7 +99,7 @@ const Carousel = () => {
             <button
               key={index}
               type="button"
-              className={`w-3 h-3 rounded-full ${currentSlide === index ? 'bg-blue-500' : 'bg-gray-300'}`}
+              className={`w-3 h-3 rounded-full ${currentSlide === index ? 'bgGredient-purple' : 'bg-gray-300'}`}
               aria-current={currentSlide === index}
               aria-label={`Slide ${index + 1}`}
               data-carousel-slide-to={index}

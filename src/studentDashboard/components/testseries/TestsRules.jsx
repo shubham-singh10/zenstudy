@@ -54,21 +54,21 @@ export const TestsRules = ({ test, onStart, onBack }) => {
         <div className="min-h-screen  p-4 sm:p-6 md:p-8">
             <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
                 <div className="text-center mb-8">
-                    <FiAward className="w-16 h-16 mx-auto text-indigo-500 mb-4" />
-                    <h1 className="text-3xl font-bold text-gray-800 mb-2">{test.title}</h1>
+                    <FiAward className="w-16 h-16 mx-auto textPurple mb-4" />
+                    <h1 className="text-3xl font-bold textPurple mb-2">{test.title}</h1>
                     <p className="text-gray-600">Please read the following rules carefully before starting the test</p>
                 </div>
 
                 <div className="space-y-6 mb-8">
-                    <div className="bg-indigo-50 p-4 rounded-lg">
-                        <h2 className="text-lg font-semibold text-indigo-900 mb-3">Test Information</h2>
+                    <div className="bg-purple-50 p-4 rounded-lg">
+                        <h2 className="text-lg font-semibold textPurple mb-3">Test Information</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="flex items-center">
-                                <FiClock className="w-5 h-5 text-indigo-500 mr-2" />
+                                <FiClock className="w-5 h-5 textPurple mr-2" />
                                 <span>Duration: {test.duration} minutes</span>
                             </div>
                             <div className="flex items-center">
-                                <BiBook className="w-5 h-5 text-indigo-500 mr-2" />
+                                <BiBook className="w-5 h-5 textPurple mr-2" />
                                 <span>Total Questions: {test.questions.length}</span>
                             </div>
                             <div className="flex items-center">
@@ -108,13 +108,13 @@ export const TestsRules = ({ test, onStart, onBack }) => {
                 <div className="flex gap-4">
                     <button
                         onClick={onBack}
-                        className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors"
+                        className="flex-1 px-6 py-3 bgGredient-green textGold rounded-lg font-medium hover:scale-105 transition-colors"
                     >
                         Back to Tests
                     </button>
                     <button
                         onClick={onStart}
-                        className="flex-1 px-6 py-3 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors"
+                        className="flex-1 px-6 py-3 bgGredient-purple-lr text-white rounded-lg font-medium hover:scale-105 transition-colors"
                     >
                         Start Test
                     </button>

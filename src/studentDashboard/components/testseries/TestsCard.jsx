@@ -33,7 +33,7 @@ export const TestsCard = ({ test, onProceed }) => {
                 </div>
                 {test.includedInCourse && <div className="absolute top-0 right-0 p-2 bg-gradient-to-r from-black/100 to-transparent text-white rounded-bl-xl">
                     <div className="flex items-center gap-2 mb-3">
-                        <FaGraduationCap className="w-5 h-5" />
+                        <FaGraduationCap className="w-5 h-5 textPurple" />
                         <span className="text-sm font-medium text-gray-200">
                             {test?.courses[0]?.title}
                         </span>
@@ -43,14 +43,14 @@ export const TestsCard = ({ test, onProceed }) => {
             <div className="p-6">
                 <div className="grid grid-cols-2 gap-4 mb-6">
                     <div className="flex items-center">
-                        <BiBookOpen className="w-5 h-5 text-indigo-500 mr-2" />
+                        <BiBookOpen className="w-5 h-5 textPurple mr-2" />
                         <span className="text-sm text-gray-600">
                             {" "}
                             {test.totalTests} Test
                         </span>
                     </div>
                     <div className="flex items-center">
-                        <BiTrophy className="w-5 h-5 text-indigo-500 mr-2" />
+                        <BiTrophy className="w-5 h-5 textPurple mr-2" />
                         <span className="text-sm text-gray-600">
                             {userCompletedTests.length} Completed
                         </span>
@@ -59,14 +59,14 @@ export const TestsCard = ({ test, onProceed }) => {
 
                 <div className="my-4">
                     <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium text-gray-600">Progress</span>
-                        <span className="text-sm font-medium text-gray-900">
+                        <span className="text-sm font-medium textPurple">Progress</span>
+                        <span className="text-sm font-medium textPurple">
                             {userProgress} %
                         </span>
                     </div>
                     <div className="h-2 bg-gray-200 rounded-full">
                         <div
-                            className="h-full bg-blue-600 rounded-full"
+                            className="h-full bgGredient-purple rounded-full"
                             style={{ width: `${userProgress}%` }}
                         />
                     </div>

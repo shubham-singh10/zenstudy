@@ -86,11 +86,11 @@ function TestList({ series, onBack, onProceed, onResult }) {
     return <Loading />;
   }
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-2 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-purple-50 py-12 px-2 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <button
           onClick={onBack}
-          className="flex items-center text-gray-600 hover:text-gray-900 mb-8"
+          className="flex items-center textPurple hover:text-gray-900 mb-8"
         >
           <FiArrowLeft className="h-5 w-5 mr-2" />
           Back to Test Series
@@ -115,13 +115,13 @@ function TestList({ series, onBack, onProceed, onResult }) {
           <div className="p-6">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
-                <div className="text-sm text-gray-600">
+                <div className="text-sm textPurple">
                   Progress: {userCompletedTests?.length}/{series.totalTests}{" "}
                   Tests
                 </div>
-                <div className="w-32 h-2 bg-gray-200 rounded-full">
+                <div className="w-32 h-2 bg-purple-200 rounded-full">
                   <div
-                    className="h-full bg-blue-600 rounded-full"
+                    className="h-full bgGredient-purple rounded-full"
                     style={{
                       width: `${
                         (userCompletedTests.length / series.totalTests) * 100
@@ -141,7 +141,7 @@ function TestList({ series, onBack, onProceed, onResult }) {
                   <div className="flex lg:flex-row md:flex-row flex-col items-center justify-between">
                     <div>
                     <div className="flex items-center flex-wrap lg:gap-2 md:gap-2 gap-1">
-                    <h3 className="text-lg font-semibold text-gray-900 ">
+                    <h3 className="text-lg font-semibold textPurple ">
                     {test.title}{" "}
                     </h3>
                     <div className="text-xs text-purple-400 font-semibold">
@@ -179,7 +179,7 @@ function TestList({ series, onBack, onProceed, onResult }) {
                     {check({ id: test._id }) === "completed" ? (
                       <button
                         onClick={() => onResult(test)}
-                        className="inline-flex lg:mt-0 md:mt-0 mt-4 items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-700"
+                        className="inline-flex lg:mt-0 md:mt-0 mt-4 items-center rounded-lg bgGredient-green px-4 py-2 text-sm font-medium text-white transition-colors hover:scale-105"
                       >
                         <BiTrophy className="mr-2 h-4 w-4" />
                         View Result
@@ -187,7 +187,7 @@ function TestList({ series, onBack, onProceed, onResult }) {
                     ) : (
                       <button
                         onClick={() => onProceed(test)}
-                        className="inline-flex lg:mt-0 md:mt-0 mt-4 items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+                        className="inline-flex lg:mt-0 md:mt-0 mt-4 items-center rounded-lg bgGredient-purple px-4 py-2 text-sm font-medium text-white transition-colors hover:scale-105"
                         disabled={test.questions.length === 0}
                       >
                         <BiBarChart className="mr-2 h-4 w-4" />

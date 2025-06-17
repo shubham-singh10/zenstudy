@@ -115,7 +115,7 @@ function LiveClass() {
           <div className="text-4xl font-bold animate-pulse">Zenstudy</div>
         </div>
       ) : meetingData.length === 0 ? (
-        <p className="flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl text-gray-500">
+        <p className="flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl textdark">
           No meetings scheduled.
         </p>
       ) : (
@@ -163,12 +163,12 @@ function LiveClass() {
                   </div>
 
                   <div className="px-2">
-                    <div className="font-bold text-sm text-blue-600">
+                    <div className="font-bold text-sm textPurple">
                       {meeting.courseId.title}
                     </div>
                   </div>
                   <div className="px-2 flex justify-between">
-                    <div className="font-bold text-sm text-blue-600">
+                    <div className="font-bold text-sm textPurple">
                       {new Date(meeting.startTime).toLocaleString("en-US", {
                         dateStyle: "medium",
                       })}
@@ -197,7 +197,7 @@ function LiveClass() {
                       ) : (
                         <button
                           onClick={() => onSubmit2(meeting._id)}
-                          className="w-full bg-blue-600 animate-glow text-white text-center py-2 rounded-lg"
+                          className="w-full bgGredient-purple animate-glow hover:scale-105 text-white text-center py-2 rounded-lg"
                         >
                           Join Live
                         </button>

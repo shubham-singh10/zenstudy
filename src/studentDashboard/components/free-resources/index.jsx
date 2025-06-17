@@ -106,10 +106,10 @@ const FreeResourcesIndex = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-purple-50 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-10">
-                    <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Free UPSC Resources</h1>
+                    <h1 className="text-3xl md:text-4xl font-bold textPurpleGradient mb-4">Free UPSC Resources</h1>
                 </div>
 
                 <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
@@ -118,7 +118,7 @@ const FreeResourcesIndex = () => {
                         <input
                             type="text"
                             placeholder="Search by title..."
-                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#543a5d] focus:border-[#543a5d]"
                             onChange={(e) => handleSearchChange(e.target.value)}
                         />
                     </div>
@@ -130,8 +130,8 @@ const FreeResourcesIndex = () => {
                         <button
                             onClick={() => handleTabChange("courses")}
                             className={`flex items-center gap-2 py-3 px-6 font-medium text-sm ${activeTab === "courses"
-                                ? "border-b-2 border-blue-600 text-blue-600"
-                                : "text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                                ? "border-b-2 border-[#543a5d] textPurple"
+                                : "textPurple hover:border-[#efdb78]"
                                 }`}
                         >
                             <FiBook className="h-4 w-4" />

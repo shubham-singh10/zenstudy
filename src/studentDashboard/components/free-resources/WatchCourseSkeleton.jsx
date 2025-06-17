@@ -6,7 +6,7 @@ const Skeleton = ({ className }) => (
 
 const WatchCourseSkeleton = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-purple-50">
       <div className="container mx-auto px-4 py-6">
         {/* Back button skeleton */}
         <Skeleton className="w-40 h-10 mb-6" />
@@ -34,7 +34,7 @@ const WatchCourseSkeleton = () => {
           {/* Right - Sidebar */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow-md sticky top-6">
-              <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-200 px-6 py-4 flex justify-between items-center">
+              <div className="bgGradient-purple-light px-6 py-4 flex justify-between items-center">
                 <Skeleton className="w-1/2 h-5" />
                 <Skeleton className="w-1/4 h-4" />
               </div>

@@ -57,7 +57,7 @@ function CardSlider({ courseData }) {
         <div className="mt-20 m-1 lg:m-20 ">
           <Slider {...settings} key={courseData.length}>
             {courseData.map((d, index) => (
-              <CommonCard key={index} course={d} link={"course-details"} linknew={"courseDetailslive"} differentClass={"flex flex-col justify-between h-[100%]"}/>
+              <CommonCard key={index} course={d} link={"course-details"} linknew={"courseDetailslive"} mentorLink={"courseDetailNew"} differentClass={"flex flex-col justify-between h-[100%]"}/>
             ))}
           </Slider>
         </div>

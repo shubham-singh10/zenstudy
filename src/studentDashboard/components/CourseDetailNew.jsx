@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { MdOutlineVerified, MdSlowMotionVideo } from "react-icons/md";
 import { FaLock, FaLockOpen } from "react-icons/fa";
-import { VerifyEmailMsg } from "../VerifyEmailMsg";
+import { VerifyEmailMsg } from "../../components/VerifyEmailMsg";
 import { useAuth } from "../../context/auth-context";
 import { FaChevronDown } from "react-icons/fa";
 import {
@@ -13,9 +13,9 @@ import {
   FiArrowUp,
   FiLoader,
 } from "react-icons/fi";
-import { Loader } from "../loader/Loader";
+import { Loader } from "../../components/loader/Loader";
 
-const NewCourseDetailPage = () => {
+const CourseDetailNew = () => {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [showStickyHeader, setShowStickyHeader] = useState(false);
@@ -377,7 +377,16 @@ const NewCourseDetailPage = () => {
             </p>
 
             <div className="flex flex-wrap items-center text-sm text-gray-600 mb-6 gap-4">
-             
+              {
+                // <div className="flex items-center gap-1">
+                //   <FiUser />
+                //   <span>10,000+ students</span>
+                // </div>
+                // <div className="flex items-center gap-1">
+                //   <FiClock />
+                //   <span>50 hours</span>
+                // </div>
+              }
               <div className="flex items-center justify-center gap-1">
                 <GrLanguage />
                 <span>{coursePost && coursePost?.language?.name}</span>
@@ -434,7 +443,8 @@ const NewCourseDetailPage = () => {
                   onLoad={() => setImgLoading(false)}
                 />
               </div>
-            )}            
+            )}
+           
           </div>
         </div>
 
@@ -495,11 +505,11 @@ const NewCourseDetailPage = () => {
         {/* Course Content */}
         {coursePost?.modules?.length > 0 && (
           <div className="bg-white p-6 rounded-lg shadow-md mb-8 transition-all duration-300 hover:shadow-xl">
-            <h2 className="text-2xl font-semibold textPurple mb-4">Course Content</h2>
+            <h2 className="text-2xl textPurple font-semibold mb-4">Course Content</h2>
             {coursePost?.modules?.map((section, index) => (
               <div
                 key={index}
-                className="border-2 border-gray-100 rounded-lg mb-4 px-4 py-1"
+                className="border-2 border-[#543a5d] rounded-lg mb-4 px-4 py-1"
               >
                 <button
                   className="w-full py-4 flex justify-between items-center focus:outline-none"
@@ -527,7 +537,7 @@ const NewCourseDetailPage = () => {
                           key={_id}
                         >
                           <MdSlowMotionVideo className="textGreen" />
-                          <p className="px-4 py-2 text-gray-500 w-full">
+                          <p className="px-4 py-2 textGreen w-full">
                             {videoTitle || "no videos"}
                           </p>
                           {IsFree ? (
@@ -574,7 +584,7 @@ const NewCourseDetailPage = () => {
               <span className="text-lg ml-1 text-gray-300 line-through">
                 ₹ {coursePost?.value}
               </span>
-              <span className=" text-[#fdfdfd] font-semibold ml-1 text-xl">
+              <span className=" textLight font-semibold ml-1 text-xl">
                 {" "}
                 / month
               </span>
@@ -699,4 +709,4 @@ const NewCourseDetailPage = () => {
   );
 };
 
-export default NewCourseDetailPage;
+export default CourseDetailNew;

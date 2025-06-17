@@ -196,7 +196,7 @@ export function PreviewTest({ test, onBack }) {
           <Loader fill="white" />
         </div>
       )}
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-2 sm:p-4 md:p-6 lg:p-8">
+      <div className="min-h-screen bgGradient-purple-light p-2 sm:p-4 md:p-6 lg:p-8">
         <div className="max-w-7xl mx-auto">
           <div className="bg-white rounded-xl shadow-lg overflow-hidden">
             {/* Header with Image */}

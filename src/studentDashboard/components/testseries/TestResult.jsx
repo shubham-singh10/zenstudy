@@ -105,32 +105,32 @@ const TestResult = ({series, onBack}) => {
         <div className="max-w-4xl mx-auto">
         
         <div className="mt-8 text-center">
-            <button  onClick={onBack} className="flex items-center text-gray-600 hover:text-gray-900 mb-8">
-              <FiArrowLeft className="h-5 w-5 mr-2" />
+            <button  onClick={onBack} className="flex items-center textPurple hover:text-gray-900 mb-8">
+              <FiArrowLeft className="h-5 w-5 mr-2 textPurple" />
               Back to Test Series
             </button>
           </div>
         
         {/* Summary Card */}
 
-          <div className="bg-white  rounded-xl shadow-lg p-6 sm:p-8 mb-8">
+          <div className="bg-purple-50  rounded-xl shadow-lg p-6 sm:p-8 mb-8">
             <div className="text-center mb-8">
               <GoTrophy className="w-16 h-16 mx-auto text-yellow-500 mb-4" />
-              <h1 className="text-3xl font-bold text-gray-800 mb-2">
+              <h1 className="text-3xl font-bold textPurple mb-2">
                 Test Results
               </h1>
-              <div className="text-5xl font-bold text-indigo-600 mb-4">
+              <div className="text-5xl font-bold textPurple mb-4">
                 {((result?.score / result?.maxScore) * 100).toFixed(2)}%
               </div>
               <div className="flex flex-wrap items-center justify-center gap-4 p-4 bg-white rounded-lg shadow-md">
-                <p className="text-xl font-semibold text-gray-700">
+                <p className="text-xl font-semibold textPurple">
                   Total Marks:{" "}
-                  <span className="text-indigo-600">{result?.score}</span> / {result?.maxScore}
+                  <span className="textPurple">{result?.score}</span> / {result?.maxScore}
                 </p>
 
                 <button
                   onClick={downloadPDF}
-                  className="flex items-center gap-2 px-5 py-2.5 text-white bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-lg font-medium transition-all transform hover:scale-105 shadow-lg hover:from-indigo-700 hover:to-indigo-800"
+                  className="flex items-center gap-2 px-5 py-2.5 text-white bgGredient-purple-lr rounded-lg font-medium transition-all transform hover:scale-105 shadow-lg hover:from-indigo-700 hover:to-indigo-800"
                 >
                   <FiDownload className="w-6 h-6" />
                   <span>Download Results PDF</span>
@@ -181,19 +181,19 @@ const TestResult = ({series, onBack}) => {
 
           {/* Question-wise Analysis */}
           <div ref={pdfRef} className="max-w-3xl mx-auto p-4">
-            <h2 className="text-2xl font-bold text-center mb-6">
+            <h2 className="text-2xl font-bold text-center textPurple mb-6">
               Question-wise Analysis
             </h2>
             <div className="space-y-6">
               {result &&
-                result?.selectedAnswers.map((item, index) => (
+                result?.selectedAnswers?.map((item, index) => (
                   <div
                     key={index}
-                    className="border rounded-lg p-4 shadow-md bg-white"
+                    className="border rounded-lg p-4 shadow-md bg-purple-50"
                   >
                     <div className="flex justify-between items-center mb-2">
                     <h3
-                    className="text-lg font-semibold"
+                    className="text-lg font-semibold textPurple"
                     dangerouslySetInnerHTML={{
                       __html: `${index + 1}. ${item.question}`,
                     }}

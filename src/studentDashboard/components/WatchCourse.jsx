@@ -167,7 +167,7 @@ const WatchCourse = () => {
       <div className="container mx-auto px-4 py-6">
         <button
           onClick={() => navigate("/mycourse")}
-          className="mb-6 px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors flex items-center space-x-2 shadow-md"
+          className="mb-6 px-4 py-2 bgGredient-purple-lr text-white rounded-full hover:scale-105 transition-colors flex items-center space-x-2 shadow-md"
         >
           <FiArrowLeft size={20} />
           <span>Back to My Courses</span>
@@ -194,25 +194,14 @@ const WatchCourse = () => {
               />
             </div>
 
-            <h1 className="lg:text-xl text-lg font-bold text-gray-800">
+            <h1 className="lg:text-xl text-lg font-bold textPurple">
               {selectedVideoTitle}
             </h1>
 
             {/* Tabs */}
-            <div className="bg-white rounded-xl shadow-md overflow-hidden">
+            <div className="bg-purple-50 rounded-xl shadow-md overflow-hidden">
               <div className="flex flex-wrap border-b">
-                {/* {['about', 'notes', 'materials', 'qa', 'reviews'].map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`px-4 py-3 text-sm font-medium transition-colors flex-grow sm:flex-grow-0 ${activeTab === tab
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-600 hover:bg-gray-100'
-                      }`}
-                  >
-                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                  </button>
-                ))} */}
+                
 
                 {["about", "reviews", "notes", "materials", "qa"].map((tab) => (
                   <button
@@ -220,8 +209,8 @@ const WatchCourse = () => {
                     onClick={() => setActiveTab(tab)}
                     className={`px-4 py-3 text-sm font-medium transition-colors flex-grow sm:flex-grow-0 ${
                       activeTab === tab
-                        ? "bg-blue-600 text-white rounded-2xl"
-                        : "text-gray-600 hover:bg-gray-100 rounded-lg"
+                        ? "bgGredient-purple text-white rounded-2xl"
+                        : "textPurple hover:bg-purple-100 rounded-lg"
                     }`}
                   >
                     {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -232,31 +221,31 @@ const WatchCourse = () => {
               {/* Tab Content */}
               {loading.reviews ? (
                 <div className="p-6 text-center">
-                  <p className="text-gray-600">Loading...</p>
+                  <p className="textPurple">Loading...</p>
                 </div>
               ) : (
                 <div className="p-6">
                   {activeTab === "about" && (
-                    <p className="text-gray-600 leading-relaxed">
+                    <p className="textPurple leading-relaxed">
                       {selectedVideoDesc}
                     </p>
                   )}
                   {activeTab === "notes" && (
                     filterNotes.length > 0 ?(
                       filterNotes.map((notes, index)=>(
-                      <div key={index} className="border-2 border-dashed mb-2 border-gray-300 rounded-lg p-4 flex  flex-wrap gap-2 items-center lg:justify-between md:justify-between justify-center">                      
+                      <div key={index} className="border-2 border-dashed mb-2 border-[#543a5d] rounded-lg p-4 flex  flex-wrap gap-2 items-center lg:justify-between md:justify-between justify-center">                      
                       <div className="flex items-center space-x-3">
-                        <FiFileText className="text-blue-500 h-8 w-8" />
+                        <FiFileText className="textPurple h-8 w-8" />
                       <div>
                         <h3 className="font-semibold text-sm">{notes.title}</h3>
-                        <p className="text-gray-600 text-sm">Added on {new Date(notes.createdAt).toLocaleDateString()}</p>
+                        <p className="textPurple text-sm">Added on {new Date(notes.createdAt).toLocaleDateString()}</p>
                       </div>
                       </div>
                       <div className="lg:w-auto md:w-auto w-full flex justify-center">
-                        <button onClick={()=> window.open(notes.fileUrl)} className=" flex gap-2 justify-center items-center px-4 py-2 bg-blue-600 rounded-lg text-sm lg:w-auto md:w-auto w-full text-white">View <span><FiEye className="text-white"/></span></button>
+                        <button onClick={()=> window.open(notes.fileUrl)} className=" flex gap-2 justify-center items-center px-4 py-2 bgGredient-purple-lr hover:scale-105 rounded-lg text-sm lg:w-auto md:w-auto w-full text-white">View <span><FiEye className="text-white"/></span></button>
                       </div>
                     </div>) ) ): (
-                      <p className="text-gray-600 italic">
+                      <p className="textPurple italic">
                         No notes available for this video.
                       </p>                      
                     )
@@ -265,7 +254,7 @@ const WatchCourse = () => {
                   {activeTab === "materials" && (
                      materials.length > 0 ?(
                       materials.map((material, index)=>(
-                      <div key={index} className="border-2 border-dashed mb-2 border-gray-300 rounded-lg p-4 flex  flex-wrap gap-2 items-center lg:justify-between md:justify-between justify-center">                      
+                      <div key={index} className="border-2 border-dashed mb-2 border-[#543a5d] rounded-lg p-4 flex  flex-wrap gap-2 items-center lg:justify-between md:justify-between justify-center">                      
                       <div className="flex items-center space-x-3">
                         {material.type === 'image' ? (
                           <FiImage className="text-purple-500 h-8 w-8" />
@@ -277,20 +266,20 @@ const WatchCourse = () => {
                         
                       <div>
                         <h3 className="font-semibold text-sm">{material.title}</h3>
-                        <p className="text-gray-600 text-sm">Added on </p>
+                        <p className="textPurple text-sm">Added on </p>
                       </div>
                       </div>
                       <div className="lg:w-auto md:w-auto w-full flex justify-center">
-                        <button onClick={()=> window.open(material.file)}  className="flex justify-center items-center gap-2 px-4 py-2 bg-blue-600 rounded-lg text-sm lg:w-auto md:w-auto w-full text-white">{material.type === 'document' ? "Downlaod" :"View"} <span>{material.type === 'document' ? <FiDownload className="text-white"/> : <FiEye className="text-white"/> }</span></button>
+                        <button onClick={()=> window.open(material.file)}  className="flex justify-center items-center gap-2 px-4 py-2 bgGredient-purple-lr hover:scale-105 rounded-lg text-sm lg:w-auto md:w-auto w-full text-white">{material.type === 'document' ? "Downlaod" :"View"} <span>{material.type === 'document' ? <FiDownload className="text-white"/> : <FiEye className="text-white"/> }</span></button>
                       </div>
                     </div>) ) ): (
-                      <p className="text-gray-600 italic">
+                      <p className="textPurple italic">
                         No Material available for this Course.
                       </p>                      
                     )
                   )}
                   {activeTab === "qa" && (
-                    <p className="text-gray-600 italic">
+                    <p className="textPurple italic">
                       Q&A feature coming soon!
                     </p>
                   )}
@@ -299,7 +288,7 @@ const WatchCourse = () => {
                       {userReview !== 0 && (
                         <form onSubmit={submitReview} className="space-y-4">
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                            <label className="block text-sm font-medium textPurple mb-1">
                               Your Rating
                             </label>
                             <div className="flex items-center space-x-1">
@@ -329,7 +318,7 @@ const WatchCourse = () => {
                           <div>
                             <label
                               htmlFor="review"
-                              className="block text-sm font-medium text-gray-700 mb-1"
+                              className="block text-sm font-medium textPurple mb-1"
                             >
                               Your Review
                             </label>
@@ -342,13 +331,13 @@ const WatchCourse = () => {
                                   content: e.target.value,
                                 }))
                               }
-                              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-[#543a5d] focus:border-transparent"
                               rows={3}
                             />
                           </div>
                           <button
                             type="submit"
-                            className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+                            className="w-full px-4 py-2 bgGredient-purple text-white rounded-lg hover:scale-105 transition-colors shadow-md"
                           >
                             Submit Review
                           </button>
@@ -368,7 +357,7 @@ const WatchCourse = () => {
                                 className="w-10 h-10 rounded-full mr-3 object-cover"
                               />
                               <div>
-                                <div className="font-medium text-gray-800">
+                                <div className="font-medium textPurple">
                                   {review.userId.name}
                                 </div>
                                 <div className="flex">
@@ -385,7 +374,7 @@ const WatchCourse = () => {
                                 </div>
                               </div>
                             </div>
-                            <p className="text-gray-700 mt-2">
+                            <p className="textPurple mt-2">
                               {review.reviewContent}
                             </p>
                           </div>
@@ -401,12 +390,12 @@ const WatchCourse = () => {
           {/* Course Content Sidebar */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow-md overflow-hidden sticky top-6">
-              <h2 className="text-xl font-bold p-4 bg-gray-50 border-b">
+              <h2 className="text-xl font-bold p-4 bgGradient-purple-light textPurple border-b">
                 Course Content
               </h2>
               {loading.course ? (
                 <div className="p-6 text-center">
-                  <p className="text-gray-600">Loading...</p>
+                  <p className="textPurple">Loading...</p>
                 </div>
               ) : (
                 <div className="p-4 max-h-[calc(100vh-10rem)] overflow-y-auto">
@@ -418,15 +407,15 @@ const WatchCourse = () => {
                         }
                         className={`${
                           selectedModule === module.moduleTitle
-                            ? "bg-blue-400"
-                            : ""
+                            ? "bgGredient-purple text-white"
+                            : "bgGradient-purple-light textPurple hover:bg-purple-100"
                         } w-full px-4 py-3 flex items-center border-2 justify-between text-left rounded-lg `}
                       >
                         <span
                           className={`font-medium  ${
                             selectedModule === module.moduleTitle
                               ? " text-white"
-                              : "text-gray-800"
+                              : "textPurple"
                           }`}
                         >
                           {module.moduleTitle}
@@ -461,8 +450,8 @@ const WatchCourse = () => {
                                 onClick={() => handleVideoClick(video)}
                                 className={`w-full px-4 py-2 flex items-center border-2 justify-between text-left rounded-lg transition-colors ${
                                   selectedVideoTitle === video.videoTitle
-                                    ? "bg-blue-100 text-blue-600"
-                                    : "hover:bg-blue-100 bg-blue-50 text-gray-700"
+                                    ? "bg-purple-100 textPurple"
+                                    : "hover:bg-purple-100 bg-purple-50 textPurple"
                                 }`}
                               >
                                 <div className="flex items-center">
@@ -470,7 +459,7 @@ const WatchCourse = () => {
                                     size={16}
                                     className={`mr-2 ${
                                       selectedVideoTitle === video.videoTitle
-                                        ? "text-blue-600"
+                                        ? "textPurple"
                                         : "text-gray-400 "
                                     }`}
                                   />

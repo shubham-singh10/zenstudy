@@ -56,9 +56,9 @@ const FeatureVideo = () => {
 
       <div className="px-4 md:px-10 lg:px-12">
         <animated.div style={slideUp}>
-          <p className="text-center py-5 mb-10 text-2xl md:text-3xl lg:text-4xl font-semibold text-[#054BB4]">
+          <p className="text-center py-5 mb-10 text-2xl md:text-3xl lg:text-4xl font-semibold textPurpleGradient">
             Ex
-            <span className="border-b-4 border-[#054BB4]">
+            <span className="border-b-4 border-[#543a5d]">
               plore Feature Vide
             </span>
             os
@@ -69,7 +69,7 @@ const FeatureVideo = () => {
             style={slideLeft}
             className="lg:w-2/4 flex flex-col gap-4 items-start w-full mt-[150px] lg:mt-[0px]"
           >
-            <p className="text-[#054BB4] font-bold lg:text-3xl text-2xl">
+            <p className="textPurpleGradient font-bold lg:text-3xl text-2xl">
               Watch Our Videos
             </p>
             <p>

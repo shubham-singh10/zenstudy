@@ -35,21 +35,21 @@ const HomeText = () => {
           className="text-section md:w-1/2 mb-4 md:mb-0"
         >
           <h2 className="font-bold lg:mb-2  text-center lg:text-start md:text-start ">
-            <span className="text-4xl md:text-2xl lg:text-2xl text-[#5D6169]">
+            <span className="text-4xl md:text-2xl lg:text-2xl text-[#43464b]">
               Welcome To
             </span>
-            <span className="text-3xl md:text-4xl lg:text-4xl text-[#054BB4]">
+            <span className="text-3xl md:text-4xl lg:text-4xl textPurple">
               {" "}
               Zenstudy
             </span>
           </h2>
           <h1 className="text-4xl font-bold mb-4 text-center lg:text-start md:text-start ">
-            <span className="text-xl lg:text-2xl text-[#5D6169]">Making</span>
-            <span className="text-xl  lg:text-4xl text-[#054BB4]">
+            <span className="text-xl lg:text-2xl text-[#43464b]">Making</span>
+            <span className="text-xl  lg:text-4xl textGreen">
               {" "}
               Education
             </span>
-            <span className="text-xl lg:text-2xl text-[#5D6169]">
+            <span className="text-xl lg:text-2xl text-[#43464b]">
               {" "}
               Imaginative
             </span>

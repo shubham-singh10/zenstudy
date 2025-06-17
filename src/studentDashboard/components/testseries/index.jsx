@@ -86,10 +86,10 @@ const TestSeriesIndex = () => {
         <div className="max-w-6xl mx-auto">
           {/* Title Section */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-4xl font-bold textPurpleGradient mb-4">
               Available Test Series
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg textPurple">
               Select a test series to begin your assessment
             </p>
           </div>

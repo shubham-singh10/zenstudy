@@ -6,6 +6,7 @@ import { useAuth } from "../../context/auth-context";
 import Loading from "../../Loading";
 import Pagination from "../../components/pagination/Pagination";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import ResourceSkeleton from "./free-resources/resource-skeleton";
 
 const CoursesPage = () => {
   const [courses, setCourses] = useState([]);
@@ -19,6 +20,8 @@ const CoursesPage = () => {
     itemperpage: 6,
     totalData: 0,
   });
+
+  console.log("Paginated Data:", courses);
   const { user } = useAuth();
   // const [searchTerm, setSearchTerm] = useState("")
   const [sortBy, setSortBy] = useState("price");
@@ -121,13 +124,19 @@ const CoursesPage = () => {
   };
 
   if (loading.mainLoading) {
-    return <Loading />;
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[...Array(6)].map((_, index) => (
+          <ResourceSkeleton key={index} />
+        ))}
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-purple-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">
+        <h1 className="text-3xl font-bold textPurpleGradient mb-6">
           Available Courses
         </h1>
 
@@ -137,7 +146,7 @@ const CoursesPage = () => {
             <input
               type="text"
               placeholder="Search courses..."
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#543a5d]"
               value={searchTerm}
               onChange={handleSearch}
             />
@@ -169,12 +178,13 @@ const CoursesPage = () => {
           }`}
         >
           {courses.length === 0 && !loading.mainLoading ? (
-            <div className="text-center text-gray-500 text-lg py-10">
+            <div className="text-center textdark text-lg py-10">
               No courses found
             </div>
           ) : (
             courses.map((course) => {
               const newPage = course.title?.includes("UPSC Foundation Batch");
+                const mentor = course.title?.includes("Personalised Mentorship Programme");
               return (
                 <div
                   key={course._id}
@@ -195,32 +205,44 @@ const CoursesPage = () => {
                     onLoad={() => setLoading(false)}
                   />
                   <div className="p-4">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                    <h2 className="text-xl font-semibold textPurple mb-2">
                       {course?.title}
                     </h2>
-                    <p className="text-gray-600 mb-2">
-                      {course?.language?.name}
-                    </p>
+
                     <div className="flex justify-between items-center mb-4">
                       {course.isFree ? (
                         <p className="px-3 py-1 bg-green-100 text-green-600 font-semibold rounded-full text-sm shadow-sm">
                           Free Course
                         </p>
                       ) : (
-                        <span className="text-2xl font-bold text-blue-600">
+                        <span className="text-2xl font-bold textPurple">
                           {" "}
                           <span className="line-through text-gray-400 text-sm mr-1">
                             {" "}
                             ₹ {course.value}
                           </span>{" "}
                           ₹ {course.price}
+                          {(course?.title
+                            ?.toLowerCase()
+                            .includes("personalised mentorship programme") ||
+                            course?.title
+                              ?.toLowerCase()
+                              .includes("upsc foundation batch")) && (
+                            <span className="text-xs text-gray-500">
+                              /month
+                            </span>
+                          )}
                         </span>
                       )}
+
+                      <p className="textGold bgGredient-green px-4 py-1  text-xs mb-2 w-fit rounded-tr-xl rounded-bl-xl">
+                        {course?.language?.name}
+                      </p>
                     </div>
                     <div className="flex space-x-2">
                       {course.isFree ? (
                         <button
-                          className="flex-1 border border-blue-600 text-blue-600 py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors"
+                          className="flex-1 border border-[#543a5d] textLight bgGredient-purple py-2 px-4 rounded-lg hover:scale-105 transition-colors"
                           onClick={() =>
                             navigate(`/watch-course-free/${course._id}`)
                           }
@@ -229,7 +251,7 @@ const CoursesPage = () => {
                         </button>
                       ) : newPage ? (
                         <button
-                          className="flex-1 border border-blue-600 text-blue-600 py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors"
+                          className="flex-1 border border-[#543a5d] textLight bgGredient-purple py-2 px-4 rounded-lg hover:scale-105 transition-colors"
                           onClick={() =>
                             navigate(
                               `/livecourse-details-student/${course.title.replace(
@@ -244,9 +266,28 @@ const CoursesPage = () => {
                         >
                           View Details
                         </button>
+                      ) : mentor ? (
+                        <button
+                          className="flex-1 border border-[#543a5d] textLight bgGredient-purple py-2 px-4 rounded-lg hover:scale-105 transition-colors"
+                          onClick={() =>
+                            navigate(
+                              `/course-detail-new/${course.title.replace(
+                                /\s+/g,
+                                "-"
+                              )}`,
+                              {
+                                state: { courseId: course._id },
+                              }
+                            )
+                          }
+                        >
+                        
+                            View Details
+                         
+                        </button>
                       ) : (
                         <button
-                          className="flex-1 border border-blue-600 text-blue-600 py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors"
+                          className="flex-1 border border-[#543a5d] textLight bgGredient-purple py-2 px-4 rounded-lg hover:scale-105 transition-colors"
                           onClick={() =>
                             navigate(
                               `/course-details-view/${course.title.replace(

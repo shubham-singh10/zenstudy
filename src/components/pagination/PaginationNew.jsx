@@ -15,9 +15,9 @@ const PaginationNew = ({ currentPage, setCurrentPage, data, itemsPerPage }) => {
             <div className="flex items-center space-x-4">
                 {/* Previous Button */}
                 <button
-                    className={`flex items-center px-6 py-2 rounded-full text-sm font-medium transition ${currentPage === 1
-                        ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                        : "bg-blue-100 text-blue-700 hover:bg-blue-200"
+                    className={`flex items-center px-6 py-2  border-[#543a5d] border-2 rounded-full text-sm font-medium transition ${currentPage === 1
+                        ? "bg-purple-100 textPurple cursor-not-allowed"
+                        : "bg-purple-200 textPurple hover:scale-105"
                         }`}
                     onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
@@ -28,9 +28,9 @@ const PaginationNew = ({ currentPage, setCurrentPage, data, itemsPerPage }) => {
 
                 {/* Next Button */}
                 <button
-                    className={`flex items-center px-6 py-2 rounded-full text-sm font-medium transition ${currentPage === totalPages
-                        ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                        : "bg-blue-100 text-blue-700 hover:bg-blue-200"
+                    className={`flex items-center border-[#543a5d] border-2 px-6 py-2 rounded-full text-sm font-medium transition ${currentPage === totalPages
+                        ? "bg-purple-100 textPurple cursor-not-allowed"
+                        : "bg-purple-200 textPurple hover:scale-105"
                         }`}
                     onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                     disabled={currentPage === totalPages}

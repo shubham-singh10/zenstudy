@@ -37,6 +37,7 @@ const InputField = ({
   type = "text",
   icon,
   email,
+  sx,
 }) => (
   <Box sx={{ "& > :not(style)": { mb: 2 } }}>
     <TextField
@@ -52,6 +53,7 @@ const InputField = ({
       InputProps={{
         endAdornment: <InputAdornment position="end">{icon}</InputAdornment>,
       }}
+      sx={sx}
     />
   </Box>
 );
@@ -74,7 +76,7 @@ function SignInDynamic() {
   };
 
   const { courseId } = useParams();
-  const { login } = useAuth()
+  const { login } = useAuth();
   // useForm hook remains the same
   const {
     register,
@@ -150,7 +152,7 @@ function SignInDynamic() {
           "recaptcha-container",
           {
             size: "invisible",
-            callback: () => { },
+            callback: () => {},
           }
         );
       }
@@ -255,7 +257,6 @@ function SignInDynamic() {
 
         const from = location.state?.from || "/course-details-student";
         navigation(from);
-
       }
     } catch (error) {
       setOtpError("Invalid OTP. Please try again.");
@@ -302,18 +303,18 @@ function SignInDynamic() {
       login(resData, resData.role, resData.token);
 
       const newPage = courseId?.toLowerCase().includes("upsc-foundation-batch");
-     const mentor = courseId
-          ?.toLowerCase()
-          .includes("personalised-mentorship-programme");
+      const mentor = courseId
+        ?.toLowerCase()
+        .includes("personalised-mentorship-programme");
 
       const from = newPage
-        ? `/courseDetailslive/${courseId}` :
-        mentor ? `/courseDetailNew/${courseId}`
+        ? `/courseDetailslive/${courseId}`
+        : mentor
+        ? `/courseDetailNew/${courseId}`
         : `/course-details/${courseId}`;
 
       // navigate(from);
-      navigation ? navigation(from) : (window.location.pathname = from)
-
+      navigation ? navigation(from) : (window.location.pathname = from);
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -324,17 +325,26 @@ function SignInDynamic() {
     }
   };
 
+  const purpleOutline = {
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": { borderColor: "#935aa6" },
+      "&:hover fieldset": { borderColor: "#935aa6" },
+      "&.Mui-focused fieldset": { borderColor: "#935aa6" },
+    },
+    "& label.Mui-focused": { color: "#935aa6" },
+  };
+
   return (
     <Fragment>
       <div id="recaptcha-container"></div>
       <div className="min-h-screen lg:p-12 md:p-6 p-4 bg-white flex items-center justify-center">
         {/* Main Container */}
         <div className="relative w-full max-w-5xl p-1 rounded-lg shadow-xl">
-          <div className="absolute inset-0 border-0 border-transparent rounded-lg animate-border bg-gradient-to-r from-blue-500 via-blue-900 to-blue-400 bg-clip-border"></div>
+          <div className="absolute inset-0 border-0 border-transparent rounded-lg animate-border  bg-gradient-to-r from-[#543a5d] via-[#7d2999] to-[#bca601] bg-clip-border"></div>
           <div className="relative z-10 bg-white rounded-lg lg:p-10 p-4">
             {/* Headings Section */}
             <div className="text-center mb-8 hidden md:block">
-              <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500">
+              <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent textPurple">
                 Welcome Back
               </h2>
               <p className="text-xl text-gray-600">
@@ -344,7 +354,7 @@ function SignInDynamic() {
 
             <div className="flex flex-col lg:flex-row">
               {/* Left Section */}
-              <div className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-400 rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300">
+              <div className="bgGredient-purple-lr rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300">
                 <h1 className="lg:text-3xl md:text-2xl text-xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-400">
                   Welcome to Zenstudy
                 </h1>
@@ -355,14 +365,14 @@ function SignInDynamic() {
 
               {/* Right Section */}
               <div className="flex-1 lg:p-12 md:p-6 p-4">
-                <h2 className="lg:text-xl text-lg font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-blue-800 to-blue-300">
+                <h2 className="lg:text-xl text-lg font-semibold mb-6 bg-clip-text text-transparent textPurple">
                   {step === 1
                     ? "Enter your Email or Phone no."
                     : step === 2
-                      ? "Complete Your Registration"
-                      : step === 3
-                        ? `Enter the OTP sent to your phone number (${phone})`
-                        : "Enter Your Password"}
+                    ? "Complete Your Registration"
+                    : step === 3
+                    ? `Enter the OTP sent to your phone number (${phone})`
+                    : "Enter Your Password"}
                 </h2>
 
                 <div className="signup-container">
@@ -387,6 +397,7 @@ function SignInDynamic() {
                             }
                           },
                         }}
+                        sx={purpleOutline}
                       />
 
                       <Button
@@ -394,7 +405,7 @@ function SignInDynamic() {
                         variant="contained"
                         fullWidth
                         disabled={loading}
-                        className="hover:bg-blue-700 hover:scale-105 transition-all bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300"
+                        className=" hover:scale-105 transition-all bgGredient-purple"
                       >
                         {loading ? <CircularProgress size={24} /> : "Next"}
                       </Button>
@@ -404,7 +415,7 @@ function SignInDynamic() {
                           New User?{" "}
                           <Link
                             to={`/sign-up-dynamic/${courseId}`}
-                            className="underline text-blue-500 hover:text-blue-700"
+                            className="underline textPurple hover:text-[#935aa6] font-semibold"
                           >
                             Sign Up
                           </Link>
@@ -423,6 +434,7 @@ function SignInDynamic() {
                         register={register}
                         errors={errors}
                         icon={<MdEmail size={25} />}
+                        sx={purpleOutline}
                       />
                       <InputField
                         label="Enter Your Phone Number"
@@ -447,6 +459,7 @@ function SignInDynamic() {
                               "Phone number must be numeric and 10 digits long",
                           },
                         }}
+                        sx={purpleOutline}
                       />
                       <InputField
                         label="Create a Password"
@@ -463,6 +476,7 @@ function SignInDynamic() {
                               "Password must be at least 8 characters long",
                           },
                         }}
+                        sx={purpleOutline}
                       />
                       <InputField
                         label="Confirm Password"
@@ -482,13 +496,14 @@ function SignInDynamic() {
                             value === watch("password") ||
                             "Passwords do not match",
                         }}
+                        sx={purpleOutline}
                       />
                       <Button
                         type="submit"
                         variant="contained"
                         fullWidth
                         disabled={loading}
-                        className="hover:bg-blue-700 hover:scale-105 transition-all bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300"
+                        className="hover:scale-105 transition-all bgGredient-purple"
                       >
                         {loading ? <CircularProgress size={24} /> : "Next"}
                       </Button>
@@ -511,28 +526,29 @@ function SignInDynamic() {
                             message: "OTP must be at least 6 characters long",
                           },
                         }}
+                        sx={purpleOutline}
                       />
                       {otpError && (
                         <p className="-mt-3 mb-2 text-red-500">{otpError}</p>
                       )}
                       {otpSent && (
-                        <p className="text-gray-500 text-md mt-1">
+                        <p className="textPurple text-md mt-1">
                           Resend OTP in{" "}
-                          <span className="text-blue-600">{timer}</span> seconds
+                          <span className="textPurple">{timer}</span> seconds
                         </p>
                       )}
                       {!otpSent &&
                         (resLoading ? (
                           <button
                             onClick={resendOtp}
-                            className=" py-2 px-4 mb-4 bg-blue-400 cursor-not-allowed text-white rounded-full "
+                            className=" py-2 px-4 mb-4 bgGredient-gold cursor-not-allowed text-white rounded-full "
                           >
                             Please Wait...
                           </button>
                         ) : (
                           <button
                             onClick={resendOtp}
-                            className=" py-2 px-4 mb-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full "
+                            className=" py-2 px-4 mb-4 bgGredient-green hover:scale-105 text-white rounded-full "
                           >
                             Resend OTP
                           </button>
@@ -543,7 +559,7 @@ function SignInDynamic() {
                         variant="contained"
                         fullWidth
                         disabled={loading}
-                        className="hover:bg-blue-700 hover:scale-105 transition-all bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300"
+                        className=" hover:scale-105 transition-all bgGredient-purple"
                       >
                         {loading ? <CircularProgress size={24} /> : "Next"}
                       </Button>
@@ -567,13 +583,21 @@ function SignInDynamic() {
                                 "Password must be at least 6 characters long",
                             },
                           }}
+                          sx={purpleOutline}
                         />
-                        <div className="-mt-2 mb-4"><Link to="/reset-password" className="text-blue-500
-                                                hover:text-blue-700">Forgot password ? </Link></div>
+                        <div className="-mt-2 mb-4">
+                          <Link
+                            to="/reset-password"
+                            className="textPurple
+                                                hover:text-[#935aa6] font-semibold"
+                          >
+                            Forgot password ?{" "}
+                          </Link>
+                        </div>
                         <button
                           type="button"
                           onClick={togglePasswordVisibility}
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                          className="absolute right-3 top-1/3 transform -translate-y-1/2"
                         >
                           {showPassword ? (
                             <MdVisibility size={25} />
@@ -587,7 +611,7 @@ function SignInDynamic() {
                         variant="contained"
                         fullWidth
                         disabled={loading}
-                        className="hover:bg-blue-700 hover:scale-105 transition-all bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300"
+                        className="hover:scale-105 transition-all bgGredient-purple"
                       >
                         {loading ? <CircularProgress size={24} /> : "Login"}
                       </Button>

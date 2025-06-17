@@ -195,16 +195,26 @@ const ResetPassword = () => {
     await handlePhoneNumberAuth(`+91${formData.phone}`);
   };
 
+    const purpleOutline = {
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": { borderColor: "#935aa6" },
+      "&:hover fieldset": { borderColor: "#935aa6" },
+      "&.Mui-focused fieldset": { borderColor: "#935aa6" },
+    },
+    "& label.Mui-focused": { color: "#935aa6" },
+  };
+
+
   return (
     <div className="min-h-screen lg:p-12 md:p-6 p-4 bg-white flex items-center justify-center">
       <div id="recaptcha-container"></div>
       {/* Main Container */}
       <div className="relative w-full max-w-5xl p-1 rounded-lg shadow-xl">
-        <div className="absolute inset-0 border-0 border-transparent rounded-lg animate-border bg-gradient-to-r from-blue-500 via-blue-900 to-blue-400 bg-clip-border"></div>
+        <div className="absolute inset-0 border-0 border-transparent rounded-lg animate-border bg-gradient-to-r from-[#543a5d] via-[#7d2999] to-[#bca601] bg-clip-border"></div>
         <div className="relative z-10 bg-white rounded-lg lg:p-10 p-4">
           {/* Headings Section */}
           <div className="text-center mb-8 hidden md:block">
-            <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500">
+            <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent textPurple">
               Reset Your Password
             </h2>
             <p className="text-xl text-gray-600">
@@ -215,7 +225,7 @@ const ResetPassword = () => {
 
           <div className="flex flex-col lg:flex-row">
             {/* Left Section */}
-            <div className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-400 rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300">
+            <div className="bgGredient-purple rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300">
               <h1 className="lg:text-3xl md:text-2xl text-xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-400">
                 Welcome to Zenstudy
               </h1>
@@ -226,7 +236,7 @@ const ResetPassword = () => {
 
             {/* Right Section */}
             <div className="flex-1 lg:p-12 md:p-6 p-4">
-              <h1 className="lg:text-2xl md:text-2xl text-lg font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-blue-900 to-blue-400">
+              <h1 className="lg:text-2xl md:text-2xl text-lg font-extrabold mb-4 bg-clip-text text-transparent textPurple">
                 Enter required details to reset your password:
               </h1>
               <form
@@ -267,6 +277,7 @@ const ResetPassword = () => {
                         </InputAdornment>
                       ),
                     }}
+                    sx={purpleOutline}
                   />
 
                   <TextField
@@ -303,6 +314,7 @@ const ResetPassword = () => {
                         </InputAdornment>
                       ),
                     }}
+                    sx={purpleOutline}
                   />
                   <TextField
                     className="w-full"
@@ -342,20 +354,21 @@ const ResetPassword = () => {
                         </InputAdornment>
                       ),
                     }}
+                    sx={purpleOutline}
                   />
                 </Box>
                 <div className="flex justify-end">
                   {loading ? (
                     <button
                       disabled
-                      className="bg-red-600 text-white py-2 px-10 rounded-full"
+                      className="bgGredient-gold text-white py-2 px-10 rounded-full"
                     >
                       Please wait...
                     </button>
                   ) : (
                     <button
                       type="submit"
-                      className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-400 hover:shadow-lg text-white py-2 px-10 rounded-full"
+                      className="bgGredient-purple hover:shadow-lg hover:scale-105 text-white py-2 px-10 rounded-full"
                     >
                       Reset
                     </button>
@@ -387,20 +400,21 @@ const ResetPassword = () => {
                     })}
                     error={!!errors2.otp || !!otpError}
                     helperText={errors2.otp ? errors2.otp.message : otpError}
+                    sx={purpleOutline}
                   />
                 </Box>
                 <div className="flex flex-row justify-between items-center">
                   {otploading ? (
                     <button
                       disabled
-                      className="bg-red-600 text-white py-2 px-10 rounded-full"
+                      className="bgGredient-gold text-white py-2 px-10 rounded-full"
                     >
                       Please wait...
                     </button>
                   ) : (
                     <button
                       type="submit"
-                      className="bg-blue-600 text-white py-2 px-10 rounded-full hover:bg-blue-700"
+                      className="bgGredient-purple text-white py-2 px-10 rounded-full hover:scale-105"
                     >
                       Verify OTP
                     </button>
@@ -408,13 +422,13 @@ const ResetPassword = () => {
                   {otpSent && (
                     <p className="text-gray-500 text-md">
                       Resend OTP in{" "}
-                      <span className="text-blue-600">{timer}</span> seconds
+                      <span className="textPurple">{timer}</span> seconds
                     </p>
                   )}
                   {!otpSent && (
                     <button
                       onClick={resendOtp}
-                      className=" py-2 px-4 bg-yellow-500 text-white rounded-full hover:bg-yellow-600"
+                      className=" py-2 px-4 bgGredient-green text-white rounded-full hover:scale-105"
                     >
                       Resend OTP
                     </button>

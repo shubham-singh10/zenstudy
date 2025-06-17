@@ -3,7 +3,9 @@ import React, { useState, useRef, Fragment, useEffect } from "react";
 import { Loader } from "../loader/Loader";
 
 export const Monthly = () => {
-  const [selectedMonth, setSelectedMonth] = useState(null);
+    const currentMonth = new Date().getMonth() + 1; 
+    
+  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
   const monthCardRef = useRef(null);
   const [selectedYear, setSelectedYear] = useState(2025);
   const [currentAffairs, setCurrentAffairs] = useState([]);
@@ -13,6 +15,8 @@ export const Monthly = () => {
   const handleYearChange = (event) => {
     setSelectedYear(event.target.value);
   };
+
+
 
   useEffect(() => {
     const fetchCA = async () => {
@@ -58,18 +62,18 @@ export const Monthly = () => {
 
   // Month list with styling
   const months = [
-    { name: "JAN", color: "bg-yellow-300", monthNo: 1 },
+    { name: "JAN", color: "bg-purple-300", monthNo: 1 },
     { name: "FEB", color: "bg-blue-600", monthNo: 2 },
     { name: "MAR", color: "bg-sky-300", monthNo: 3 },
     { name: "APR", color: "bg-blue-500", monthNo: 4 },
-    { name: "MAY", color: "bg-gray-200", monthNo: 5 },
-    { name: "JUN", color: "bg-slate-700 text-white", monthNo: 6 },
+    { name: "MAY", color: "bg-rose-200", monthNo: 5 },
+    { name: "JUN", color: "bg-violet-300 ", monthNo: 6 },
     { name: "JUL", color: "bg-gray-200", monthNo: 7 },
-    { name: "AUG", color: "bg-yellow-300", monthNo: 8 },
+    { name: "AUG", color: "bg-green-300", monthNo: 8 },
     { name: "SEP", color: "bg-purple-300", monthNo: 9 },
     { name: "OCT", color: "bg-rose-400", monthNo: 10 },
     { name: "NOV", color: "bg-green-300", monthNo: 11 },
-    { name: "DEC", color: "bg-yellow-300", monthNo: 12 },
+    { name: "DEC", color: "bg-sky-300", monthNo: 12 },
   ];
 
   // const formatDate = (date) => {
@@ -99,10 +103,10 @@ export const Monthly = () => {
     <div className="p-4">
       {/* Header */}
       <div className="flex items-center justify-center mb-14">
-        <h1 className="lg:text-3xl md:text-2xl text-xl font-bold text-blue-600">
+        <h1 className="lg:text-3xl md:text-2xl text-xl font-bold textPurpleGradient">
           Choose Month And Year:
         </h1>
-        <div className="ml-4 bg-blue-500 p-1 rounded-lg ">
+        <div className="ml-4 bgGredient-purple p-1 rounded-lg ">
           <label
             htmlFor="year"
             className="text-lg font-medium text-white"
@@ -111,7 +115,7 @@ export const Monthly = () => {
             id="year"
             value={selectedYear}
             onChange={handleYearChange}
-            className="lg:p-2 md:p-2 p-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="lg:p-2 md:p-2 p-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#543a5d]"
           >
             <option value={2024}>2024</option>
             <option value={2025}>2025</option>
@@ -125,8 +129,9 @@ export const Monthly = () => {
           <button
             key={index}
             onClick={() => handleMonthClick(month.monthNo, month.name)}
-            className={`w-32 h-20  rounded-lg shadow-lg text-black font-bold text-xl hover:scale-105 transition-all duration-300 ${month.color}`}
+            className={`w-32 h-20  ${ selectedMonth === month.monthNo && "scale-125 border-2 border-[#543a5d]"} rounded-lg shadow-lg text-black font-bold text-xl hover:scale-105 transition-all duration-300 ${month.color}`}
           >
+          
             {month.name}
           </button>
         ))}
@@ -140,7 +145,9 @@ export const Monthly = () => {
             ref={monthCardRef}
           >
             {isLoading ? (
+            
               <Loader fill="black" />
+            
             ) : currentAffairs.length > 0 ? (
               currentAffairs.map((data, idx) => (
                 <div
@@ -150,7 +157,7 @@ export const Monthly = () => {
                   {/* Card Content */}
                   <div className="flex flex-col items-center gap-4">
                     {/* Month and Year */}
-                    <div className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold text-lg px-6 py-4 rounded-md shadow">
+                    <div className="bgGredient-purple-lr text-white font-semibold text-lg px-6 py-4 rounded-md shadow">
                     {new Date(data.date).toLocaleDateString("en-GB", {
                       day: "2-digit",
                       month: "short",
@@ -169,7 +176,7 @@ export const Monthly = () => {
                   {/* View PDF Button (hidden by default, visible on hover) */}
                   <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-xl">
                     <button
-                      className="px-6 py-3 bg-white text-blue-500 font-semibold rounded-lg hover:bg-blue-600 hover:text-white transition duration-300 shadow-md"
+                      className="px-6 py-3 bg-white textGreen font-semibold rounded-lg bg-gradient-to-r hover:from-[#343e25] hover:to-[#5d6e53]  hover:text-white transition duration-300 shadow-md"
                       onClick={() => window.open(data.pdfUrls, "_blank")}
                     >
                       View PDF
@@ -181,11 +188,11 @@ export const Monthly = () => {
               // Fallback when no data is available
               <div className="bg-white border-2 rounded-xl p-6 w-full shadow-xl transform transition-all duration-300 hover:scale-105">
                 <div className="flex flex-row gap-4 mb-4">
-                  <div className="bg-red-500 p-4 text-white font-semibold rounded-md shadow-md">
+                  <div className="bgGredient-purple-lr p-4 text-white font-semibold rounded-md shadow-md">
                     {monthName}, {selectedYear}
                   </div>
                   <div className="flex flex-col justify-center sm:ml-4">
-                    <h3 className="font-bold text-xl text-gray-800 mb-2">
+                    <h3 className="font-bold text-xl textPurple mb-2">
                       No Data Found
                     </h3>
                     <p className="text-gray-600">

@@ -9,12 +9,12 @@ function PrivacyPolicy() {
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="overflow-hidden rounded-xl bg-white shadow">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-8 sm:px-8">
+          <div className="bgGredient-purple px-6 py-8 sm:px-8">
             <div className="flex items-center gap-3">
-              <FiShield className="h-8 w-8 text-white" />
-              <h1 className="text-2xl font-bold text-white sm:text-3xl">Privacy Policy</h1>
+              <FiShield className="h-8 w-8 textGold" />
+              <h1 className="text-2xl font-bold textGold sm:text-3xl">Privacy Policy</h1>
             </div>
-            <p className="mt-2 text-blue-100">Last updated: February 10, 2024</p>
+            <p className="mt-2 textLight">Last updated: February 10, 2024</p>
           </div>
 
           {/* Content */}
@@ -33,15 +33,15 @@ function PrivacyPolicy() {
               {/* Scope */}
               <section>
                 <h2 className="mb-4 text-xl font-semibold text-gray-900">Scope of Policy</h2>
-                <div className="rounded-lg bg-blue-50 p-4">
+                <div className="rounded-lg bgGradient-purple-light p-4">
                   <p className="text-gray-600">This privacy policy applies to the services made available at:</p>
                   <ul className="mt-2 space-y-2 text-gray-600">
                     <li className="flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-blue-600"></span>
+                      <span className="h-1.5 w-1.5 rounded-full bgGredient-purple"></span>
                       https://zenstudy.in and its subdomains
                     </li>
                     <li className="flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-blue-600"></span>
+                      <span className="h-1.5 w-1.5 rounded-full bgGredient-purple"></span>
                       Mobile application Zenstudy (Google Play and App Store)
                     </li>
                   </ul>
@@ -54,7 +54,7 @@ function PrivacyPolicy() {
                 <div className="grid gap-6 sm:grid-cols-2">
                   <div className="rounded-lg border border-gray-200 p-4">
                     <div className="mb-3 flex items-center gap-2">
-                      <PiUserCircle className="h-5 w-5 text-blue-600" />
+                      <PiUserCircle className="h-5 w-5 textPurple" />
                       <h3 className="font-medium text-gray-900">Personal Information</h3>
                     </div>
                     <ul className="space-y-2 text-gray-600">
@@ -65,7 +65,7 @@ function PrivacyPolicy() {
                   </div>
                   <div className="rounded-lg border border-gray-200 p-4">
                     <div className="mb-3 flex items-center gap-2">
-                      <FiAlertCircle className="h-5 w-5 text-blue-600" />
+                      <FiAlertCircle className="h-5 w-5 textPurple" />
                       <h3 className="font-medium text-gray-900">Statistical Information</h3>
                     </div>
                     <p className="text-gray-600">
@@ -90,15 +90,15 @@ function PrivacyPolicy() {
                 <h2 className="mb-4 text-xl font-semibold text-gray-900">Contact Us</h2>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="flex items-center gap-3">
-                    <FiMail className="h-5 w-5 text-blue-600" />
-                    <Link to="mailto:contact@zenstudy.in" className="text-blue-600 hover:underline">
+                    <FiMail className="h-5 w-5 textPurple" />
+                    <Link to="mailto:contact@zenstudy.in" className="textPurple hover:underline">
                       contact@zenstudy.in
                     </Link>
                   </div>
                   <div className="flex items-center gap-3">
-                    <FiMail className="h-5 w-5 text-blue-600" />
-                    <Link to="mailto:grgaurav73@gmail.com" className="text-blue-600 hover:underline">
-                      grgaurav73@gmail.com
+                    <FiMail className="h-5 w-5 textPurple" />
+                    <Link to="mailto:grgaurav73@gmail.com" className="textPurple hover:underline">
+                      piyush@zenstudy.in
                     </Link>
                   </div>
                 </div>

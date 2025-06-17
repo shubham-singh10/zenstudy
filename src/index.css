@@ -223,7 +223,7 @@
 
 /* Button base styles */
 .custom-btn {
-  border: 2px solid #054BB4;
+  border: 2px solid #543a5d;
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
@@ -242,7 +242,7 @@
   width: 14rem;
   height: 12rem;
   border-radius: 0.5rem;
-  background-color: #054BB4;
+  background-image: linear-gradient(135deg, #543a5d, #935aa6);
   position: absolute;
   bottom: 0;
   left: 0;
@@ -264,7 +264,7 @@
   z-index: 1;
   width: 100%;
   text-align: left;
-  color: #054BB4;
+  color: #543a5d;
   transition: color 0.3s ease;
 }
 
@@ -275,14 +275,14 @@
 
 /* Base button styles */
 .custom-btn-2 {
-  border: 2px solid #054BB4;
+  border: 2px solid #543a5d;
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
   overflow: hidden;
   font-weight: 500;
   transition: all 0.3s ease;
-  background-color: #054BB4;
+  background-image: linear-gradient(135deg, #935aa6, #543a5d);;
   border-radius: 9999px;
   padding: 0.5rem 1.5rem;
   position: relative;
@@ -324,7 +324,7 @@
 
 /* Hover effect for button text */
 .custom-btn-2:hover .custom-btn-2-text {
-  color: #054BB4;
+  color: #543a5d;
 }
 
 /* Custom scrollbar for WebKit browsers */
@@ -341,14 +341,14 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #dbeafe;
+  background: #fcedfb;
   /* Color of the scrollbar thumb */
   border-radius: 8px;
   /* Rounded corners for the thumb */
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #dbeafe;
+  background: #fcedfb;
   /* Color on hover */
 }
 
@@ -356,7 +356,7 @@
 .scrollable-content {
   scrollbar-width: thin;
   /* Thin scrollbar */
-  scrollbar-color: #dbeafe #f1f1f1;
+  scrollbar-color: #fcedfb #f1f1f1;
   /* Thumb and track colors */
 }
 
@@ -429,6 +429,9 @@
   /* Background color of the track */
 }
 
+
+
+
 .textGold {
   @apply text-[#efdb78];
 }
@@ -454,6 +457,11 @@
   @apply bg-gradient-to-r from-[#5d6e53] to-[#343e25] 
 }
 
+
+.bgGredient-green-lr {
+  @apply bg-gradient-to-r from-[#343e25] to-[#5d6e53] 
+} 
+
 .bgGredient-gold{
   @apply bg-gradient-to-r from-[#efdb78] to-[#cc9a04] 
 }
@@ -465,3 +473,31 @@
 .bgGredient-purple-lr {
   @apply bg-gradient-to-r from-[#935aa6] to-[#543a5d] 
 }
+
+.bgGradient-purple-light {
+  @apply bg-gradient-to-r from-[#f3e8ff] via-[#ede9fe] to-[#e0e7ff];
+}
+
+.bgGradient-green-light {
+  @apply bg-gradient-to-r from-[#e8f0e4] via-[#dce8d4] to-[#cfdcc5];
+}
+
+
+.textPurpleGradient {
+  background: linear-gradient(to right, #543a5d, #7d0690, #ac45a4); /* purple → pink → yellow */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.textGreenGradient {
+  background: linear-gradient(to right, #5d6e53, #343e25, #97c803); /* purple → pink → yellow */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.textGoldGradient {
+  background: linear-gradient(to right, #efdb78, #ffd700, #ffcc00); /* bronze → gold → bright gold */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+

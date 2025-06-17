@@ -15,14 +15,14 @@ const MainLayout = () => {
     location.pathname.startsWith(route)
   );
 
-  const isWebinarPage = location.pathname === "/webinar" || location.pathname === "/courseDetailNew/Personalised-Mentorship-Programme";
+  const isWebinarPage = location.pathname === "/webinar" || location.pathname === "/courseDetailNew/Personalised-Mentorship-Programme" || location.pathname === "/courseDetailslive/UPSC-Foundation-Batch";
 
   return (
     <Fragment>
-     {isWebinarPage ? <NewNavBar /> : <NavBar />}
+     {isWebinarPage ? <NewNavBar /> :  <NewNavBar />}
       <Outlet />
       {!shouldHideFooter && (
-        isWebinarPage ? <NewFooter /> : <Footer />
+        isWebinarPage ? <NewFooter /> : <NewFooter />
       )}
     </Fragment>
   );

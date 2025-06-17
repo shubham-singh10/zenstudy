@@ -369,6 +369,26 @@ const Profile = () => {
     }
   };
 
+  const textFieldStyles = {
+  "& label": {
+    color: "#543a5d",
+  },
+  "& label.Mui-focused": {
+    color: "#543a5d",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#543a5d",
+    },
+    "&:hover fieldset": {
+      borderColor: "#543a5d",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#543a5d",
+    },
+  },
+};
+
   return (
     <div className="w-full mx-auto p-4 space-y-4">
       <div id="recaptcha-container"></div>
@@ -381,7 +401,7 @@ const Profile = () => {
         />
 
         <div className="flex flex-col items-center">
-          <label className="flex gap-2 bg-blue-700 hover:bg-blue-800 rounded text-white w-full items-center justify-center py-2 px-4 cursor-pointer">
+          <label className="flex gap-2 bgGredient-purple hover:scale-105 rounded text-white w-full items-center justify-center py-2 px-4 cursor-pointer">
             <input
               type="file"
               className="hidden"
@@ -393,7 +413,7 @@ const Profile = () => {
           </label>
           {imager && (
             <button
-              className="flex gap-2 items-center bg-[#76b641] hover:bg-[#6ba63a] text-white m-2 px-4 py-2 rounded "
+              className="flex gap-2 items-center bgGredient-green hover:scale-105 textLight m-2 px-4 py-2 rounded "
               onClick={() => submitImageData()}
               disabled={Imgloading}
             >
@@ -413,6 +433,7 @@ const Profile = () => {
             setUserData((prev) => ({ ...prev, name: e.target.value }))
           }
           className="flex-1 bg-white"
+          sx={textFieldStyles}
         />
       </div>
       <div className="relative w-full flex flex-row items-center gap-1">
@@ -426,11 +447,12 @@ const Profile = () => {
           }
           className="bg-white w-full"
           disabled={userData.status.emailStatus === "verified"}
+           sx={textFieldStyles}
         />
         {userData.status.emailStatus === "verified" && (
           <div className="absolute right-3 bottom-4 flex items-center gap-1">
-            <MdVerified color="green" size={20} />
-            <span className="text-sm text-green-600">Verified</span>
+            <MdVerified color="#343e25" size={20} />
+            <span className="text-sm textGreen">Verified</span>
           </div>
         )}
 
@@ -439,7 +461,7 @@ const Profile = () => {
             className={`px-4 py-2 text-sm text-white rounded-md shadow-md focus:outline-none transition 
               ${otploading.sendOtp || !isValidEmail(userData.email)
                 ? "bg-red-400 opacity-4 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
+                : "bgGredient-green hover:scale-105 focus:ring-2 focus:ring-[#343e25]"
               }`}
             onClick={() => sendOtp(userData.email)}
             disabled={otploading.sendOtp || !isValidEmail(userData.email)}
@@ -485,10 +507,11 @@ const Profile = () => {
               onChange={(e) =>
                 setUserData((prev) => ({ ...prev, otp: e.target.value }))
               }
+                sx={textFieldStyles}
             />
 
             <button
-              className="text-white mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-300 w-full"
+              className="text-white mt-4 bgGredient-purple hover:scale-105 px-4 py-2 rounded-md shadow focus:outline-none focus:ring-2 focus:ring-[#343e25] w-full"
               onClick={() => verifyEmail(userData.email)} // Replace with your verification logic
             >
               {otploading.verifyOtp ? "Please wait..." : "Verify"}
@@ -507,11 +530,12 @@ const Profile = () => {
             setUserData((prev) => ({ ...prev, phone: e.target.value }))
           }
           disabled={userData.status?.phoneStatus === "verified"}
+          sx={textFieldStyles}
         />
         {userData.status?.phoneStatus === "verified" && (
           <div className="absolute right-3 bottom-4 flex items-center gap-1">
-            <MdVerified color="green" size={20} />
-            <span className="text-sm text-green-600">Verified</span>
+            <MdVerified color="#343e25" size={20} />
+            <span className="text-sm textGreen">Verified</span>
           </div>
         )}
 
@@ -520,7 +544,7 @@ const Profile = () => {
             className={`px-4 py-2 text-sm text-white rounded-md shadow-md focus:outline-none transition 
               ${otploading.sendOtp || !isValidEmail(userData.email)
                 ? "bg-red-400 opacity-4 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:blue-red-300"
+                : "bgGredient-green hover:scakle-105 focus:ring-2 focus:ring-[#343e25]"
               }`}
             onClick={() => sendOtpPhone(userData.phone)}
             aria-label="Verify user details"
@@ -565,6 +589,7 @@ const Profile = () => {
               })}
               error={!!errors.otp}
               helperText={errors.otp?.message}
+              sx={textFieldStyles}
             />
 
             {/* Create Password Field */}
@@ -583,6 +608,7 @@ const Profile = () => {
               })}
               error={!!errors.password}
               helperText={errors.password?.message}
+              sx={textFieldStyles}
             />
 
             {/* Confirm Password Field */}
@@ -599,14 +625,14 @@ const Profile = () => {
               })}
               error={!!errors.confirmPassword}
               helperText={errors.confirmPassword?.message}
+              sx={textFieldStyles}
             />
 
             <Button
               type="submit"
-              variant="contained"
-              color="primary"
+              variant="contained"              
               fullWidth
-              className="mt-4"
+              className="mt-4 bgGredient-purple hover:scale-105"
               disabled={otploading.verifyOtp}
             >
               {otploading.verifyOtp ? "Please wait..." : "Verify"}
@@ -623,6 +649,7 @@ const Profile = () => {
         onChange={(e) =>
           setUserData((prev) => ({ ...prev, Address: e.target.value }))
         }
+          sx={textFieldStyles}
       />
       <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
         <TextField
@@ -633,6 +660,7 @@ const Profile = () => {
           onChange={(e) =>
             setUserData((prev) => ({ ...prev, City: e.target.value }))
           }
+            sx={textFieldStyles}
         />
         <TextField
           label="State"
@@ -642,6 +670,7 @@ const Profile = () => {
           onChange={(e) =>
             setUserData((prev) => ({ ...prev, State: e.target.value }))
           }
+          sx={textFieldStyles}
         />
       </div>
       <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
@@ -653,6 +682,7 @@ const Profile = () => {
           onChange={(e) =>
             setUserData((prev) => ({ ...prev, Country: e.target.value }))
           }
+          sx={textFieldStyles}
         />
         <TextField
           label="Pincode"
@@ -662,12 +692,13 @@ const Profile = () => {
           onChange={(e) =>
             setUserData((prev) => ({ ...prev, Pincode: e.target.value }))
           }
+          sx={textFieldStyles}
         />
       </div>
       <div className="flex justify-end">
         <Button
           variant="contained"
-          color="primary"
+          className="bgGredient-purple hover:scale-105 text-white"        
           onClick={submitData}
           disabled={loading}
         >

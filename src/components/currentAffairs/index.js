@@ -16,7 +16,7 @@ const CurrentAffairsN = () => {
       <div className="flex flex-row gap-6 my-4 justify-center">
       {/* Daily Button */}
       <button
-        className={`w-[50%] font-semibold rounded-md py-3 border-2 ${selectedView === "daily" ? " border-blue-500 text-white bg-blue-500 shadow-lg" : " border-blue-500 text-blue-500 bg-white shadow-lg" } hover:bg-blue-500 hover:text-white transition-all duration-300 ease-in-out`}
+        className={`w-[50%] font-semibold rounded-md py-3 border-2 ${selectedView === "daily" ? " border-[#543a5d] text-white bgGredient-purple shadow-lg" : " border-[#543a5d] textPurple bg-white shadow-lg" }  bg-gradient-to-r hover:from-[#935aa6] hover:to-[#543a5d]  hover:text-white transition-all duration-300 ease-in-out`}
         onClick={() => handleViewChange('daily')} // Set view to 'daily'
       >
         Daily
@@ -24,7 +24,7 @@ const CurrentAffairsN = () => {
       
         {/* Monthly Button */}
         <button
-          className={`w-[50%] font-semibold rounded-md py-3 border-2 ${selectedView === "monthly" ? "bg-green-500  text-white" : "bg-white border-green-500 text-green-500 " }  shadow-lg hover:bg-green-500 hover:text-white transition-all duration-300 ease-in-out`}
+          className={`w-[50%] font-semibold rounded-md py-3 border-2 ${selectedView === "monthly" ? "bgGredient-purple  text-white" : "bg-white border-[#543a5d] textPurple" }  shadow-lg  bg-gradient-to-r hover:from-[#935aa6] hover:to-[#543a5d]   hover:text-white transition-all duration-300 ease-in-out`}
           onClick={() => handleViewChange('monthly')} // Set view to 'monthly'
         >
           Monthly

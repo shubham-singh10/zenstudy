@@ -8,11 +8,11 @@ function MaterialIndex() {
   const [selectedMaterial, setSelectedMaterial] = useState(null);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-purple-50">
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-2">
-            <FiBook className="w-8 h-8 text-blue-600" />
+            <FiBook className="w-8 h-8 textPurple" />
             <h1 className="text-2xl font-bold text-gray-900">Study Materials</h1>
           </div>
         </div>

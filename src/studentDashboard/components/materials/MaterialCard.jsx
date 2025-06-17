@@ -15,9 +15,9 @@ export default function MaterialCard({ material, onClick }) {
       />
       <div className="p-4">
         <div className="flex items-start gap-3">
-          <FiFileText className="w-5 h-5 mt-1 text-blue-600 flex-shrink-0" />
+          <FiFileText className="w-5 h-5 mt-1 textPurple flex-shrink-0" />
           <div>
-            <h3 className="font-semibold text-lg text-gray-900">{material.title}</h3>
+            <h3 className="font-semibold text-lg textPurple">{material.title}</h3>
             <p className="text-gray-600 text-sm mt-1">{material.description}</p>
           </div>
         </div>

@@ -39,6 +39,7 @@ const InputField = ({
   type = "text",
   icon,
   email,
+  sx,
 }) => (
   <Box sx={{ "& > :not(style)": { mb: 2 } }}>
     <TextField
@@ -54,6 +55,7 @@ const InputField = ({
       InputProps={{
         endAdornment: <InputAdornment position="end">{icon}</InputAdornment>,
       }}
+      sx={sx}
     />
   </Box>
 );
@@ -74,7 +76,7 @@ function SignIn() {
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
-  const { login } = useAuth()
+  const { login } = useAuth();
   // Intersection Observers
   const { ref: slideLeftRef, inView: slideLeftInView } = useInView({
     triggerOnce: true,
@@ -179,7 +181,7 @@ function SignIn() {
           "recaptcha-container",
           {
             size: "invisible",
-            callback: () => { },
+            callback: () => {},
           }
         );
       }
@@ -209,7 +211,6 @@ function SignIn() {
       }).then(() => {
         setresLoading(false);
       });
-
     }
   };
 
@@ -301,7 +302,6 @@ function SignIn() {
         confirmButtonText: "Retry",
         confirmButtonColor: "#d33",
       });
-
     }
   };
 
@@ -329,11 +329,14 @@ function SignIn() {
       }
       const resData = await response.json();
 
-      toast.success(`Welcome back, ${resData.name}! You're successfully logged in.`, {
-        position: "top-right",
-        duration: 4000,
-        icon: "🎉",
-      });
+      toast.success(
+        `Welcome back, ${resData.name}! You're successfully logged in.`,
+        {
+          position: "top-right",
+          duration: 4000,
+          icon: "🎉",
+        }
+      );
       setLoading(false);
       login(resData, resData.role, resData.token);
 
@@ -355,13 +358,22 @@ function SignIn() {
     }
   };
 
+  const purpleOutline = {
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": { borderColor: "#935aa6" },
+      "&:hover fieldset": { borderColor: "#935aa6" },
+      "&.Mui-focused fieldset": { borderColor: "#935aa6" },
+    },
+    "& label.Mui-focused": { color: "#935aa6" },
+  };
+
   return (
     <Fragment>
       <div id="recaptcha-container"></div>
       <div className="min-h-screen lg:p-12 md:p-6 p-4 bg-white flex items-center justify-center">
         {/* Main Container */}
         <div className="relative w-full max-w-5xl p-1 rounded-lg shadow-xl">
-          <div className="absolute inset-0 border-0 border-transparent rounded-lg animate-border bg-gradient-to-r from-blue-500 via-blue-900 to-blue-400 bg-clip-border"></div>
+          <div className="absolute inset-0 border-0 border-transparent rounded-lg animate-border bg-gradient-to-r from-[#543a5d] via-[#7d2999] to-[#bca601] bg-clip-border"></div>
           <div className="relative z-10 bg-white rounded-lg lg:p-10 p-4">
             {/* Headings Section */}
             <animated.div
@@ -369,7 +381,7 @@ function SignIn() {
               style={SlideUp}
               className="text-center mb-8 hidden md:block"
             >
-              <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500">
+              <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent textPurple">
                 Welcome Back
               </h2>
               <p className="text-xl text-gray-600">
@@ -382,7 +394,7 @@ function SignIn() {
               <div
                 ref={slideLeftRef}
                 style={SlideLeft}
-                className="bg-gradient-to-r from-blue-500 via-blue-900 to-blue-400 rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300"
+                className="bgGredient-purple-lr rounded-2xl text-center flex flex-col items-center justify-center text-white p-6 lg:p-12 lg:w-1/3 shadow-xl transform hover:scale-105 transition-transform duration-300"
               >
                 <h1 className="lg:text-3xl md:text-2xl text-xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-yellow-400">
                   Welcome to Zenstudy
@@ -394,14 +406,14 @@ function SignIn() {
 
               {/* Right Section */}
               <div className="flex-1 lg:p-12 md:p-6 p-4">
-                <h2 className="lg:text-xl text-lg font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-blue-800 to-blue-300">
+                <h2 className="lg:text-xl text-lg font-semibold mb-6 bg-clip-text text-transparent textPurple">
                   {step === 1
                     ? "Login with your Email or Phone no."
                     : step === 2
-                      ? "Complete Your Registration"
-                      : step === 3
-                        ? `Enter the OTP sent to your phone number (${phone})`
-                        : "Enter Your Password"}
+                    ? "Complete Your Registration"
+                    : step === 3
+                    ? `Enter the OTP sent to your phone number (${phone})`
+                    : "Enter Your Password"}
                 </h2>
 
                 <div className="signup-container">
@@ -430,14 +442,15 @@ function SignIn() {
                             }
                           },
                         }}
+                        sx={purpleOutline}
                       />
                       <Button
                         type="submit"
                         variant="contained"
                         fullWidth
                         disabled={loading}
-                        className="hover:bg-blue-700 hover:scale-105 transition-all bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300"
-                        endIcon={!loading && (<FiArrowRight />)}
+                        className=" hover:scale-105 transition-all bgGredient-purple"
+                        endIcon={!loading && <FiArrowRight />}
                       >
                         {loading ? <CircularProgress size={24} /> : "Next"}
                       </Button>
@@ -454,6 +467,7 @@ function SignIn() {
                         register={register}
                         errors={errors}
                         icon={<MdEmail size={25} />}
+                        sx={purpleOutline}
                       />
                       <InputField
                         label="Enter Your Phone Number"
@@ -478,6 +492,7 @@ function SignIn() {
                               "Phone number must be numeric and 10 digits long",
                           },
                         }}
+                        sx={purpleOutline}
                       />
                       <InputField
                         label="Create a Password"
@@ -494,6 +509,7 @@ function SignIn() {
                               "Password must be at least 8 characters long",
                           },
                         }}
+                        sx={purpleOutline}
                       />
                       <InputField
                         label="Confirm Password"
@@ -513,13 +529,14 @@ function SignIn() {
                             value === watch("password") ||
                             "Passwords do not match",
                         }}
+                        sx={purpleOutline}
                       />
                       <Button
                         type="submit"
                         variant="contained"
                         fullWidth
                         disabled={loading}
-                        className="hover:bg-blue-700 hover:scale-105 transition-all bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300"
+                        className=" hover:scale-105 transition-all bgGredient-purple"
                       >
                         {loading ? <CircularProgress size={24} /> : "Next"}
                       </Button>
@@ -542,6 +559,7 @@ function SignIn() {
                             message: "OTP must be at least 6 characters long",
                           },
                         }}
+                        sx={purpleOutline}
                       />
                       {otpError && (
                         <p className="-mt-3 mb-2 text-red-500">{otpError}</p>
@@ -549,21 +567,21 @@ function SignIn() {
                       {otpSent && (
                         <p className="text-gray-500 text-md mt-1">
                           Resend OTP in{" "}
-                          <span className="text-blue-600">{timer}</span> seconds
+                          <span className="textPurple">{timer}</span> seconds
                         </p>
                       )}
                       {!otpSent &&
                         (resLoading ? (
                           <button
                             onClick={resendOtp}
-                            className=" py-2 px-4 mb-4 bg-blue-400 cursor-not-allowed text-white rounded-full "
+                            className=" py-2 px-4 mb-4 bgGredient-green cursor-not-allowed text-white rounded-full "
                           >
                             Please Wait...
                           </button>
                         ) : (
                           <button
                             onClick={resendOtp}
-                            className=" py-2 px-4 mb-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full "
+                            className=" py-2 px-4 mb-4 bgGredient-green-lr bg-gradient-to-r hover:from-[#5d6e53] hover:to-[#343e25] text-white rounded-full "
                           >
                             Resend OTP
                           </button>
@@ -574,7 +592,7 @@ function SignIn() {
                         variant="contained"
                         fullWidth
                         disabled={loading}
-                        className="hover:bg-blue-700 hover:scale-105 transition-all bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300"
+                        className="hover:scale-105 transition-all bgGredient-purple"
                       >
                         {loading ? <CircularProgress size={24} /> : "Next"}
                       </Button>
@@ -598,9 +616,17 @@ function SignIn() {
                                 "Password must be at least 8 characters long",
                             },
                           }}
+                          sx={purpleOutline}
                         />
-                        <div className="-mt-2 mb-4"><Link to="/reset-password" className="text-blue-500
-                        hover:text-blue-700">Forgot password ? </Link></div>
+                        <div className="-mt-2 mb-4">
+                          <Link
+                            to="/reset-password"
+                            className="textPurple
+                        hover:text-[#935aa6] transition-colors duration-300"
+                          >
+                            Forgot password ?{" "}
+                          </Link>
+                        </div>
                         <button
                           type="button"
                           onClick={togglePasswordVisibility}
@@ -618,8 +644,8 @@ function SignIn() {
                         variant="contained"
                         fullWidth
                         disabled={loading}
-                        className="hover:bg-blue-700 hover:scale-105 transition-all bg-gradient-to-r from-blue-500 via-blue-900 to-blue-300"
-                        endIcon={!loading && (<FiLogIn />)}
+                        className=" hover:scale-105 transition-all bgGredient-purple"
+                        endIcon={!loading && <FiLogIn />}
                       >
                         {loading ? <CircularProgress size={24} /> : "Login"}
                       </Button>

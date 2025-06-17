@@ -7,7 +7,7 @@ const CourseCardSkeleton = ({ count = 6 }) => {
       {Array(count)
         .fill(0)
         .map((_, index) => (
-          <div key={index} className="max-w-xs space-y-1 rounded-2xl overflow-hidden shadow-lg m-4 p-4 bg-white">
+          <div key={index} className="max-w-xs space-y-1 rounded-2xl overflow-hidden shadow-lg m-4 p-4 bg-purple-100">
             <div className="relative">
               <Skeleton height={208} width="100%" className="rounded-2xl" />
             </div>
