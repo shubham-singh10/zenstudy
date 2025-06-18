@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/auth-context.jsx";
 import { Toaster } from "react-hot-toast";
 
-
 const Loading = lazy(() => import("./Loading.jsx"));
 const MainLayout = lazy(() => import("./MainLayout.jsx"));
 const PrivateRoute = lazy(() => import("./PrivateRoute.jsx"));
@@ -27,7 +26,6 @@ const NewCourseDetailPage = lazy(() => import("./components/course/CourseDetailN
 const Webinar = lazy(() => import("./components/Webinar.jsx"));
 const NotFound = lazy(() => import("./components/NotFound.jsx"));
 
-
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
 const Courses = lazy(() => import("./components/course/Courses.jsx"));
@@ -49,7 +47,7 @@ const UPSCStudent = lazy(() => import("./studentDashboard/components/Upse.jsx"))
 const DailyAffairs = lazy(() => import("./studentDashboard/components/currentAffairs/DailyAffairs.jsx"));
 const MonthlyAffairs = lazy(() => import("./studentDashboard/components/currentAffairs/MonthlyAffairs.jsx"));
 const TestSeriesPage = lazy(() => import("./studentDashboard/components/testseries/index.jsx"));
-const LiveClass = lazy(() => import("./studentDashboard/components/LiveClass.jsx"));
+const LiveClass = lazy(() => import("./studentDashboard/components/LiveClass.jsx") );
 const WatchCourse = lazy(() => import("./studentDashboard/components/WatchCourse.jsx"));
 const CourseDetailNew = lazy(() => import("./studentDashboard/components/CourseDetailNew.jsx"));
 const CoursesPage = lazy(() => import("./studentDashboard/components/CoursePage.jsx"));
@@ -57,7 +55,6 @@ const MaterialsPage = lazy(() => import("./studentDashboard/components/materials
 const TestSeriesPreview = lazy(() => import("./components/testSeries/index.jsx"));
 const FreeResources = lazy(() => import("./studentDashboard/components/free-resources/index.jsx"));
 const FreeResourcesWatch = lazy(() => import("./studentDashboard/components/free-resources/WatchCourseFree.jsx"));
-
 
 function App() {
   return (
@@ -68,7 +65,7 @@ function App() {
           <Routes>
             {/* Public Routes */}
             <Route element={<MainLayout />}>
-              <Route path="/" element={<Home />} />            
+              <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/webinar" element={<Webinar />} />
               <Route path="/ourteam" element={<OurTeam />} />
@@ -76,34 +73,104 @@ function App() {
               <Route path="/currentAffair" element={<CurrentAffair />} />
               <Route path="/pdfViewer" element={<PdfViewer />} />
               <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-              <Route path="/termandConditions" element={<TermandConditions />} />
-              <Route path="/courseDetailNew/:courseId" element={<NewCourseDetailPage />} />
-              <Route path="/courseDetailslive/:coursename" element={<CourseDetailsLive />} />
-              <Route path="/course-details/:courseId" element={<CourseDetails />} />
+              <Route
+                path="/termandConditions"
+                element={<TermandConditions />}
+              />
+              <Route
+                path="/courseDetailNew/:courseId"
+                element={<NewCourseDetailPage />}
+              />
+              <Route
+                path="/courseDetailslive/:coursename"
+                element={<CourseDetailsLive />}
+              />
+              <Route
+                path="/course-details/:courseId"
+                element={<CourseDetails />}
+              />
               <Route path="/contact" element={<ContactUs />} />
               <Route path="/testing" element={<Testing />} />
-              <Route path="/test-series-preview" element={<TestSeriesPreview />} />
-              
-              {/* Public Route Start */}
-              <Route path="/sign-Up" element={<PublicRoute element={<SignUp />} />} />
-              <Route path="/sign-Up-Dynamic/:courseId" element={<PublicRoute element={<DynamicSignUp />} />} />
-              <Route path="/signtest" element={<PublicRoute element={<SignupTest />} />} />
-              <Route path="/login/:courseId" element={<PublicRoute element={<SignInDynamic />} />} />
-              <Route path="/sign-In" element={<PublicRoute element={<SignIn />} />} />
-              <Route path="/reset-password" element={<PublicRoute element={<ResetPassword />} />} />
+              <Route
+                path="/test-series-preview"
+                element={<TestSeriesPreview />}
+              />
+
+               {/* Public Route Start */}
+              <Route
+                path="/sign-up"
+                element={
+                  <PublicRoute>
+                    <SignUp />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/sign-up-dynamic/:courseId"
+                element={
+                  <PublicRoute>
+                    <DynamicSignUp />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/signtest"
+                element={
+                  <PublicRoute>
+                    <SignupTest />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/login/:courseId"
+                element={
+                  <PublicRoute>
+                    <SignInDynamic />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/sign-in"
+                element={
+                  <PublicRoute>
+                    <SignIn />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/reset-password"
+                element={
+                  <PublicRoute>
+                    <ResetPassword />
+                  </PublicRoute>
+                }
+              />
               {/* Public Route End */}
             </Route>
 
-
-
             {/* Protected Student Routes Start */}
-            <Route element={<PrivateRoute element={<HomeNew />} />}>
+            <Route
+              element={
+                <PrivateRoute>
+                  <HomeNew />
+                </PrivateRoute>
+              }
+            >
               <Route path="/profile" element={<Profile />} />
               <Route path="/course-details-student" element={<CoursesPage />} />
-              <Route path="/course-details-view/:courseId" element={<CourseDetailsStudentView />} />
-              <Route path="/course-detail-new/:courseId" element={<CourseDetailNew />} />
+              <Route
+                path="/course-details-view/:courseId"
+                element={<CourseDetailsStudentView />}
+              />
+              <Route
+                path="/course-detail-new/:courseId"
+                element={<CourseDetailNew />}
+              />
               <Route path="/mycourse" element={<MyCoursesNew />} />
-              <Route path="/livecourse-details-student/:coursename" element={<LiveCourseDetailStudent />} />
+              <Route
+                path="/livecourse-details-student/:coursename"
+                element={<LiveCourseDetailStudent />}
+              />
               <Route path="/liveClass" element={<LiveClass />} />
               <Route path="/upsc-student" element={<UPSCStudent />} />
               <Route path="/watch-course/:id" element={<WatchCourse />} />
@@ -115,21 +182,18 @@ function App() {
               <Route path="/testResult" element={<TestResult />} />
               <Route path="/resultSeries" element={<TestResultSeries />} />
               <Route path="/free-resources" element={<FreeResources />} />
-              <Route path="/watch-course-free/:id" element={<FreeResourcesWatch />} /> 
-              <Route path="/demo" element={<Demopage />} />                      
-              <Route path="/pyqs" element={<UserPYQ />} />                      
-
+              <Route
+                path="/watch-course-free/:id"
+                element={<FreeResourcesWatch />}
+              />
+              <Route path="/demo" element={<Demopage />} />
+              <Route path="/pyqs" element={<UserPYQ />} />
 
               {/* Protected Student Routes End */}
             </Route>
 
             {/* Fallback Route for 404 */}
-            <Route
-              path="*"
-              element={
-               <NotFound />
-              }
-            />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </Fragment>
