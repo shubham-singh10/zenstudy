@@ -8,7 +8,6 @@ import axios from "axios";
 import { useAuth } from "../../context/auth-context";
 import CourseCardSkeleton from "./course-card-skeleton";
 import ResourceSkeleton from "../../studentDashboard/components/free-resources/resource-skeleton";
-import { a } from "react-spring";
 
 const Courses = () => {
   const [courses, setCourse] = useState([]);
@@ -44,7 +43,6 @@ const Courses = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  console.log("activeTab", activeTab);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -53,7 +51,7 @@ const Courses = () => {
         );
         setTabName(response.data.data);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     };
 
@@ -65,14 +63,12 @@ const Courses = () => {
     if (user) {
       api = `fetchPurchaseCoursesWithFilters/${user?._id}?page=${paginatedData.currentPage}&limit=${paginatedData.itemperpage}&search=${searchText}&catId=${activeTab}`;
     } else {
-      api = `fetchCoursesWithFiltersopt?page=${paginatedData.currentPage}&limit=${
+      api = `fetchCoursesWithFilters?page=${paginatedData.currentPage}&limit=${
         paginatedData.itemperpage
       }&search=${searchText}&catId=${activeTab === "Free Courses" ? null : activeTab}&isFree=${
         activeTab === "Free Courses" && true
       }`;
     }
-
-    console.log("API Endpoint:", api);
 
     const getCourse = async () => {
       setLoading((prev) => ({ ...prev, paginationLoading: true }));
@@ -80,7 +76,7 @@ const Courses = () => {
 
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API3}zenstudy/api/course/${api}`,
+          `${process.env.REACT_APP_API}zenstudy/api/course/${api}`,
           {
             method: "GET",
             headers: {
@@ -104,8 +100,6 @@ const Courses = () => {
         const data = await response.json();
         const mainData = data.courses;
         const metaData = data.meta;
-
-        console.log("Fetched courses:", mainData);
         setPaginatedData((prev) => ({ ...prev, totalData: metaData.total }));
 
         // Process the course data
