@@ -9,21 +9,12 @@ import NewNavBar from "./components/NewNavBar";
 const MainLayout = () => {
   const location = useLocation();
 
-  const hideFooterRoutes = ["/courseDetailslive"];
-
-  const shouldHideFooter = hideFooterRoutes.some((route) =>
-    location.pathname.startsWith(route)
-  );
-
-  const isWebinarPage = location.pathname === "/webinar" || location.pathname === "/courseDetailNew/Personalised-Mentorship-Programme" || location.pathname === "/courseDetailslive/UPSC-Foundation-Batch";
-
+ 
   return (
     <Fragment>
-     {isWebinarPage ? <NewNavBar /> :  <NewNavBar />}
+     <NewNavBar />
       <Outlet />
-      {!shouldHideFooter && (
-        isWebinarPage ? <NewFooter /> : <NewFooter />
-      )}
+       <NewFooter />      
     </Fragment>
   );
 };

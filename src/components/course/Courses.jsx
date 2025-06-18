@@ -63,9 +63,11 @@ const Courses = () => {
   useEffect(() => {
     let api;
     if (user) {
-      api = `fetchPurchaseCoursesWithFilters/${user?._id}?page=${paginatedData.currentPage}&limit=${paginatedData.itemperpage}&search=${searchText}&catId=${activeTab}`;
+      api = `fetchPurchaseCoursesWithFilters/${user?._id}?page=${paginatedData.currentPage}&limit=${paginatedData.itemperpage}&search=${searchText}&catId=${activeTab}&isFree=${
+        activeTab === "Free Courses" && true
+      }`;
     } else {
-      api = `fetchCoursesWithFiltersopt?page=${paginatedData.currentPage}&limit=${
+      api = `fetchCoursesWithFilters?page=${paginatedData.currentPage}&limit=${
         paginatedData.itemperpage
       }&search=${searchText}&catId=${activeTab === "Free Courses" ? null : activeTab}&isFree=${
         activeTab === "Free Courses" && true
@@ -80,7 +82,7 @@ const Courses = () => {
 
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API3}zenstudy/api/course/${api}`,
+          `${process.env.REACT_APP_API2}zenstudy/api/course/${api}`,
           {
             method: "GET",
             headers: {
@@ -205,7 +207,7 @@ const Courses = () => {
         </div>
       ) : courses.length === 0 ? (
         <div
-          className={`flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl h-96 text-gray-500 transition-opacity duration-500 ease-in-out ${
+          className={`flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl h-96 text-gray-500 transition-opacity duration-50 ease-in-out ${
             contentVisible ? "opacity-100" : "opacity-0"
           }`}
         >

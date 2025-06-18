@@ -1,28 +1,32 @@
 import { Fragment, Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import Loading from "./Loading.jsx";
-import MainLayout from "./MainLayout.jsx";
-import PrivateRoute from "./PrivateRoute.jsx";
-import { Toaster } from "react-hot-toast";
-import CoursesNew from "./components/course/CoursesNew.jsx";
-import SignInDynamic from "./components/auth/Sign-inDynamic.jsx";
-import OurTeam from "./components/OurTeam.jsx";
-import SignupTest from "./components/auth/SignupTest.jsx";
-import PdfViewer from "./components/PdfViewer.jsx";
-import DynamicSignUp from "./components/auth/Sign-upDynamic.jsx";
-import HomeNew from "./studentDashboard/layout.jsx";
 import { AuthProvider } from "./context/auth-context.jsx";
-import PublicRoute from "./PublicRoute.jsx";
-import Testing from "./components/testing.jsx";
-import TestResult from "./studentDashboard/components/testseries/TestResult.jsx";
-import TestResultSeries from "./studentDashboard/components/testseries/TestResultSeries.jsx";
-import Demopage from "./studentDashboard/components/Demopage.jsx";
-import NewCourseDetailPage from "./components/course/CourseDetailNew.jsx";
-import LiveCourseDetailStudent from "./studentDashboard/components/LiveCourseDetailsStudent.jsx";
-import NotFound from "./components/NotFound.jsx";
-import Webinar from "./components/Webinar.jsx";
-// import VideoPage from "./components/VideoPage.jsx";
-import UserPYQ from "./studentDashboard/components/UserPyq.jsx";
+import { Toaster } from "react-hot-toast";
+
+
+const Loading = lazy(() => import("./Loading.jsx"));
+const MainLayout = lazy(() => import("./MainLayout.jsx"));
+const PrivateRoute = lazy(() => import("./PrivateRoute.jsx"));
+const PublicRoute = lazy(() => import("./PublicRoute.jsx"));
+
+const SignInDynamic = lazy(() => import("./components/auth/Sign-inDynamic.jsx"));
+const SignupTest = lazy(() => import("./components/auth/SignupTest.jsx"));
+const DynamicSignUp = lazy(() => import("./components/auth/Sign-upDynamic.jsx"));
+
+const HomeNew = lazy(() => import("./studentDashboard/layout.jsx"));
+const TestResult = lazy(() => import("./studentDashboard/components/testseries/TestResult.jsx"));
+const TestResultSeries = lazy(() => import("./studentDashboard/components/testseries/TestResultSeries.jsx"));
+const Demopage = lazy(() => import("./studentDashboard/components/Demopage.jsx"));
+const LiveCourseDetailStudent = lazy(() => import("./studentDashboard/components/LiveCourseDetailsStudent.jsx"));
+const UserPYQ = lazy(() => import("./studentDashboard/components/UserPyq.jsx"));
+
+const PdfViewer = lazy(() => import("./components/PdfViewer.jsx"));
+const OurTeam = lazy(() => import("./components/OurTeam.jsx"));
+const Testing = lazy(() => import("./components/testing.jsx"));
+const NewCourseDetailPage = lazy(() => import("./components/course/CourseDetailNew.jsx"));
+const Webinar = lazy(() => import("./components/Webinar.jsx"));
+const NotFound = lazy(() => import("./components/NotFound.jsx"));
+
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
@@ -44,7 +48,6 @@ const MyCoursesNew = lazy(() => import("./studentDashboard/components/MyPurchase
 const UPSCStudent = lazy(() => import("./studentDashboard/components/Upse.jsx"));
 const DailyAffairs = lazy(() => import("./studentDashboard/components/currentAffairs/DailyAffairs.jsx"));
 const MonthlyAffairs = lazy(() => import("./studentDashboard/components/currentAffairs/MonthlyAffairs.jsx"));
-// const TestSeriesPage = lazy(() => import("./studentDashboard/components/TestSeries.jsx"));
 const TestSeriesPage = lazy(() => import("./studentDashboard/components/testseries/index.jsx"));
 const LiveClass = lazy(() => import("./studentDashboard/components/LiveClass.jsx"));
 const WatchCourse = lazy(() => import("./studentDashboard/components/WatchCourse.jsx"));
@@ -74,7 +77,6 @@ function App() {
               <Route path="/pdfViewer" element={<PdfViewer />} />
               <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
               <Route path="/termandConditions" element={<TermandConditions />} />
-              <Route path="/coursesNew" element={<CoursesNew />} />
               <Route path="/courseDetailNew/:courseId" element={<NewCourseDetailPage />} />
               <Route path="/courseDetailslive/:coursename" element={<CourseDetailsLive />} />
               <Route path="/course-details/:courseId" element={<CourseDetails />} />

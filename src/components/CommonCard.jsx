@@ -69,10 +69,7 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
         differentClass
           ? `${differentClass} space-y-1 rounded-2xl overflow-hidden shadow-lg m-4 p-4`
           : "max-w-xs space-y-1 rounded-2xl overflow-hidden shadow-lg m-4 p-4"
-      } course-card transition-all duration-500 ${
-        contentVisible
-          ? "opacity-100 transform translate-y-0"
-          : "opacity-0 transform translate-y-4"
+      } course-card
       }`}
     >
       <div className="relative">
