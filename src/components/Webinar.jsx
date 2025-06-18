@@ -347,7 +347,7 @@ function Webinar() {
         Save the Date!
       </h3>
       <p className="text-lg md:text-3xl font-extrabold text-gray-700 ">
-      1 June, 2025
+      29 June, 2025
       </p>
     </div>
   </div>
@@ -391,14 +391,14 @@ function Webinar() {
               <BiCalendar className="w-8 h-8 text-[#543a5d]" />
               <div>
                 <h3 className="font-semibold">Date</h3>
-                <p>1 June, 2025</p>
+                <p>29 June, 2025</p>
               </div>
             </div>
             <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">
               <FaClock className="w-8 h-8 text-[#543a5d]" />
               <div>
                 <h3 className="font-semibold">Duration</h3>
-                <p>5pm - 6pm</p>
+                <p>7pm - 8pm</p>
               </div>
             </div>
             <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">

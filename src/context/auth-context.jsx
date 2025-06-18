@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
                     });
                 }
             } catch (error) {
-                console.error("Auth check failed:", error.message);
+                // console.error("Auth check failed:", error.message);
             } finally {
                 setLoading(false);
             }
