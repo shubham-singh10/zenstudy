@@ -1,15 +1,10 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth-context";
 
 function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
   const navigate = useNavigate();
-  const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`);
   const [imageLoaded, setImageLoaded] = useState(false);
-
-  const [contentVisible, setContentVisible] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
    const {user} = useAuth()
@@ -24,38 +19,6 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
          }
        }
      }, [user]);
-
-
-  useEffect(() => {
-    if (course.imageUrl) {
-      // Preload the image
-      const img = new Image();
-      img.crossOrigin = "anonymous";
-      img.onload = () => {
-        setImageSrc(course.imageUrl);
-        setImageLoaded(true);
-        // Add a small delay before showing content for a smoother transition
-        setTimeout(() => {
-          setContentVisible(true);
-        }, 100);
-      };
-      img.onerror = () => {
-        // Fallback to default image if loading fails
-        setImageSrc(`/assets/upcoming.webp`);
-        setImageLoaded(true);
-        setTimeout(() => {
-          setContentVisible(true);
-        }, 100);
-      };
-      img.src = course.imageUrl;
-    } else {
-      setImageLoaded(true);
-      setTimeout(() => {
-        setContentVisible(true);
-      }, 100);
-    }
-  }, [course.imageUrl]);
-
 
 
   const isUpcoming = course.other1 === "upcoming";

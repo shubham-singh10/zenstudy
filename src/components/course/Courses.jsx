@@ -104,12 +104,6 @@ const Courses = () => {
         const metaData = data.meta;
         setPaginatedData((prev) => ({ ...prev, totalData: metaData.total }));
 
-        // Process the course data
-        const processedCourses = mainData.map((course) => ({
-          ...course,
-          imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`,
-        }));
-
         setCourse(mainData);
         setLoading({ mainLoading: false, paginationLoading: false });
 

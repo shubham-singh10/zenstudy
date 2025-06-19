@@ -1,4 +1,4 @@
-import React, { Fragment, lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import HomeText from "./Main/HomeText";
 import RecentlyAddedCourse from "./Main/RecentlyAddedCourse";
 

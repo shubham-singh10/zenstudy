@@ -3,7 +3,6 @@ import { FiSearch } from "react-icons/fi";
 import { RiSortAsc, RiSortDesc } from "react-icons/ri";
 import { useAuth } from "../../context/auth-context";
 import PaginationNew from "../../components/pagination/PaginationNew";
-import Loading from "../../Loading";
 import { FaPlay, FaVideo } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";

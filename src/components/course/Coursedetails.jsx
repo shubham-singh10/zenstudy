@@ -10,12 +10,10 @@ import { FaLock, FaLockOpen } from "react-icons/fa";
 import { VerifyEmailMsg } from "../VerifyEmailMsg";
 import { Loader } from "../loader/Loader";
 import { useAuth } from "../../context/auth-context";
-import { VideoPlayer } from "../VideoPage";
 
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`);
   const [imgloading, setImgLoading] = useState(true);
   const [payloading, setPayLoading] = useState(false);
   const [discount, setDiscount] = useState(null);
@@ -145,14 +143,6 @@ const CourseDetailsView = () => {
       </div>
     );
   }
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${day}-${month}-${year}`;
-  };
 
   //Payment Initiate
   const handlePayment = async (amount) => {
@@ -331,7 +321,7 @@ const CourseDetailsView = () => {
                 </div>
               )}
               <img
-                src={coursePost?.thumbnailS3 || imageSrc}
+                src={coursePost?.thumbnailS3 || "/assets/upcoming.webp"}
                 crossOrigin="anonymous"
                 alt="Course Thumbnail"
                 className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${

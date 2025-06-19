@@ -25,7 +25,6 @@ const CourseDetailNew = () => {
 
   const [coursePost, setCoursePost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [imageSrc, setImageSrc] = useState(`/assets/upcoming.webp`);
   const [imgloading, setImgLoading] = useState(true);
   const [error, setError] = useState(null);
   const [payloading, setPayLoading] = useState(false);
@@ -430,7 +429,7 @@ const CourseDetailNew = () => {
                   </div>
                 )}
                 <img
-                  src={coursePost?.thumbnailS3 || imageSrc}
+                  src={coursePost?.thumbnailS3 || "/assets/upcoming.webp"}
                   crossOrigin="anonymous"
                   alt="Course Thumbnail"
                   className={`w-full object-contain rounded-2xl transition-opacity duration-500 ${

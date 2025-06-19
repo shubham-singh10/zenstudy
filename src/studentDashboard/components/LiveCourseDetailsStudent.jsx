@@ -11,7 +11,6 @@ import CoursePageSkeleton from "../../components/course/course-detailslive-skele
 import { Loader } from "../../components/loader/Loader";
 import { useAuth } from "../../context/auth-context";
 import VerifyEmailMsg from "../../components/VerifyEmailMsg";
-import { IoMdArrowRoundBack } from "react-icons/io";
 import { VideoPlayer } from "../../components/VideoPage";
 
 // Combine all imported icon sets

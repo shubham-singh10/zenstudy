@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
 import { RiSortAsc, RiSortDesc } from "react-icons/ri";
 import { useAuth } from "../../context/auth-context";
-import Loading from "../../Loading";
 import Pagination from "../../components/pagination/Pagination";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ResourceSkeleton from "./free-resources/resource-skeleton";
@@ -20,8 +19,6 @@ const CoursesPage = () => {
     itemperpage: 6,
     totalData: 0,
   });
-
-  console.log("Paginated Data:", courses);
   const { user } = useAuth();
   // const [searchTerm, setSearchTerm] = useState("")
   const [sortBy, setSortBy] = useState("price");
