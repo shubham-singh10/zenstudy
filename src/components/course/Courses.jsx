@@ -99,6 +99,8 @@ const Courses = () => {
 
         const data = await response.json();
         const mainData = data.courses;
+
+        console.log("Fetched courses:", mainData);
         const metaData = data.meta;
         setPaginatedData((prev) => ({ ...prev, totalData: metaData.total }));
 

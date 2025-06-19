@@ -1,28 +1,36 @@
-import React, { Fragment } from "react";
-import Carousel from "./Carousel";
-import FeatureVideo from "./FeatureVideo";
+import React, { Fragment, lazy, Suspense } from "react";
 import HomeText from "./Main/HomeText";
 import RecentlyAddedCourse from "./Main/RecentlyAddedCourse";
-import LearnAbousUs from "./Main/LearnAbousUs";
+
+// Lazy load heavier or below-the-fold components
+const Carousel = lazy(() => import("./Carousel"));
+const FeatureVideo = lazy(() => import("./FeatureVideo"));
+const LearnAbousUs = lazy(() => import("./Main/LearnAbousUs"));
 
 const Home = () => {
   return (
-    <Fragment>
-      {/* Top Carousel */}
-      <Carousel />
+    <main className="w-full">
+      {/* Hero Carousel */}
+      <Suspense fallback={<div className="min-h-[50vh]">Loading carousel...</div>}>
+        <section><Carousel /></section>
+      </Suspense>
 
-      {/* Small aboutUs */}
-      <HomeText />
+      {/* Welcome Section */}
+      <section><HomeText /></section>
 
-      {/* Recent Add Course */}
-      <RecentlyAddedCourse />
+      {/* Recently Added Courses */}
+      <section><RecentlyAddedCourse /></section>
 
-      {/* Youtube Videos */}
-      <FeatureVideo />
+      {/* Featured YouTube Videos */}
+      <Suspense fallback={<div className="min-h-[50vh]">Loading videos...</div>}>
+        <section><FeatureVideo /></section>
+      </Suspense>
 
-      {/* Learn About */}
-      <LearnAbousUs />
-    </Fragment>
+      {/* Learn About Us Section */}
+      <Suspense fallback={<div className="min-h-[50vh]">Loading about section...</div>}>
+        <section><LearnAbousUs /></section>
+      </Suspense>
+    </main>
   );
 };
 
