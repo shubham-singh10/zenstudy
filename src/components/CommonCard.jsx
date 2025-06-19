@@ -81,7 +81,7 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
         />
 
         <img
-          src={imageSrc || "/placeholder.svg"}
+          src={course.thumbnailS3}
           crossOrigin="anonymous"
           alt={course.title || "Course Thumbnail"}
           className={`w-full h-52 rounded-2xl object-contain transition-opacity duration-700 ${

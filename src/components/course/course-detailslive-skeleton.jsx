@@ -21,7 +21,7 @@ const CoursePageSkeleton = () => {
       {/* Main Content */}
       <div className="flex flex-col-reverse lg:flex-row w-full lg:mx-28">
         {/* Left Section */}
-        <div className="w-full lg:w-[60%] bg-white p-2 md:p-3 lg:p-6">
+        <div className="w-full lg:w-[60%] bg-purple-50 p-2 md:p-3 lg:p-6">
           {/* Video Section Skeleton */}
           <div className="py-8">
             <Skeleton height={384} width="100%" className="rounded-lg" />
@@ -32,7 +32,7 @@ const CoursePageSkeleton = () => {
             <Skeleton width={200} height={36} className="mb-6" />
 
             {/* Course Overview Card Skeleton */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-8 border border-blue-100 shadow-sm">
+            <div className="bgGradient-purple-light rounded-xl p-6 mb-8 border border-purple-100 shadow-sm">
               <Skeleton width={180} height={28} className="mb-4" />
               <Skeleton count={3} className="mb-2" />
               
@@ -82,22 +82,22 @@ const CoursePageSkeleton = () => {
           </div>
 
           {/* Special Offer Skeleton */}
-          <div className="bg-gradient-to-r from-purple-500 to-indigo-600 rounded-xl p-6 text-white mb-8">
+          <div className="bgGredient-purple-lr rounded-xl p-6 text-white mb-8">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
               <div className="w-full md:w-2/3">
-                <Skeleton width={180} height={32} className="mb-2" baseColor="#8B5CF6" highlightColor="#6D28D9" />
+                <Skeleton width={180} height={32} className="mb-2" baseColor="#efdb78" highlightColor="#cc9a04" />
                 <div className="space-y-2">
                   <div className="flex items-center">
-                    <Skeleton circle width={20} height={20} className="mr-2" baseColor="#8B5CF6" highlightColor="#6D28D9" />
-                    <Skeleton width="80%" height={16} baseColor="#8B5CF6" highlightColor="#6D28D9" />
+                    <Skeleton circle width={20} height={20} className="mr-2" baseColor="#efdb78" highlightColor="#cc9a04" />
+                    <Skeleton width="80%" height={16} baseColor="#efdb78" highlightColor="#cc9a04" />
                   </div>
                   <div className="flex items-center">
-                    <Skeleton circle width={20} height={20} className="mr-2" baseColor="#8B5CF6" highlightColor="#6D28D9" />
-                    <Skeleton width="60%" height={16} baseColor="#8B5CF6" highlightColor="#6D28D9" />
+                    <Skeleton circle width={20} height={20} className="mr-2" baseColor="#efdb78" highlightColor="#cc9a04" />
+                    <Skeleton width="60%" height={16} baseColor="#efdb78" highlightColor="#cc9a04" />
                   </div>
                 </div>
               </div>
-              <Skeleton width={120} height={48} className="mt-4 md:mt-0 rounded-lg" baseColor="#8B5CF6" highlightColor="#6D28D9" />
+              <Skeleton width={120} height={48} className="mt-4 md:mt-0 rounded-lg" baseColor="#efdb78" highlightColor="#cc9a04" />
             </div>
           </div>
 
@@ -106,7 +106,7 @@ const CoursePageSkeleton = () => {
             <Skeleton width={240} height={36} className="mb-6" />
             <div className="space-y-4">
               {[1, 2, 3].map((_, index) => (
-                <div key={index} className="bg-blue-100 border rounded-lg">
+                <div key={index} className="bg-purple-100 border rounded-lg">
                   <div className="p-4">
                     <div className="flex justify-between items-center">
                       <Skeleton width="80%" height={24} />
@@ -157,24 +157,24 @@ const CoursePageSkeleton = () => {
           </div>
 
           {/* Why Choose Us Skeleton */}
-          <div className="mt-8 bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl p-6 text-white">
-            <Skeleton width={180} height={32} className="mb-4" baseColor="#4B5563" highlightColor="#374151" />
+          <div className="mt-8 bgGredient-green rounded-xl p-6 text-white">
+            <Skeleton width={180} height={32} className="mb-4" baseColor="#efdb78" highlightColor="#cc9a04" />
             <div className="grid md:grid-cols-2 gap-4">
               {[1, 2, 3, 4].map((_, index) => (
                 <div key={index} className="flex items-start">
-                  <Skeleton circle width={28} height={28} className="mr-3 mt-1" baseColor="#4B5563" highlightColor="#374151" />
-                  <Skeleton width="90%" height={16} baseColor="#4B5563" highlightColor="#374151" />
+                  <Skeleton circle width={28} height={28} className="mr-3 mt-1" baseColor="#efdb78" highlightColor="#cc9a04" />
+                  <Skeleton width="90%" height={16} baseColor="#efdb78" highlightColor="#cc9a04" />
                 </div>
               ))}
             </div>
             <div className="mt-6 flex justify-center">
-              <Skeleton width={280} height={48} className="rounded-lg" baseColor="#4B5563" highlightColor="#374151" />
+              <Skeleton width={280} height={48} className="rounded-lg" baseColor="#efdb78" highlightColor="#cc9a04" />
             </div>
           </div>
         </div>
 
         {/* Right Section */}
-        <div className="w-full lg:w-[40%] bg-gray-50 p-2 md:p-5 lg:p-10">
+        <div className="w-full lg:w-[40%] bg-purple-50 p-2 md:p-5 lg:p-10">
           <div className="sticky top-20 bg-white border border-gray-200 shadow-lg rounded-lg p-6">
             {/* Image Section Skeleton */}
             <Skeleton height={200} width="100%" className="mb-4 rounded-lg" />

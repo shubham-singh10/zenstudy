@@ -41,7 +41,7 @@ function LiveClass() {
         // Add image URLs for filtered meetings
         const imageData = filteredMeetings?.map((meeting) => ({
           ...meeting,
-          imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${meeting.courseId.thumbnail}`,
+          imageUrl: meeting.thumbnailS3 || "../assets/about1.webp", // Default image if none provided
         }));
   
         setMeetingData(imageData || []);

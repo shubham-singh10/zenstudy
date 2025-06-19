@@ -130,11 +130,7 @@ const CourseDetailNew = () => {
         const data = await response.json();
 
         // console.log("Course_data: ", data);
-        const ImgData = {
-          ...data,
-          imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`,
-        };
-        setImageSrc(ImgData.imageUrl);
+       
         setCoursePost(data.coursedetail);
         setLoading(false);
       } catch (error) {
@@ -434,7 +430,7 @@ const CourseDetailNew = () => {
                   </div>
                 )}
                 <img
-                  src={imageSrc}
+                  src={coursePost?.thumbnailS3 || imageSrc}
                   crossOrigin="anonymous"
                   alt="Course Thumbnail"
                   className={`w-full object-contain rounded-2xl transition-opacity duration-500 ${

@@ -110,7 +110,7 @@ const Courses = () => {
           imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`,
         }));
 
-        setCourse(processedCourses);
+        setCourse(mainData);
         setLoading({ mainLoading: false, paginationLoading: false });
 
         // Add a small delay before showing content for a smoother transition

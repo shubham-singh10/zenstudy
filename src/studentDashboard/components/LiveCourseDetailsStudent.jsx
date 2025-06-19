@@ -51,7 +51,7 @@ const LiveCourseDetailStudent = () => {
 
   // Image loading states
   const [bannerImageLoaded, setBannerImageLoaded] = useState(false);
-  const [thumbnailImageLoaded, setThumbnailImageLoaded] = useState(false);
+
   const [contentVisible, setContentVisible] = useState(false);
 
 
@@ -157,12 +157,11 @@ const LiveCourseDetailStudent = () => {
         const mainData = data.coursedetail;
 
         const posterUrl = `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.poster}`;
-        const thumbnailUrl = `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`;
+      
 
         const ImgData = {
           ...mainData,
-          posterUrl,
-          imageUrl: thumbnailUrl,
+          posterUrl,        
         };
 
         setCoursesData(ImgData);
@@ -171,15 +170,13 @@ const LiveCourseDetailStudent = () => {
         try {
           await Promise.all([
             preloadImage(posterUrl).then(() => setBannerImageLoaded(true)),
-            preloadImage(thumbnailUrl).then(() =>
-              setThumbnailImageLoaded(true)
-            ),
+           
           ]);
         } catch (err) {
           console.error("Error preloading images:", err);
           // If preloading fails, we'll still show the images normally
           setBannerImageLoaded(true);
-          setThumbnailImageLoaded(true);
+        
         }
 
         // Gradually reveal content with a slight delay after images are loaded
@@ -195,7 +192,7 @@ const LiveCourseDetailStudent = () => {
         setmloading(false);
         setContentVisible(true);
         setBannerImageLoaded(true);
-        setThumbnailImageLoaded(true);
+    
       }
     };
 
@@ -932,15 +929,13 @@ const LiveCourseDetailStudent = () => {
                       {/* Image Section */}
                       <div className="relative w-full mb-4 aspect-video">
                         {/* Blurred Placeholder (Visible Until Image Loads) */}
-                        <div
-                          className={`absolute inset-0 w-full h-full bg-gradient-to-r from-purple-100 to-purple-100 rounded-lg transition-opacity duration-700 ${thumbnailImageLoaded ? "opacity-0" : "opacity-100"}`}
-                        />
+                      
         
                         <img
-                          src={CoursesData.imageUrl || "/placeholder.svg"}
+                          src={CoursesData.thumbnailS3 || "/placeholder.svg"}
                           crossOrigin="anonymous"
                           alt="Course Thumbnail"
-                          className={`w-full h-full object-contain border-2 border-gray-200 rounded-lg transition-opacity duration-700 ${thumbnailImageLoaded ? "opacity-100" : "opacity-0"}`}
+                          className={`w-full h-full object-contain border-2 border-gray-200 rounded-lg transition-opacity duration-700 opacity-100`}
                         />
                       </div>
         

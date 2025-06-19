@@ -54,7 +54,7 @@ const MyPurchaseCourse = () => {
           const coursesWithImageUrls = data.purchaseCourses.map((purchase) => ({
             ...purchase.course,
             paymentId: purchase.paymentId,
-            imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${purchase.course.thumbnail}`,
+            imageUrl: purchase.course.thumbnailS3 || "/assets/upcoming.webp",
           }));
 
           setCourses({

@@ -70,7 +70,7 @@ const CoursesPage = () => {
               mainData
                 .map((course) => ({
                   ...course,
-                  imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`,
+                  imageUrl: course.thumbnailS3,
                 }))
                 .sort((a, b) =>
                   sortOrder === "asc" ? a.price - b.price : b.price - a.price

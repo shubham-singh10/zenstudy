@@ -11,6 +11,7 @@ import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import { VerifyEmailMsg } from "../../components/VerifyEmailMsg";
 import { Loader } from "../../components/loader/Loader";
+import { VideoPlayer } from "../../components/VideoPage";
 
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
@@ -63,11 +64,7 @@ const CourseDetailsView = () => {
         const data = await response.json();
         // console.log("Course_data", data);
 
-        const ImgData = {
-          ...data,
-          imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.thumbnail}`,
-        };
-        setImageSrc(ImgData.imageUrl);
+        
         setCoursePost(data.coursedetail);
         setLoading(false);
       } catch (error) {
@@ -268,7 +265,7 @@ const CourseDetailsView = () => {
     }
   };
 
-  const firstModule = coursePost.modules[0];
+  // const firstModule = coursePost.modules[0] ? coursePost.modules[0] : null ;
 
   return (
     <Fragment>
@@ -329,32 +326,7 @@ const CourseDetailsView = () => {
           </div>
 
           <div className="w-full max-w-sm lg:w-[40%] shadow-md border-1 border-[#543a5d] p-2 md:p-5 lg:p-6 ">
-            {firstModule ? (
-              // First module exists
-              <div key={0}>
-                {firstModule.videos && firstModule.videos.length > 0 ? (
-                  // If the first module contains videos
-                  <div key={firstModule.videos[0]._id}>
-                    {firstModule.videos[0].videoUrl ? (
-                      // Render the video iframe
-                      <iframe
-                        title={firstModule.videos[0].title}
-                        src={`https://player.vdocipher.com/v2/?otp=${firstModule.videos[0].videoCode}&playbackInfo=${firstModule.videos[0].playBackInfo}`}
-                        className="w-full aspect-video rounded-md"
-                        allowFullScreen={true}
-                        allow="encrypted-media"
-                      ></iframe>
-                    ) : (
-                      <div>No video URL provided</div>
-                    )}
-                  </div>
-                ) : (
-                  // No videos in the module
-                  <div>No videos available</div>
-                )}
-              </div>
-            ) : (
-              // No firstModule; render fallback image with loading state
+        
                 <div className="relative">
               {imgloading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
@@ -362,7 +334,7 @@ const CourseDetailsView = () => {
                 </div>
               )}
               <img
-                src={imageSrc}
+                src={coursePost?.thumbnailS3 || imageSrc}
                 crossOrigin="anonymous"
                 alt="Course Thumbnail"
                 className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${
@@ -371,7 +343,7 @@ const CourseDetailsView = () => {
                 onLoad={() => setImgLoading(false)}
               />
             </div>
-            )}
+          
 
             <div className="p-2 pt-4 rounded-lg space-y-6 ">
              <div className="flex flex-row justify-between items-center gap-2">
