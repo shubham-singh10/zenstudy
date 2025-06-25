@@ -1,42 +1,47 @@
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth-context";
 
 function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-
-   const {user} = useAuth()
-
-     useEffect(() => {
-     
-       if (user) {
-         try {
-           setCurrentUser(user?._id);
-         } catch (error) {
-           console.error("Error decoding user:", error);
-         }
-       }
-     }, [user]);
-
 
   const isUpcoming = course.other1 === "upcoming";
   const newPage = course.title?.includes("UPSC Foundation Batch");
   const mentor = course.title?.includes("Personalised Mentorship Programme");
   const freeCourse = course.isFree;
+  const userId = user?._id;
+
+  const courseTitle = course.title || "Untitled Course";
+  const languageName = course.language?.name || "Unknown";
+
+  const slug = courseTitle.replace(/\s+/g, "-");
+
+  const navigateTo = () => {
+    if (freeCourse) {
+      return userId
+        ? navigate(`/watch-course-free/${course._id}`)
+        : navigate("/sign-In");
+    }
+
+    const path = newPage
+      ? `/${linknew}/${slug}`
+      : mentor
+      ? `/${mentorLink}/${slug}`
+      : `/${link}/${slug}`;
+
+    navigate(path, { state: { courseId: course._id } });
+  };
 
   return (
     <div
       className={`${
-        differentClass
-          ? `${differentClass} space-y-1 rounded-2xl overflow-hidden shadow-lg m-4 p-4`
-          : "max-w-xs space-y-1 rounded-2xl overflow-hidden shadow-lg m-4 p-4"
-      } course-card
-      }`}
+        differentClass || "max-w-xs"
+      } space-y-1 rounded-2xl overflow-hidden shadow-lg m-4 p-4 course-card`}
     >
       <div className="relative">
-        {/* Blurred Placeholder (Visible Until Image Loads) */}
+        {/* Blurred Placeholder */}
         <div
           className={`absolute inset-0 w-full h-52 bgGradient-purple-light rounded-2xl transition-opacity duration-700 ${
             imageLoaded ? "opacity-0" : "opacity-100"
@@ -45,91 +50,54 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
 
         <img
           src={course.thumbnailS3}
+          alt={courseTitle}
+          loading="lazy"
           crossOrigin="anonymous"
-          alt={course.title || "Course Thumbnail"}
+          onLoad={() => setImageLoaded(true)}
           className={`w-full h-52 rounded-2xl object-contain transition-opacity duration-700 ${
             imageLoaded ? "opacity-100" : "opacity-0"
           }`}
-          onLoad={() => setImageLoaded(true)}
         />
       </div>
 
       <div className="px-2 py-4">
-        <div className="flex flex-row justify-between items-center gap-2">
-          <div className="font-bold text-sm textPurple  truncate">
-            {course.title}
-          </div>
-          <div className="px-3 py-1 text-sm font-medium textGold bgGredient-green  w-fit rounded-tr-xl rounded-bl-xl shadow-sm">
-            {course.language?.name}
-          </div>
+        <div className="flex justify-between items-center gap-2">
+          <p className="font-bold text-sm textPurple truncate">{courseTitle}</p>
+          <p className="px-3 py-1 text-sm font-medium textGold bgGredient-green w-fit rounded-tr-xl rounded-bl-xl shadow-sm">
+            {languageName}
+          </p>
         </div>
       </div>
 
-      <div className="flex flex-row px-0 lg:px-1 md:px-2 pt-4 justify-between items-center border-t-2">
-        {course.isFree ? (
-          <p className="px-3 py-1 bg-green-100 text-green-600 font-semibold rounded-full text-sm shadow-sm">
+      <div className="flex justify-between items-center pt-4 border-t-2 px-0 lg:px-1 md:px-2">
+        {/* Price Info */}
+        {freeCourse ? (
+          <span className="px-3 py-1 bg-green-100 text-green-600 font-semibold rounded-full text-sm shadow-sm">
             Free Course
-          </p>
+          </span>
         ) : course.value ? (
-          <p className="textPurple  font-bold text-lg">
-            {" "}
+          <p className="textPurple font-bold text-lg">
             <span className="line-through text-gray-400 text-sm mr-1">
-              {" "}
               ₹ {course.value}
-            </span>{" "}
-            ₹ {course.price} {(course.title?.toLowerCase().includes("personalised mentorship programme") || course.title?.toLowerCase().includes("upsc foundation batch")) && <span className="text-xs text-gray-500">/month</span>}
+            </span>
+            ₹ {course.price}
+            {(mentor || newPage) && (
+              <span className="text-xs text-gray-500">/month</span>
+            )}
           </p>
         ) : (
-          <p className="textPurple  font-bold text-xl"> ₹ {course.price}</p>
+          <p className="textPurple font-bold text-xl">₹ {course.price}</p>
         )}
 
+        {/* CTA */}
         {isUpcoming ? (
-          <p className="text-red-600 font-bold text-sm">Coming Soon</p>
-        ) : freeCourse ? (
-          <button
-            className="custom-btn"
-            onClick={() =>
-             currentUser ? navigate(`/watch-course-free/${course._id}`) : navigate("/sign-In")
-            }
-          >
-            <span className="custom-btn-bg"></span>
-            <span className="custom-btn-text text-xs">{currentUser ? "Watch Course" : "Login to watch"}</span>
-          </button>
-        ) : newPage ? (
-          <button
-            className="custom-btn"
-            onClick={() =>
-              navigate(`/${linknew}/${course.title.replace(/\s+/g, "-")}`, {
-                state: { courseId: course._id },
-              })
-            }
-          >
-            <span className="custom-btn-bg"></span>
-            <span className="custom-btn-text text-xs">View Details</span>
-          </button>
-        ) : mentor ? (
-          <button
-            className="custom-btn"
-            onClick={() =>
-              navigate(`/${mentorLink}/${course.title.replace(/\s+/g, "-")}`, {
-                state: { courseId: course._id },
-              })
-            }
-          >
-            <span className="custom-btn-bg"></span>
-            <span className="custom-btn-text text-xs">View Details</span>
-          </button>
+          <span className="text-red-600 font-bold text-sm">Coming Soon</span>
         ) : (
-          <button
-            className="custom-btn"
-            onClick={() =>
-              navigate(`/${link}/${course.title.replace(/\s+/g, "-")}`, {
-                state: { courseId: course._id },
-              })
-            }
-          >
+          <button className="custom-btn" onClick={navigateTo}>
             <span className="custom-btn-bg"></span>
-            <span className="custom-btn-text text-xs">View Details</span>
+            <span className="custom-btn-text text-xs">
+              {freeCourse && !userId ? "Login to watch" : "View Details"}
+            </span>
           </button>
         )}
       </div>
@@ -137,4 +105,4 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
   );
 }
 
-export default CommonCard;
+export default React.memo(CommonCard);

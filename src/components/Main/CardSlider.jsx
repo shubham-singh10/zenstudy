@@ -1,12 +1,12 @@
-import React from "react";
+import React, { lazy, Suspense, useMemo } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
-import CommonCard from "../CommonCard";
+const CommonCard = lazy(() => import("../CommonCard"));
 
-function CardSlider({ courseData }) {
+function CardSlider({ courseData = [] }) {
   const { ref: slideLeftRef, inView: slideLeftInView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -16,9 +16,10 @@ function CardSlider({ courseData }) {
     from: { x: -100, opacity: 0 },
     to: { x: slideLeftInView ? 0 : -100, opacity: slideLeftInView ? 1 : 0 },
     config: { duration: 500 },
+    delay: 100, // optional smoother animation
   });
 
-  const settings = {
+  const settings = useMemo(() => ({
     dots: false,
     infinite: false,
     speed: 500,
@@ -31,39 +32,35 @@ function CardSlider({ courseData }) {
         breakpoint: 1024,
         settings: {
           slidesToShow: 2,
-          centerMode: false,
-          centerPadding: "0",
         },
       },
       {
         breakpoint: 600,
         settings: {
           slidesToShow: 1,
-          centerMode: false,
-          centerPadding: "0",
         },
       },
     ],
-  };
-
+  }), []);
 
   return (
-    <div>
-      <animated.div
-        ref={slideLeftRef}
-        style={slideLeftStyles}
-        className="w-full"
-      >
-        <div className="mt-20 m-1 lg:m-20 ">
-          <Slider {...settings} key={courseData.length}>
-            {courseData.map((d, index) => (
-              <CommonCard key={index} course={d} link={"course-details"} linknew={"courseDetailslive"} mentorLink={"courseDetailNew"} differentClass={"flex flex-col justify-between h-[100%]"}/>
-            ))}
-          </Slider>
-        </div>
-      </animated.div>
-    </div>
+    <animated.div ref={slideLeftRef} style={slideLeftStyles} className="w-full mt-10 lg:mt-20 px-2 lg:px-20">
+      <Slider {...settings}>
+        {courseData.map((course, index) => (
+          <Suspense fallback={<div>Loading Card...</div>}>
+          <CommonCard
+            key={course._id || index} // use course._id if available
+            course={course}
+            link="course-details"
+            linknew="courseDetailslive"
+            mentorLink="courseDetailNew"
+            differentClass="flex flex-col justify-between h-full"
+          />
+          </Suspense>
+        ))}
+      </Slider>
+    </animated.div>
   );
 }
 
-export default CardSlider;
+export default React.memo(CardSlider);

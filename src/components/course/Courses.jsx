@@ -1,13 +1,15 @@
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState, Fragment, Suspense, lazy } from "react";
 import toast from "react-hot-toast";
-import CommonCard from "../CommonCard";
 import { FaSearch } from "react-icons/fa";
-import Pagination from "../pagination/Pagination";
+
 import debounce from "lodash.debounce";
 import axios from "axios";
 import { useAuth } from "../../context/auth-context";
-import CourseCardSkeleton from "./course-card-skeleton";
-import ResourceSkeleton from "../../studentDashboard/components/free-resources/resource-skeleton";
+
+const CommonCard = lazy(() => import("../CommonCard"));
+const Pagination = lazy(() => import("../pagination/Pagination"));
+const CourseCardSkeleton = lazy(() => import("./course-card-skeleton"));
+const ResourceSkeleton = lazy(() => import("../../studentDashboard/components/free-resources/resource-skeleton"));
 
 const Courses = () => {
   const [courses, setCourse] = useState([]);
@@ -189,49 +191,42 @@ const Courses = () => {
         </div>
       </div>
 
-      {loading.paginationLoading ? (
-        <div className="flex flex-wrap justify-center transition-opacity duration-500 ease-in-out">
-          <CourseCardSkeleton count={paginatedData.itemperpage} />
-        </div>
-      ) : courses.length === 0 ? (
-        <div
-          className={`flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl h-96 text-gray-500 transition-opacity duration-500 ease-in-out ${
-            contentVisible ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          No courses found...
-        </div>
-      ) : (
-        <Fragment>
-          <div
-            className={`flex flex-wrap justify-center transition-opacity duration-500 ease-in-out ${
-              contentVisible ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            {courses.map((course, index) => (
-              <CommonCard
-                key={index}
-                course={course}
-                link={"course-details"}
-                linknew={"courseDetailslive"}
-                mentorLink={"courseDetailNew"}
-              />
-            ))}
-          </div>
-          <div
-            className={`transition-opacity duration-500 ease-in-out ${
-              contentVisible ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            <Pagination
-              data={paginatedData.totalData}
-              setCurrentPage={setCurrentPage}
-              currentPage={paginatedData.currentPage}
-              itemsPerPage={paginatedData.itemperpage}
-            />
-          </div>
-        </Fragment>
-      )}
+     {loading.mainLoading ? (
+  <Suspense fallback={<div>Loading...</div>}>
+    <div className="px-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {[...Array(8)].map((_, index) => (
+        <ResourceSkeleton key={index} />
+      ))}
+    </div>
+  </Suspense>
+) : courses.length === 0 ? (
+  <div className="flex text-center justify-center items-center text-2xl md:text-3xl lg:text-4xl h-96 text-gray-500 transition-opacity duration-500 ease-in-out">
+    No courses found...
+  </div>
+) : (
+  <Suspense fallback={<CourseCardSkeleton />}>
+    <div className="flex flex-wrap justify-center transition-opacity duration-500 ease-in-out">
+      {courses.map((course, index) => (
+        <CommonCard
+          key={index}
+          course={course}
+          link={"course-details"}
+          linknew={"courseDetailslive"}
+          mentorLink={"courseDetailNew"}
+        />
+      ))}
+    </div>
+    <div className="transition-opacity duration-500 ease-in-out">
+      <Pagination
+        data={paginatedData.totalData}
+        setCurrentPage={setCurrentPage}
+        currentPage={paginatedData.currentPage}
+        itemsPerPage={paginatedData.itemperpage}
+      />
+    </div>
+  </Suspense>
+)}
+
     </div>
   );
 };

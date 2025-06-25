@@ -73,7 +73,7 @@ const RecentlyAddedCourse = () => {
       <animated.h1
         ref={slideUpRef}
         style={slideUpStyles}
-        className="text-2xl z-50 md:text-3xl lg:text-4xl mb-8 text-center textPurpleGradient font-semibold"
+        className="text-2xl z-50 md:text-3xl lg:text-4xl  text-center textPurpleGradient font-semibold"
       >
         Re
         <span className="border-b-4 border-[#543a5d]">cently Added Cours</span>
