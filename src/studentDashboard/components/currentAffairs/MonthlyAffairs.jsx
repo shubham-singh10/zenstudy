@@ -127,7 +127,7 @@ const MonthlyAffairs = () => {
           <button
             key={index}
             onClick={() => handleMonthClick(month.monthNo, month.name)}
-            className={`w-32 h-20  ${ selectedMonth === month.monthNo && "scale-125 border-2 border-[#543a5d]"} rounded-lg shadow-lg text-black font-bold text-xl hover:scale-105 transition-all duration-300 ${month.color}`}
+            className={`w-32 h-20  ${ selectedMonth === month.monthNo && "scale-125 border-2 border-[#efdb78]"} rounded-lg shadow-lg textGreen font-bold text-xl hover:scale-105 transition-all duration-300 bg-transparent border-2 border-[#543a5d]`}
           >
           
             {month.name}
