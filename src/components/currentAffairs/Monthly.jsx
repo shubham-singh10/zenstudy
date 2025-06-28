@@ -31,7 +31,7 @@ export const Monthly = () => {
         // console.log("send", sendData);
 
         const response = await axios.post(
-          `${process.env.REACT_APP_API}/zenstudy/api/image/getAffairswithMonth`,
+          `${process.env.REACT_APP_API}zenstudy/api/image/getAffairswithMonth`,
           sendData
         );
 
@@ -43,7 +43,7 @@ export const Monthly = () => {
           // Update pdfUrls dynamically
           const filterData = mainData.map((item) => ({
             ...item,
-            pdfUrls: `${process.env.REACT_APP_API}/zenstudy/api/image/getpdf/${item.pdfUrl}`,
+            pdfUrls: `${process.env.REACT_APP_API}zenstudy/api/image/getpdf/${item.pdfUrl}`,
           }));
           setCurrentAffairs(filterData);
         }

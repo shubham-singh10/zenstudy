@@ -150,7 +150,7 @@ const LiveCourseDetailsPage = () => {
         const data = await response.json()
         const mainData = data.coursedetail
 
-        const posterUrl = `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${data.coursedetail.poster}`
+        const posterUrl = data.coursedetail.poster
 
         const ImgData = {
           ...mainData,

@@ -37,7 +37,7 @@ function Daily() {
 
       try {
         const response = await axios.post(
-          `${process.env.REACT_APP_API}/zenstudy/api/image/getAffairswithDate`,
+          `${process.env.REACT_APP_API}zenstudy/api/image/getAffairswithDate`,
           { date: formattedDate2 }
         );
 
@@ -48,7 +48,7 @@ function Daily() {
           // Update pdfUrls dynamically
           const filterData = mainData.map((item) => ({
             ...item,
-            pdfUrls: `${process.env.REACT_APP_API}/zenstudy/api/image/getpdf/${item.pdfUrl}`,
+            pdfUrls: `${process.env.REACT_APP_API}zenstudy/api/image/getpdf/${item.pdfUrl}`,
           }));
           setCurrentAffairs(filterData);
         }

@@ -14,7 +14,7 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
   const userId = user?._id;
 
   const courseTitle = course.title || "Untitled Course";
-  const languageName = course.language?.name || "Unknown";
+  const languageName = course.language || "Unknown";
 
   const slug = courseTitle.replace(/\s+/g, "-");
 

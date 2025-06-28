@@ -71,7 +71,7 @@ const HomeText = () => {
           <img
             src="/assets/boylogo.webp"
             alt="Zenstudy Character Illustration"
-            className="w-[100%] z-50 rounded-lg"
+            className="w-[100%] rounded-lg"
             loading="lazy"
           />
         </animated.div>

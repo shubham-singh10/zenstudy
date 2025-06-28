@@ -60,14 +60,10 @@ const FreeResourcesIndex = () => {
                 const metaData = data.meta
                 setPaginatedData((prev) => ({ ...prev, totalData: metaData.total }))
 
-                // Process the course data
-                const processedCourses = mainData.map((course) => ({
-                    ...course,
-                    imageUrl: `${process.env.REACT_APP_API}zenstudy/api/image/getimage/${course.thumbnail}`,
-                }))
+              
                 setResources(prev => ({
                     ...prev,
-                    courses: processedCourses,
+                    courses: mainData,
                 }));
                 setLoading({ mainLoading: false, paginationLoading: false })
 
@@ -162,7 +158,7 @@ const FreeResourcesIndex = () => {
                                             courseId={course._id}
                                             title={course.title}
                                             description={course.description}
-                                            imageUrl={course.imageUrl}
+                                            imageUrl={course.thumbnailS3}
                                             language={course.language}
                                             buttonText="Start Learning"
                                             type="course"
