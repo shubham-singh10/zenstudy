@@ -134,6 +134,11 @@ const ContactUs = () => {
         const data = await response.json();
         // //console.log("Contact", data)
         if (data) {
+
+            if (window.fbq) {
+      window.fbq('track', 'Contact');
+    }
+    
           Swal.fire({
             icon: "success",
             title: "Message Sent Successfully!",
