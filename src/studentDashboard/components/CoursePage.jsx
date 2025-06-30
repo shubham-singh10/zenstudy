@@ -233,7 +233,7 @@ const CoursesPage = () => {
                       )}
 
                       <p className="textGold bgGredient-green px-4 py-1  text-xs mb-2 w-fit rounded-tr-xl rounded-bl-xl">
-                        {course?.language?.name}
+                        {course?.language}
                       </p>
                     </div>
                     <div className="flex space-x-2">

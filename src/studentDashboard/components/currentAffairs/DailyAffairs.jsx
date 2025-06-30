@@ -37,20 +37,15 @@ function DailyAffairs() {
 
       try {
         const response = await axios.post(
-          `${process.env.REACT_APP_API}/zenstudy/api/image/getAffairswithDate`,
+          `${process.env.REACT_APP_API}zenstudy/api/image/getAffairswithDate`,
           { date: formattedDate2 }
         );
 
         const data = response.data;
+        
         if (data.message === "Success") {
           const mainData = data.data;
-
-          // Update pdfUrls dynamically
-          const filterData = mainData.map((item) => ({
-            ...item,
-            pdfUrls: `${process.env.REACT_APP_API}/zenstudy/api/image/getpdf/${item.pdfUrl}`,
-          }));
-          setCurrentAffairs(filterData);
+          setCurrentAffairs(mainData);
         }
       } catch (error) {
         console.error(
@@ -98,7 +93,7 @@ function DailyAffairs() {
                 <div className="absolute inset-0 bg-black bg-opacity-60 flex justify-center items-center opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-xl">
                   <button
                     className="px-6 py-3 bg-white textGreen font-semibold rounded-lg bg-gradient-to-r hover:from-[#343e25] hover:to-[#5d6e53] hover:text-white transition duration-300 shadow-md"
-                    onClick={() => window.open(data.pdfUrls, "_blank")}
+                    onClick={() => window.open(data.pdfUrl, "_blank")}
                   >
                     View PDF
                   </button>

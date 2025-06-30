@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment, Suspense, lazy } from "react";
+import { useEffect, useState, Suspense, lazy } from "react";
 import toast from "react-hot-toast";
 import { FaSearch } from "react-icons/fa";
 
