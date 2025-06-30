@@ -134,7 +134,7 @@ const NewNavBar = () => {
               onMouseLeave={() => setShowDropdown(false)}
             >
               {/* Button Styled Div */}
-              <div className="px-4 py-2 bgGredient-purple text-white rounded-full flex items-center gap-2 shadow-lg hover:bg-[#063e92] transition-all cursor-pointer">
+              <div className="px-4 py-2 bgGredient-purple text-white rounded-full flex items-center gap-2 shadow-lg  transition-all cursor-pointer">
                 <FaUserAlt className="text-lg" />
                 <span className="text-sm font-medium">
                   {user?.name || "User"}
