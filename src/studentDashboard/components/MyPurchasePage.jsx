@@ -26,7 +26,7 @@ const MyPurchaseCourse = () => {
 
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API}zenstudy/api/payment/purchaseCourse`,
+          `${process.env.REACT_APP_API}zenstudy/api/payment/purchaseCourseNew`,
           {
             method: "POST",
             headers: {
@@ -48,12 +48,12 @@ const MyPurchaseCourse = () => {
         }
 
         const data = await response.json();
-        // console.log("Data: ", data);
+        console.log("Data: ", data);
         if (data.message === "Done") {
           const coursesWithImageUrls = data.purchaseCourses.map((purchase) => ({
             ...purchase.course,
             paymentId: purchase.paymentId,
-            imageUrl: purchase.course.thumbnailS3 || "/assets/upcoming.webp",
+            imageUrl: purchase.course.thumbnail || "/assets/upcoming.webp",
           }));
 
           setCourses({
@@ -147,7 +147,7 @@ const MyPurchaseCourse = () => {
             <h2 className="text-xl font-semibold textPurple mb-2">
               {course?.title}
             </h2>
-            <p className="textGold mb-4 bgGredient-green px-4 text-xs py-1 w-fit rounded-tr-xl rounded-bl-xl">{course?.language.name}</p>
+            <p className="textGold mb-4 bgGredient-green px-4 text-xs py-1 w-fit rounded-tr-xl rounded-bl-xl">{course?.languageName}</p>
             {course?.tags === "live" ? (
               <div className="flex gap-2">
                 <button

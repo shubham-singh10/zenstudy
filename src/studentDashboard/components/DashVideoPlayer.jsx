@@ -22,7 +22,7 @@ export const DashVideoPlayer = ({ videopath, thumbnailUrl }) => {
 
         // Step 1: Set signed cookies for the folder path
         const cookieResponse = await fetch(
-          `${process.env.REACT_APP_API2}zenstudy/api/course/get-signed-url?videoPath=${encodeURIComponent(videopath)}`,
+          `${process.env.REACT_APP_API}zenstudy/api/course/get-signed-url?videoPath=${encodeURIComponent(videopath)}`,
           { credentials: "include" }
         );
 

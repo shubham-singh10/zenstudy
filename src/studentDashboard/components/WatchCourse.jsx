@@ -75,12 +75,12 @@ const WatchCourse = () => {
       setLoading((prev) => ({ ...prev, course: true }));
       try {
         const response = await axios.post(
-          `${process.env.REACT_APP_API2}zenstudy/api/payment/watchCourse`,
+          `${process.env.REACT_APP_API}zenstudy/api/payment/watchCourse`,
           { id }
         );
         setCoursesData(response.data.response?.modules || []);       
         setNotes(response.data.response?.notes || []);
-        console.log('Course data:', response.data.response );
+        // console.log('Course data:', response.data.response );
         setMaterials(response.data.response?.course?.materials || []);
         console.log('Materials:', response.data.response?.course?.materials);
         if (response.data.response?.course._id) {
@@ -89,7 +89,7 @@ const WatchCourse = () => {
         }
       } catch (error) {
         console.error("Error fetching course data:", error);
-        navigate("/mycourse");
+        // navigate("/mycourse");
       } finally {
         setLoading((prev) => ({ ...prev, course: false }));
       }
