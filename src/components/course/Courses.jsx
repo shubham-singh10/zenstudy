@@ -134,7 +134,7 @@ const Courses = () => {
 
   if (loading.mainLoading) {
     return (
-      <div className=" px-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className=" px-10 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {[...Array(8)].map((_, index) => (
           <ResourceSkeleton key={index} />
         ))}

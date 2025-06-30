@@ -2,6 +2,8 @@ import React, { useEffect, useState, useMemo } from "react";
 import CardSlider from "./CardSlider";
 import { useSpring, animated } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
+import ResourceSkeleton from "../../studentDashboard/components/free-resources/resource-skeleton";
+
 
 const RecentlyAddedCourse = () => {
   const [courses, setCourses] = useState([]);
@@ -65,15 +67,26 @@ const RecentlyAddedCourse = () => {
   // Memoize courseData to avoid unnecessary rerenders
   const memoizedCourses = useMemo(() => courses, [courses]);
 
-  // Render nothing if still loading or no courses
-  if (loading || memoizedCourses.length === 0) return null;
+  // Show skeleton loader while loading
+  if (loading) {
+    return (
+      <div className="px-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 ">
+        {[...Array(4)].map((_, index) => (
+          <ResourceSkeleton key={index} />
+        ))}
+      </div>
+    );
+  }
+
+  // Show nothing if no courses
+  if (memoizedCourses.length === 0) return null;
 
   return (
     <div className="lg:mt-20 md:mt-15 mt-10">
       <animated.h1
         ref={slideUpRef}
         style={slideUpStyles}
-        className="text-2xl z-50 md:text-3xl lg:text-4xl  text-center textPurpleGradient font-semibold"
+        className="text-2xl z-50 md:text-3xl lg:text-4xl text-center textPurpleGradient font-semibold"
       >
         Re
         <span className="border-b-4 border-[#543a5d]">cently Added Cours</span>

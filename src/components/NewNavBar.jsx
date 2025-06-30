@@ -22,12 +22,11 @@ const navLink = [
 
 const NewNavBar = () => {
   const [hamBurger, setHamBurger] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAuthenticated, loading, user, logout, logoutLoading } = useAuth()
-
+  const { isAuthenticated, loading, user, logout, logoutLoading } = useAuth();
 
   // Toggle body scroll based on hamburger menu state
   useEffect(() => {
@@ -43,22 +42,19 @@ const NewNavBar = () => {
       document.documentElement.style.overflow = "auto";
     };
   }, [hamBurger]);
-  
 
   const handleMoreToggle = () => setShowMore(!showMore);
 
   if (loading) {
-    return <Loading />
-   }
+    return <Loading />;
+  }
   return (
     <Fragment>
       {/* Navbar Container */}
       <div className="w-full h-[15vh] mb-4 flex items-center justify-between px-6 lg:px-12 shadow-md">
         {/* Logo */}
         <Link to={"/"} className="flex flex-col items-start">
-          <p className="text-3xl textdark font-bold">
-            Zenstudy
-          </p>
+          <p className="text-3xl textdark font-bold">Zenstudy</p>
           <p className="text-[10px] font-bold  textPurple">
             Making Education Imaginative
           </p>
@@ -70,37 +66,47 @@ const NewNavBar = () => {
             <Link
               key={item.label}
               to={item.link}
-              className={`px-3 py-2 rounded-md font-medium transition-all duration-300 ${location.pathname === item.link
-                ? " textPurple border-b-2 border-[#543a5d]"
-                : "hover:text-[#efdb78] text-gray-700"
-                }`}
+              className={`px-3 py-2 rounded-md font-medium transition-all duration-300 ${
+                location.pathname === item.link
+                  ? " textPurple border-b-2 border-[#543a5d]"
+                  : "hover:text-[#efdb78] text-gray-700"
+              }`}
             >
               {item.label}
             </Link>
           ))}
 
           {/* More Dropdown */}
-          <div className="relative z-50">
-            <button
-              className="px-3 py-2 rounded-md font-medium text-gray-700 hover:text-[#efdb78] flex items-center"
-              onClick={handleMoreToggle}
+          <div
+            className="relative z-50"
+            onMouseEnter={() => setShowMore(true)}
+            onMouseLeave={() => setShowMore(false)}
+          >
+            <div className="px-3 py-2 rounded-md font-medium text-gray-700 hover:text-[#efdb78] flex items-center cursor-pointer">
+              More{" "}
+              {showMore ? (
+                <IoMdArrowDropup className="ml-1" />
+              ) : (
+                <IoMdArrowDropdown className="ml-1" />
+              )}
+            </div>
+
+            <div
+              className={`absolute right-0 mt-2 bg-white shadow-lg rounded-lg border border-gray-200 min-w-[150px] z-10 transition-opacity duration-200 ${
+                showMore ? "opacity-100 visible" : "opacity-0 invisible"
+              }`}
             >
-              More <IoMdArrowDropdown />
-            </button>
-            {showMore && (
-              <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-lg border border-gray-200 z-10">
-                {navLink.slice(5).map((item) => (
-                  <Link
-                    key={item.label}
-                    to={item.link}
-                    className="block px-4 py-2 text-gray-700 hover:bg-[#efdb78] hover:text-white transition-all"
-                    onClick={() => setShowMore(false)}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            )}
+              {navLink.slice(5).map((item) => (
+                <Link
+                  key={item.label}
+                  to={item.link}
+                  className="block px-4 py-2 text-gray-700 hover:bg-[#efdb78] hover:text-white transition-all"
+                  onClick={() => setShowMore(false)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -122,60 +128,65 @@ const NewNavBar = () => {
               </button>
             </div>
           ) : (
-            <div className="relative z-50">
-              {/* Button to Toggle Dropdown */}
-              <button
-                className="px-4 py-2 bgGredient-purple text-white rounded-full flex items-center gap-2 shadow-lg hover:bg-[#063e92] transition-all"
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-              >
+            <div
+              className="relative z-50"
+              onMouseEnter={() => setShowDropdown(true)}
+              onMouseLeave={() => setShowDropdown(false)}
+            >
+              {/* Button Styled Div */}
+              <div className="px-4 py-2 bgGredient-purple text-white rounded-full flex items-center gap-2 shadow-lg hover:bg-[#063e92] transition-all cursor-pointer">
                 <FaUserAlt className="text-lg" />
-                <span className="text-sm font-medium">{user?.name || "User"}</span>
-                {dropdownOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
-              </button>
+                <span className="text-sm font-medium">
+                  {user?.name || "User"}
+                </span>
+                {showDropdown ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
+              </div>
 
               {/* Dropdown Menu */}
-              {dropdownOpen && (
-                <div className="absolute right-0 mt-2 w-60 bg-white shadow-lg rounded-lg border border-gray-200 z-10">
-                  {/* Welcome Section */}
-                  <div className="px-4 py-3 bg-purple-50 rounded-t-lg border-b border-gray-200">
-                    <p className="text-sm text-gray-600">Welcome,</p>
-                    <p className="text-base font-semibold  textPurple">{user?.name || "User"}</p>
-                  </div>
-
-                  {/* Links Section */}
-                  <div className="flex flex-col">
-                    <button
-                      className="flex items-center gap-2 px-4 py-3 text-sm  textPurple hover:bg-purple-50  transition-all"
-                      onClick={() => navigate("/profile")}
-                    >
-                      <FaUserAlt  />
-                      <span>Profile</span>
-                    </button>
-                    <button
-                      className="flex items-center gap-2 px-4 py-3 text-sm  textPurple hover:bg-purple-50 transition-all"
-                      onClick={() => navigate("/mycourse")}
-                    >
-                      <FaBookOpenReader  />
-                      <span>My Courses</span>
-                    </button>
-                    <button
-                      className="flex font-bold items-center gap-2 px-4 py-3 text-sm bg-gradient-to-r from-[#efdb78] to-[#f5eeb4] hover:from-[#f5eeb4] hover:to-[#efdb78]  textPurple transition-all rounded-b-lg"
-                      disabled={logoutLoading}
-                      onClick={() => logout()}
-                    >
-                      <FiLogOut />
-                      <span >{logoutLoading ? "Logging out..." : "Logout"}</span>
-                    </button>
-                  </div>
+              <div
+                className={`absolute right-0 mt-2 w-60 bg-white shadow-lg rounded-lg border border-gray-200 z-10 transition-opacity duration-200 ${
+                  showDropdown ? "opacity-100 visible" : "opacity-0 invisible"
+                }`}
+              >
+                {/* Welcome Section */}
+                <div className="px-4 py-3 bg-purple-50 rounded-t-lg border-b border-gray-200">
+                  <p className="text-sm text-gray-600">Welcome,</p>
+                  <p className="text-base font-semibold textPurple">
+                    {user?.name || "User"}
+                  </p>
                 </div>
-              )}
+
+                {/* Links Section */}
+                <div className="flex flex-col">
+                  <button
+                    className="flex items-center gap-2 px-4 py-3 text-sm textPurple hover:bg-purple-50 transition-all"
+                    onClick={() => navigate("/profile")}
+                  >
+                    <FaUserAlt />
+                    <span>Profile</span>
+                  </button>
+                  <button
+                    className="flex items-center gap-2 px-4 py-3 text-sm textPurple hover:bg-purple-50 transition-all"
+                    onClick={() => navigate("/mycourse")}
+                  >
+                    <FaBookOpenReader />
+                    <span>My Courses</span>
+                  </button>
+                  <button
+                    className="flex font-bold items-center gap-2 px-4 py-3 text-sm bg-gradient-to-r from-[#efdb78] to-[#f5eeb4] hover:from-[#f5eeb4] hover:to-[#efdb78] textPurple transition-all rounded-b-lg"
+                    disabled={logoutLoading}
+                    onClick={logout}
+                  >
+                    <FiLogOut />
+                    <span>{logoutLoading ? "Logging out..." : "Logout"}</span>
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </div>
 
-        {
-          /* Hamburger Menu - Mobile */
-        }
+        {/* Hamburger Menu - Mobile */}
         <div className="lg:hidden flex items-center">
           {!hamBurger ? (
             <RxHamburgerMenu
@@ -191,9 +202,7 @@ const NewNavBar = () => {
         </div>
       </div>
 
-      {
-        /* Mobile Menu */
-      }
+      {/* Mobile Menu */}
 
       {hamBurger && (
         <div className=" bgGredient-purple lg:hidden fixed top-0 left-0 w-full h-full bgGredient-purpletext-white z-50 flex flex-col">
@@ -263,7 +272,6 @@ const NewNavBar = () => {
           </div>
         </div>
       )}
-      
     </Fragment>
   );
 };

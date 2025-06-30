@@ -79,29 +79,32 @@ const NavBar = () => {
             </Link>
           ))}
 
-          {/* More Dropdown */}
-          <div className="relative z-50">
-            <button
-              className="px-3 py-2 rounded-md font-medium text-gray-700 hover:text-[#054BB4] flex items-center"
-              onClick={handleMoreToggle}
-            >
-              More <IoMdArrowDropdown />
-            </button>
-            {showMore && (
-              <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-lg border border-gray-200 z-10">
-                {navLink.slice(5).map((item) => (
-                  <Link
-                    key={item.label}
-                    to={item.link}
-                    className="block px-4 py-2 text-gray-700 hover:bg-[#054BB4] hover:text-white transition-all"
-                    onClick={() => setShowMore(false)}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
+   <div
+      className="relative z-50"
+      onMouseEnter={() => setShowMore(true)}
+      onMouseLeave={() => setShowMore(false)}
+    >
+      <div className="px-3 py-2 rounded-md font-medium text-gray-700 hover:text-[#054BB4] flex items-center cursor-pointer">
+        More <IoMdArrowDropdown className="ml-1" />
+      </div>
+
+      <div
+        className={`absolute right-0 mt-2 bg-white shadow-lg rounded-lg border border-gray-200 min-w-[150px] z-10 transition-opacity duration-200 ${
+          showMore ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+      >
+        {navLink.slice(5).map((item) => (
+          <Link
+            key={item.label}
+            to={item.link}
+            className="block px-4 py-2 text-gray-700 hover:bg-[#054BB4] hover:text-white transition-all"
+            onClick={() => setShowMore(false)}
+          >
+            {item.label}
+          </Link>
+        ))}
+      </div>
+    </div>
         </div>
 
         {/* Auth Buttons - Desktop */}
