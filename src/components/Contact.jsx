@@ -118,7 +118,7 @@ const ContactUs = () => {
           message: formData.message,
         };
         const response = await fetch(
-          `${process.env.REACT_APP_API2}zenstudy/api/contact`,
+          `${process.env.REACT_APP_API}zenstudy/api/contact`,
           {
             method: "POST",
             headers: {
