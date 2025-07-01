@@ -87,8 +87,6 @@ const ExploreArticles = () => {
     };
 
 
-
-
     fetchArticles();
   }, []);
 
@@ -103,8 +101,6 @@ const ExploreArticles = () => {
       </div>
     );
   }
-
-
 
 
   if (error) {

@@ -160,9 +160,23 @@ function DynamicSignUp() {
 
       const { data } = response;
       if (data.message === "Success") {
+         if (window.fbq) {
+        fbq('trackCustom', 'OTPVerified', {
+          email: sendData.email,
+        });
+      }
         handleRegisterNew(data.user)
       }
     } catch (error) {
+
+        // ❌ Pixel: OTP failed
+    if (window.fbq) {
+      fbq('trackCustom', 'OTPFailed', {
+        email: sendData.email,
+        error: error?.response?.data?.message || "Unknown Error",
+      });
+    }
+
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -189,6 +203,13 @@ function DynamicSignUp() {
 
       const { data } = response;
       if (data.message === "Success") {
+        // ✅ Pixel: Registration completed
+           if (window.fbq) {
+        fbq('trackCustom', 'UserRegistered', {
+          email: sendData.email,
+          userType: sendData.userType,
+        });
+      }
         Swal.fire({
           icon: "success",
           title: "Success",
@@ -208,6 +229,14 @@ function DynamicSignUp() {
         navigation(from);
       }
     } catch (error) {
+
+       if (window.fbq) {
+      fbq('trackCustom', 'RegisterFailed', {
+        email: sendData.email,
+        error: error?.response?.data?.message || "Unknown Error",
+      });
+    }
+    
       Swal.fire({
         icon: "error",
         title: "Oops...",

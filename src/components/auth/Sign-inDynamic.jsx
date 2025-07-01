@@ -99,11 +99,27 @@ function SignInDynamic() {
       );
       const resdata = response.data;
       if (resdata.message === "Success") {
+
+         if (window.fbq) {
+        fbq('trackCustom', 'UserFound', {
+          email: data.email,
+          courseId,
+        });
+      }
+
         setStep(4);
         setLoading(false);
       }
     } catch (error) {
       if (error.response?.status === 404) {
+
+         if (window.fbq) {
+        fbq('trackCustom', 'UserNotFound', {
+          email: data.email,
+          courseId,
+        });
+      }
+
         Swal.fire({
           icon: "info",
           title: "Account Not Found",
@@ -112,6 +128,14 @@ function SignInDynamic() {
           navigation(`/sign-up-dynamic/${courseId}`);
         });
       } else if (error.response?.status === 403) {
+
+          if (window.fbq) {
+        fbq('trackCustom', 'IncompleteSignup', {
+          email: data.email,
+          courseId,
+        });
+      }
+
         Swal.fire({
           icon: "warning",
           title: "Almost there!",
@@ -243,6 +267,15 @@ function SignInDynamic() {
       const resData = await response.json();
 
       if (resData.message === "Success") {
+
+           if (window.fbq) {
+        fbq('trackCustom', 'UserRegistered', {
+          email: data.email,
+          phone: data.phone,
+          name: resData.user?.name || "N/A",
+        });
+      }
+
         toast.success(
           `Welcome back, ${resData.user.name}! You are now logged in.`,
           {
@@ -261,6 +294,15 @@ function SignInDynamic() {
     } catch (error) {
       setOtpError("Invalid OTP. Please try again.");
       setLoading(false);
+
+       // ❌ Facebook Pixel: OTP failed
+    if (window.fbq) {
+      fbq('trackCustom', 'OTPFailed', {
+        email: data.email,
+        phone: data.phone,
+      });
+    }
+
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -293,6 +335,15 @@ function SignInDynamic() {
       }
       const resData = await response.json();
 
+       // ✅ Facebook Pixel: Login Success
+    if (window.fbq) {
+      fbq('trackCustom', 'UserLogin', {
+        phone: data.email,
+        courseId: courseId || "N/A",
+        name: resData.name || "N/A",
+      });
+    }
+
       toast.success(`Welcome back, ${resData.name}! You are now logged in.`, {
         position: "top-right",
         duration: 4000,
@@ -316,6 +367,16 @@ function SignInDynamic() {
       // navigate(from);
       navigation ? navigation(from) : (window.location.pathname = from);
     } catch (error) {
+
+       // ❌ Facebook Pixel: Login Failed
+    if (window.fbq) {
+      fbq('trackCustom', 'LoginFailed', {
+        phone: data.email,
+        error: error.message,
+        courseId: courseId || "N/A",
+      });
+    }
+    
       Swal.fire({
         icon: "error",
         title: "Oops...",

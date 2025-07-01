@@ -8,11 +8,7 @@ import { FaLock, FaLockOpen } from "react-icons/fa";
 import { VerifyEmailMsg } from "../VerifyEmailMsg";
 import { useAuth } from "../../context/auth-context";
 import { FaChevronDown } from "react-icons/fa";
-import {
-  FiArrowDown,
-  FiArrowUp,
-  FiLoader,
-} from "react-icons/fi";
+import { FiArrowDown, FiArrowUp, FiLoader } from "react-icons/fi";
 import { Loader } from "../loader/Loader";
 
 const NewCourseDetailPage = () => {
@@ -129,7 +125,7 @@ const NewCourseDetailPage = () => {
         const data = await response.json();
 
         // console.log("Course_data: ", data);
-        
+
         setCoursePost(data.coursedetail);
         setLoading(false);
       } catch (error) {
@@ -183,6 +179,17 @@ const NewCourseDetailPage = () => {
       });
       return;
     }
+
+      // 🔥 Pixel: Track InitiateCheckout
+  if (window.fbq) {
+    fbq('track', 'InitiateCheckout', {
+      value: amount,
+      currency: 'INR',
+      content_ids: [coursePost?._id],
+      content_type: 'product',
+    });
+  }
+
     setPayLoading(true);
     try {
       const res = await fetch(
@@ -266,6 +273,23 @@ const NewCourseDetailPage = () => {
 
           console.log("VerifyData", verifyData);
           if (verifyData.message === "Payment Successful") {
+            // ✅ Pixel: Track Purchase
+            if (window.fbq) {
+            fbq('track', 'Purchase', {
+              value:
+                discount?.subTotal !== undefined
+                  ? discount?.subTotal === 0
+                    ? 1
+                    : parseFloat(discount?.subTotal).toFixed(2)
+                  : coursePost?.price,
+              currency: 'INR',
+              content_ids: [coursePost?._id],
+              content_type: 'product',
+              coupon_used: code ? true : false,
+              discount_amount: discount?.discount || 0,
+            });
+          }
+
             navigate(verifyData.Url);
           }
         } catch (error) {
@@ -287,272 +311,27 @@ const NewCourseDetailPage = () => {
 
   return (
     <Fragment>
-          {pageloading && (
-            <div className="loading-overlay fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-              <Loader fill="white" />
-            </div>
-          )}
-    <div className="bg-gradient-to-b from-purple-50 to-white min-h-screen">
-      {/* Sticky Header */}
-      <div
-        className={`fixed top-0 left-0 right-0 bg-white shadow-md transition-transform duration-300 z-50 ${
-          showStickyHeader ? "translate-y-0" : "-translate-y-full"
-        }`}
-      >
-        <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap gap-2 items-center lg:justify-between md:justify-between justify-center">
-          <h2 className="lg:text-lg md:text-lg text-sm font-semibold textPurple truncate">
-            {coursePost?.title}
-          </h2>
-          <div className="flex items-center">
-            <div className="lg:text-2xl md:text-xl text-sm font-bold textPurple mr-4">
-              {discount ? (
-                <div className="flex items-baseline gap-2">
-                  <span className="line-through opacity-75 text-lg">
-                    ₹ {Math.round(coursePost?.price)}
-                  </span>
-                  <span>
-                    ₹{" "}
-                    {discount.subTotal === 0 ? 1 : discount.subTotal.toFixed(2)}
-                  </span>
-                </div>
-              ) : (
-                <span>₹{Math.round(coursePost?.price)}</span>
-              )}
-            </div>
-
-            {currentUser ? (
-              <button
-                className={`lg:text-lg md:text-lg text-sm w-full sm:w-auto bgGredient-purple  hover:from-[#784688] hover:to-[#543a5d] textGold font-bold py-3 px-8 rounded-lg flex items-center justify-center ${
-                  payloading ? "cursor-not-allowed" : ""
-                }`}
-                onClick={() =>
-                  handlePayment(
-                    discount
-                      ? discount.subTotal === 0
-                        ? 1
-                        : discount.subTotal.toFixed(2)
-                      : coursePost?.price
-                  )
-                }
-                disabled={payloading}
-              >
-                {payloading ? (
-                  <span className="flex items-center gap-1">
-                    <FiLoader className="animate-spin" />
-                    Processing...
-                  </span>
-                ) : (
-                  "Enroll Now"
-                )}
-              </button>
-            ) : (
-              <button
-                className="border border-[#543a5d] textPurple px-4 py-2 rounded-md hover:bg-yellow-50 transition-colors"
-                onClick={() => navigate(`/login/${courseId}`)}
-              >
-                Log In to Enroll
-              </button>
-            )}
-          </div>
+      {pageloading && (
+        <div className="loading-overlay fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+          <Loader fill="white" />
         </div>
-      </div>
-
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Hero Section */}
-        <div className="grid md:grid-cols-2 gap-8 items-center mb-12">
-          <div>
-            <span className="inline-block bgGredient-green textGold text-sm font-semibold px-3 py-1 rounded-full mb-4">
-              Bestseller
-            </span>
-            <h1 className="lg:text-3xl md:text-2xl text-xl font-bold mb-4 textPurple">
-              {coursePost && coursePost.title}
-            </h1>
-            <p className="text-lg mb-6 text-gray-600">
-              {coursePost && coursePost?.description}
-            </p>
-
-            <div className="flex flex-wrap items-center text-sm text-gray-600 mb-6 gap-4">
-             
-              <div className="flex items-center justify-center gap-1">
-                <GrLanguage />
-                <span>{coursePost && coursePost?.language?.name}</span>
-              </div>
-            </div>
+      )}
+      <div className="bg-gradient-to-b from-purple-50 to-white min-h-screen">
+        {/* Sticky Header */}
+        <div
+          className={`fixed top-0 left-0 right-0 bg-white shadow-md transition-transform duration-300 z-50 ${
+            showStickyHeader ? "translate-y-0" : "-translate-y-full"
+          }`}
+        >
+          <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap gap-2 items-center lg:justify-between md:justify-between justify-center">
+            <h2 className="lg:text-lg md:text-lg text-sm font-semibold textPurple truncate">
+              {coursePost?.title}
+            </h2>
             <div className="flex items-center">
-              <div className="text-3xl font-bold textPurple mr-3">
-                ₹ {coursePost && coursePost?.price}
-              </div>
-              <div className="text-lg text-gray-500 line-through">
-                ₹ {coursePost?.value}
-              </div>
-              <span className=" textPurple font-semibold ml-1 text-xl">
-                {" "}
-                / month
-              </span>
-            </div>
-          </div>
-          <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg group">
-            {firstModule ? (
-              <div key={0}>
-                {firstModule?.videos && firstModule?.videos?.length > 0 ? (
-                  <div key={firstModule?.videos[0]._id}>
-                    {firstModule?.videos[0].videoUrl ? (
-                      <iframe
-                        title={firstModule?.videos[0].title}
-                        src={`https://player.vdocipher.com/v2/?otp=${firstModule?.videos[0].videoCode}&playbackInfo=${firstModule?.videos[0].playBackInfo}`}
-                        className="w-full aspect-video rounded-md"
-                        allowFullScreen
-                        allow="encrypted-media"
-                      ></iframe>
-                    ) : (
-                      <div>No video URL provided</div>
-                    )}
-                  </div>
-                ) : (
-                  <div>No videos available</div>
-                )}
-              </div>
-            ) : (
-              <div className="relative">
-                {imgloading && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
-                    <div className="w-24 h-24 bg-gray-400 rounded-full"></div>
-                  </div>
-                )}
-                <img
-                  src={coursePost?.thumbnailS3 || "/assets/upcoming.webp"}
-                  crossOrigin="anonymous"
-                  alt="Course Thumbnail"
-                  className={`w-full object-contain rounded-2xl transition-opacity duration-500 ${
-                    imgloading ? "opacity-0" : "opacity-100"
-                  }`}
-                  onLoad={() => setImgLoading(false)}
-                />
-              </div>
-            )}            
-          </div>
-        </div>
-
-        {/* Course Overview */}
-        <div className="bg-white p-6 rounded-lg shadow-md mb-8 transition-all duration-300 hover:shadow-xl">
-          <h2 className="text-2xl font-semibold textPurple mb-4">
-            Course Overview
-          </h2>
-          <p
-            className={`text-gray-700 ${
-              showFullDescription ? "" : "line-clamp-3"
-            }`}
-          >
-            {coursePost && coursePost?.other1}
-            <br></br>
-            {coursePost && coursePost?.other2}
-          </p>
-          <button
-            className="textPurple mt-2 flex items-center"
-            onClick={() => setShowFullDescription(!showFullDescription)}
-          >
-            {showFullDescription ? (
-              <span className="flex textGold font-bold items-center gap-1">
-                Show less
-                <FiArrowUp />
-              </span>
-            ) : (
-              <span className="flex textGold font-bold items-center gap-1">
-                Show more
-                <FiArrowDown />
-              </span>
-            )}
-          </button>
-        </div>
-
-        {/* What You'll Learn */}
-        <div className="bg-white p-6 rounded-lg shadow-md mb-8 transition-all duration-300 hover:shadow-xl">
-          {coursePost?.dynamicSections.map((section) => (
-            <div key={section._id}>
-              <h2 className="text-2xl font-semibold textPurple mb-4">
-                {section.title}
-              </h2>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {section.contents.map((point) => (
-                  <li
-                    key={point._id}
-                    className={`flex gap-2 items-center ${section.textColor}`}
-                  >
-                    <MdOutlineVerified className="text-[#5d6353]" />
-                    <span>{point.text}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        {/* Course Content */}
-        {coursePost?.modules?.length > 0 && (
-          <div className="bg-white p-6 rounded-lg shadow-md mb-8 transition-all duration-300 hover:shadow-xl">
-            <h2 className="text-2xl font-semibold textPurple mb-4">Course Content</h2>
-            {coursePost?.modules?.map((section, index) => (
-              <div
-                key={index}
-                className="border-2 border-gray-100 rounded-lg mb-4 px-4 py-1"
-              >
-                <button
-                  className="w-full py-4 flex justify-between items-center focus:outline-none"
-                  onClick={() =>
-                    setExpandedAccordionItem(
-                      expandedAccordionItem === index ? null : index
-                    )
-                  }
-                >
-                  <span className="font-medium">{section?.moduleTitle}</span>
-                  <FaChevronDown
-                    className={`w-5 h-5 transition-transform ${
-                      expandedAccordionItem === index
-                        ? "transform rotate-180"
-                        : ""
-                    }`}
-                  />
-                </button>
-                {expandedAccordionItem === index && (
-                  <div className="py-0">
-                    {section?.videos?.length > 0 ? (
-                      section?.videos?.map(({ _id, videoTitle, IsFree }) => (
-                        <div
-                          className="pb-2 px-2 rounded-md flex items-center  bg-purple-50 justify-start"
-                          key={_id}
-                        >
-                          <MdSlowMotionVideo className="textGreen" />
-                          <p className="px-4 py-2 text-gray-500 w-full">
-                            {videoTitle || "no videos"}
-                          </p>
-                          {IsFree ? (
-                            <FaLockOpen className="textGreen" />
-                          ) : (
-                            <FaLock className="textGreen" />
-                          )}
-                        </div>
-                      ))
-                    ) : (
-                      <h2>No videos</h2>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Pricing and Enrollment */}
-        <div className=" bgGredient-purple text-white p-8 rounded-lg shadow-lg mb-8 transition-all duration-300 hover:shadow-xl">
-          <h2 className="lg:text-3xl md:text-2xl text-xl textGold  font-bold mb-6">
-            Enroll Now and Start Your Journey
-          </h2>
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
-            <div className="mb-4 md:mb-0">
-              <span className="text-4xl font-bold">
+              <div className="lg:text-2xl md:text-xl text-sm font-bold textPurple mr-4">
                 {discount ? (
-                  <div className="flex items-center">
-                    <span className="line-through  opacity-75 text-lg mr-2">
+                  <div className="flex items-baseline gap-2">
+                    <span className="line-through opacity-75 text-lg">
                       ₹ {Math.round(coursePost?.price)}
                     </span>
                     <span>
@@ -563,53 +342,13 @@ const NewCourseDetailPage = () => {
                     </span>
                   </div>
                 ) : (
-                  <span>₹ {Math.round(coursePost?.price)}</span>
+                  <span>₹{Math.round(coursePost?.price)}</span>
                 )}
-              </span>
-              <span className="text-lg ml-1 text-gray-300 line-through">
-                ₹ {coursePost?.value}
-              </span>
-              <span className=" text-[#fdfdfd] font-semibold ml-1 text-xl">
-                {" "}
-                / month
-              </span>
-
-              <p className="text-lg mt-2 textGold">
-                {isCouponApplied
-                  ? "60% discount applied!"
-                  : "50% discount - Limited time offer!"}
-              </p>
-            </div>
-            <div className="w-full md:w-auto">
-              {currentUser && (
-                <div className="flex mb-4">
-                  <input
-                    type="text"
-                    id="coupon"
-                    value={code}
-                    onChange={(e) => setCode(e.target.value)}
-                    className="rounded-l-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#f5eeb4] text-gray-900"
-                    placeholder="Enter Coupon Code"
-                  />
-                  <button
-                    onClick={() => ApplyCoupon(coursePost?.price)}
-                    disabled={couponLoading}
-                    className={`${
-                      couponLoading
-                        ? `bg-red-800 cursor-not-allowed`
-                        : "bg-gradient-to-r from-[#efdb78] to-[#f5eeb4] hover:from-[#f5eeb4] hover:to-[#efdb78] textPurple "
-                    } font-bold px-4 py-2 rounded-r-md transition-colors`}
-                  >
-                    <span className="text-xs block w-full">
-                      {couponLoading ? "Wait..." : "Apply"}
-                    </span>
-                  </button>
-                </div>
-              )}
+              </div>
 
               {currentUser ? (
                 <button
-                  className={`w-full sm:w-auto bg-gradient-to-r from-[#efdb78] to-[#f5eeb4] hover:from-[#f5eeb4] hover:to-[#efdb78] textPurple font-bold py-3 px-8 rounded-lg flex items-center justify-center ${
+                  className={`lg:text-lg md:text-lg text-sm w-full sm:w-auto bgGredient-purple  hover:from-[#784688] hover:to-[#543a5d] textGold font-bold py-3 px-8 rounded-lg flex items-center justify-center ${
                     payloading ? "cursor-not-allowed" : ""
                   }`}
                   onClick={() =>
@@ -624,8 +363,8 @@ const NewCourseDetailPage = () => {
                   disabled={payloading}
                 >
                   {payloading ? (
-                    <span className="flex items-center">
-                      <FiLoader className="animate-spin gap-1" />
+                    <span className="flex items-center gap-1">
+                      <FiLoader className="animate-spin" />
                       Processing...
                     </span>
                   ) : (
@@ -634,8 +373,17 @@ const NewCourseDetailPage = () => {
                 </button>
               ) : (
                 <button
-                  onClick={() => navigate(`/login/${courseId}`)}
-                  className="w-full md:w-auto  bg-gradient-to-r from-[#efdb78] to-[#f5eeb4] hover:from-[#d6c664] hover:to-[#b2a652] text-black  px-6 py-3 rounded-md font-bold hover:scale-105 transition-colors"
+                  className="border border-[#543a5d] textPurple px-4 py-2 rounded-md hover:bg-yellow-50 transition-colors"
+                  onClick={() => {
+                    // Facebook Pixel: LogInToEnroll click
+                    if (window.fbq) {
+                      fbq("trackCustom", "LogInToEnrollClick", {
+                        courseId: courseId,
+                      });
+                    }
+
+                    navigate(`/login/${courseId}`);
+                  }}
                 >
                   Log In to Enroll
                 </button>
@@ -644,52 +392,340 @@ const NewCourseDetailPage = () => {
           </div>
         </div>
 
-        {/* FAQ Section */}
-        <div className="bg-white p-6 rounded-lg shadow-md transition-all duration-300 hover:shadow-xl">
-          <h2 className="text-xl textPurple font-semibold mb-4">
-            Frequently Asked Questions
-          </h2>
-          {coursePost &&
-            coursePost.fAndQ.map((item, index) => (
-              <div key={index} className="border-b last:border-b-0">
-                <button
-                  className="w-full py-4 flex justify-between items-center focus:outline-none"
-                  onClick={() =>
-                    setExpandedAccordionItem(
-                      expandedAccordionItem === index ? null : index
-                    )
-                  }
-                >
-                  <span className="font-medium">{item.question}</span>
-                  <svg
-                    className={`w-5 h-5 transition-transform ${
-                      expandedAccordionItem === index
-                        ? "transform rotate-180"
-                        : ""
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          {/* Hero Section */}
+          <div className="grid md:grid-cols-2 gap-8 items-center mb-12">
+            <div>
+              <span className="inline-block bgGredient-green textGold text-sm font-semibold px-3 py-1 rounded-full mb-4">
+                Bestseller
+              </span>
+              <h1 className="lg:text-3xl md:text-2xl text-xl font-bold mb-4 textPurple">
+                {coursePost && coursePost.title}
+              </h1>
+              <p className="text-lg mb-6 text-gray-600">
+                {coursePost && coursePost?.description}
+              </p>
+
+              <div className="flex flex-wrap items-center text-sm text-gray-600 mb-6 gap-4">
+                <div className="flex items-center justify-center gap-1">
+                  <GrLanguage />
+                  <span>{coursePost && coursePost?.language?.name}</span>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <div className="text-3xl font-bold textPurple mr-3">
+                  ₹ {coursePost && coursePost?.price}
+                </div>
+                <div className="text-lg text-gray-500 line-through">
+                  ₹ {coursePost?.value}
+                </div>
+                <span className=" textPurple font-semibold ml-1 text-xl">
+                  {" "}
+                  / month
+                </span>
+              </div>
+            </div>
+            <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg group">
+              {firstModule ? (
+                <div key={0}>
+                  {firstModule?.videos && firstModule?.videos?.length > 0 ? (
+                    <div key={firstModule?.videos[0]._id}>
+                      {firstModule?.videos[0].videoUrl ? (
+                        <iframe
+                          title={firstModule?.videos[0].title}
+                          src={`https://player.vdocipher.com/v2/?otp=${firstModule?.videos[0].videoCode}&playbackInfo=${firstModule?.videos[0].playBackInfo}`}
+                          className="w-full aspect-video rounded-md"
+                          allowFullScreen
+                          allow="encrypted-media"
+                        ></iframe>
+                      ) : (
+                        <div>No video URL provided</div>
+                      )}
+                    </div>
+                  ) : (
+                    <div>No videos available</div>
+                  )}
+                </div>
+              ) : (
+                <div className="relative">
+                  {imgloading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
+                      <div className="w-24 h-24 bg-gray-400 rounded-full"></div>
+                    </div>
+                  )}
+                  <img
+                    src={coursePost?.thumbnailS3 || "/assets/upcoming.webp"}
+                    crossOrigin="anonymous"
+                    alt="Course Thumbnail"
+                    className={`w-full object-contain rounded-2xl transition-opacity duration-500 ${
+                      imgloading ? "opacity-0" : "opacity-100"
                     }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
-                {expandedAccordionItem === index && (
-                  <div className="py-2 bg-purple-50 p-2 rounded-md">
-                    <p>{item.answer}</p>
-                  </div>
-                )}
+                    onLoad={() => setImgLoading(false)}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Course Overview */}
+          <div className="bg-white p-6 rounded-lg shadow-md mb-8 transition-all duration-300 hover:shadow-xl">
+            <h2 className="text-2xl font-semibold textPurple mb-4">
+              Course Overview
+            </h2>
+            <p
+              className={`text-gray-700 ${
+                showFullDescription ? "" : "line-clamp-3"
+              }`}
+            >
+              {coursePost && coursePost?.other1}
+              <br></br>
+              {coursePost && coursePost?.other2}
+            </p>
+            <button
+              className="textPurple mt-2 flex items-center"
+              onClick={() => setShowFullDescription(!showFullDescription)}
+            >
+              {showFullDescription ? (
+                <span className="flex textGold font-bold items-center gap-1">
+                  Show less
+                  <FiArrowUp />
+                </span>
+              ) : (
+                <span className="flex textGold font-bold items-center gap-1">
+                  Show more
+                  <FiArrowDown />
+                </span>
+              )}
+            </button>
+          </div>
+
+          {/* What You'll Learn */}
+          <div className="bg-white p-6 rounded-lg shadow-md mb-8 transition-all duration-300 hover:shadow-xl">
+            {coursePost?.dynamicSections.map((section) => (
+              <div key={section._id}>
+                <h2 className="text-2xl font-semibold textPurple mb-4">
+                  {section.title}
+                </h2>
+                <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {section.contents.map((point) => (
+                    <li
+                      key={point._id}
+                      className={`flex gap-2 items-center ${section.textColor}`}
+                    >
+                      <MdOutlineVerified className="text-[#5d6353]" />
+                      <span>{point.text}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
+          </div>
+
+          {/* Course Content */}
+          {coursePost?.modules?.length > 0 && (
+            <div className="bg-white p-6 rounded-lg shadow-md mb-8 transition-all duration-300 hover:shadow-xl">
+              <h2 className="text-2xl font-semibold textPurple mb-4">
+                Course Content
+              </h2>
+              {coursePost?.modules?.map((section, index) => (
+                <div
+                  key={index}
+                  className="border-2 border-gray-100 rounded-lg mb-4 px-4 py-1"
+                >
+                  <button
+                    className="w-full py-4 flex justify-between items-center focus:outline-none"
+                    onClick={() =>
+                      setExpandedAccordionItem(
+                        expandedAccordionItem === index ? null : index
+                      )
+                    }
+                  >
+                    <span className="font-medium">{section?.moduleTitle}</span>
+                    <FaChevronDown
+                      className={`w-5 h-5 transition-transform ${
+                        expandedAccordionItem === index
+                          ? "transform rotate-180"
+                          : ""
+                      }`}
+                    />
+                  </button>
+                  {expandedAccordionItem === index && (
+                    <div className="py-0">
+                      {section?.videos?.length > 0 ? (
+                        section?.videos?.map(({ _id, videoTitle, IsFree }) => (
+                          <div
+                            className="pb-2 px-2 rounded-md flex items-center  bg-purple-50 justify-start"
+                            key={_id}
+                          >
+                            <MdSlowMotionVideo className="textGreen" />
+                            <p className="px-4 py-2 text-gray-500 w-full">
+                              {videoTitle || "no videos"}
+                            </p>
+                            {IsFree ? (
+                              <FaLockOpen className="textGreen" />
+                            ) : (
+                              <FaLock className="textGreen" />
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <h2>No videos</h2>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Pricing and Enrollment */}
+          <div className=" bgGredient-purple text-white p-8 rounded-lg shadow-lg mb-8 transition-all duration-300 hover:shadow-xl">
+            <h2 className="lg:text-3xl md:text-2xl text-xl textGold  font-bold mb-6">
+              Enroll Now and Start Your Journey
+            </h2>
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
+              <div className="mb-4 md:mb-0">
+                <span className="text-4xl font-bold">
+                  {discount ? (
+                    <div className="flex items-center">
+                      <span className="line-through  opacity-75 text-lg mr-2">
+                        ₹ {Math.round(coursePost?.price)}
+                      </span>
+                      <span>
+                        ₹{" "}
+                        {discount.subTotal === 0
+                          ? 1
+                          : discount.subTotal.toFixed(2)}
+                      </span>
+                    </div>
+                  ) : (
+                    <span>₹ {Math.round(coursePost?.price)}</span>
+                  )}
+                </span>
+                <span className="text-lg ml-1 text-gray-300 line-through">
+                  ₹ {coursePost?.value}
+                </span>
+                <span className=" text-[#fdfdfd] font-semibold ml-1 text-xl">
+                  {" "}
+                  / month
+                </span>
+
+                <p className="text-lg mt-2 textGold">
+                  {isCouponApplied
+                    ? "60% discount applied!"
+                    : "50% discount - Limited time offer!"}
+                </p>
+              </div>
+              <div className="w-full md:w-auto">
+                {currentUser && (
+                  <div className="flex mb-4">
+                    <input
+                      type="text"
+                      id="coupon"
+                      value={code}
+                      onChange={(e) => setCode(e.target.value)}
+                      className="rounded-l-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#f5eeb4] text-gray-900"
+                      placeholder="Enter Coupon Code"
+                    />
+                    <button
+                      onClick={() => ApplyCoupon(coursePost?.price)}
+                      disabled={couponLoading}
+                      className={`${
+                        couponLoading
+                          ? `bg-red-800 cursor-not-allowed`
+                          : "bg-gradient-to-r from-[#efdb78] to-[#f5eeb4] hover:from-[#f5eeb4] hover:to-[#efdb78] textPurple "
+                      } font-bold px-4 py-2 rounded-r-md transition-colors`}
+                    >
+                      <span className="text-xs block w-full">
+                        {couponLoading ? "Wait..." : "Apply"}
+                      </span>
+                    </button>
+                  </div>
+                )}
+
+                {currentUser ? (
+                  <button
+                    className={`w-full sm:w-auto bg-gradient-to-r from-[#efdb78] to-[#f5eeb4] hover:from-[#f5eeb4] hover:to-[#efdb78] textPurple font-bold py-3 px-8 rounded-lg flex items-center justify-center ${
+                      payloading ? "cursor-not-allowed" : ""
+                    }`}
+                    onClick={() =>
+                      handlePayment(
+                        discount
+                          ? discount.subTotal === 0
+                            ? 1
+                            : discount.subTotal.toFixed(2)
+                          : coursePost?.price
+                      )
+                    }
+                    disabled={payloading}
+                  >
+                    {payloading ? (
+                      <span className="flex items-center">
+                        <FiLoader className="animate-spin gap-1" />
+                        Processing...
+                      </span>
+                    ) : (
+                      "Enroll Now"
+                    )}
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => navigate(`/login/${courseId}`)}
+                    className="w-full md:w-auto  bg-gradient-to-r from-[#efdb78] to-[#f5eeb4] hover:from-[#d6c664] hover:to-[#b2a652] text-black  px-6 py-3 rounded-md font-bold hover:scale-105 transition-colors"
+                  >
+                    Log In to Enroll
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* FAQ Section */}
+          <div className="bg-white p-6 rounded-lg shadow-md transition-all duration-300 hover:shadow-xl">
+            <h2 className="text-xl textPurple font-semibold mb-4">
+              Frequently Asked Questions
+            </h2>
+            {coursePost &&
+              coursePost.fAndQ.map((item, index) => (
+                <div key={index} className="border-b last:border-b-0">
+                  <button
+                    className="w-full py-4 flex justify-between items-center focus:outline-none"
+                    onClick={() =>
+                      setExpandedAccordionItem(
+                        expandedAccordionItem === index ? null : index
+                      )
+                    }
+                  >
+                    <span className="font-medium">{item.question}</span>
+                    <svg
+                      className={`w-5 h-5 transition-transform ${
+                        expandedAccordionItem === index
+                          ? "transform rotate-180"
+                          : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                  {expandedAccordionItem === index && (
+                    <div className="py-2 bg-purple-50 p-2 rounded-md">
+                      <p>{item.answer}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+          </div>
         </div>
       </div>
-    </div>
     </Fragment>
   );
 };
