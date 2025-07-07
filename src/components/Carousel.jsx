@@ -1,51 +1,41 @@
+import axios from 'axios';
 import React, { useState, useEffect, Fragment, useMemo } from 'react';
 
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [carouselData, setCarouselData] = useState([]);
 
-  const desktopImages = useMemo(() => [
-    {
-      imgurl: "assets/newBanner1.webp",
-      link: "https://zenstudy.in/courseDetailslive/UPSC-Foundation-Batch"
-    },
-    {
-      imgurl: "assets/newBanner2.webp",
-      link: "https://zenstudy.in/courseDetailslive/UPSC-Foundation-Batch"
-    },
-    {
-      imgurl: "assets/newBanner3.webp",
-      link: "https://zenstudy.in/courseDetailslive/UPSC-Foundation-Batch"
-    }
-  ], []);
+  // Prepare image list based on screen size
+  const images = useMemo(() => {
+    return carouselData.map((item) => ({
+      id: item._id,
+      title: item.title,
+      imageUrl: isMobile ? item.mobileImageUrl : item.pcImageUrl,
+      link: item.link,
+    }));
+  }, [carouselData, isMobile]);
 
-  const mobileImages = useMemo(() => [
-    {
-      imgurl: "assets/mobileBanner1.webp",
-      link: "https://zenstudy.in/courseDetailslive/UPSC-Foundation-Batch"
-    },
-    {
-      imgurl: "assets/mobileBanner2.webp",
-      link: "https://zenstudy.in/courseDetailslive/UPSC-Foundation-Batch"
-    },
-    {
-      imgurl: "assets/mobileBanner3.webp",
-      link: "https://zenstudy.in/courseDetailslive/UPSC-Foundation-Batch"
-    }
-  ], []);
-
-  const images = useMemo(() => (isMobile ? mobileImages : desktopImages), [isMobile, desktopImages, mobileImages]);
-
-  // Debounced resize handler
+  // Fetch data and handle resize
   useEffect(() => {
-    let timeoutId;
+    const getCarousel = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API}zenstudy/api/carousel/active`);
+        setCarouselData(response.data.data);
+      } catch (error) {
+        console.error("Error in getCarousel:", error);
+      }
+    };
 
+    getCarousel();
+
+    let timeoutId;
     const handleResize = () => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
         setIsMobile(window.innerWidth < 768);
-      }, 200); // Debounce delay: 200ms
+      }, 200);
     };
 
     window.addEventListener('resize', handleResize);
@@ -57,7 +47,7 @@ const Carousel = () => {
 
   // Auto slide
   useEffect(() => {
-    if (!isHovered) {
+    if (!isHovered && images.length > 0) {
       const interval = setInterval(() => {
         setCurrentSlide((prev) => (prev + 1) % images.length);
       }, 5000);
@@ -81,13 +71,13 @@ const Carousel = () => {
         <div className="relative h-60 overflow-hidden bg-black rounded-lg md:h-64">
           {images.map((im, index) => (
             <div
-              key={index}
+              key={im.id}
               className={`duration-700 ease-in-out ${currentSlide === index ? 'block' : 'hidden'}`}
               data-carousel-item
             >
-              <a href={im.link} rel="noopener noreferrer">
+              <a href={im.link} rel="noopener noreferrer" >
                 <img
-                  src={im.imgurl}
+                  src={im.imageUrl}
                   loading="lazy"
                   className="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                   alt={`Banner ${index + 1}`}

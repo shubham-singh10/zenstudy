@@ -69,7 +69,7 @@ const HomeText = () => {
           className="relative image-section md:w-1/2 flex justify-center items-center"
         >
           <img
-            src="/assets/boylogo.webp"
+            src="/assets/herosection.webp"
             alt="Zenstudy Character Illustration"
             className="w-[100%] rounded-lg"
             loading="lazy"

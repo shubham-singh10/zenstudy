@@ -9,7 +9,7 @@ const PrivateRoute = ({ children }) => {
     return <Loading />;
   }
 
-  return isAuthenticated ? children : <Navigate to="/" replace />;
+  return isAuthenticated ? children : <Navigate to="https://zenstudy.in/sign-In" replace />;
 };
 
 export default PrivateRoute;

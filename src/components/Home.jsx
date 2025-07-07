@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <main className="w-full">
       {/* Hero Carousel */}
-      <Suspense fallback={<div className="min-h-[50vh]">Loading carousel...</div>}>
+      <Suspense fallback={<div className="min-h-[50vh] flex justify-center items-center">Loading carousel...</div>}>
         <section><Carousel /></section>
       </Suspense>
 

@@ -121,7 +121,7 @@ const About = () => {
           className="relative lg:w-[50%] w-[100%] mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
         >
           <animated.img
-            src="/assets/aboutUs.webp"
+            src="/assets/about-us.webp"
             alt="Team"
             className="w-full h-auto object-cover"
           />
@@ -224,7 +224,7 @@ const About = () => {
           className="relative mb-8 lg:mb-0 lg:ml-16 p-6 lg:p-10 md:p-8"
         >
           <img
-            src="/assets/mission.webp"
+            src="/assets/our-mission.webp"
             alt="Mission"
             className="w-full h-auto object-cover"
           />
@@ -249,7 +249,7 @@ const About = () => {
           className="relative mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
         >
           <animated.img
-            src="/assets/vision.webp"
+            src="/assets/our-vision.webp"
             alt="Team"
             className="w-full h-auto object-cover"
           />
@@ -343,7 +343,7 @@ const About = () => {
           className="relative mb-8 lg:mb-0 lg:ml-16 p-6 lg:p-10 md:p-8"
         >
           <img
-            src="/assets/wwa.webp"
+            src="/assets/who-we-are.webp"
             alt="Who We Are"
             className="w-full h-auto object-cover"
           />
@@ -367,7 +367,7 @@ const About = () => {
           className="relative lg:w-[50%] w-[100%] mt-4 lg:mt-0 mb-8 lg:mb-0 lg:mr-16 p-6 lg:p-10 md:p-8"
         >
           <animated.img
-            src="/assets/whywe.webp"
+            src="/assets/why-choose-us.webp"
             alt="Team"
             className="w-full h-auto object-cover"
           />
