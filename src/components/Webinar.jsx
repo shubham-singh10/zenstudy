@@ -329,7 +329,7 @@ function Webinar() {
   {/* Image */}
   <div className="overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition duration-500 h-full">
     <img
-      src="../assets/newWebinar.png"
+      src="../assets/webinar20jul.png"
       alt="Webinar Banner"
       className="w-full h-full object-fill hover:scale-105 transition-transform duration-500"
     />
@@ -347,7 +347,7 @@ function Webinar() {
         Save the Date!
       </h3>
       <p className="text-lg md:text-3xl font-extrabold text-gray-700 ">
-      29 June, 2025
+      20 July, 2025
       </p>
     </div>
   </div>
@@ -391,14 +391,14 @@ function Webinar() {
               <BiCalendar className="w-8 h-8 text-[#543a5d]" />
               <div>
                 <h3 className="font-semibold">Date</h3>
-                <p>29 June, 2025</p>
+                <p>20 July, 2025</p>
               </div>
             </div>
             <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">
               <FaClock className="w-8 h-8 text-[#543a5d]" />
               <div>
                 <h3 className="font-semibold">Duration</h3>
-                <p>7pm - 8pm</p>
+                <p>12pm - 2pm</p>
               </div>
             </div>
             <div className="flex items-center space-x-4 p-6 rounded-lg bg-gray-50 shadow-sm hover:shadow-md transition-shadow duration-200">

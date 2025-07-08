@@ -51,7 +51,7 @@ const NewNavBar = () => {
   return (
     <Fragment>
       {/* Navbar Container */}
-      <div className="w-full h-[15vh] mb-4 flex items-center justify-between px-6 lg:px-12 shadow-md">
+      <div className="w-full z-50 lg:h-[15vh] md:h-[-15vh] h-[10vh] mb-1 flex items-center justify-between px-6 lg:px-12 shadow-md">
         {/* Logo */}
         <Link to={"/"} className="flex flex-col items-start">
           <p className="text-3xl textdark font-bold">Zenstudy</p>

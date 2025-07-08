@@ -68,7 +68,7 @@ const Carousel = () => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div className="relative h-60 overflow-hidden bg-black rounded-lg md:h-64">
+        <div className="relative h-56 overflow-hidden bg-purple-50 rounded-lg lg:h-72 md:h-72">
           {images.map((im, index) => (
             <div
               key={im.id}
@@ -79,7 +79,7 @@ const Carousel = () => {
                 <img
                   src={im.imageUrl}
                   loading="lazy"
-                  className="absolute block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                  className="absolute object-contain lg:object-fill md:object-fill block w-full h-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
                   alt={`Banner ${index + 1}`}
                 />
               </a>
