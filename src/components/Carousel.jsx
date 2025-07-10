@@ -17,14 +17,40 @@ const Carousel = () => {
     }));
   }, [carouselData, isMobile]);
 
-  // Fetch data and handle resize
+  // Pixel tracking for slide view
+  const trackSlideView = (index) => {
+    const slide = images?.[index];
+    if (slide && window.fbq) {
+      fbq('trackCustom', 'CarouselSlideViewed', {
+        slideIndex: index,
+        title: slide.title || 'Untitled',
+        link: slide.link || '',
+      });
+    }
+  };
+
+  // Pixel tracking for slide click
+  const trackSlideClick = (index) => {
+    const slide = images?.[index];
+    if (slide && window.fbq) {
+      fbq('trackCustom', 'CarouselSlideClicked', {
+        slideIndex: index,
+        title: slide.title || 'Untitled',
+        link: slide.link || '',
+      });
+    }
+  };
+
+  // Fetch carousel data
   useEffect(() => {
     const getCarousel = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API}zenstudy/api/carousel/active`);
+        const response = await axios.get(
+          `${process.env.REACT_APP_API}zenstudy/api/carousel/active`
+        );
         setCarouselData(response.data.data);
       } catch (error) {
-        console.error("Error in getCarousel:", error);
+        console.error('Error in getCarousel:', error);
       }
     };
 
@@ -45,19 +71,41 @@ const Carousel = () => {
     };
   }, []);
 
-  // Auto slide
+  // Track first slide view once images are loaded
+  useEffect(() => {
+    if (images.length > 0) {
+      trackSlideView(0);
+    }
+  }, [images]);
+
+  // Auto slide functionality
   useEffect(() => {
     if (!isHovered && images.length > 0) {
       const interval = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % images.length);
+        const newIndex = (currentSlide + 1) % images.length;
+        setCurrentSlide(newIndex);
+        setTimeout(() => trackSlideView(newIndex), 50); // slight delay to ensure data is available
       }, 5000);
       return () => clearInterval(interval);
     }
-  }, [isHovered, images.length]);
+  }, [isHovered, images.length, currentSlide]);
 
-  const goToSlide = (index) => setCurrentSlide(index);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + images.length) % images.length);
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % images.length);
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+    trackSlideView(index);
+  };
+
+  const prevSlide = () => {
+    const newIndex = (currentSlide - 1 + images.length) % images.length;
+    setCurrentSlide(newIndex);
+    trackSlideView(newIndex);
+  };
+
+  const nextSlide = () => {
+    const newIndex = (currentSlide + 1) % images.length;
+    setCurrentSlide(newIndex);
+    trackSlideView(newIndex);
+  };
 
   return (
     <Fragment>
@@ -75,7 +123,12 @@ const Carousel = () => {
               className={`duration-700 ease-in-out ${currentSlide === index ? 'block' : 'hidden'}`}
               data-carousel-item
             >
-              <a href={im.link} rel="noopener noreferrer" >
+              <a
+                href={im.link}
+                rel="noopener noreferrer"
+                target="_blank"
+                onClick={() => trackSlideClick(index)}
+              >
                 <img
                   src={im.imageUrl}
                   loading="lazy"

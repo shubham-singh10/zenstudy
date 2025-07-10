@@ -56,6 +56,16 @@ const NewFooter = () => {
       const data = await response.json();
       // //console.log("Contact", data)
       if (data) {
+        // ✅ Fire Facebook Pixel custom event
+        if (window.fbq) {
+          fbq("trackCustom", "GetinTouchForm", {
+            name: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            message: formData.message,
+          });
+        }
+
         Swal.fire({
           icon: "success",
           title: "Message Sent Successfully!",
@@ -93,63 +103,96 @@ const NewFooter = () => {
               </p>
             </div>
             <div className="flex items-start space-x-4">
-              <Link
-                to="https://youtube.com/@zenstudyz?si=iN4l51faOy1_mjYu"
-                target="blank"
+              <a
+                href="https://youtube.com/@zenstudyz?si=iN4l51faOy1_mjYu"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hover:bg-red-500 rounded-full p-2"
+                onClick={() =>
+                  window.fbq &&
+                  fbq("trackCustom", "SocialLinkClick", { platform: "YouTube" })
+                }
               >
                 <FiYoutube
                   size={25}
                   className="hover:text-white text-[#fdfdfd]"
                 />
-              </Link>
-              <Link
-                to="https://www.instagram.com/zenstudyz/"
-                target="blank"
+              </a>
+
+              <a
+                href="https://www.instagram.com/zenstudyz/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hover:bg-gradient-to-br from-[#405DE6] via-[#5B51D8] to-[#E1306C] rounded-full p-2"
+                onClick={() =>
+                  window.fbq &&
+                  fbq("trackCustom", "SocialLinkClick", {
+                    platform: "Instagram",
+                  })
+                }
               >
                 <FiInstagram
                   size={25}
                   className="hover:text-white text-[#fdfdfd]"
                 />
-              </Link>
-              <Link
-                to="https://www.facebook.com/people/Zenstudy/61555473406607/"
-                target="blank"
+              </a>
+
+              <a
+                href="https://www.facebook.com/people/Zenstudy/61555473406607/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hover:bg-[#4267B2] rounded-full p-2"
+                onClick={() =>
+                  window.fbq &&
+                  fbq("trackCustom", "SocialLinkClick", {
+                    platform: "Facebook",
+                  })
+                }
               >
                 <FiFacebook
                   size={25}
                   className="hover:text-white text-[#fdfdfd]"
                 />
-              </Link>
-              <Link
-                to="https://twitter.com/ZenstudyZ"
-                target="blank"
+              </a>
+
+              <a
+                href="https://twitter.com/ZenstudyZ"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hover:bg-[#1DA1F2] rounded-full p-2"
+                onClick={() =>
+                  window.fbq &&
+                  fbq("trackCustom", "SocialLinkClick", { platform: "Twitter" })
+                }
               >
                 <FiTwitter
                   size={25}
                   className="hover:text-white text-[#fdfdfd]"
                 />
-              </Link>
-              <Link
-                to="https://wa.me/919810246095"
-                target="blank"
-                className="flex justify-end bg-green-500  hover:bg-green-700 p-2 text-white z-50 rounded-full fixed bottom-0 right-5 mb-6 text-4xl animate-bounce ..."
+              </a>
+
+              <a
+                href="https://wa.me/919810246095"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex justify-end bg-green-500 hover:bg-green-700 p-2 text-white z-50 rounded-full fixed bottom-0 right-5 mb-6 text-4xl animate-bounce"
+                onClick={() =>
+                  window.fbq &&
+                  fbq("trackCustom", "SocialLinkClick", {
+                    platform: "WhatsApp",
+                  })
+                }
               >
                 <div>
                   <FaWhatsapp />
                 </div>
-              </Link>
+              </a>
             </div>
           </div>
 
           <div className="w-full md:w-1/2 flex justify-center ">
             <ul className="flex  flex-col gap-2 text-sm md:items-start lg:px-20 md:px-14 px-0 items-start w-full">
-              <li className=" text-2xl font-semibold mb-4 textGold">
-                Menu
-              </li>
+              <li className=" text-2xl font-semibold mb-4 textGold">Menu</li>
               <Link to="/" className="hover:text-[#efdb78] text-[#fdfdfd]">
                 <li>Home</li>
               </Link>

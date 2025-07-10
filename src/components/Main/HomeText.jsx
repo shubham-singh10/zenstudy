@@ -33,28 +33,51 @@ const HomeText = () => {
               Welcome To
             </span>
             <span className="text-3xl md:text-4xl lg:text-4xl textPurple">
-              {" "}Zenstudy
+              {" "}
+              Zenstudy
             </span>
           </h2>
 
           <h1 className="text-4xl font-bold mb-4 text-center lg:text-start md:text-start">
             <span className="text-xl lg:text-2xl text-[#43464b]">Making</span>
             <span className="text-xl lg:text-4xl textGreen"> Education</span>
-            <span className="text-xl lg:text-2xl text-[#43464b]"> Imaginative</span>
+            <span className="text-xl lg:text-2xl text-[#43464b]">
+              {" "}
+              Imaginative
+            </span>
           </h1>
 
           <p className="text-[#5D6169]">
-            Zenstudy offers a unique educational platform by making education imaginative. It introduces a modern educational technology by blending traditional learning. It provides a new and innovative method in approaching the UPSC preparation as well as provides a personalized student centered education through innovative teaching methodology, interactive online platforms and real world application.
+            Zenstudy offers a unique educational platform by making education
+            imaginative. It introduces a modern educational technology by
+            blending traditional learning. It provides a new and innovative
+            method in approaching the UPSC preparation as well as provides a
+            personalized student centered education through innovative teaching
+            methodology, interactive online platforms and real world
+            application.
           </p>
 
           <div className="mt-9 flex flex-col md:flex-row lg:flex-row justify-center text-center mb-4 lg:mb-0 md:mb-0">
             <Link to="/courses">
-              <button className="custom-btn-2 md:mr-5 lg:mr-5">
+              <button
+                onClick={() => {
+                  if (window.fbq) {
+                    fbq("trackCustom", "ExploreCoursesClick", {
+                      location: window.location.pathname,
+                    });
+                  }
+                }}
+                className="custom-btn-2 md:mr-5 lg:mr-5"
+              >
                 <span className="custom-btn-2-bg"></span>
                 <span className="custom-btn-2-text">Explore Courses</span>
               </button>
             </Link>
-            <Link to="https://youtube.com/@zenstudyz?si=iN4l51faOy1_mjYu" target="_blank" rel="noopener noreferrer">
+            <Link
+              to="https://youtube.com/@zenstudyz?si=iN4l51faOy1_mjYu"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <button className="custom-btn mt-4 lg:mt-0 md:mt-0">
                 <span className="custom-btn-bg"></span>
                 <span className="custom-btn-text">Watch Videos</span>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth-context";
 
@@ -6,6 +6,7 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [hasTrackedView, setHasTrackedView] = useState(false);
 
   const isUpcoming = course.other1 === "upcoming";
   const newPage = course.title?.includes("UPSC Foundation Batch");
@@ -15,10 +16,33 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
 
   const courseTitle = course.title || "Untitled Course";
   const languageName = course.language || "Unknown";
-
   const slug = courseTitle.replace(/\s+/g, "-");
 
+  // FB Pixel: Track card view only once per render
+  useEffect(() => {
+    if (imageLoaded && !hasTrackedView && window.fbq) {
+      fbq("trackCustom", "CourseCardViewed", {
+        courseId: course._id,
+        title: courseTitle,
+        language: languageName,
+        isFree: freeCourse,
+      });
+      setHasTrackedView(true);
+    }
+  }, [imageLoaded, hasTrackedView, course._id, courseTitle, languageName, freeCourse]);
+
   const navigateTo = () => {
+    // FB Pixel: Track card click
+    if (window.fbq) {
+      fbq("trackCustom", "CourseCardClicked", {
+        courseId: course._id,
+        title: courseTitle,
+        language: languageName,
+        isFree: freeCourse,
+        isLoggedIn: !!userId,
+      });
+    }
+
     if (freeCourse) {
       return userId
         ? navigate(`/watch-course-free/${course._id}`)

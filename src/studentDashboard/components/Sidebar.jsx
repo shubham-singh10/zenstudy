@@ -79,7 +79,6 @@ const Sidebar = () => {
             icon: FiFileText,
             dropdown: [
               { href: "/testSeries", label: "Test", icon: FiSquare },
-              // { href: "/resultSeries", label: "Result", icon: FiTag },
             ],
           },
         ],
@@ -88,10 +87,8 @@ const Sidebar = () => {
     []
   );
 
-  // Function to check if the current route is active
   const isActive = (href) => location.pathname === href;
 
-  // Auto-open dropdowns if any sub-item is active
   useEffect(() => {
     const activeDropdowns = [];
 
@@ -113,15 +110,14 @@ const Sidebar = () => {
 
   const initials = user?.name
     ? user.name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
     : "G";
 
   return (
     <>
-      {/* Mobile Menu Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-[#0f172a] text-white rounded-lg"
@@ -129,7 +125,6 @@ const Sidebar = () => {
         {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
       </button>
 
-      {/* Overlay */}
       {isOpen && isMobile && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-30"
@@ -137,7 +132,6 @@ const Sidebar = () => {
         />
       )}
 
-      {/* Sidebar */}
       <aside
         className={`
           fixed top-0 left-0 h-screen w-64 bg-white border-2 border-sidebar-border text-sidebar-accent-foreground z-40
@@ -146,15 +140,14 @@ const Sidebar = () => {
           lg:translate-x-0
         `}
       >
-        {/* Sidebar content */}
         <div className="flex flex-col h-full">
           <div className="p-3 shadow-xl bg-gradient-to-b from-black/10 to-transparent z-[-1] rounded-b-md ">
-            <div className="flex items-center justify-center  gap-2">
+            <div className="flex items-center justify-center gap-2">
               <div className="bg-sidebar-foreground rounded-lg flex items-center justify-center">
                 <img
                   src={"/assets/logo.png"}
                   alt="Logo"
-                  className={`h-12 w-12 rounded-md`}
+                  className="h-12 w-12 rounded-md"
                 />
               </div>
               <div>
@@ -186,10 +179,11 @@ const Sidebar = () => {
                                     : [...prev, item.label]
                                 )
                               }
-                              className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-colors ${openDropdowns.includes(item.label)
+                              className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-colors ${
+                                openDropdowns.includes(item.label)
                                   ? "bg-purple-100"
                                   : "hover:bg-purple-100"
-                                }`}
+                              }`}
                             >
                               <div className="flex items-center gap-3">
                                 <item.icon className="w-5 h-5 textPurple" />
@@ -207,13 +201,22 @@ const Sidebar = () => {
                                   <li key={subItem.label}>
                                     <Link
                                       to={subItem.href}
-                                      className={`block px-3 py-2 rounded-lg transition-colors ${isActive(subItem.href)
+                                      className={`block px-3 py-2 rounded-lg transition-colors ${
+                                        isActive(subItem.href)
                                           ? "bg-purple-100 text-sidebar-accent-primary"
                                           : "hover:bg-purple-100"
-                                        }`}
-                                      onClick={() =>
-                                        isMobile && setIsOpen(false)
-                                      }
+                                      }`}
+                                      onClick={() => {
+                                        if (window.fbq) {
+                                          fbq("trackCustom", "SidebarSubLinkClick", {
+                                            parent: item.label,
+                                            link: subItem.href,
+                                            label: subItem.label,
+                                            location: window.location.pathname,
+                                          });
+                                        }
+                                        if (isMobile) setIsOpen(false);
+                                      }}
                                     >
                                       <div className="flex items-center textPurple gap-3">
                                         <subItem.icon className="w-5 h-5 textPurple" />
@@ -228,11 +231,21 @@ const Sidebar = () => {
                         ) : (
                           <Link
                             to={item.href}
-                            className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive(item.href)
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                              isActive(item.href)
                                 ? "bg-purple-100"
                                 : "hover:bg-purple-100"
-                              }`}
-                            onClick={() => isMobile && setIsOpen(false)}
+                            }`}
+                            onClick={() => {
+                              if (window.fbq) {
+                                fbq("trackCustom", "SidebarLinkClick", {
+                                  link: item.href,
+                                  label: item.label,
+                                  location: window.location.pathname,
+                                });
+                              }
+                              if (isMobile) setIsOpen(false);
+                            }}
                           >
                             <item.icon className="w-5 h-5 textPurple" />
                             <span className="textPurple">{item.label}</span>
@@ -250,12 +263,12 @@ const Sidebar = () => {
             <div className="absolute top-0 left-0 w-full h-full -translate-y-0 bgGredient-purple z-[-1] rounded-t-md shadow-lg"></div>
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                <span className="text-sm font-medium textGold">
-                  {initials}
-                </span>
+                <span className="text-sm font-medium textGold">{initials}</span>
               </div>
               <div className="min-w-0">
-                <p className="font-medium textGold truncate">{user?.name || "Guest"}</p>
+                <p className="font-medium textGold truncate">
+                  {user?.name || "Guest"}
+                </p>
                 <p className="text-xs textGold truncate">
                   {user?.email || "Please update email"}
                 </p>
