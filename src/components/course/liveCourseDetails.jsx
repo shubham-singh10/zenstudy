@@ -722,7 +722,7 @@ const LiveCourseDetailsPage = () => {
                             />
                           </svg>
                           <span>
-                            {item.title} {item.description} per month
+                            {item.title} {item.description}
                           </span>
                         </li>
                         <li className="flex items-center">
@@ -1092,7 +1092,6 @@ const LiveCourseDetailsPage = () => {
                   {discount?.subTotal
                     ? discount?.subTotal.toFixed(2)
                     : CoursesData.price}{" "}
-                  <span className="text-sm">/ month</span>
                 </p>
 
                 {discount?.subTotal && (
