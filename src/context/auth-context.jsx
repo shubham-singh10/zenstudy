@@ -22,6 +22,8 @@ export const AuthProvider = ({ children }) => {
         user: null,
     });
 
+    
+
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [logoutLoading, setLogoutLoading] = useState(false);
@@ -34,6 +36,8 @@ export const AuthProvider = ({ children }) => {
                     `${process.env.REACT_APP_API}zenstudy/api/user/userdetail`,
                     { withCredentials: true }
                 );
+
+                console.log(response)
 
                 if (response.data.message === "Success") {
                     setAuthState({

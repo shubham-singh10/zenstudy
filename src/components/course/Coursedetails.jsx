@@ -10,6 +10,8 @@ import { FaLock, FaLockOpen } from "react-icons/fa";
 import { VerifyEmailMsg } from "../VerifyEmailMsg";
 import { Loader } from "../loader/Loader";
 import { useAuth } from "../../context/auth-context";
+import axios from "axios";
+import Testing from "../testing";
 
 const CourseDetailsView = () => {
   const [coursePost, setCoursePost] = useState(null);
@@ -27,6 +29,7 @@ const CourseDetailsView = () => {
   const [currentUser, setCurrentUser] = useState(false);
   const { userStatus } = VerifyEmailMsg();
   const { user } = useAuth();
+  const [token, setTokenData] = useState(null);
 
   const ApplyCoupon = async (price) => {
     try {
@@ -112,7 +115,7 @@ const CourseDetailsView = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        
+
         setCoursePost(data.coursedetail);
         setLoading(false);
       } catch (error) {
@@ -230,7 +233,7 @@ const CourseDetailsView = () => {
                 couponCode: code,
                 couponApplied: code ? true : false,
                 discount: discount?.discount || 0,
-                coursevalidation: "2025-03-01",
+                coursevalidation: "2026-03-01",
               }),
             }
           );
@@ -256,9 +259,54 @@ const CourseDetailsView = () => {
     rzp1.open();
   };
 
-  // const firstModule = coursePost.modules[0];
+  const createToken = async (
+    courseId,
+    amount,
+    couponCode,
+    discount,
+    couponApplied,
+    purchasePrice
+  ) => {
+    const sendData = {
+      courseId,
+      amount: purchasePrice,
+      coursePrice: amount,
+      couponCode,
+      couponApplied,
+      discount,
+    };
 
-  
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_API2}zenstudy/api/payment/create-token`,
+        sendData
+      );
+      console.log("Token response:", res.data);
+      if (res.data) {
+        setTokenData(res.data.token);
+      }
+      console.log("response me", res);
+    } catch (error) {
+      console.log("something went wrong", error);
+    }
+  };
+
+  if (token) {
+    return (
+      <Testing
+        token={token}
+        price={
+          discount
+            ? discount.subTotal === 0
+              ? 1
+              : discount.subTotal.toFixed(2)
+            : coursePost?.price
+        }
+        courseName={coursePost?.title || "Zenstudy Course"}
+      />
+    );
+  }
+
   return (
     <Fragment>
       {pageloading && (
@@ -295,7 +343,9 @@ const CourseDetailsView = () => {
 
       <div className="flex flex-col-reverse lg:flex-row w-full items-center justify-center lg:p-20 md:p-14 p-2 gap-10  rounded-lg shadow-md">
         <div className="border-l-4 lg:border-l-4 md:border-l-4 md:border-r-4 lg:border-r-4 border-[#543a5d] w-full lg:rounded-br-[10%] lg:rounded-tl-[10%] md:rounded-br-[10%] md:rounded-tl-[10%] lg:w-[60%] bg-white p-2 md:p-3 lg:p-6 ">
-          <h2 className="text-lg md:text-xl textPurple font-bold">About Course</h2>
+          <h2 className="text-lg md:text-xl textPurple font-bold">
+            About Course
+          </h2>
           <ul className="mt-4 space-y-2 flex flex-col gap-4">
             <li
               className="flex items-start text-justify"
@@ -313,23 +363,22 @@ const CourseDetailsView = () => {
         </div>
 
         <div className="w-full max-w-sm lg:w-[40%] shadow-md border-1 border-[#543a5d] p-2 md:p-5 lg:p-6 ">
-          
-            <div className="relative">
-              {imgloading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
-                  <div className="w-24 h-24 bg-gray-400 rounded-full"></div>
-                </div>
-              )}
-              <img
-                src={coursePost?.thumbnailS3 || "/assets/upcoming.webp"}
-                crossOrigin="anonymous"
-                alt="Course Thumbnail"
-                className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${
-                  imgloading ? "opacity-0" : "opacity-100"
-                }`}
-                onLoad={() => setImgLoading(false)}
-              />
-            </div>        
+          <div className="relative">
+            {imgloading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
+                <div className="w-24 h-24 bg-gray-400 rounded-full"></div>
+              </div>
+            )}
+            <img
+              src={coursePost?.thumbnailS3 || "/assets/upcoming.webp"}
+              crossOrigin="anonymous"
+              alt="Course Thumbnail"
+              className={`w-full h-52 rounded-2xl transition-opacity duration-500 ${
+                imgloading ? "opacity-0" : "opacity-100"
+              }`}
+              onLoad={() => setImgLoading(false)}
+            />
+          </div>
 
           <div className="p-2 pt-4 rounded-lg space-y-3">
             <div className="flex flex-row justify-between items-center gap-2">
@@ -372,7 +421,7 @@ const CourseDetailsView = () => {
               )}
             </div>
 
-            {currentUser && (
+  
               <div className="flex items-center gap-1">
                 <input
                   type="text"
@@ -394,7 +443,7 @@ const CourseDetailsView = () => {
                   {couponLoading ? "Wait..." : "Apply"}
                 </button>
               </div>
-            )}
+
 
             <div className="flex items-center justify-between border-t border-gray-200 ">
               <div className="mt-4 w-full">
@@ -444,7 +493,27 @@ const CourseDetailsView = () => {
                   </button>
                 ) : (
                   <button
-                    onClick={() => navigate(`/login/${courseId}`)}
+                    onClick={() => {
+                      createToken(
+                        coursePost._id,
+                        coursePost?.price,
+                        code ? code : null,
+                        discount ? discount.subTotal : 0,
+                        code ? true : false,
+                        discount?.subTotal !== undefined
+                          ? discount?.subTotal === 0
+                            ? 1
+                            : (discount?.subTotal).toFixed(2)
+                          : coursePost?.price
+                      );
+
+                      if (window.fbq) {
+                        fbq("trackCustom", "LogInToEnrollClick", {
+                          courseId: courseId,
+                          courseName: coursePost?.title,
+                        });
+                      }
+                    }}
                     className="w-full bgGredient-purple hover:scale-105 text-white font-bold py-2 px-8 rounded-lg"
                   >
                     Login to Purchase
@@ -456,8 +525,7 @@ const CourseDetailsView = () => {
         </div>
       </div>
 
-
-      {coursePost.tags !== "live" && ( coursePost.modules.length > 0 && (
+      {coursePost.tags !== "live" && coursePost.modules.length > 0 && (
         <div className="p-2 md:p-12 lg:p-12 w-full bgGradient-purple-light">
           {coursePost.modules.map((title, index) => (
             <details
@@ -509,7 +577,7 @@ const CourseDetailsView = () => {
             </details>
           ))}
         </div>
-              ))}
+      )}
     </Fragment>
   );
 };

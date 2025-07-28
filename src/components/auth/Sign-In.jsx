@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Box,
@@ -7,26 +7,15 @@ import {
   CircularProgress,
   InputAdornment,
 } from "@mui/material";
-import {
-  MdEmail,
-  MdLock,
-  MdPhone,
-  MdVisibility,
-  MdVisibilityOff,
-} from "react-icons/md";
-import axios from "axios";
-import Swal from "sweetalert2";
+import { MdEmail } from "react-icons/md";
 import toast from "react-hot-toast";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import {
-  getAuth,
-  signInWithCredential,
-  PhoneAuthProvider,
-} from "firebase/auth";
-import { firebase } from "../../Firebase";
-import { FiArrowRight, FiLogIn, FiUser } from "react-icons/fi";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+
+import { FiArrowRight, FiUser } from "react-icons/fi";
 import { useInView } from "react-intersection-observer";
 import { useSpring, animated } from "react-spring";
+import axios from "axios";
+import Swal from "sweetalert2";
 import { useAuth } from "../../context/auth-context";
 
 const InputField = ({
@@ -62,21 +51,20 @@ const InputField = ({
 
 function SignIn() {
   const [step, setStep] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState(null);
+
+  const [loading, setLoading] = useState({
+    otpLoading: false,
+    loginLoading: false,
+    resendLoading: false,
+  });
   const navigation = useNavigate();
-  const [phone, setPhone] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
-  const [timer, setTimer] = useState(40);
-  const [resLoading, setresLoading] = useState(false);
-  const [verificationId, setVerificationId] = useState(null);
-  const [otpError, setOtpError] = useState("");
   const location = useLocation();
-  const [otpSent, setOtpSent] = useState(false);
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
+  const [phone, setPhone] = useState("");
+  const [timer, setTimer] = useState(40);
+  const [otpError, setOtpError] = useState("");
+  const [otpSent, setOtpSent] = useState(true);
   const { login } = useAuth();
+
   // Intersection Observers
   const { ref: slideLeftRef, inView: slideLeftInView } = useInView({
     triggerOnce: true,
@@ -111,47 +99,7 @@ function SignIn() {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm();
-
-  // Handle user check function remains the same
-  const handleChekUser = async (data) => {
-    setEmail(data.email);
-    setLoading(true);
-    try {
-      const sendData = {
-        data: data.email,
-      };
-      const response = await axios.post(
-        `${process.env.REACT_APP_API}zenstudy/api/auth/user-check`,
-        sendData
-      );
-      const resdata = response.data;
-      if (resdata.message === "Success") {
-        setStep(4);
-        setLoading(false);
-      }
-    } catch (error) {
-      if (error.response?.status === 404) {
-        Swal.fire({
-          icon: "info",
-          title: "Account Not Found",
-          text: "It looks like you haven't registered yet. Please sign up to create an account.",
-        }).then(() => {
-          navigation("/sign-up");
-        });
-      } else if (error.response?.status === 403) {
-        Swal.fire({
-          icon: "warning",
-          title: "Almost there!",
-          text: "It seems you haven't set your password yet. Please create a password to complete your registration.",
-        }).then(() => {
-          setStep(2);
-          setLoading(false);
-        });
-      }
-    }
-  };
 
   // Resend OTP Timer 40 sec
   const startTimer = () => {
@@ -169,97 +117,82 @@ function SignIn() {
     }, 1000);
   };
 
-  const resendOtp = async () => {
-    setresLoading(true);
-    await handlePhoneNumberAuth(`+91${phone}`);
-  };
-
-  const handlePhoneNumberAuth = async (phoneNumber) => {
+  const sendOtp = async (data) => {
+    setLoading({ ...loading, otpLoading: true });
+    setPhone(data.phone);
     try {
-      if (!window.recaptchaVerifier) {
-        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
-          "recaptcha-container",
+      const res = await axios.post(
+        `${process.env.REACT_APP_API}zenstudy/api/auth/verify`,
+        { phone: data.phone }
+      );
+
+      const result = res.data;
+
+      if (result.success === true) {
+        setStep(2);
+        startTimer();
+
+        toast.success(
+          "OTP has been sent to your phone via 📩 SMS and 📱 WhatsApp.",
           {
-            size: "invisible",
-            callback: () => {},
+            position: "top-right",
           }
         );
       }
-      const appVerifier = window.recaptchaVerifier;
-      const confirmationResult = await firebase
-        .auth()
-        .signInWithPhoneNumber(phoneNumber, appVerifier);
-      setVerificationId(confirmationResult.verificationId);
-      setStep(3);
-      startTimer();
-      Swal.fire({
-        icon: "success",
-        title: "OTP Sent Successfully",
-        text: `A verification OTP has been sent to your phone number: ${phoneNumber}. Please check your messages.`,
-        confirmButtonText: "Okay",
-        confirmButtonColor: "#28a745",
-      }).then(() => {
-        setresLoading(false);
-      });
     } catch (error) {
+      console.log("something went wrong", error);
       Swal.fire({
-        icon: "error",
-        title: "Failed to Send OTP",
-        text: "We encountered an issue while sending the OTP. Please check your network connection and try again.",
-        confirmButtonText: "Retry",
-        confirmButtonColor: "#d33",
-      }).then(() => {
-        setresLoading(false);
-      });
+          icon: "error",
+          title: "Error",
+          text: "Something went wrong",
+          confirmButtonColor: "#d33",
+        })
+    } finally {
+      setLoading({ ...loading, otpLoading: false });
     }
   };
 
-  const sendOtp = async (data) => {
-    setLoading(true);
-
+  const resendOtp = async () => {
+    setLoading({ ...loading, resendLoading: true });
     try {
-      const sendData = {
-        data: data.phone,
-      };
-      const response = await axios.post(
-        `${process.env.REACT_APP_API}zenstudy/api/auth/user-check`,
-        sendData
+      const res = await axios.post(
+        `${process.env.REACT_APP_API}zenstudy/api/auth/re-send-otp`,
+        { phone: phone }
       );
-      const resdata = response.data;
+      const result = res.data;
 
-      if (resdata.message === "Success") {
-        Swal.fire({
-          icon: "info",
-          title: "Data Already Registered",
-          text: "This Data is already associated with an account. Please log in or reset your password if needed.",
-          confirmButtonText: "Okay",
-          confirmButtonColor: "#3085d6",
-        });
-
-        setLoading(false);
+      if (result.success === true) {
+        startTimer();
+        toast.success(
+          "OTP has been resent to your phone via 📩 SMS and 📱 WhatsApp.",
+          {
+            position: "top-right",
+          }
+        );
       }
     } catch (error) {
-      setPhone(data.phone);
-      await handlePhoneNumberAuth(`+91${data.phone}`);
-      setLoading(false);
+      console.log("something went wrong", error);
+      Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Something went wrong",
+          confirmButtonColor: "#d33",
+        })
+    } finally {
+      setLoading({ ...loading, resendLoading: false });
     }
   };
 
-  const handleRegister = async (data) => {
+  const handleLogin = async (data) => {
+    console.log(data);
     try {
-      setLoading(true);
-      const auth = getAuth();
-      const credential = PhoneAuthProvider.credential(verificationId, data.otp);
-      await signInWithCredential(auth, credential);
-
-      const sendData = {
-        phone: data.phone,
-        password: data.password,
-        email: data.email,
+     const sendData = {
+        phone: phone,
+        otp: data.otp,
       };
-
+      
       const response = await fetch(
-        `${process.env.REACT_APP_API}zenstudy/api/auth/Signinverify`,
+        `${process.env.REACT_APP_API}zenstudy/api/auth/verify-otp`,
         {
           method: "POST",
           credentials: "include",
@@ -277,6 +210,8 @@ function SignIn() {
 
       const resData = await response.json();
 
+      console.log(resData)
+
       if (resData.message === "Success") {
         toast.success(
           `Welcome, ${resData.user.name}! Your account has been successfully created.`,
@@ -287,74 +222,28 @@ function SignIn() {
           }
         );
         setLoading(false);
-        login(resData, resData.role, resData.token);
+        login(resData.user, resData.role, resData.token);
 
         const from = location.state?.from || "/course-details-student";
         navigation(from);
-      }
+}
     } catch (error) {
-      setOtpError("Invalid OTP. Please try again.");
-      setLoading(false);
-      Swal.fire({
-        icon: "error",
-        title: "Invalid OTP",
-        text: "The OTP you entered is incorrect or expired. Please check and try again.",
-        confirmButtonText: "Retry",
-        confirmButtonColor: "#d33",
-      });
-    }
-  };
-
-  const handleLogin = async (data) => {
-    try {
-      setLoading(true);
-      const sendData = {
-        phone: data.email,
-        password: data.password,
-      };
-      const response = await fetch(
-        `${process.env.REACT_APP_API}zenstudy/api/auth/signinNew`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(sendData),
-        }
-      );
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Login failed");
+      console.log("something went wrong", error);      
+      if (error.status === 400) {
+        Swal.fire({
+          icon: "error",
+          title: "Invalid OTP",
+          text: "The OTP you entered is incorrect or has expired. Please try again.",
+          confirmButtonColor: "#d33",
+        });
+      }else{
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Something went wrong",
+          confirmButtonColor: "#d33",
+        })
       }
-      const resData = await response.json();
-
-      toast.success(
-        `Welcome back, ${resData.name}! You're successfully logged in.`,
-        {
-          position: "top-right",
-          duration: 4000,
-          icon: "🎉",
-        }
-      );
-      setLoading(false);
-      login(resData, resData.role, resData.token);
-
-      const from = location.state?.from || "/course-details-student";
-      navigation(from);
-      // window.location.pathname = from;
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Login Failed",
-        html: `<p style="font-size: 16px; line-height: 1.5;">We couldn’t log you in. <br>
-                <strong>${error.message}</strong></p>
-               <p style="font-size: 14px; color: #555;">Please check your credentials and try again.</p>`,
-        confirmButtonText: "Try Again",
-        confirmButtonColor: "#3085d6",
-      });
-
-      setLoading(false);
     }
   };
 
@@ -366,6 +255,8 @@ function SignIn() {
     },
     "& label.Mui-focused": { color: "#935aa6" },
   };
+
+
 
   return (
     <Fragment>
@@ -408,12 +299,8 @@ function SignIn() {
               <div className="flex-1 lg:p-12 md:p-6 p-4">
                 <h2 className="lg:text-xl text-lg font-semibold mb-6 bg-clip-text text-transparent textPurple">
                   {step === 1
-                    ? "Login with your Email or Phone no."
-                    : step === 2
-                    ? "Complete Your Registration"
-                    : step === 3
-                    ? `Enter the OTP sent to your phone number (${phone})`
-                    : "Enter Your Password"}
+                    ? "Login with your Phone no."
+                    : `Enter the OTP sent to your phone number (${phone})`}
                 </h2>
 
                 <div className="signup-container">
@@ -421,24 +308,22 @@ function SignIn() {
                     <animated.form
                       ref={slideRightRef}
                       style={SlideRight}
-                      onSubmit={handleSubmit(handleChekUser)}
+                      onSubmit={handleSubmit(sendOtp)}
                     >
                       <InputField
-                        label="Enter Your Phone No. or Email"
-                        name="email"
-                        type="text"
+                        label="Enter Your Phone No. "
+                        name="phone"
+                        type="text" // use "text" to prevent arrows
+                        inputMode="numeric"
                         register={register}
                         errors={errors}
                         icon={<FiUser size={25} />}
                         validation={{
-                          required: "Phone number or email is required",
+                          required: "Phone number is required",
                           validate: (value) => {
                             const isPhone = /^\d{10}$/.test(value);
-                            const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-                              value
-                            );
-                            if (!isPhone && !isEmail) {
-                              return "Enter a valid 10-digit phone number or a valid email address";
+                            if (!isPhone) {
+                              return "Enter a valid 10-digit phone number.";
                             }
                           },
                         }}
@@ -448,103 +333,25 @@ function SignIn() {
                         type="submit"
                         variant="contained"
                         fullWidth
-                        disabled={loading}
-                        className=" hover:scale-105 transition-all bgGredient-purple"
-                        endIcon={!loading && <FiArrowRight />}
+                        disabled={loading.otpLoading}
+                        className="hover:scale-105 transition-all bgGredient-purple"
+                        endIcon={!loading.otpLoading && <FiArrowRight />}
                       >
-                        {loading ? <CircularProgress size={24} /> : "Next"}
+                        {loading.otpLoading ? (
+                          <CircularProgress
+                            size={24}
+                            color="inherit"
+                            sx={{ color: "white" }}
+                          />
+                        ) : (
+                          "Next"
+                        )}
                       </Button>
                     </animated.form>
                   )}
 
                   {step === 2 && (
-                    <form onSubmit={handleSubmit(sendOtp)}>
-                      <InputField
-                        name="email"
-                        type="text"
-                        email={email}
-                        disabled={true}
-                        register={register}
-                        errors={errors}
-                        icon={<MdEmail size={25} />}
-                        sx={purpleOutline}
-                      />
-                      <InputField
-                        label="Enter Your Phone Number"
-                        name="phone"
-                        type="text"
-                        register={register}
-                        errors={errors}
-                        icon={<MdPhone size={25} />}
-                        validation={{
-                          required: "Phone number is required",
-                          minLength: {
-                            value: 10,
-                            message: "Phone number must be 10 digits",
-                          },
-                          maxLength: {
-                            value: 10,
-                            message: "Phone number must be exactly 10 digits",
-                          },
-                          pattern: {
-                            value: /^\d{10}$/,
-                            message:
-                              "Phone number must be numeric and 10 digits long",
-                          },
-                        }}
-                        sx={purpleOutline}
-                      />
-                      <InputField
-                        label="Create a Password"
-                        name="password"
-                        type="password"
-                        register={register}
-                        errors={errors}
-                        icon={<MdLock size={25} />}
-                        validation={{
-                          required: "Password is required",
-                          minLength: {
-                            value: 8,
-                            message:
-                              "Password must be at least 8 characters long",
-                          },
-                        }}
-                        sx={purpleOutline}
-                      />
-                      <InputField
-                        label="Confirm Password"
-                        name="cpassword"
-                        type="password"
-                        register={register}
-                        errors={errors}
-                        icon={<MdLock size={25} />}
-                        validation={{
-                          required: "Confirm Password is required",
-                          minLength: {
-                            value: 8,
-                            message:
-                              "Password must be at least 8 characters long",
-                          },
-                          validate: (value) =>
-                            value === watch("password") ||
-                            "Passwords do not match",
-                        }}
-                        sx={purpleOutline}
-                      />
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        fullWidth
-                        disabled={loading}
-                        className=" hover:scale-105 transition-all bgGredient-purple"
-                      >
-                        {loading ? <CircularProgress size={24} /> : "Next"}
-                      </Button>
-                    </form>
-                  )}
-
-                  {step === 3 && (
-                    <form onSubmit={handleSubmit(handleRegister)}>
+                    <form onSubmit={handleSubmit(handleLogin)}>
                       <InputField
                         label="Enter OTP"
                         name="otp"
@@ -558,96 +365,52 @@ function SignIn() {
                             value: 6,
                             message: "OTP must be at least 6 characters long",
                           },
+                          maxLength: {
+                            value: 6,
+                            message: "OTP must be exactly 6 characters",
+                          },
                         }}
                         sx={purpleOutline}
                       />
                       {otpError && (
                         <p className="-mt-3 mb-2 text-red-500">{otpError}</p>
                       )}
-                      {otpSent && (
-                        <p className="text-gray-500 text-md mt-1">
-                          Resend OTP in{" "}
-                          <span className="textPurple">{timer}</span> seconds
-                        </p>
-                      )}
-                      {!otpSent &&
-                        (resLoading ? (
-                          <button
-                            onClick={resendOtp}
-                            className=" py-2 px-4 mb-4 bgGredient-green cursor-not-allowed text-white rounded-full "
-                          >
-                            Please Wait...
-                          </button>
+
+                      <div className="mb-4 -mt-1">
+                        {otpSent ? (
+                          <p className="text-gray-500 text-md mt-1">
+                            Resend OTP in{" "}
+                            <span className="textPurple">{timer}</span> seconds
+                          </p>
                         ) : (
-                          <button
-                            onClick={resendOtp}
-                            className=" py-2 px-4 mb-4 bgGredient-green-lr bg-gradient-to-r hover:from-[#5d6e53] hover:to-[#343e25] text-white rounded-full "
+                          <a
+                            disabled={loading.resendLoading}
+                            onClick={() => resendOtp()}
+                            className="cursor-pointer textPurple font-semibold  hover:underline hover:scale-105 "
                           >
-                            Resend OTP
-                          </button>
-                        ))}
+                            {loading.resendLoading
+                              ? "Resending..."
+                              : "Resend Otp"}
+                          </a>
+                        )}
+                      </div>
 
                       <Button
                         type="submit"
                         variant="contained"
                         fullWidth
-                        disabled={loading}
+                        disabled={loading.loginLoading}
                         className="hover:scale-105 transition-all bgGredient-purple"
                       >
-                        {loading ? <CircularProgress size={24} /> : "Next"}
-                      </Button>
-                    </form>
-                  )}
-
-                  {step === 4 && (
-                    <form onSubmit={handleSubmit(handleLogin)}>
-                      <div className="relative">
-                        <InputField
-                          label="Enter Your Password"
-                          name="password"
-                          type={showPassword ? "text" : "password"}
-                          register={register}
-                          errors={errors}
-                          validation={{
-                            required: "Password is required",
-                            minLength: {
-                              value: 8,
-                              message:
-                                "Password must be at least 8 characters long",
-                            },
-                          }}
-                          sx={purpleOutline}
-                        />
-                        <div className="-mt-2 mb-4">
-                          <Link
-                            to="/reset-password"
-                            className="textPurple
-                        hover:text-[#935aa6] transition-colors duration-300"
-                          >
-                            Forgot password ?{" "}
-                          </Link>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={togglePasswordVisibility}
-                          className="absolute right-3 top-1/3 transform -translate-y-1/2"
-                        >
-                          {showPassword ? (
-                            <MdVisibility size={25} />
-                          ) : (
-                            <MdVisibilityOff size={25} />
-                          )}
-                        </button>
-                      </div>
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        fullWidth
-                        disabled={loading}
-                        className=" hover:scale-105 transition-all bgGredient-purple"
-                        endIcon={!loading && <FiLogIn />}
-                      >
-                        {loading ? <CircularProgress size={24} /> : "Login"}
+                        {loading.loginLoading ? (
+                          <CircularProgress
+                            size={24}
+                            color="inherit"
+                            sx={{ color: "white" }}
+                          />
+                        ) : (
+                          "Log-In"
+                        )}
                       </Button>
                     </form>
                   )}

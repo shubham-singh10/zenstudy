@@ -20,6 +20,7 @@ const CoursesPage = () => {
     totalData: 0,
   });
   const { user } = useAuth();
+  
   // const [searchTerm, setSearchTerm] = useState("")
   const [sortBy, setSortBy] = useState("price");
   const [sortOrder, setSortOrder] = useState("desc");

@@ -136,17 +136,9 @@ const NewNavBar = () => {
                   navigate("/sign-In");
                 }}
               >
-                Login
+                LogIn / SignUp
               </button>
-              <button
-                className="px-6 py-2 bgGredient-green-lr text-white font-semibold rounded-full shadow-lg hover:from-[#5d6e53] hover:to-[#343e25] hover:shadow-xl transition-all duration-300"
-                onClick={() => {
-                  handlePixelTrack("Sign Up", "Desktop");
-                  navigate("/sign-Up");
-                }}
-              >
-                Sign Up
-              </button>
+             
             </div>
           ) : (
             <div
@@ -257,25 +249,16 @@ const NewNavBar = () => {
               {!isAuthenticated ? (
                 <Fragment>
                   <button
-                    className="w-full px-4 py-2 bgGredient-gold textGreen rounded-full hover:scale-105 transition-all"
+                    className="w-full px-4 py-2 bgGredient-gold textLight rounded-full hover:scale-105 transition-all"
                     onClick={() => {
                       handlePixelTrack("Login", "Mobile");
                       navigate("/sign-In");
                       setHamBurger(false);
                     }}
                   >
-                    Login
+                    LogIn / SignUp
                   </button>
-                  <button
-                    className="w-full px-4 py-2 bgGredient-green textGold rounded-full hover:scale-105"
-                    onClick={() => {
-                      handlePixelTrack("Sign Up", "Mobile");
-                      navigate("/sign-Up");
-                      setHamBurger(false);
-                    }}
-                  >
-                    Sign Up
-                  </button>
+                  
                 </Fragment>
               ) : (
                 <Fragment>

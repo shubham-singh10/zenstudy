@@ -13,6 +13,8 @@ import { Loader } from "../loader/Loader";
 import CoursePageSkeleton from "./course-detailslive-skeleton";
 import toast from "react-hot-toast";
 import { VideoPlayer } from "../VideoPage";
+import axios from "axios";
+import Testing from "../testing";
 
 // Combine all imported icon sets
 const AllIcons = { ...MdIcons, ...BiIcons };
@@ -48,6 +50,7 @@ const LiveCourseDetailsPage = () => {
   const { userStatus } = VerifyEmailMsg();
   const [pageLoading, setpageLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [token, setTokenData] = useState(null);
 
   // Image loading states
   const [bannerImageLoaded, setBannerImageLoaded] = useState(false);
@@ -335,6 +338,37 @@ const LiveCourseDetailsPage = () => {
     rzp1.open();
   };
 
+  const createToken = async (
+    courseId,
+    amount,
+    couponCode,
+    discount,
+    couponApplied,
+    purchasePrice
+  ) => {
+    const sendData = {
+      courseId,
+      amount: purchasePrice,
+      coursePrice: amount,
+      couponCode,
+      couponApplied,
+      discount,
+    };
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_API2}zenstudy/api/payment/create-token`,
+        sendData
+      );
+      console.log("Token response:", res.data);
+      if (res.data) {
+        setTokenData(res.data.token);
+      }
+      console.log("response me", res);
+    } catch (error) {
+      console.log("something went wrong", error);
+    }
+  };
+
   const colors = [
     { bgColor: "bg-blue-50", textColor: "text-blue-600" },
     { bgColor: "bg-purple-50", textColor: "text-purple-600" },
@@ -392,6 +426,22 @@ const LiveCourseDetailsPage = () => {
 
   if (mloading) {
     return <CoursePageSkeleton />;
+  }
+
+  if (token) {
+    return (
+      <Testing
+        token={token}
+        price={
+          discount
+            ? discount.subTotal === 0
+              ? 1
+              : discount.subTotal.toFixed(2)
+            : CoursesData?.price
+        }
+        courseName={CoursesData?.title || "Zenstudy Course"}
+      />
+    );
   }
 
   return (
@@ -722,7 +772,7 @@ const LiveCourseDetailsPage = () => {
                             />
                           </svg>
                           <span>
-                            {item.title} {item.description} per month
+                            {item.title} {item.description} 
                           </span>
                         </li>
                         <li className="flex items-center">
@@ -764,17 +814,27 @@ const LiveCourseDetailsPage = () => {
                       </button>
                     ) : (
                       <button
-                         onClick={() => {
-                    // Facebook Pixel track event
-                    if (window.fbq) {
-                      fbq("trackCustom", "LoginToPurchaseClick", {
-                        course_name: coursename,
-                      });
-                    }
+                        onClick={() => {
+                          createToken(
+                            CoursesData._id,
+                            CoursesData?.price,
+                            couponCode ? couponCode : null,
+                            discount ? discount.subTotal : 0,
+                            couponCode ? true : false,
+                            discount?.subTotal !== undefined
+                              ? discount?.subTotal === 0
+                                ? 1
+                                : (discount?.subTotal).toFixed(2)
+                              : CoursesData?.price
+                          );
 
-                    // Navigate after tracking
-                    navigate(`/login/${coursename}`);
-                  }}
+                          // Facebook Pixel track event
+                          if (window.fbq) {
+                            fbq("trackCustom", "LoginToPurchaseClick", {
+                              course_name: coursename,
+                            });
+                          }
+                        }}
                         className="mt-4 md:mt-0  bgGredient-gold textDark font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300"
                       >
                         {item.buttonText}
@@ -1037,16 +1097,26 @@ const LiveCourseDetailsPage = () => {
                   ) : (
                     <button
                       onClick={() => {
-                    // Facebook Pixel track event
-                    if (window.fbq) {
-                      fbq("trackCustom", "LoginToPurchaseClick", {
-                        course_name: coursename,
-                      });
-                    }
+                        createToken(
+                          CoursesData._id,
+                          CoursesData?.price,
+                          couponCode ? couponCode : null,
+                          discount ? discount.subTotal : 0,
+                          couponCode ? true : false,
+                          discount?.subTotal !== undefined
+                            ? discount?.subTotal === 0
+                              ? 1
+                              : (discount?.subTotal).toFixed(2)
+                            : CoursesData?.price
+                        );
 
-                    // Navigate after tracking
-                    navigate(`/login/${coursename}`);
-                  }}
+                        // Facebook Pixel track event
+                        if (window.fbq) {
+                          fbq("trackCustom", "LoginToPurchaseClick", {
+                            course_name: coursename,
+                          });
+                        }
+                      }}
                       className="bgGredient-gold text-gray-900 font-bold py-3 px-8 rounded-lg hover:from-yellow-500 hover:to-yellow-600 transition duration-300 shadow-lg"
                     >
                       Enroll Now and Start Your UPSC Journey!
@@ -1086,21 +1156,16 @@ const LiveCourseDetailsPage = () => {
               <div className="flex flex-col md:flex-row lg:flex-row md:justify-between lg:justify-between lg:items-center mb-6">
                 <p className="text-xl font-bold textPurple mb-2 sm:mb-0">
                   <span className="text-red-500 line-through text-sm mr-2">
-                    ₹{CoursesData?.value}
+                    {discount
+                      ? `₹ ${CoursesData?.price}`
+                      : `₹ ${CoursesData?.value}`}
                   </span>
                   ₹
                   {discount?.subTotal
                     ? discount?.subTotal.toFixed(2)
                     : CoursesData.price}{" "}
-                  <span className="text-sm">/ month</span>
+                 
                 </p>
-
-                {discount?.subTotal && (
-                  <p className="textGold text-sm">
-                    Extra discount applied! You saved ₹
-                    {(CoursesData.price - discount?.subTotal).toFixed(2)}
-                  </p>
-                )}
 
                 <p className="textGold rounded-l-md font-semibold px-3 py-1 border-l-4 border-[#efdb78] bgGredient-green text-sm">
                   Save{" "}
@@ -1112,9 +1177,15 @@ const LiveCourseDetailsPage = () => {
                   %
                 </p>
               </div>
+              {discount?.subTotal && (
+                <p className="textGold text-sm">
+                  Extra discount applied! You saved ₹
+                  {(CoursesData.price - discount?.subTotal).toFixed(2)}
+                </p>
+              )}
 
               {/* Apply Coupon Link */}
-              {currentUser && (
+              {!currentUser && (
                 <button
                   className="textPurple text-sm font-semibold hover:text-[#292b27] hover:underline mb-3"
                   onClick={() => setIsModalOpen(true)}
@@ -1147,15 +1218,25 @@ const LiveCourseDetailsPage = () => {
               ) : (
                 <button
                   onClick={() => {
+                    createToken(
+                      CoursesData._id,
+                      CoursesData?.price,
+                      couponCode ? couponCode : null,
+                      discount ? discount.subTotal : 0,
+                      couponCode ? true : false,
+                      discount?.subTotal !== undefined
+                        ? discount?.subTotal === 0
+                          ? 1
+                          : (discount?.subTotal).toFixed(2)
+                        : CoursesData?.price
+                    );
+
                     // Facebook Pixel track event
                     if (window.fbq) {
                       fbq("trackCustom", "LoginToPurchaseClick", {
                         course_name: coursename,
                       });
                     }
-
-                    // Navigate after tracking
-                    navigate(`/login/${coursename}`);
                   }}
                   className="bgGredient-purple-lr hover:from-[#543a5d] hover:to-[#935aa6] text-white font-medium py-3 px-8 rounded-lg transition duration-300 w-full "
                 >

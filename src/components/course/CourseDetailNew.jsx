@@ -10,6 +10,8 @@ import { useAuth } from "../../context/auth-context";
 import { FaChevronDown } from "react-icons/fa";
 import { FiArrowDown, FiArrowUp, FiLoader } from "react-icons/fi";
 import { Loader } from "../loader/Loader";
+import axios from "axios";
+import Testing from "../testing";
 
 const NewCourseDetailPage = () => {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,6 +36,7 @@ const NewCourseDetailPage = () => {
   const [currentUser, setCurrentUser] = useState(false);
   const { userStatus } = VerifyEmailMsg();
   const { user } = useAuth();
+  const [token, setTokenData] = useState(null);
 
   const ApplyCoupon = async (price) => {
     try {
@@ -180,15 +183,15 @@ const NewCourseDetailPage = () => {
       return;
     }
 
-      // 🔥 Pixel: Track InitiateCheckout
-  if (window.fbq) {
-    fbq('track', 'InitiateCheckout', {
-      value: amount,
-      currency: 'INR',
-      content_ids: [coursePost?._id],
-      content_type: 'product',
-    });
-  }
+    // 🔥 Pixel: Track InitiateCheckout
+    if (window.fbq) {
+      fbq("track", "InitiateCheckout", {
+        value: amount,
+        currency: "INR",
+        content_ids: [coursePost?._id],
+        content_type: "product",
+      });
+    }
 
     setPayLoading(true);
     try {
@@ -275,20 +278,20 @@ const NewCourseDetailPage = () => {
           if (verifyData.message === "Payment Successful") {
             // ✅ Pixel: Track Purchase
             if (window.fbq) {
-            fbq('track', 'Purchase', {
-              value:
-                discount?.subTotal !== undefined
-                  ? discount?.subTotal === 0
-                    ? 1
-                    : parseFloat(discount?.subTotal).toFixed(2)
-                  : coursePost?.price,
-              currency: 'INR',
-              content_ids: [coursePost?._id],
-              content_type: 'product',
-              coupon_used: code ? true : false,
-              discount_amount: discount?.discount || 0,
-            });
-          }
+              fbq("track", "Purchase", {
+                value:
+                  discount?.subTotal !== undefined
+                    ? discount?.subTotal === 0
+                      ? 1
+                      : parseFloat(discount?.subTotal).toFixed(2)
+                    : coursePost?.price,
+                currency: "INR",
+                content_ids: [coursePost?._id],
+                content_type: "product",
+                coupon_used: code ? true : false,
+                discount_amount: discount?.discount || 0,
+              });
+            }
 
             navigate(verifyData.Url);
           }
@@ -307,7 +310,55 @@ const NewCourseDetailPage = () => {
     rzp1.open();
   };
 
+  const createToken = async (
+    courseId,
+    amount,
+    couponCode,
+    discount,
+    couponApplied,
+    purchasePrice
+  ) => {
+    const sendData = {
+      courseId,
+      amount: purchasePrice,
+      coursePrice: amount,
+      couponCode,
+      couponApplied,
+      discount,
+    };
+
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_API2}zenstudy/api/payment/create-token`,
+        sendData
+      );
+      console.log("Token response:", res.data);
+      if (res.data) {
+        setTokenData(res.data.token);
+      }
+      console.log("response me", res);
+    } catch (error) {
+      console.log("something went wrong", error);
+    }
+  };
+
   const firstModule = coursePost?.modules[0];
+
+  if (token) {
+    return (
+      <Testing
+        token={token}
+        price={
+          discount
+            ? discount.subTotal === 0
+              ? 1
+              : discount.subTotal.toFixed(2)
+            : coursePost?.price
+        }
+        courseName={coursePost?.title || "Zenstudy Course"}
+      />
+    );
+  }
 
   return (
     <Fragment>
@@ -376,13 +427,26 @@ const NewCourseDetailPage = () => {
                   className="border border-[#543a5d] textPurple px-4 py-2 rounded-md hover:bg-yellow-50 transition-colors"
                   onClick={() => {
                     // Facebook Pixel: LogInToEnroll click
+
+                    createToken(
+                      coursePost._id,
+                      coursePost?.price,
+                      code ? code : null,
+                      discount ? discount.subTotal : 0,
+                      code ? true : false,
+                      discount?.subTotal !== undefined
+                        ? discount?.subTotal === 0
+                          ? 1
+                          : (discount?.subTotal).toFixed(2)
+                        : coursePost?.price
+                    );
+
                     if (window.fbq) {
                       fbq("trackCustom", "LogInToEnrollClick", {
                         courseId: courseId,
+                        courseName: coursePost?.title,
                       });
                     }
-
-                    navigate(`/login/${courseId}`);
                   }}
                 >
                   Log In to Enroll
@@ -603,21 +667,21 @@ const NewCourseDetailPage = () => {
                   )}
                 </span>
                 <span className="text-lg ml-1 text-gray-300 line-through">
-                  ₹ {coursePost?.value}
+                  {discount ? " " : `₹ ${coursePost?.value}`}
                 </span>
                 <span className=" text-[#fdfdfd] font-semibold ml-1 text-xl">
                   {" "}
-                  / month
+                  {discount ? "Per month" : "/ month"}
                 </span>
 
                 <p className="text-lg mt-2 textGold">
                   {isCouponApplied
-                    ? "60% discount applied!"
+                    ? "Discount applied!"
                     : "50% discount - Limited time offer!"}
                 </p>
               </div>
               <div className="w-full md:w-auto">
-                {currentUser && (
+
                   <div className="flex mb-4">
                     <input
                       type="text"
@@ -640,8 +704,7 @@ const NewCourseDetailPage = () => {
                         {couponLoading ? "Wait..." : "Apply"}
                       </span>
                     </button>
-                  </div>
-                )}
+                  </div>              
 
                 {currentUser ? (
                   <button
@@ -670,7 +733,27 @@ const NewCourseDetailPage = () => {
                   </button>
                 ) : (
                   <button
-                    onClick={() => navigate(`/login/${courseId}`)}
+                    onClick={() => {
+                      createToken(
+                        coursePost._id,
+                        coursePost?.price,
+                        code ? code : null,
+                        discount ? discount.subTotal : 0,
+                        code ? true : false,
+                        discount?.subTotal !== undefined
+                          ? discount?.subTotal === 0
+                            ? 1
+                            : (discount?.subTotal).toFixed(2)
+                          : coursePost?.price
+                      );
+
+                      if (window.fbq) {
+                        fbq("trackCustom", "LogInToEnrollClick", {
+                          courseId: courseId,
+                          courseName: coursePost?.title,
+                        });
+                      }
+                    }}
                     className="w-full md:w-auto  bg-gradient-to-r from-[#efdb78] to-[#f5eeb4] hover:from-[#d6c664] hover:to-[#b2a652] text-black  px-6 py-3 rounded-md font-bold hover:scale-105 transition-colors"
                   >
                     Log In to Enroll
