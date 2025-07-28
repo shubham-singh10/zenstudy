@@ -772,11 +772,7 @@ const LiveCourseDetailsPage = () => {
                             />
                           </svg>
                           <span>
-<<<<<<< HEAD
                             {item.title} {item.description} 
-=======
-                            {item.title} {item.description}
->>>>>>> 3574acce3693dfd65c2a0036965c4e0e6482e328
                           </span>
                         </li>
                         <li className="flex items-center">
@@ -1168,10 +1164,7 @@ const LiveCourseDetailsPage = () => {
                   {discount?.subTotal
                     ? discount?.subTotal.toFixed(2)
                     : CoursesData.price}{" "}
-<<<<<<< HEAD
                  
-=======
->>>>>>> 3574acce3693dfd65c2a0036965c4e0e6482e328
                 </p>
 
                 <p className="textGold rounded-l-md font-semibold px-3 py-1 border-l-4 border-[#efdb78] bgGredient-green text-sm">

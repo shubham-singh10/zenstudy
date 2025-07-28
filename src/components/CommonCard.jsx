@@ -105,7 +105,7 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
               ₹ {course.value}
             </span>
             ₹ {course.price}
-            {(mentor || newPage) && (
+            {(mentor ) && (
               <span className="text-xs text-gray-500">/month</span>
             )}
           </p>
