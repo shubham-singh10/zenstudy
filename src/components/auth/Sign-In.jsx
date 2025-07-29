@@ -300,7 +300,7 @@ function SignIn() {
                 <h2 className="lg:text-xl text-lg font-semibold mb-6 bg-clip-text text-transparent textPurple">
                   {step === 1
                     ? "Login with your Phone no."
-                    : `Enter the OTP sent to your phone number (${phone})`}
+                    : `Enter the OTP sent to your phone number (${phone}) or Whatsapp`}
                 </h2>
 
                 <div className="signup-container">
