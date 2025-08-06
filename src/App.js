@@ -28,6 +28,7 @@ const NotFound = lazy(() => import("./components/NotFound.jsx"));
 
 const Home = lazy(() => import("./components/Home.jsx"));
 const About = lazy(() => import("./components/About.jsx"));
+const WhatsappChannel = lazy(() => import("./components/WhatsappChannel.jsx"));
 const Courses = lazy(() => import("./components/course/Courses.jsx"));
 const CurrentAffair = lazy(() => import("./components/currentAffairs"));
 const CourseDetails = lazy(() => import("./components/course/Coursedetails.jsx"));
@@ -67,6 +68,7 @@ function App() {
             <Route element={<MainLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
+              <Route path="/whatsapp-link" element={<WhatsappChannel />} />
               <Route path="/webinar" element={<Webinar />} />
               <Route path="/ourteam" element={<OurTeam />} />
               <Route path="/courses" element={<Courses />} />

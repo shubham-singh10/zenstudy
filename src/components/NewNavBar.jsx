@@ -18,8 +18,8 @@ const navLink = [
   { label: "Courses", link: "/courses" },
   { label: "Our Team", link: "/ourteam" },
   { label: "Current Affairs", link: "/currentAffair" },
-  { label: "Blogs", link: "https://blog.zenstudy.in/" },
-  { label: "Events", link: "https://blog.zenstudy.in/category/events/" },
+  { label: "UPSC Blogs", link: "https://blog.zenstudy.in/category/blogs/" },
+  { label: "Daily Editorials", link: "https://blog.zenstudy.in/category/daily-editorials/" },
   { label: "Contact", link: "/contact" },
 ];
 

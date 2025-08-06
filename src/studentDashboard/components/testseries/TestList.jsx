@@ -16,6 +16,8 @@ function TestList({ series, onBack, onProceed, onResult }) {
     (series) => series.userId === user?._id
   );
 
+  console.log("testSeries: ", testSeries);
+
   const check = ({ id }) => {
     const TestCompleted = series.completedTests.filter(
       (test) => test.userId === user?._id && test.testSeriesId === id
@@ -100,10 +102,12 @@ function TestList({ series, onBack, onProceed, onResult }) {
           <div className="relative h-48 md:h-64">
             <img
               src={
-                "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&q=80&w=1200"
+                series?.image?.startsWith("https")
+                  ? series.image
+                  : "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&q=80&w=1200"
               }
               alt={series.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-center"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -140,21 +144,21 @@ function TestList({ series, onBack, onProceed, onResult }) {
                 >
                   <div className="flex lg:flex-row md:flex-row flex-col items-center justify-between">
                     <div>
-                    <div className="flex items-center flex-wrap lg:gap-2 md:gap-2 gap-1">
-                    <h3 className="text-lg font-semibold textPurple ">
-                    {test.title}{" "}
-                    </h3>
-                    <div className="text-xs text-purple-400 font-semibold">
+                      <div className="flex items-center flex-wrap lg:gap-2 md:gap-2 gap-1">
+                        <h3 className="text-lg font-semibold textPurple ">
+                          {test.title}{" "}
+                        </h3>
+                        <div className="text-xs text-purple-400 font-semibold">
                           {check({ id: test._id }) === "completed" && (
                             <>(Submitted at: {checkSubmit({ id: test._id })})</>
                           )}
                         </div>
-                    </div>
+                      </div>
                       <div className="flex flex-wrap mt-2 items-center gap-4 text-sm text-gray-600">
                         <span className="flex items-center">
                           <FaClock className="h-4 w-4 mr-1" />
-                          {Math.floor(test.duration / 60)}m {test.duration % 60}
-                          s
+                          {test.duration} minutes
+                          
                         </span>
                         <span className="flex items-center">
                           <BiBookOpen className="h-4 w-4 mr-1" />

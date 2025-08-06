@@ -160,6 +160,7 @@ export const TestQuestionsPage = ({ test, series }) => {
           setquestions(data);
           setSelectedAnswers(Array(data.length).fill(-1));
           setLoading(false);
+          console.log("Test Questions: ", data);
         }
       } catch (error) {
         console.error("Error fetching test series:", error);
