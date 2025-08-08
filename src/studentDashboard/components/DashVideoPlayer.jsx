@@ -44,7 +44,9 @@ export const DashVideoPlayer = ({ videopath, thumbnailUrl }) => {
         await player.load(manifestUrl);
         // console.log("✅ Video loaded successfully");
       } catch (error) {
+        if(process.env.NODE_ENV === "development") {
         console.error("🚫 Error loading Shaka Player:", error);
+        }
       }
     };
 

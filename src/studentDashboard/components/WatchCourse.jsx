@@ -4,7 +4,6 @@ import axios from "axios";
 import {
   FiArrowLeft,
   FiChevronDown,
-  FiChevronRight,
   FiChevronsDown,
   FiChevronsRight,
   FiChevronUp,
@@ -40,7 +39,7 @@ const WatchCourse = () => {
     course: false,
     reviews: false,
   });
-
+  const [courseName, setcourseName] = useState("");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [showModuleList, setShowModuleList] = useState(false);
   const [expandedModuleId, setExpandedModuleId] = useState(null);
@@ -97,7 +96,7 @@ const WatchCourse = () => {
         setNotes(response.data.response?.notes || []);
         // console.log('Course data:', response.data.response );
         setMaterials(response.data.response?.course?.materials || []);
-        console.log("Materials:", response.data.response?.course?.materials);
+        setcourseName(response.data.response?.course.title || "");
         if (response.data.response?.course._id) {
           await fetchReviews(response.data.response.course._id);
         }
@@ -214,11 +213,10 @@ const WatchCourse = () => {
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`px-4 py-3 text-sm font-medium transition-colors flex-grow sm:flex-grow-0 ${
-                      activeTab === tab
-                        ? "bgGredient-purple text-white rounded-2xl"
-                        : "textPurple hover:bg-purple-100 rounded-lg"
-                    }`}
+                    className={`px-4 py-3 text-sm font-medium transition-colors flex-grow sm:flex-grow-0 ${activeTab === tab
+                      ? "bgGredient-purple text-white rounded-2xl"
+                      : "textPurple hover:bg-purple-100 rounded-lg"
+                      }`}
                   >
                     {tab.charAt(0).toUpperCase() + tab.slice(1)}
                   </button>
@@ -348,11 +346,10 @@ const WatchCourse = () => {
                                   className="focus:outline-none"
                                 >
                                   <FiStar
-                                    className={`w-8 h-8 ${
-                                      star <= userReview.rating
-                                        ? "text-yellow-400 fill-current"
-                                        : "text-gray-300"
-                                    }`}
+                                    className={`w-8 h-8 ${star <= userReview.rating
+                                      ? "text-yellow-400 fill-current"
+                                      : "text-gray-300"
+                                      }`}
                                   />
                                 </button>
                               ))}
@@ -407,11 +404,10 @@ const WatchCourse = () => {
                                   {[1, 2, 3, 4, 5].map((star) => (
                                     <FiStar
                                       key={star}
-                                      className={`w-4 h-4 ${
-                                        star <= review.rating
-                                          ? "text-yellow-400 fill-current"
-                                          : "text-gray-300"
-                                      }`}
+                                      className={`w-4 h-4 ${star <= review.rating
+                                        ? "text-yellow-400 fill-current"
+                                        : "text-gray-300"
+                                        }`}
                                     />
                                   ))}
                                 </div>
@@ -471,9 +467,8 @@ const WatchCourse = () => {
                 {/* Module + Video list */}
                 {showModuleList && (
                   <div
-                    className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                      showModuleList ? "max-h-[500px] mt-2" : "max-h-0"
-                    } bg-white rounded-lg shadow border border-purple-200`}
+                    className={`transition-all duration-300 ease-in-out overflow-hidden ${showModuleList ? "max-h-[500px] mt-2" : "max-h-0"
+                      } bg-white rounded-lg shadow border border-purple-200`}
                   >
                     <div className="overflow-y-auto max-h-[50vh]">
                       {coursesData.map((module) => (
@@ -501,11 +496,10 @@ const WatchCourse = () => {
 
                           {/* Videos under this module */}
                           <div
-                            className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                              expandedModuleId === module._id
-                                ? "max-h-96"
-                                : "max-h-0"
-                            }`}
+                            className={`transition-all duration-300 ease-in-out overflow-hidden ${expandedModuleId === module._id
+                              ? "max-h-96"
+                              : "max-h-0"
+                              }`}
                           >
                             <div className="px-4 pb-2">
                               {expandedModuleId === module._id &&
@@ -518,20 +512,19 @@ const WatchCourse = () => {
                                         handleVideoClick(video);
                                         setShowModuleList(false); // collapse list
                                       }}
-                                      className={`w-full text-left px-2 py-2 rounded-md text-sm flex items-center gap-2 ${
-                                        selectedVideoTitle === video.videoTitle
-                                          ? "bg-purple-100 textPurple font-semibold"
-                                          : "hover:bg-purple-50 text-gray-700"
-                                      }`}
+                                      className={`w-full text-left px-2 py-2 rounded-md text-sm flex items-center gap-2 ${selectedVideoTitle === video.videoTitle
+                                        ? "bg-purple-100 textPurple font-semibold"
+                                        : "hover:bg-purple-50 text-gray-700"
+                                        }`}
                                     >
                                       <FiPlay size={14} />
                                       {video.videoTitle}
                                       {selectedVideoTitle ===
                                         video.videoTitle && (
-                                        <span className="ml-auto text-xs text-purple-500 font-semibold">
-                                          Playing
-                                        </span>
-                                      )}
+                                          <span className="ml-auto text-xs text-purple-500 font-semibold">
+                                            Playing
+                                          </span>
+                                        )}
                                     </button>
                                   ))}
                             </div>
@@ -544,9 +537,14 @@ const WatchCourse = () => {
               </div>
             ) : (
               <div className="bg-white rounded-xl shadow-md overflow-hidden sticky top-6">
-                <h2 className="text-xl font-bold p-4 bgGradient-purple-light textPurple border-b">
-                  Course Content
-                </h2>
+                <div className="bgGradient-purple-light px-6 py-4 flex items-center justify-between rounded-t-lg shadow-sm">
+                  <h2 className="text-lg font-semibold textPurple flex items-center gap-2">
+                    📘 Course Content
+                  </h2>
+                  <span className="text-sm italic textPurple">
+                    ({courseName})
+                  </span>
+                </div>
                 {loading.course ? (
                   <div className="p-6 text-center">
                     <p className="textPurple">Loading...</p>
@@ -559,11 +557,10 @@ const WatchCourse = () => {
                           onClick={() =>
                             toggleModule(module._id, module.moduleTitle)
                           }
-                          className={`${
-                            selectedModule === module.moduleTitle
-                              ? "bgGredient-purple text-white"
-                              : "bgGradient-purple-light textPurple hover:bg-purple-100"
-                          } w-full px-4 py-3 flex items-center border-2 justify-between text-left rounded-lg `}
+                          className={`${selectedModule === module.moduleTitle
+                            ? "bgGredient-purple text-white"
+                            : "bgGradient-purple-light textPurple hover:bg-purple-100"
+                            } w-full px-4 py-3 flex items-center border-2 justify-between text-left rounded-lg `}
                         >
                           <span className="font-medium">
                             {module.moduleTitle}
@@ -582,11 +579,10 @@ const WatchCourse = () => {
                                 <button
                                   key={vIndex}
                                   onClick={() => handleVideoClick(video)}
-                                  className={`w-full px-4 py-2 flex items-center border-2 justify-between text-left rounded-lg transition-colors ${
-                                    selectedVideoTitle === video.videoTitle
-                                      ? "bg-purple-100 textPurple"
-                                      : "hover:bg-purple-100 bg-purple-50 textPurple"
-                                  }`}
+                                  className={`w-full px-4 py-2 flex items-center border-2 justify-between text-left rounded-lg transition-colors ${selectedVideoTitle === video.videoTitle
+                                    ? "bg-purple-100 textPurple"
+                                    : "hover:bg-purple-100 bg-purple-50 textPurple"
+                                    }`}
                                 >
                                   <div className="flex items-center justify-between w-full">
                                     <div className="flex items-center">
@@ -597,10 +593,10 @@ const WatchCourse = () => {
                                     </div>
                                     {selectedVideoTitle ===
                                       video.videoTitle && (
-                                      <span className="ml-auto text-xs text-purple-500 font-semibold">
-                                        Playing
-                                      </span>
-                                    )}
+                                        <span className="ml-auto text-xs text-purple-500 font-semibold">
+                                          Playing
+                                        </span>
+                                      )}
                                   </div>
                                 </button>
                               ))}

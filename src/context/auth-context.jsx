@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
                     { withCredentials: true }
                 );
 
-                console.log(response)
+                // console.log(response)
 
                 if (response.data.message === "Success") {
                     setAuthState({
