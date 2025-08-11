@@ -141,7 +141,7 @@ function LiveClass() {
               const endTime = new Date(meeting.endTime);
               const isLive =
                 currentTime >= startTime && currentTime <= endTime;
-                console.log("Meeting:", startTime);
+                // console.log("Meeting:", startTime);
 
               return (
                 <div
