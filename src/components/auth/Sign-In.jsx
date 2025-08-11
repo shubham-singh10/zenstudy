@@ -65,6 +65,8 @@ function SignIn() {
   const [otpSent, setOtpSent] = useState(true);
   const { login } = useAuth();
 
+  const freeCourseRedirect = location.state?.fromFreeCourse;
+
   // Intersection Observers
   const { ref: slideLeftRef, inView: slideLeftInView } = useInView({
     triggerOnce: true,
@@ -142,11 +144,11 @@ function SignIn() {
     } catch (error) {
       console.log("something went wrong", error);
       Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Something went wrong",
-          confirmButtonColor: "#d33",
-        })
+        icon: "error",
+        title: "Error",
+        text: "Something went wrong",
+        confirmButtonColor: "#d33",
+      });
     } finally {
       setLoading({ ...loading, otpLoading: false });
     }
@@ -173,11 +175,11 @@ function SignIn() {
     } catch (error) {
       console.log("something went wrong", error);
       Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Something went wrong",
-          confirmButtonColor: "#d33",
-        })
+        icon: "error",
+        title: "Error",
+        text: "Something went wrong",
+        confirmButtonColor: "#d33",
+      });
     } finally {
       setLoading({ ...loading, resendLoading: false });
     }
@@ -186,11 +188,11 @@ function SignIn() {
   const handleLogin = async (data) => {
     console.log(data);
     try {
-     const sendData = {
+      const sendData = {
         phone: phone,
         otp: data.otp,
       };
-      
+
       const response = await fetch(
         `${process.env.REACT_APP_API}zenstudy/api/auth/verify-otp`,
         {
@@ -210,7 +212,7 @@ function SignIn() {
 
       const resData = await response.json();
 
-      console.log(resData)
+      console.log(resData);
 
       if (resData.message === "Success") {
         toast.success(
@@ -224,11 +226,15 @@ function SignIn() {
         setLoading(false);
         login(resData.user, resData.role, resData.token);
 
-        const from = location.state?.from || "/course-details-student";
-        navigation(from);
-}
+        if (freeCourseRedirect) {
+          navigation(`/watch-course-free/${freeCourseRedirect.id}`);
+        } else {
+          const from = location.state?.from || "/course-details-student";
+          navigation(from);
+        }
+      }
     } catch (error) {
-      console.log("something went wrong", error);      
+      console.log("something went wrong", error);
       if (error.status === 400) {
         Swal.fire({
           icon: "error",
@@ -236,13 +242,13 @@ function SignIn() {
           text: "The OTP you entered is incorrect or has expired. Please try again.",
           confirmButtonColor: "#d33",
         });
-      }else{
+      } else {
         Swal.fire({
           icon: "error",
           title: "Error",
           text: "Something went wrong",
           confirmButtonColor: "#d33",
-        })
+        });
       }
     }
   };
@@ -255,8 +261,6 @@ function SignIn() {
     },
     "& label.Mui-focused": { color: "#935aa6" },
   };
-
-
 
   return (
     <Fragment>

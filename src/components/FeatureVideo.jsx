@@ -18,29 +18,30 @@ const useSlideIn = (direction = "y", offset = 100) => {
 
 const FeatureVideo = () => {
   const defaultMainVideo =
-    "https://www.youtube.com/embed/AG864au506w?si=GVRC4EWr-zkyDivQ";
+    "https://www.youtube.com/embed/NGEdEEU3jzs?si=zcoWpQeGQBnX1vcp";
 
-  const initialVideos = useMemo(
-    () => [
-      {
-        id: "J6TplwoZ9vs",
-        thumbnail: "https://img.youtube.com/vi/J6TplwoZ9vs/mqdefault.jpg",
-      },
-      {
-        id: "BXTyVqhgx7g",
-        thumbnail: "https://img.youtube.com/vi/BXTyVqhgx7g/mqdefault.jpg",
-      },
-      {
-        id: "QDEEF3SEISI",
-        thumbnail: "https://img.youtube.com/vi/QDEEF3SEISI/mqdefault.jpg",
-      },
-      {
-        id: "5yUspRCx-kI",
-        thumbnail: "https://img.youtube.com/vi/5yUspRCx-kI/mqdefault.jpg",
-      },
-    ],
-    []
-  );
+const initialVideos = useMemo(
+  () => [
+    {
+      id: "wacuLI6d9B8",
+      thumbnail: "https://img.youtube.com/vi/wacuLI6d9B8/mqdefault.jpg",
+    },
+    {
+      id: "Dy1BI3Nw6yU",
+      thumbnail: "https://img.youtube.com/vi/Dy1BI3Nw6yU/mqdefault.jpg",
+    },
+    {
+      id: "BjZWoASxPhY",
+      thumbnail: "https://img.youtube.com/vi/BjZWoASxPhY/mqdefault.jpg",
+    },
+    {
+      id: "OQEy489ntwA",
+      thumbnail: "https://img.youtube.com/vi/OQEy489ntwA/mqdefault.jpg",
+    },
+  ],
+  []
+);
+
 
   const [mainVideo, setMainVideo] = useState(defaultMainVideo);
   const [otherVideos, setOtherVideos] = useState(initialVideos);

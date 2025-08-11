@@ -20,7 +20,7 @@ const CoursesPage = () => {
     totalData: 0,
   });
   const { user } = useAuth();
-  
+
   // const [searchTerm, setSearchTerm] = useState("")
   const [sortBy, setSortBy] = useState("price");
   const [sortOrder, setSortOrder] = useState("desc");
@@ -182,11 +182,40 @@ const CoursesPage = () => {
           ) : (
             courses.map((course) => {
               const newPage = course.title?.includes("UPSC Foundation Batch");
-                const mentor = course.title?.includes("Personalised Mentorship Programme");
+              const mentor = course.title?.includes(
+                "Personalised Mentorship Programme"
+              );
               return (
                 <div
                   key={course._id}
-                  className="bg-white rounded-lg shadow-md overflow-hidden"
+                  className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative"
+                  onClick={() =>
+                    course.isFree
+                      ? navigate(`/watch-course-free/${course._id}`)
+                      : newPage
+                      ? navigate(
+                          `/livecourse-details-student/${course.title.replace(
+                            /\s+/g,
+                            "-"
+                          )}`,
+                          { state: { courseId: course._id } }
+                        )
+                      : mentor
+                      ? navigate(
+                          `/course-detail-new/${course.title.replace(
+                            /\s+/g,
+                            "-"
+                          )}`,
+                          { state: { courseId: course._id } }
+                        )
+                      : navigate(
+                          `/course-details-view/${course.title.replace(
+                            /\s+/g,
+                            "-"
+                          )}`,
+                          { state: { courseId: course._id } }
+                        )
+                  }
                 >
                   {loading.imageLoading && (
                     <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-2xl">
@@ -214,11 +243,9 @@ const CoursesPage = () => {
                         </p>
                       ) : (
                         <span className="text-2xl font-bold textPurple">
-                          {" "}
                           <span className="line-through text-gray-400 text-sm mr-1">
-                            {" "}
                             ₹ {course.value}
-                          </span>{" "}
+                          </span>
                           ₹ {course.price}
                           {(course?.title
                             ?.toLowerCase()
@@ -233,70 +260,67 @@ const CoursesPage = () => {
                         </span>
                       )}
 
-                      <p className="textGold bgGredient-green px-4 py-1  text-xs mb-2 w-fit rounded-tr-xl rounded-bl-xl">
+                      <p className="textGold bgGredient-green px-4 py-1 text-xs mb-2 w-fit rounded-tr-xl rounded-bl-xl">
                         {course?.language}
                       </p>
                     </div>
+
                     <div className="flex space-x-2">
                       {course.isFree ? (
                         <button
                           className="flex-1 border border-[#543a5d] textLight bgGredient-purple py-2 px-4 rounded-lg hover:scale-105 transition-colors"
-                          onClick={() =>
-                            navigate(`/watch-course-free/${course._id}`)
-                          }
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/watch-course-free/${course._id}`);
+                          }}
                         >
                           Watch Course
                         </button>
                       ) : newPage ? (
                         <button
                           className="flex-1 border border-[#543a5d] textLight bgGredient-purple py-2 px-4 rounded-lg hover:scale-105 transition-colors"
-                          onClick={() =>
+                          onClick={(e) => {
+                            e.stopPropagation();
                             navigate(
                               `/livecourse-details-student/${course.title.replace(
                                 /\s+/g,
                                 "-"
                               )}`,
-                              {
-                                state: { courseId: course._id },
-                              }
-                            )
-                          }
+                              { state: { courseId: course._id } }
+                            );
+                          }}
                         >
                           View Details
                         </button>
                       ) : mentor ? (
                         <button
                           className="flex-1 border border-[#543a5d] textLight bgGredient-purple py-2 px-4 rounded-lg hover:scale-105 transition-colors"
-                          onClick={() =>
+                          onClick={(e) => {
+                            e.stopPropagation();
                             navigate(
                               `/course-detail-new/${course.title.replace(
                                 /\s+/g,
                                 "-"
                               )}`,
-                              {
-                                state: { courseId: course._id },
-                              }
-                            )
-                          }
+                              { state: { courseId: course._id } }
+                            );
+                          }}
                         >
-                        
-                            View Details
-                         
+                          View Details
                         </button>
                       ) : (
                         <button
                           className="flex-1 border border-[#543a5d] textLight bgGredient-purple py-2 px-4 rounded-lg hover:scale-105 transition-colors"
-                          onClick={() =>
+                          onClick={(e) => {
+                            e.stopPropagation();
                             navigate(
                               `/course-details-view/${course.title.replace(
                                 /\s+/g,
                                 "-"
                               )}`,
-                              {
-                                state: { courseId: course._id },
-                              }
-                            )
-                          }
+                              { state: { courseId: course._id } }
+                            );
+                          }}
                         >
                           View Details
                         </button>

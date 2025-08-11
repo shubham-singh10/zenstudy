@@ -133,8 +133,10 @@ const MyPurchaseCourse = () => {
       {courseList.map((course) => (
         <div
           key={course._id}
-          className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+          onClick={() => navigate(`/watch-course/${course.paymentId}`)}
+          className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg hover:scale-[1.02] cursor-pointer transition-transform duration-300"
         >
+          {/* Thumbnail */}
           <div className="relative pb-[56.25%]">
             <img
               src={course?.imageUrl || "/assets/upcoming.webp"}
@@ -143,35 +145,52 @@ const MyPurchaseCourse = () => {
               className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
             />
           </div>
+
+          {/* Content */}
           <div className="p-4">
-            <h2 className="text-xl font-semibold textPurple mb-2">
+            <h2 className="text-lg font-semibold textPurple mb-2 line-clamp-1">
               {course?.title}
             </h2>
-            <p className="textGold mb-4 bgGredient-green px-4 text-xs py-1 w-fit rounded-tr-xl rounded-bl-xl">{course?.languageName}</p>
+
+            <p className="textGold mb-4 bgGredient-green px-4 text-xs py-1 w-fit rounded-tr-xl rounded-bl-xl">
+              {course?.languageName}
+            </p>
+
+            {/* Actions */}
             {course?.tags === "live" ? (
-              <div className="flex gap-2">
+              <div
+                className="flex gap-2"
+                onClick={(e) => e.stopPropagation()} // Prevents triggering card click
+              >
                 <button
-                  className="flex items-center text-xs justify-center w-1/2 bgGredient-green textGold py-2 px-4 rounded-lg hover:scale-105 transition-colors"
+                  className="flex items-center text-xs justify-center w-1/2 bgGredient-green textGold py-2 px-4 rounded-lg hover:scale-105 transition-transform"
                   onClick={() => handleRecordedLectureClick(course)}
                 >
                   <FaVideo className="mr-2 text-xs" /> Visit Live Class
                 </button>
+
                 <button
                   className={`flex items-center text-xs justify-center w-1/2 ${
                     course?.modules?.length <= 0
                       ? "bgGredient-purple cursor-not-allowed"
                       : "bgGredient-purple-lr hover:scale-105"
-                  } text-white py-2 px-4 rounded-lg transition-colors`}
-                  disabled={(course?.modules).length <= 0}
+                  } text-white py-2 px-4 rounded-lg transition-transform`}
+                  disabled={course?.modules?.length <= 0}
                   onClick={() => navigate(`/watch-course/${course.paymentId}`)}
                 >
-                  <FaPlay className="mr-2 text-xs" />{course?.modules?.length <= 0 ? "No Recorded Lecture yet" : "Recorded Lecture"}
+                  <FaPlay className="mr-2 text-xs" />
+                  {course?.modules?.length <= 0
+                    ? "No Recorded Lecture yet"
+                    : "Recorded Lecture"}
                 </button>
               </div>
             ) : (
               <button
-                className="flex items-center justify-center w-full bgGredient-purple-lr text-white py-2 px-4 rounded-lg hover:scale-105 transition-colors"
-                onClick={() => navigate(`/watch-course/${course.paymentId}`)}
+                className="flex items-center justify-center w-full bgGredient-purple-lr text-white py-2 px-4 rounded-lg hover:scale-105 transition-transform"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/watch-course/${course.paymentId}`);
+                }}
               >
                 <FaPlay className="mr-2" /> Continue Learning
               </button>
@@ -182,15 +201,15 @@ const MyPurchaseCourse = () => {
     </div>
   );
 
- if (loading) {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {[...Array(6)].map((_, index) => (
-        <ResourceSkeleton key={index} />
-      ))}
-    </div>
-  );
-}
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[...Array(6)].map((_, index) => (
+          <ResourceSkeleton key={index} />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-purple-50 py-8 px-4 sm:px-6 lg:px-8">

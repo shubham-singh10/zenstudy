@@ -29,10 +29,16 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
       });
       setHasTrackedView(true);
     }
-  }, [imageLoaded, hasTrackedView, course._id, courseTitle, languageName, freeCourse]);
+  }, [
+    imageLoaded,
+    hasTrackedView,
+    course._id,
+    courseTitle,
+    languageName,
+    freeCourse,
+  ]);
 
   const navigateTo = () => {
-    // FB Pixel: Track card click
     if (window.fbq) {
       fbq("trackCustom", "CourseCardClicked", {
         courseId: course._id,
@@ -46,7 +52,14 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
     if (freeCourse) {
       return userId
         ? navigate(`/watch-course-free/${course._id}`)
-        : navigate("/sign-In");
+        : navigate("/sign-In", {
+            state: {
+              fromFreeCourse: {
+                id: course._id,
+                title: courseTitle,
+              },
+            },
+          });
     }
 
     const path = newPage
@@ -60,9 +73,10 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
 
   return (
     <div
+      onClick={navigateTo}
       className={`${
         differentClass || "max-w-xs"
-      } space-y-1 rounded-2xl overflow-hidden shadow-lg m-4 p-4 course-card`}
+      } space-y-1 rounded-2xl overflow-hidden shadow-lg m-4 p-4 course-card cursor-pointer`}
     >
       <div className="relative">
         {/* Blurred Placeholder */}
@@ -105,9 +119,7 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
               ₹ {course.value}
             </span>
             ₹ {course.price}
-            {(mentor ) && (
-              <span className="text-xs text-gray-500">/month</span>
-            )}
+            {mentor && <span className="text-xs text-gray-500">/month</span>}
           </p>
         ) : (
           <p className="textPurple font-bold text-xl">₹ {course.price}</p>
@@ -117,10 +129,16 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
         {isUpcoming ? (
           <span className="text-red-600 font-bold text-sm">Coming Soon</span>
         ) : (
-          <button className="custom-btn" onClick={navigateTo}>
+          <button
+            className="custom-btn"
+            onClick={(e) => {
+              e.stopPropagation(); // prevent parent click
+              navigateTo();
+            }}
+          >
             <span className="custom-btn-bg"></span>
             <span className="custom-btn-text text-xs">
-              {freeCourse && !userId ? "Login to watch" : "View Details"}
+              {freeCourse && !userId ? "Login to watch" : freeCourse ? "Watch Now" :"View Details"}
             </span>
           </button>
         )}
