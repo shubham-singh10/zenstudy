@@ -30,6 +30,7 @@ function LiveClass() {
         );
   
         const meetingData = response.data;
+        console.log("Meeting Data:", meetingData);
         
         // Filter meetings based on purchased course IDs
         const filteredMeetings = meetingData?.filter((meeting) =>
@@ -140,6 +141,7 @@ function LiveClass() {
               const endTime = new Date(meeting.endTime);
               const isLive =
                 currentTime >= startTime && currentTime <= endTime;
+                console.log("Meeting:", startTime);
 
               return (
                 <div
@@ -171,16 +173,19 @@ function LiveClass() {
                     <div className="font-bold text-sm textPurple">
                       {new Date(meeting.startTime).toLocaleString("en-US", {
                         dateStyle: "medium",
+                        timeZone: "UTC"
                       })}
                     </div>
 
                     <div className="font-bold text-sm">
                       {new Date(meeting.startTime).toLocaleString("en-US", {
                         timeStyle: "short",
+                        timeZone: "UTC"
                       })}
                       -
                       {new Date(meeting.endTime).toLocaleString("en-US", {
                         timeStyle: "short",
+                        timeZone: "UTC"
                       })}
                     </div>
                   </div>
