@@ -17,7 +17,7 @@ const Carousel = () => {
     }));
   }, [carouselData, isMobile]);
 
-  // Pixel tracking for slide view
+  // Pixel tracking for slide view (manual only)
   const trackSlideView = (index) => {
     const slide = images?.[index];
     if (slide && window.fbq) {
@@ -71,25 +71,19 @@ const Carousel = () => {
     };
   }, []);
 
-  // Track first slide view once images are loaded
-  useEffect(() => {
-    if (images.length > 0) {
-      trackSlideView(0);
-    }
-  }, [images]);
-
-  // Auto slide functionality
+  // Auto slide functionality (no tracking here)
   useEffect(() => {
     if (!isHovered && images.length > 0) {
       const interval = setInterval(() => {
         const newIndex = (currentSlide + 1) % images.length;
         setCurrentSlide(newIndex);
-        setTimeout(() => trackSlideView(newIndex), 50); // slight delay to ensure data is available
+        // ❌ No trackSlideView call here for auto-slide
       }, 5000);
       return () => clearInterval(interval);
     }
   }, [isHovered, images.length, currentSlide]);
 
+  // Manual navigation
   const goToSlide = (index) => {
     setCurrentSlide(index);
     trackSlideView(index);

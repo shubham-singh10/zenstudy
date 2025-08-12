@@ -54,7 +54,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "aws s3 sync build/ s3://zenstudy-frontend-app --delete"
+    "deploy": "npm run build && npm run upload && npm run set-cache && npm run invalidate",
+    "upload": "aws s3 sync build/ s3://zenstudy-frontend-app --delete",
+    "set-cache": "aws s3 cp build/index.html s3://zenstudy-frontend-app/index.html --cache-control \"no-cache,no-store,must-revalidate\" --metadata-directive REPLACE",
+    "invalidate": "aws cloudfront create-invalidation --distribution-id E39WN09K56MJOS --paths \"/*\""
   },
   "eslintConfig": {
     "extends": [
