@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "zenstudy",
+  "name": "Zenstudy IAS Coaching — Best UPSC Website for IAS Study Material",
+  "description": "Zenstudy IAS is a top institute for UPSC coaching in Delhi. Access high-quality IAS study material, Prelims & Mains Test Series, and online courses in English and Hindi.",
   "icons": [
     {
       "src": "/favicon.ico",
