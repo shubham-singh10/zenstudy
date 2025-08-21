@@ -2,6 +2,7 @@ import { Fragment, Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/auth-context.jsx";
 import { Toaster } from "react-hot-toast";
+import TestSeriesIndex from "./components/testSeries/index.jsx";
 
 const Loading = lazy(() => import("./Loading.jsx"));
 const MainLayout = lazy(() => import("./MainLayout.jsx"));
@@ -74,6 +75,7 @@ function App() {
               <Route path="/courses" element={<Courses />} />
               <Route path="/currentAffair" element={<CurrentAffair />} />
               <Route path="/pdfViewer" element={<PdfViewer />} />
+              <Route path="/test-series" element={<TestSeriesIndex />} />
               <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
               <Route
                 path="/termandConditions"

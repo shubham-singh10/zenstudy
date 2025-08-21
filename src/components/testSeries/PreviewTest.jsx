@@ -12,7 +12,6 @@ import { IoSparkles } from "react-icons/io5";
 import { FaGraduationCap } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth-context";
-import VerifyEmailMsg from "../VerifyEmailMsg";
 import Swal from "sweetalert2";
 import { Loader } from "../loader/Loader";
 
@@ -27,7 +26,7 @@ export function PreviewTest({ test, onBack }) {
   // const [code, setCode] = useState(null);
 
   const { user } = useAuth();
-  const { userStatus } = VerifyEmailMsg();
+ 
 
   useEffect(() => {
     let isMounted = true;
@@ -71,16 +70,7 @@ export function PreviewTest({ test, onBack }) {
 
   //Payment Initiate
   const handlePayment = async (amount) => {
-    if (userStatus.emailStatus !== "verified") {
-      Swal.fire({
-        title: "Verify Your Email",
-        text: "Please verify your email to proceed with the payment.",
-        icon: "warning",
-      }).then(() => {
-        navigate("/profile");
-      });
-      return;
-    }
+
     setPayLoading(true);
     try {
       const res = await fetch(
@@ -121,7 +111,7 @@ export function PreviewTest({ test, onBack }) {
     }
   };
 
-  const handlePaymentVerify = async (data, selectedcourseId) => {
+  const handlePaymentVerify = async (data) => {
     const options = {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID,
       amount: data.amount,
@@ -187,7 +177,7 @@ export function PreviewTest({ test, onBack }) {
     );
   }
 
-  const newPage = test.courses[0]?.title?.includes("UPSC Foundation Batch")
+  const newPage = test.courses[0]?.title?.includes("UPSC Foundation Batch");
 
   return (
     <Fragment>
@@ -214,7 +204,7 @@ export function PreviewTest({ test, onBack }) {
                 <div className="px-3 sm:px-6 py-3 sm:py-6 w-full">
                   {/* Course Badge */}
                   {test.includedInCourse && (
-                    <div className="text-[10px] sm:text-xs md:text-sm font-medium mb-2 bg-indigo-600 text-white px-2 sm:px-3 py-1 rounded-full shadow-md inline-block">
+                    <div className="text-[10px] sm:text-xs md:text-sm font-medium mb-2 bg-purple-600 text-white px-2 sm:px-3 py-1 rounded-full shadow-md inline-block">
                       Included in: {test.courses[0]?.title}
                     </div>
                   )}
@@ -232,7 +222,6 @@ export function PreviewTest({ test, onBack }) {
               </div>
             </div>
 
-
             {/* Navigation Tabs */}
             <div className="border-b">
               <div className="flex overflow-x-auto hide-scrollbar">
@@ -249,10 +238,11 @@ export function PreviewTest({ test, onBack }) {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`flex items-center space-x-2 py-4 border-b-2 transition-colors whitespace-nowrap ${activeTab === tab.id
-                          ? "border-indigo-600 text-indigo-600"
+                      className={`flex items-center space-x-2 py-4 border-b-2 transition-colors whitespace-nowrap ${
+                        activeTab === tab.id
+                          ? "border-[#543a5d] textPurple"
                           : "border-transparent text-gray-500 hover:text-gray-700"
-                        }`}
+                      }`}
                     >
                       <tab.icon className="w-4 h-4 sm:w-5 sm:h-5" />
                       <span className="text-sm font-medium">{tab.label}</span>
@@ -342,10 +332,10 @@ export function PreviewTest({ test, onBack }) {
                       {test.features.map((feature, index) => (
                         <div
                           key={index}
-                          className="flex items-center space-x-3 p-3 bg-indigo-50 rounded-lg"
+                          className="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg"
                         >
-                          <FiCheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600 flex-shrink-0" />
-                          <span className="text-sm text-indigo-900">
+                          <FiCheckCircle className="w-3 h-3  textPurple flex-shrink-0" />
+                          <span className="text-sm textPurple">
                             {feature}
                           </span>
                         </div>
@@ -384,14 +374,15 @@ export function PreviewTest({ test, onBack }) {
                           </div>
                           <span
                             className={`px-2 py-1 rounded-full text-xs font-medium 
-                          ${testItem.difficulty === "Basic"
-                                ? "bg-green-100 text-green-800"
-                                : testItem.difficulty === "Medium"
-                                  ? "bg-yellow-100 text-yellow-800"
-                                  : testItem.difficulty === "Moderate"
-                                    ? "bg-blue-100 text-blue-800"
-                                    : "bg-purple-100 text-purple-800"
-                              }`}
+                          ${
+                            testItem.difficulty === "Basic"
+                              ? "bg-green-100 text-green-800"
+                              : testItem.difficulty === "Medium"
+                              ? "bg-yellow-100 text-yellow-800"
+                              : testItem.difficulty === "Moderate"
+                              ? "bg-blue-100 text-blue-800"
+                              : "bg-purple-100 text-purple-800"
+                          }`}
                           >
                             {testItem.difficulty}
                           </span>
@@ -424,7 +415,8 @@ export function PreviewTest({ test, onBack }) {
               )}
             </div>
 
-            {/* Footer with Purchase Options */}
+            { /* Footer with Purchase Options */ }
+            
             <div className="border-t bg-gray-50 p-4 sm:p-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="w-full sm:w-auto">
@@ -433,7 +425,7 @@ export function PreviewTest({ test, onBack }) {
                       <div className="text-base font-medium text-gray-900">
                         This test series is included in
                       </div>
-                      <div className="text-xl font-bold text-indigo-600">
+                      <div className="text-xl font-bold textPurple">
                         {test.courses[0]?.title}
                       </div>
                       <div className="text-sm text-gray-600 mt-1">
@@ -460,7 +452,7 @@ export function PreviewTest({ test, onBack }) {
                           <Link
                             to="#"
                             onClick={() => handlePayment(test?.price)}
-                            className="text-indigo-500 hover:underline ml-1 font-bold"
+                            className="textLight bgGredient-purple px-4 py-1  rounded-md ml-4 font-bold"
                           >
                             Buy Test Only
                           </Link>
@@ -470,7 +462,7 @@ export function PreviewTest({ test, onBack }) {
                   ) : (
                     <div>
                       <div className="text-xl font-bold text-gray-900">
-                        ₹{test.price}
+                        {test.isFree ? "Free " : `₹ ${test.price}`}
                       </div>
                       <div className="text-sm text-gray-600">
                         Lifetime access to all tests
@@ -489,39 +481,40 @@ export function PreviewTest({ test, onBack }) {
                   {test.includedInCourse ? (
                     <button
                       onClick={() => {
-                        newPage ? navigate(
-                          `/courseDetailslive/${test.courses[0].title.replace(
-                            /\s+/g,
-                            "-"
-                          )}`,
-                          {
-                            state: { courseId: test.courses[0]._id },
-                          }
-                        ) :
-                          navigate(
-                            `/course-details/${test.courses[0].title.replace(
-                              /\s+/g,
-                              "-"
-                            )}`,
-                            {
-                              state: { courseId: test.courses[0]._id },
-                            }
-                          )
-                      }
-                      }
-                      className="flex-1 sm:flex-initial px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 text-sm"
+                        newPage
+                          ? navigate(
+                              `/courseDetailslive/${test.courses[0].title.replace(
+                                /\s+/g,
+                                "-"
+                              )}`,
+                              {
+                                state: { courseId: test.courses[0]._id },
+                              }
+                            )
+                          : navigate(
+                              `/course-details/${test.courses[0].title.replace(
+                                /\s+/g,
+                                "-"
+                              )}`,
+                              {
+                                state: { courseId: test.courses[0]._id },
+                              }
+                            );
+                      }}
+                      className="flex-1 sm:flex-initial px-4 py-2 bgGredient-purple-lr text-white rounded-lg font-medium hover:scale-105  flex items-center justify-center gap-2 text-sm"
                     >
                       <FiLock className="w-4 h-4" />
                       View Course
                     </button>
                   ) : (
                     <button
-                      onClick={() => handlePayment(test.price)}
+                      onClick={() => user ?  handlePayment(test.price) : navigate('/sign-In', { state: { testData: test } })}
                       disabled={payloading}
-                      className={` ${payloading
+                      className={` ${
+                        payloading
                           ? "bg-red-600 cursor-not-allowed"
-                          : "bg-indigo-600 hover:bg-indigo-700"
-                        } flex-1 sm:flex-initial px-4 py-2  text-white rounded-lg font-medium  transition-colors flex items-center justify-center gap-2 text-sm`}
+                          : "bgGredient-purple-lr hover:scale-105"
+                      } flex-1 sm:flex-initial px-4 py-2  text-white rounded-lg font-medium  transition-colors flex items-center justify-center gap-2 text-sm`}
                     >
                       <FiLock className="w-4 h-4" />
                       {payloading ? "Please Wait.." : "Enroll Now"}

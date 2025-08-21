@@ -16,7 +16,7 @@ import {
 } from "react-icons/fi";
 import { useAuth } from "../../context/auth-context";
 import { BiBrain } from "react-icons/bi";
-import { GiNotebook } from 'react-icons/gi';
+import { GiNotebook } from "react-icons/gi";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,11 +47,7 @@ const Sidebar = () => {
         items: [
           { href: "/", label: "Home", icon: FiHome },
           { href: "/profile", label: "Profile", icon: FiLayout },
-        ],
-      },
-      {
-        title: "Pages",
-        items: [
+    
           {
             href: "/course-details-student",
             label: "Courses",
@@ -65,7 +61,11 @@ const Sidebar = () => {
         title: "Self Learning",
         items: [
           { href: "/free-resources", label: "Free Resources", icon: BiBrain },
-          { href: "/pyqs", label: "PYQs", icon: GiNotebook },
+          {
+            label: "Mock Tests",
+            icon: FiFileText,
+            dropdown: [{ href: "/testSeries", label: "Test", icon: FiSquare }],
+          },
           {
             label: "Current Affairs",
             icon: FiFileText,
@@ -74,13 +74,7 @@ const Sidebar = () => {
               { href: "/monthlyAffairs", label: "Monthly", icon: FiTag },
             ],
           },
-          {
-            label: "Mock Tests",
-            icon: FiFileText,
-            dropdown: [
-              { href: "/testSeries", label: "Test", icon: FiSquare },
-            ],
-          },
+          { href: "/pyqs", label: "PYQs", icon: GiNotebook },
         ],
       },
     ],
@@ -208,12 +202,17 @@ const Sidebar = () => {
                                       }`}
                                       onClick={() => {
                                         if (window.fbq) {
-                                          fbq("trackCustom", "SidebarSubLinkClick", {
-                                            parent: item.label,
-                                            link: subItem.href,
-                                            label: subItem.label,
-                                            location: window.location.pathname,
-                                          });
+                                          fbq(
+                                            "trackCustom",
+                                            "SidebarSubLinkClick",
+                                            {
+                                              parent: item.label,
+                                              link: subItem.href,
+                                              label: subItem.label,
+                                              location:
+                                                window.location.pathname,
+                                            }
+                                          );
                                         }
                                         if (isMobile) setIsOpen(false);
                                       }}

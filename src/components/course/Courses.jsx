@@ -142,6 +142,8 @@ const Courses = () => {
     );
   }
 
+  console.log("course data", courses);
+
   return (
     <div className="container mx-auto p-4">
       <div className="flex flex-col md:flex-row md:justify-around justify-arround mx-2 gap-4 items-center my-10 space-y-4 md:space-y-0">

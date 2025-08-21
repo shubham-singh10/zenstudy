@@ -6,6 +6,7 @@ import TestList from "./TestList";
 import TestResult from "./TestResult";
 import Loading from "../../../Loading";
 import { useAuth } from "../../../context/auth-context";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const TestSeriesIndex = () => {
   const [currentView, setCurrentView] = useState("list");
@@ -14,9 +15,18 @@ const TestSeriesIndex = () => {
   const [testSeries, setTestSeries] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  const testDetail = location.state?.testData;
+
+  console.log("test detail for state", testDetail);
+
+
+  console.log("selected", testDetail);
   const handleTestSelect = (test) => {
     setSelectedTest(test);
+    console.log("handle selcedted test", selectedTest);
     setCurrentView("testList");
   };
 
@@ -33,6 +43,16 @@ const TestSeriesIndex = () => {
   const handleStartTest = () => {
     setCurrentView("test");
   };
+
+  useEffect(() => {
+    if (testDetail) {
+      setSelectedTest(testDetail);
+      setCurrentView("testList");
+
+      // Clear state so refresh/back won’t keep it
+      navigate(location.pathname, { replace: true });
+    }
+  }, [testDetail, location.pathname, navigate]);
 
   useEffect(() => {
     let isMounted = true;
@@ -135,7 +155,7 @@ const TestSeriesIndex = () => {
   if (currentView === "testList" && selectedTest) {
     return (
       <TestList
-        series={selectedTest.test_series}
+        series={selectedTest.test_series || selectedTest}
         onBack={() => setCurrentView("list")}
         onProceed={handleTestSeries}
         onResult={handleTestSeriesResult}

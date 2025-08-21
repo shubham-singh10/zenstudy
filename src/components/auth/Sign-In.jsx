@@ -67,6 +67,8 @@ function SignIn() {
 
   const freeCourseRedirect = location.state?.fromFreeCourse;
 
+  const testSeriesRedirect = location.state?.testData;
+
   // Intersection Observers
   const { ref: slideLeftRef, inView: slideLeftInView } = useInView({
     triggerOnce: true,
@@ -225,6 +227,11 @@ function SignIn() {
         );
         setLoading(false);
         login(resData.user, resData.role, resData.token);
+
+        if (testSeriesRedirect) {
+          navigation("/testSeries", { state: { testData: testSeriesRedirect } });
+          return;
+        }
 
         if (freeCourseRedirect) {
           navigation(`/watch-course-free/${freeCourseRedirect.id}`);
