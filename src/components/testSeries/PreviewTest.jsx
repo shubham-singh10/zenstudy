@@ -14,6 +14,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth-context";
 import Swal from "sweetalert2";
 import { Loader } from "../loader/Loader";
+import axios from "axios";
+import Testing from "../testing";
 
 export function PreviewTest({ test, onBack }) {
   const navigate = useNavigate();
@@ -22,11 +24,12 @@ export function PreviewTest({ test, onBack }) {
   const [loading, setLoading] = useState(true);
   const [payloading, setPayLoading] = useState(false);
   const [pageloading, setpageLoading] = useState(false);
+  const [token, setTokenData] = useState(null);
   // const [discount, setDiscount] = useState(null);
   // const [code, setCode] = useState(null);
+  const navigation = useNavigate();
 
   const { user } = useAuth();
- 
 
   useEffect(() => {
     let isMounted = true;
@@ -69,8 +72,8 @@ export function PreviewTest({ test, onBack }) {
   }, [test]);
 
   //Payment Initiate
-  const handlePayment = async (amount) => {
-
+  const handlePayment = async (amount, testSeriesData) => {
+    console.log(amount, user._id, test._id)
     setPayLoading(true);
     try {
       const res = await fetch(
@@ -92,10 +95,10 @@ export function PreviewTest({ test, onBack }) {
         const errorText = await res.text();
         console.error(`Error: ${res.status} - ${res.statusText}\n${errorText}`);
         Swal.fire({
-          title: "Oops. Test Series already purchase",
-          text: "Please visit the test section to see the test series",
+          title: "Oops! Test Series Already Purchased",
+          text: "You’ve already purchased this test series. Please check the Test section to access it.",
           icon: "error",
-        }).then((result) => {
+        }).then(() => {
           navigate("/testSeries");
         });
         return;
@@ -103,10 +106,16 @@ export function PreviewTest({ test, onBack }) {
 
       const data = await res.json();
       //console.log("Data", data)
-      handlePaymentVerify(data.data, test?._id);
-      setPayLoading(false);
+      if (data.message === "Free purchase successful") {
+        navigation("/testSeries", {
+          state: { testData: testSeriesData },
+        });
+      } else {
+        handlePaymentVerify(data.data, test?._id);
+      }
     } catch (error) {
       console.error("Error creating payment order:", error);
+    } finally {
       setPayLoading(false);
     }
   };
@@ -168,6 +177,94 @@ export function PreviewTest({ test, onBack }) {
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
   };
+
+  const handleFreePayment = async (amount, testId, testSeriesData) => {
+    setLoading((prev) => ({ ...prev, payLoading: true }));
+
+    // Facebook Pixel - InitiateCheckout
+    if (window.fbq) {
+      fbq("track", "InitiateCheckout", {
+        value: amount,
+        currency: "INR",
+        content_ids: testId,
+        content_type: "product",
+      });
+    }
+
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_API2}zenstudy/api/payment/order-free`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: amount,
+            user_id: user._id,
+            test_series_id: testId,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error(`Error: ${res.status} - ${res.statusText}\n${errorText}`);
+        Swal.fire({
+          title: "Test Series Already Purchased",
+          text: "You’ve already bought this test series. You can access it anytime in the Mock Test section.",
+          icon: "error",
+        }).then(() => {
+          window.location.pathname = "/testSeries";
+        });
+        return;
+      }
+
+      const data = await res.json();
+      console.log("dattaaugsugsw", data);
+      if (data.message === "Free purchase successful") {
+        navigation("/testSeries", {
+          state: { testData: testSeriesData },
+        });
+      }
+    } catch (error) {
+      console.error("Error creating payment order:", error);
+    } finally {
+      setLoading((prev) => ({ ...prev, payLoading: false }));
+    }
+  };
+
+  const createToken = async (testId, purchasePrice, couponCode, testData) => {
+    const sendData = {
+      testSeriesId: testId,
+      amount: purchasePrice,
+      couponCode,
+      otherDetailsTestSeries: testData,
+    };
+    try {
+      const res = await axios.post(
+        `${process.env.REACT_APP_API2}zenstudy/api/payment/create-token`,
+        sendData
+      );
+      console.log("Token response:", res.data);
+      if (res.data) {
+        setTokenData(res.data.token);
+      }
+      console.log("response me", res);
+    } catch (error) {
+      console.log("something went wrong", error);
+    }
+  };
+
+  if (token) {
+    return (
+      <Testing
+        token={token}
+        price={test.isFree ? "Free" : test.price}
+        courseName={test?.title || "Zenstudy Test Series"}
+      />
+    );
+  }
 
   if (loading) {
     return (
@@ -335,9 +432,7 @@ export function PreviewTest({ test, onBack }) {
                           className="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg"
                         >
                           <FiCheckCircle className="w-3 h-3  textPurple flex-shrink-0" />
-                          <span className="text-sm textPurple">
-                            {feature}
-                          </span>
+                          <span className="text-sm textPurple">{feature}</span>
                         </div>
                       ))}
                     </div>
@@ -415,8 +510,8 @@ export function PreviewTest({ test, onBack }) {
               )}
             </div>
 
-            { /* Footer with Purchase Options */ }
-            
+            {/* Footer with Purchase Options */}
+
             <div className="border-t bg-gray-50 p-4 sm:p-6">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="w-full sm:w-auto">
@@ -508,7 +603,19 @@ export function PreviewTest({ test, onBack }) {
                     </button>
                   ) : (
                     <button
-                      onClick={() => user ?  handlePayment(test.price) : navigate('/sign-In', { state: { testData: test } })}
+                      onClick={() =>
+                        user
+                          ? handlePayment(
+                              test.isFree ? 0 : test.price,
+                              test
+                            )
+                          : createToken(
+                              test._id,
+                              test.isFree ? 0 : test.price,
+                              test.isFree ? "Free" : null,
+                              test
+                            )
+                      }
                       disabled={payloading}
                       className={` ${
                         payloading

@@ -60,7 +60,7 @@ export default function ResourceCard({
             <div className="p-2 bg-purple-100 rounded-full text-lg textPurple shadow-sm">
               {getIcon()}
             </div>
-            <h3 className="font-semibold text-sm sm:text-md textPurple truncate">
+            <h3 className="font-semibold text-sm sm:text-md textPurple ">
               {title}
             </h3>
           </div>

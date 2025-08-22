@@ -5,11 +5,15 @@ import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
 import { Loader } from "./loader/Loader";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/auth-context";
 
 const Testing = ({ token, price, courseName }) => {
+  const navigation = useNavigate();
   const [otpSent, setOtpSent] = useState(false);
   const [timer, setTimer] = useState(40);
   const [phoneError, setPhoneError] = useState("");
+  const { login } = useAuth();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [currentStep, setCurrentStep] = useState(1); // step control
   const [loading, setLoading] = useState({
@@ -122,6 +126,7 @@ const Testing = ({ token, price, courseName }) => {
             amount: paydata?.purchasePrice,
             user_id: paydata?.userId,
             course_id: paydata?.courseId,
+             test_series_id: paydata?.testSeriesId,
           }),
         }
       );
@@ -140,7 +145,14 @@ const Testing = ({ token, price, courseName }) => {
       }
 
       const data = await res.json();
-      handlePaymentVerify(data.data, paydata);
+
+      if (data.message === "Free purchase successful") {
+        navigation("/testSeries", {
+          state: { testData: paydata.otherDetailsTestSeries },
+        });
+      } else {
+        handlePaymentVerify(data.data, paydata);
+      }
     } catch (error) {
       console.error("Error creating payment order:", error);
     } finally {
@@ -228,6 +240,62 @@ const Testing = ({ token, price, courseName }) => {
     rzp1.open();
   };
 
+  const handleFreePayment = async (paydata) => {
+    setLoading((prev) => ({ ...prev, payLoading: true }));
+
+    // Facebook Pixel - InitiateCheckout
+    if (window.fbq) {
+      fbq("track", "InitiateCheckout", {
+        value: paydata.purchasePrice,
+        currency: "INR",
+        content_ids: [paydata?.courseId],
+        content_type: "product",
+      });
+    }
+
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_API2}zenstudy/api/payment/order-free`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: paydata?.purchasePrice,
+            user_id: paydata?.userId,
+            test_series_id: paydata?.testSeriesId,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error(`Error: ${res.status} - ${res.statusText}\n${errorText}`);
+        Swal.fire({
+          title: "Test Series Already Purchased",
+          text: "You’ve already bought this test series. You can access it anytime in the Mock Test section.",
+          icon: "error",
+        }).then(() => {
+          window.location.pathname = "/testSeries";
+        });
+        return;
+      }
+
+      const data = await res.json();
+      console.log("dattaaugsugsw", data);
+      if (data.message === "Free purchase successful") {
+        navigation("/testSeries", {
+          state: { testData: paydata.otherDetailsTestSeries },
+        });
+      }
+    } catch (error) {
+      console.error("Error creating payment order:", error);
+    } finally {
+      setLoading((prev) => ({ ...prev, payLoading: false }));
+    }
+  };
+
   const verifyToken = async (tokenn, userId) => {
     try {
       const res = await axios.post(
@@ -242,8 +310,6 @@ const Testing = ({ token, price, courseName }) => {
       if (result.message === "Token is valid") {
         handlePayment(result.data);
       }
-
-      console.log("Token verification response:", res.data);
     } catch (error) {
       console.error("Token verification error:", error);
       Swal.fire({
@@ -254,6 +320,7 @@ const Testing = ({ token, price, courseName }) => {
       });
     }
   };
+
   // Final form submission
   const onSubmit = async (data) => {
     try {
@@ -301,7 +368,7 @@ const Testing = ({ token, price, courseName }) => {
           }
         );
         setLoading(false);
-        // login(resData.user, resData.role, resData.token);
+        login(resData.user, resData.role, resData.token);
 
         verifyToken(token, resData.user._id);
       }
