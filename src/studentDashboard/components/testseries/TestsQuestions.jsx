@@ -74,7 +74,7 @@ export const TestQuestionsPage = ({ test, series }) => {
       );
 
       const result = await response.json();
-      console.log("Test Result: ", result);
+      // console.log("Test Result: ", result);
       setTestResult(result.resultSummary);
       setShowResults(true);
       setTimeLeft(-1);
@@ -234,7 +234,7 @@ export const TestQuestionsPage = ({ test, series }) => {
             onClick={() => window.location.reload()}
             className="w-full bgGredient-green textGold py-3 rounded-lg font-semibold hover:scale-105 transition-colors"
           >
-            Go Back
+            See Explanation & Answers
           </button>
         </div>
       </div>

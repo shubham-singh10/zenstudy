@@ -20,13 +20,8 @@ const TestSeriesIndex = () => {
 
   const testDetail = location.state?.testData;
 
-  console.log("test detail for state", testDetail);
-
-
-  console.log("selected", testDetail);
   const handleTestSelect = (test) => {
     setSelectedTest(test);
-    console.log("handle selcedted test", selectedTest);
     setCurrentView("testList");
   };
 
@@ -77,7 +72,7 @@ const TestSeriesIndex = () => {
         }
 
         const data = await response.json();
-        console.log("Response_Data", data);
+        // console.log("Response_Data", data);
 
         if (isMounted) {
           setTestSeries(data.purchasedTestSeries);

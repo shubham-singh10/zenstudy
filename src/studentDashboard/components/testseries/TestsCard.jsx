@@ -13,8 +13,6 @@ export const TestsCard = ({ test, onProceed }) => {
   // ✅ Get user's progress percentage (default to 0 if not found)
   const userProgress = test.progressPercentage[user?._id] || 0;
 
-  console.log("Test Card Rendered", test);
-
   return (
     <div
       className="group cursor-pointer overflow-hidden rounded-xl bg-white shadow-md transition-all hover:shadow-lg"

@@ -10,13 +10,11 @@ function TestList({ series, onBack, onProceed, onResult }) {
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
-  console.log("Series: ", series);
   // ✅ Filter completed tests for the current user
   const userCompletedTests = series?.completedTests?.filter(
     (series) => series.userId === user?._id
   );
 
-  console.log("testSeries: ", testSeries);
 
   const check = ({ id }) => {
     const TestCompleted = series.completedTests.filter(
@@ -65,8 +63,6 @@ function TestList({ series, onBack, onProceed, onResult }) {
         }
 
         const data = await response.json();
-
-        console.log("Response_Data: ", data);
         if (isMounted) {
           setTestSeries(data);
           setLoading(false);

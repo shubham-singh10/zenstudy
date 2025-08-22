@@ -13,12 +13,12 @@ import {
 } from "react-icons/fi";
 import { Loader } from "../../../components/loader/Loader";
 
-const TestResult = ({series, onBack}) => {
+const TestResult = ({ series, onBack }) => {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState([]);
   const pdfRef = useRef();
   const { user } = useAuth();
-  console.log("User:", series);
+
   useEffect(() => {
     let isMounted = true;
 
@@ -40,9 +40,9 @@ const TestResult = ({series, onBack}) => {
         }
 
         const data = await response.json();
-        console.log("res",data);
 
         if (isMounted) {
+          // console.log("Data: ", data);
           setResult(data);
           setLoading(false);
         }
@@ -93,25 +93,28 @@ const TestResult = ({series, onBack}) => {
   };
 
   if (loading) {
-    return  (
+    return (
       <div className="flex items-center justify-center h-screen">
-      <Loader fill="black" />
-    </div>)
+        <Loader fill="black" />
+      </div>
+    );
   }
 
   return (
     <Fragment>
       <div className="min-h-screen">
         <div className="max-w-4xl mx-auto">
-        
-        <div className="mt-8 text-center">
-            <button  onClick={onBack} className="flex items-center textPurple hover:text-gray-900 mb-8">
+          <div className="mt-8 text-center">
+            <button
+              onClick={onBack}
+              className="flex items-center textPurple hover:text-gray-900 mb-8"
+            >
               <FiArrowLeft className="h-5 w-5 mr-2 textPurple" />
               Back to Test Series
             </button>
           </div>
-        
-        {/* Summary Card */}
+
+          {/* Summary Card */}
 
           <div className="bg-purple-50  rounded-xl shadow-lg p-6 sm:p-8 mb-8">
             <div className="text-center mb-8">
@@ -125,7 +128,8 @@ const TestResult = ({series, onBack}) => {
               <div className="flex flex-wrap items-center justify-center gap-4 p-4 bg-white rounded-lg shadow-md">
                 <p className="text-xl font-semibold textPurple">
                   Total Marks:{" "}
-                  <span className="textPurple">{result?.score}</span> / {result?.maxScore}
+                  <span className="textPurple">{result?.score}</span> /{" "}
+                  {result?.maxScore}
                 </p>
 
                 <button
@@ -192,12 +196,12 @@ const TestResult = ({series, onBack}) => {
                     className="border rounded-lg p-4 shadow-md bg-purple-50"
                   >
                     <div className="flex justify-between items-center mb-2">
-                    <h3
-                    className="text-lg font-semibold textPurple"
-                    dangerouslySetInnerHTML={{
-                      __html: `${index + 1}. ${item.question}`,
-                    }}
-                  ></h3>
+                      <h3
+                        className="text-lg font-semibold textPurple"
+                        dangerouslySetInnerHTML={{
+                          __html: `${index + 1}. ${item.question}`,
+                        }}
+                      ></h3>
 
                       {/* Points Display */}
                       {item.selectedAnswer === item.correctAnswer ? (
@@ -274,12 +278,23 @@ const TestResult = ({series, onBack}) => {
                         </span>
                       </p>
                     </div>
+                    {item.explanation && (
+                      <div className="mt-4 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md">
+                        <h4 className="font-semibold text-yellow-800 mb-2">
+                          🧠 Explanation:
+                        </h4>
+                        <div
+                          className="text-sm text-gray-800"
+                          dangerouslySetInnerHTML={{
+                            __html: item.explanation,
+                          }}
+                        ></div>
+                      </div>
+                    )}
                   </div>
                 ))}
             </div>
           </div>
-
-          
         </div>
       </div>
     </Fragment>
