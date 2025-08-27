@@ -458,7 +458,7 @@ const LiveCourseDetailsPage = () => {
         }`}
       >
         {/* Top Banner */}
-        <div className="w-full flex justify-center items-center relative">
+        <div className="hidden md:flex w-full justify-center items-center relative">
           {CoursesData.posterUrl ? (
             <>
               {/* Blurred Placeholder (Visible Until Image Loads) */}
@@ -772,7 +772,7 @@ const LiveCourseDetailsPage = () => {
                             />
                           </svg>
                           <span>
-                            {item.title} {item.description} 
+                            {item.title} {item.description}
                           </span>
                         </li>
                         <li className="flex items-center">
@@ -1164,7 +1164,6 @@ const LiveCourseDetailsPage = () => {
                   {discount?.subTotal
                     ? discount?.subTotal.toFixed(2)
                     : CoursesData.price}{" "}
-                 
                 </p>
 
                 <p className="textGold rounded-l-md font-semibold px-3 py-1 border-l-4 border-[#efdb78] bgGredient-green text-sm">
