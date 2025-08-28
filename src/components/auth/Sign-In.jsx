@@ -65,9 +65,9 @@ function SignIn() {
   const [otpSent, setOtpSent] = useState(true);
   const { login } = useAuth();
 
-  const freeCourseRedirect = location.state?.fromFreeCourse;
+  const freeCourseRedirect =
+    location.state?.fromFreeCourse || location.state?.freeCourseId;
 
-  
   const testSeriesRedirect = location.state?.testData;
 
   // Intersection Observers
@@ -189,7 +189,6 @@ function SignIn() {
   };
 
   const handleLogin = async (data) => {
-    console.log(data);
     try {
       const sendData = {
         phone: phone,
@@ -215,8 +214,6 @@ function SignIn() {
 
       const resData = await response.json();
 
-      console.log(resData);
-
       if (resData.message === "Success") {
         toast.success(
           `Welcome, ${resData.user.name}! Your account has been successfully created.`,
@@ -230,12 +227,16 @@ function SignIn() {
         login(resData.user, resData.role, resData.token);
 
         if (testSeriesRedirect) {
-          navigation("/testSeries", { state: { testData: testSeriesRedirect } });
+          navigation("/testSeries", {
+            state: { testData: testSeriesRedirect },
+          });
           return;
         }
 
         if (freeCourseRedirect) {
-          navigation(`/watch-course-free/${freeCourseRedirect.id}`);
+          navigation(
+            `/watch-course-free/${freeCourseRedirect.id || freeCourseRedirect}`
+          );
         } else {
           const from = location.state?.from || "/course-details-student";
           navigation(from);

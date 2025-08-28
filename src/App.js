@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/auth-context.jsx";
 import { Toaster } from "react-hot-toast";
 import TestSeriesIndex from "./components/testSeries/index.jsx";
+import FreeLandingPage from "./components/course/FreeLandingPage.jsx";
 
 const Loading = lazy(() => import("./Loading.jsx"));
 const MainLayout = lazy(() => import("./MainLayout.jsx"));
@@ -77,6 +78,7 @@ function App() {
               <Route path="/pdfViewer" element={<PdfViewer />} />
               <Route path="/test-series" element={<TestSeriesIndex />} />
               <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+              <Route path="/freeClasses" element={<FreeLandingPage />} />
               <Route
                 path="/termandConditions"
                 element={<TermandConditions />}
