@@ -178,61 +178,6 @@ export function PreviewTest({ test, onBack }) {
     rzp1.open();
   };
 
-  const handleFreePayment = async (amount, testId, testSeriesData) => {
-    setLoading((prev) => ({ ...prev, payLoading: true }));
-
-    // Facebook Pixel - InitiateCheckout
-    if (window.fbq) {
-      fbq("track", "InitiateCheckout", {
-        value: amount,
-        currency: "INR",
-        content_ids: testId,
-        content_type: "product",
-      });
-    }
-
-    try {
-      const res = await fetch(
-        `${process.env.REACT_APP_API2}zenstudy/api/payment/order-free`,
-        {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({
-            amount: amount,
-            user_id: user._id,
-            test_series_id: testId,
-          }),
-        }
-      );
-
-      if (!res.ok) {
-        const errorText = await res.text();
-        console.error(`Error: ${res.status} - ${res.statusText}\n${errorText}`);
-        Swal.fire({
-          title: "Test Series Already Purchased",
-          text: "You’ve already bought this test series. You can access it anytime in the Mock Test section.",
-          icon: "error",
-        }).then(() => {
-          window.location.pathname = "/testSeries";
-        });
-        return;
-      }
-
-      const data = await res.json();
-      console.log("dattaaugsugsw", data);
-      if (data.message === "Free purchase successful") {
-        navigation("/testSeries", {
-          state: { testData: testSeriesData },
-        });
-      }
-    } catch (error) {
-      console.error("Error creating payment order:", error);
-    } finally {
-      setLoading((prev) => ({ ...prev, payLoading: false }));
-    }
-  };
 
   const createToken = async (testId, purchasePrice, couponCode, testData) => {
     const sendData = {

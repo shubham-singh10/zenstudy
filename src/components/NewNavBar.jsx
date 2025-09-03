@@ -19,7 +19,7 @@ const navLink = [
   { label: "Mock Tests", link: "/test-series" },
   { label: "Current Affairs", link: "/currentAffair" },
   { label: "Our Team", link: "/ourteam" },
-  { label: "UPSC Blogs", link: "https://blog.zenstudy.in/category/blogs/" },
+  { label: "UPSC PYQ", link: "https://blog.zenstudy.in/category/pyq/" },
   { label: "Daily Editorials", link: "https://blog.zenstudy.in/category/daily-editorials/" },
   { label: "Contact", link: "/contact" },
 ];

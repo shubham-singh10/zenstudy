@@ -20,10 +20,12 @@ const MyPurchaseCourse = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const navigate = useNavigate();
 
+
+  console.log("User ID in MyPurchaseCourse:", courses);
   useEffect(() => {
     const getcourse = async () => {
       if (!user?._id) return;
-
+      console.log("Fetching courses for user ID:", user._id);
       try {
         const response = await fetch(
           `${process.env.REACT_APP_API}zenstudy/api/payment/purchaseCourseNew`,
@@ -171,15 +173,15 @@ const MyPurchaseCourse = () => {
 
                 <button
                   className={`flex items-center text-xs justify-center w-1/2 ${
-                    course?.modules?.length <= 0
+                    course?.modules?.length <= 0 || course?.modules === undefined
                       ? "bgGredient-purple cursor-not-allowed"
                       : "bgGredient-purple-lr hover:scale-105"
                   } text-white py-2 px-4 rounded-lg transition-transform`}
-                  disabled={course?.modules?.length <= 0}
+                  disabled={course?.modules?.length <= 0 || course?.modules === undefined}
                   onClick={() => navigate(`/watch-course/${course.paymentId}`)}
                 >
                   <FaPlay className="mr-2 text-xs" />
-                  {course?.modules?.length <= 0
+                  {course?.modules?.length <= 0 || course?.modules === undefined
                     ? "No Recorded Lecture yet"
                     : "Recorded Lecture"}
                 </button>

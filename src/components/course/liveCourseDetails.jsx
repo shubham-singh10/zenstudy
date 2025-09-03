@@ -452,6 +452,7 @@ const LiveCourseDetailsPage = () => {
         </div>
       )}
 
+
       <div
         className={`-mt-3 overflow-auto h-screen flex flex-wrap bg-gray-50 transition-opacity duration-500 ease-in-out ${
           contentVisible ? "opacity-100" : "opacity-0"
@@ -1184,14 +1185,14 @@ const LiveCourseDetailsPage = () => {
               )}
 
               {/* Apply Coupon Link */}
-              {!currentUser && (
+           
                 <button
                   className="textPurple text-sm font-semibold hover:text-[#292b27] hover:underline mb-3"
                   onClick={() => setIsModalOpen(true)}
                 >
                   Have a coupon? Apply it here.
                 </button>
-              )}
+              
 
               {/* CTA Button */}
               {currentUser ? (
