@@ -31,6 +31,16 @@ export function PreviewTest({ test, onBack }) {
 
   const { user } = useAuth();
 
+  // Tracker helper function
+  const trackEvent = (action, extra = {}) => {
+    console.log("📊 Tracker:", action, {
+      testId: test._id,
+      testTitle: test.title,
+      userId: user?._id,
+      ...extra,
+    });
+  };
+
   useEffect(() => {
     let isMounted = true;
 
@@ -73,7 +83,7 @@ export function PreviewTest({ test, onBack }) {
 
   //Payment Initiate
   const handlePayment = async (amount, testSeriesData) => {
-    console.log(amount, user._id, test._id)
+    console.log(amount, user._id, test._id);
     setPayLoading(true);
     try {
       const res = await fetch(
@@ -177,7 +187,6 @@ export function PreviewTest({ test, onBack }) {
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
   };
-
 
   const createToken = async (testId, purchasePrice, couponCode, testData) => {
     const sendData = {
@@ -501,7 +510,7 @@ export function PreviewTest({ test, onBack }) {
                     </div>
                   ) : (
                     <div>
-                      <div className="text-xl font-bold text-gray-900">
+                      <div className="text-2xl font-bold text-gray-900">
                         {test.isFree ? "Free " : `₹ ${test.price}`}
                       </div>
                       <div className="text-sm text-gray-600">
@@ -512,7 +521,10 @@ export function PreviewTest({ test, onBack }) {
                 </div>
                 <div className="flex gap-3 w-full sm:w-auto">
                   <button
-                    onClick={onBack}
+                    onClick={() => {
+                      trackEvent("Back_Clicked");
+                      onBack();
+                    }}
                     className="flex-1 sm:flex-initial px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors text-sm"
                   >
                     Back
@@ -548,25 +560,26 @@ export function PreviewTest({ test, onBack }) {
                     </button>
                   ) : (
                     <button
-                      onClick={() =>
+                      onClick={() => {
+                        trackEvent("EnrollNow_Clicked", {
+                          price: test.isFree ? 0 : test.price,
+                        });
+
                         user
-                          ? handlePayment(
-                              test.isFree ? 0 : test.price,
-                              test
-                            )
+                          ? handlePayment(test.isFree ? 0 : test.price, test)
                           : createToken(
                               test._id,
                               test.isFree ? 0 : test.price,
                               test.isFree ? "Free" : null,
                               test
-                            )
-                      }
+                            );
+                      }}
                       disabled={payloading}
-                      className={` ${
+                      className={`${
                         payloading
                           ? "bg-red-600 cursor-not-allowed"
                           : "bgGredient-purple-lr hover:scale-105"
-                      } flex-1 sm:flex-initial px-4 py-2  text-white rounded-lg font-medium  transition-colors flex items-center justify-center gap-2 text-sm`}
+                      } flex-1 sm:flex-initial px-4 py-2 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2 text-sm`}
                     >
                       <FiLock className="w-4 h-4" />
                       {payloading ? "Please Wait.." : "Enroll Now"}

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { PreviewTest } from "./PreviewTest";
 import { TestSeriesCard } from "./TestSeriesCard";
-import { Loader } from "../loader/Loader";
 import { useAuth } from "../../context/auth-context";
 import ResourceSkeleton from "../../studentDashboard/components/free-resources/resource-skeleton";
+import { useNavigate, useParams } from "react-router-dom";   // ✅ import
 
 const TestSeriesIndex = () => {
   const [currentView, setCurrentView] = useState("list");
@@ -11,12 +11,25 @@ const TestSeriesIndex = () => {
   const [loading, setLoading] = useState(true);
   const [testSeries, setTestSeries] = useState([]);
   const { user } = useAuth();
+  const { id } = useParams();   // ✅ id from URL
+  const navigate = useNavigate();
 
   const handlePreview = (test) => {
     setSelectedTest(test);
     setCurrentView("preview");
+    navigate(`/test-series/${test._id}`);
+
+    // ✅ Pixel event: jab preview khola
+    if (window.fbq) {
+      window.fbq("testSeriesTracker", "ViewContent", {
+        content_name: test.title || "Test Preview",
+        content_ids: [test._id],
+        content_type: "test_series",
+      });
+    }
   };
 
+  // ✅ API se test series fetch
   useEffect(() => {
     let isMounted = true;
 
@@ -38,15 +51,23 @@ const TestSeriesIndex = () => {
         }
 
         const data = await response.json();
-        console.log("dataaaa", data);
         const ImgData = data.map((item) => ({
-          ...item, // Spread the current item (not data)
+          ...item,
           imageUrl: `${item.image}`,
         }));
 
         if (isMounted) {
           setTestSeries(ImgData);
           setLoading(false);
+
+          // ✅ Pixel event: jab list load ho gayi
+          if (window.fbq && ImgData.length > 0) {
+            window.fbq("track", "ViewContent", {
+              content_name: "Test Series List",
+              content_ids: ImgData.map((t) => t._id),
+              content_type: "test_series",
+            });
+          }
         }
       } catch (error) {
         console.error("Error fetching test series:", error);
@@ -61,13 +82,35 @@ const TestSeriesIndex = () => {
     };
   }, [user]);
 
+  // ✅ Ye wala useEffect neeche lagana hai
+  useEffect(() => {
+    if (id && testSeries.length > 0) {
+      const foundTest = testSeries.find((t) => t._id === id);
+      if (foundTest) {
+        setSelectedTest(foundTest);
+        setCurrentView("preview");
+
+        // ✅ Pixel event: direct URL se open kiya to bhi track karo
+        if (window.fbq) {
+          window.fbq("track", "ViewContent", {
+            content_name: foundTest.title || "Test Preview",
+            content_ids: [foundTest._id],
+            content_type: "test_series",
+          });
+        }
+      }
+    } else {
+      setSelectedTest(null);
+      setCurrentView("list");
+    }
+  }, [id, testSeries]);
+
   if (currentView === "preview" && selectedTest) {
     return (
       <PreviewTest
         test={selectedTest}
         onBack={() => {
-          setCurrentView("list");
-          setSelectedTest(null);
+          navigate("/test-series");
         }}
       />
     );

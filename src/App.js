@@ -77,6 +77,7 @@ function App() {
               <Route path="/currentAffair" element={<CurrentAffair />} />
               <Route path="/pdfViewer" element={<PdfViewer />} />
               <Route path="/test-series" element={<TestSeriesIndex />} />
+              <Route path="/test-series/:id" element={<TestSeriesIndex />} />
               <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
               <Route path="/freeClasses" element={<FreeLandingPage />} />
               <Route
