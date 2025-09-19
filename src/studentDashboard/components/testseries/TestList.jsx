@@ -10,6 +10,8 @@ function TestList({ series, onBack, onProceed, onResult }) {
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
+  console.log("series", series);
+
   // ✅ Filter completed tests for the current user
   const userCompletedTests = series?.completedTests?.filter(
     (series) => series.userId === user?._id
@@ -39,7 +41,7 @@ function TestList({ series, onBack, onProceed, onResult }) {
       return formattedDate;
     }
 
-    return null; // Return null if no submission date is found
+    return null;
   };
 
   useEffect(() => {

@@ -12,7 +12,7 @@ import Loading from "../../../Loading";
 import { useAuth } from "../../../context/auth-context";
 import Swal from "sweetalert2";
 
-export const TestQuestionsPage = ({ test, series }) => {
+export const TestQuestionsPage = ({ route }) => {
   const [questions, setquestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState(null);
@@ -24,6 +24,11 @@ export const TestQuestionsPage = ({ test, series }) => {
   const { user } = useAuth();
   const timerRef = useRef(null);
   const timeLeftRef = useRef(0);
+  const {test, series} = route.params || {};
+
+
+  console.log("Test Info: ", test);
+  console.log("Series Info: ", series);
 
   const handleAnswerSelect = (optionIndex) => {
     const newAnswers = [...selectedAnswers];

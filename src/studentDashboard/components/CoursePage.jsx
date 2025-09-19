@@ -181,13 +181,16 @@ const CoursesPage = () => {
             </div>
           ) : (
             courses.map((course) => {
-              const newPage = course.title?.includes("UPSC Foundation Batch");
+              const keywords = ["UPSC Foundation Batch", "NCERT Batch"];
+              const newPage = keywords.some((keyword) =>
+                course.title?.includes(keyword)
+              );
               const mentor = course.title?.includes(
                 "Personalised Mentorship Programme"
               );
               return (
                 <div
-                  key={course._id}
+                  key={course._id} 
                   className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer relative"
                   onClick={() =>
                     course.isFree

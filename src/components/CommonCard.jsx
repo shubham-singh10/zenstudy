@@ -9,7 +9,8 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
   const [hasTrackedView, setHasTrackedView] = useState(false);
 
   const isUpcoming = course.other1 === "upcoming";
-  const newPage = course.title?.includes("UPSC Foundation Batch");
+  const keywords = ["UPSC Foundation Batch", "NCERT Batch"];
+  const newPage = keywords.some((keyword) => course.title?.includes(keyword));
   const mentor = course.title?.includes("Personalised Mentorship Programme");
   const freeCourse = course.isFree;
   const userId = user?._id;
@@ -138,7 +139,11 @@ function CommonCard({ course, link, mentorLink, linknew, differentClass }) {
           >
             <span className="custom-btn-bg"></span>
             <span className="custom-btn-text text-xs">
-              {freeCourse && !userId ? "Login to watch" : freeCourse ? "Watch Now" :"View Details"}
+              {freeCourse && !userId
+                ? "Login to watch"
+                : freeCourse
+                ? "Watch Now"
+                : "View Details"}
             </span>
           </button>
         )}

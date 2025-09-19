@@ -377,6 +377,8 @@ const LiveCourseDetailStudent = () => {
     return <CoursePageSkeleton />;
   }
 
+  console.log(CoursesData.posterUrl)
+
   if (error) {
     navigate("/course-details-student");
     return (
@@ -403,24 +405,30 @@ const LiveCourseDetailStudent = () => {
       >
         {/* Top Banner */}
         <div className="w-full flex justify-center items-center relative">
-          {CoursesData.posterUrl ? (
+          {CoursesData.posterUrl === undefined ? (
             <>
               {/* Blurred Placeholder (Visible Until Image Loads) */}
               <div
-                className={`absolute inset-0 w-full h-full bgGredient-purple transition-opacity duration-700 ${bannerImageLoaded ? "opacity-0" : "opacity-100"}`}
+                className={`absolute inset-0 w-full h-full bgGredient-purple transition-opacity duration-700 ${
+                  bannerImageLoaded ? "opacity-0" : "opacity-100"
+                }`}
               />
 
               {/* Course Poster Image */}
               <img
-                src={CoursesData.posterUrl || "/placeholder.svg"}
+                src={CoursesData?.posterUrl || "/placeholder.svg"}
                 crossOrigin="anonymous"
                 alt="Course Poster"
-                className={`w-full lg:h-full md:h-40 h-36 lg:object-contain object-fill transition-opacity duration-700 ${bannerImageLoaded ? "opacity-100" : "opacity-0"}`}
+                className={`w-full lg:h-full md:h-40 h-36 lg:object-contain object-fill transition-opacity duration-700 ${
+                  bannerImageLoaded ? "opacity-100" : "opacity-0"
+                }`}
               />
             </>
           ) : (
-            <div className="w-full h-40 bgGredient-purple flex justify-center items-center text-white">
-              <h1 className="text-2xl lg:text-3xl font-bold tracking-wide">Welcome to the {CoursesData.title} Batch</h1>
+            <div className="w-full h-40 bgGradient-purple-light flex justify-center items-center text-white">
+              <h1 className="text-2xl  textGreen lg:text-4xl font-bold tracking-wide">
+               {CoursesData.title} 
+              </h1>
             </div>
           )}
         </div>
@@ -446,10 +454,13 @@ const LiveCourseDetailStudent = () => {
                   {/* Left Section */}
                   <div className="w-full lg:w-[60%] bg-white p-2 md:p-3 lg:p-6">
                     {/* Sections corresponding to tabs */}
-                    <div ref={featuresRef} className="py-8">
-                    
-                      <VideoPlayer videopath={CoursesData?.previewVideo?.previewVideoDescription} />
-                    </div>
+                     {CoursesData?.previewVideo?.previewVideoDescription &&
+            <div ref={featuresRef} className="py-8">
+              <VideoPlayer
+                videopath={CoursesData?.previewVideo?.previewVideoDescription}
+              />
+            </div>
+  }
         
                     <div ref={aboutRef} className="py-8 ">
                       <h2 className=" text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 textPurple">Course Details</h2>
@@ -458,70 +469,80 @@ const LiveCourseDetailStudent = () => {
                       <div className="bgGradient-purple-light rounded-xl p-6 mb-8 border border-[#543a5d] shadow-sm">
                         <h3 className="text-lg lg:text-xl font-bold textPurple mb-4">Course Overview</h3>
                         <p className="text-gray-700 leading-relaxed">{CoursesData.description}</p>
-                        <div className="mt-4 bg-white rounded-lg p-4 border border-p-urple100 flex items-center space-x-3">
-                          <div className="bg-purple-100 p-3 rounded-full">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-6 w-6 textPurple"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                              />
-                            </svg>
-                          </div>
-                          <div>
-                            <p className="text-sm text-gray-500">Course Start Date</p>
-                            <p className="font-semibold text-gray-800">
-                              {" "}
-                              {new Date(CoursesData.startTime).toLocaleDateString("en-GB", {
-                                day: "2-digit",
-                                month: "short",
-                                year: "numeric",
-                              })}
-                            </p>
-                          </div>
-                        </div>
+                       {CoursesData?.startTime && <div className="mt-4 bg-white rounded-lg p-4 border border-p-urple100 flex items-center space-x-3">
+                  <div className="bg-purple-100 p-3 rounded-full">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 textPurple"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Course Start Date</p>
+                    <p className="font-semibold text-gray-800">
+                      {" "}
+                      {new Date(CoursesData.startTime).toLocaleDateString(
+                        "en-GB",
+                        {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        }
+                      )}
+                    </p>
+                  </div>
+                </div>}
                       </div>
         
                       <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 textPurple">About the Batch</h2>
                       <ul className="space-y-4">
-                        <li className="flex items-start">
-                          <span className="text-yellow-500 text-xl mr-3">⭐ </span>{" "}
-                          <span>
-                            <strong>Course Duration : </strong>{" "}
-                            {CoursesData.startTime ? (
-                              <>
-                                {new Date(CoursesData.startTime).toLocaleDateString("en-GB", {
-                                  day: "2-digit",
-                                  month: "short",
-                                  year: "numeric",
-                                })}{" "}
-                                {CoursesData.endTime ? (
-                                  <>
-                                    |{" "}
-                                    {new Date(CoursesData.endTime).toLocaleDateString("en-GB", {
-                                      day: "2-digit",
-                                      month: "short",
-                                      year: "numeric",
-                                    })}
-                                  </>
-                                ) : (
-                                  <span className="ml-1 bg-purple-100 textPurple px-2 py-0.5 rounded-full text-sm font-medium">
-                                    1.5 Years Comprehensive Program
-                                  </span>
-                                )}
-                              </>
-                            ) : (
-                              "24th March, 2025 - 1.5 Years Comprehensive Program"
+                         {CoursesData.title?.includes("UPSC Foundation Batch") && <li className="flex items-start">
+                  <span className="text-yellow-500 text-xl mr-3">⭐ </span>{" "}
+                  <span>
+                    <strong>Course Duration : </strong>{" "}
+                    {CoursesData.startTime ? (
+                      <>
+                        {new Date(CoursesData.startTime).toLocaleDateString(
+                          "en-GB",
+                          {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          }
+                        )}{" "}
+                        {CoursesData.endTime ? (
+                          <>
+                            |{" "}
+                            {new Date(CoursesData.endTime).toLocaleDateString(
+                              "en-GB",
+                              {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                              }
                             )}
+                          </>
+                        ) : (
+                          <span className="ml-1 bg-purple-100 textPurple px-2 py-0.5 rounded-full text-sm font-medium">
+                            1.5 Years Comprehensive Program
                           </span>
-                        </li>
+                        )}
+                      </>
+                    ) : (
+                      "24th March, 2025 - 1.5 Years Comprehensive Program"
+                    )}
+                  </span>
+                </li>
+}
         
                         {CoursesData?.features?.map((item, index) => {
                           const [beforeColon, afterColon] = item.features.split(/:(.+)/) // Splitting at the first colon

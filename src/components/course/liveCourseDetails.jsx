@@ -480,9 +480,9 @@ const LiveCourseDetailsPage = () => {
               />
             </>
           ) : (
-            <div className="w-full h-40 bgGredient-purple flex justify-center items-center text-white">
-              <h1 className="text-2xl lg:text-3xl font-bold tracking-wide">
-                Welcome to the {CoursesData.title} Batch
+            <div className="w-full h-40 bgGradient-purple-light flex justify-center items-center text-white">
+              <h1 className="text-2xl  textGreen lg:text-4xl font-bold tracking-wide">
+               {CoursesData.title} 
               </h1>
             </div>
           )}
@@ -510,12 +510,13 @@ const LiveCourseDetailsPage = () => {
           {/* Left Section */}
           <div className="w-full lg:w-[60%] bg-white p-2 md:p-3 lg:p-6">
             {/* Sections corresponding to tabs */}
+            {CoursesData?.previewVideo?.previewVideoDescription &&
             <div ref={featuresRef} className="py-8">
               <VideoPlayer
                 videopath={CoursesData?.previewVideo?.previewVideoDescription}
               />
             </div>
-
+  }
             <div ref={aboutRef} className="py-8 ">
               <h2 className=" text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 textPurple">
                 Course Details
@@ -529,7 +530,8 @@ const LiveCourseDetailsPage = () => {
                 <p className="text-gray-700 leading-relaxed">
                   {CoursesData.description}
                 </p>
-                <div className="mt-4 bg-white rounded-lg p-4 border border-p-urple100 flex items-center space-x-3">
+
+              {CoursesData?.startTime && <div className="mt-4 bg-white rounded-lg p-4 border border-p-urple100 flex items-center space-x-3">
                   <div className="bg-purple-100 p-3 rounded-full">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -560,14 +562,15 @@ const LiveCourseDetailsPage = () => {
                       )}
                     </p>
                   </div>
+                </div>}
+              
                 </div>
-              </div>
 
               <h2 className="text-xl md:text-2xl lg:text-3xl font-extrabold mb-6 textPurple">
                 About the Batch
               </h2>
               <ul className="space-y-4">
-                <li className="flex items-start">
+                {CoursesData.title?.includes("UPSC Foundation Batch") && <li className="flex items-start">
                   <span className="text-yellow-500 text-xl mr-3">⭐ </span>{" "}
                   <span>
                     <strong>Course Duration : </strong>{" "}
@@ -604,7 +607,7 @@ const LiveCourseDetailsPage = () => {
                     )}
                   </span>
                 </li>
-
+}
                 {CoursesData?.features?.map((item, index) => {
                   const [beforeColon, afterColon] =
                     item.features.split(/:(.+)/); // Splitting at the first colon
