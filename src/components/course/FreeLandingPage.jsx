@@ -18,10 +18,10 @@ function FreeLandingPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bgGradient-purple-light p-4">
+    <div className="py-20 flex flex-col items-center justify-center bgGradient-purple-light p-4">
       <div>
         <img
-          src="../assets/freeOneWeek.webp"
+          src="../assets/freeNcert.png"
           alt="Free Course Banner"
           className="w-full lg:h-96 md:h-80 h-64 object-contain"
         />
