@@ -10,8 +10,6 @@ function TestList({ series, onBack, onProceed, onResult }) {
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
-  console.log("series", series);
-
   // ✅ Filter completed tests for the current user
   const userCompletedTests = series?.completedTests?.filter(
     (series) => series.userId === user?._id

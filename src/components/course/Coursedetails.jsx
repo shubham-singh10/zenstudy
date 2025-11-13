@@ -39,7 +39,6 @@ const CourseDetailsView = () => {
         coursePrice: price,
         courseId: coursePost?._id,
       };
-      // console.log("Sending data:", sendData);
 
       const response = await fetch(
         `${process.env.REACT_APP_API}zenstudy/api/coupon/applyCoupon`,
@@ -69,7 +68,6 @@ const CourseDetailsView = () => {
       toast.success("Discount applied successfull!!", {
         position: "top-center",
       });
-      // console.log("Coupon applied successfully:", data);
       return data; // Optionally return the response data
     } catch (error) {
       // console.error("Error applying coupon:", error);
@@ -190,7 +188,6 @@ const CourseDetailsView = () => {
       }
 
       const data = await res.json();
-      //console.log("Data", data)
       handlePaymentVerify(data.data, coursePost?._id);
       setPayLoading(false);
     } catch (error) {
@@ -240,7 +237,6 @@ const CourseDetailsView = () => {
 
           const verifyData = await res.json();
 
-          console.log("VerifyData", verifyData);
           if (verifyData.message === "Payment Successful") {
             navigate(verifyData.Url);
           }
@@ -254,7 +250,6 @@ const CourseDetailsView = () => {
         color: "#5f63b8",
       },
     };
-    //console.log("Options", options)
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
   };
@@ -281,11 +276,9 @@ const CourseDetailsView = () => {
         `${process.env.REACT_APP_API2}zenstudy/api/payment/create-token`,
         sendData
       );
-      console.log("Token response:", res.data);
       if (res.data) {
         setTokenData(res.data.token);
       }
-      console.log("response me", res);
     } catch (error) {
       console.log("something went wrong", error);
     }

@@ -5,13 +5,12 @@ import { FiBook, FiCheckCircle, FiChevronRight } from "react-icons/fi";
 export function TestSeriesCard({ test, onPreview }) {
   // 🔹 Tracker function
   const handleCardClick = () => {
-    console.log("📊 Tracker: Test Card Clicked:", test._id, test.title);
     onPreview(); // existing functionality
   };
 
   const handleButtonClick = (e) => {
     e.stopPropagation(); // card click bhi trigger na ho
-    console.log("📊 Tracker: Preview Button Clicked:", test._id, test.title);
+
     onPreview();
   };
 

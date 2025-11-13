@@ -42,7 +42,6 @@ const TestResult = ({ series, onBack }) => {
         const data = await response.json();
 
         if (isMounted) {
-          // console.log("Data: ", data);
           setResult(data);
           setLoading(false);
         }

@@ -145,7 +145,6 @@ function SignIn() {
         );
       }
     } catch (error) {
-      console.log("something went wrong", error);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -176,7 +175,6 @@ function SignIn() {
         );
       }
     } catch (error) {
-      console.log("something went wrong", error);
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -243,7 +241,6 @@ function SignIn() {
         }
       }
     } catch (error) {
-      console.log("something went wrong", error);
       if (error.status === 400) {
         Swal.fire({
           icon: "error",

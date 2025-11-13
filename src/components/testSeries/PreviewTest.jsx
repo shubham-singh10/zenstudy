@@ -32,14 +32,9 @@ export function PreviewTest({ test, onBack }) {
   const { user } = useAuth();
 
   // Tracker helper function
-  const trackEvent = (action, extra = {}) => {
-    console.log("📊 Tracker:", action, {
-      testId: test._id,
-      testTitle: test.title,
-      userId: user?._id,
-      ...extra,
-    });
-  };
+  // const trackEvent = (action, extra = {}) => {
+   
+  // };
 
   useEffect(() => {
     let isMounted = true;
@@ -62,8 +57,6 @@ export function PreviewTest({ test, onBack }) {
         }
 
         const data = await response.json();
-
-        console.log("Response_Data: ", data);
         if (isMounted) {
           setTestSeries(data);
           setLoading(false);
@@ -83,7 +76,6 @@ export function PreviewTest({ test, onBack }) {
 
   //Payment Initiate
   const handlePayment = async (amount, testSeriesData) => {
-    console.log(amount, user._id, test._id);
     setPayLoading(true);
     try {
       const res = await fetch(
@@ -102,8 +94,6 @@ export function PreviewTest({ test, onBack }) {
       );
 
       if (!res.ok) {
-        const errorText = await res.text();
-        console.error(`Error: ${res.status} - ${res.statusText}\n${errorText}`);
         Swal.fire({
           title: "Oops! Test Series Already Purchased",
           text: "You’ve already purchased this test series. Please check the Test section to access it.",
@@ -115,7 +105,6 @@ export function PreviewTest({ test, onBack }) {
       }
 
       const data = await res.json();
-      //console.log("Data", data)
       if (data.message === "Free purchase successful") {
         navigation("/testSeries", {
           state: { testData: testSeriesData },
@@ -168,8 +157,6 @@ export function PreviewTest({ test, onBack }) {
           );
 
           const verifyData = await res.json();
-
-          console.log("VerifyData", verifyData);
           if (verifyData.message === "Payment Successful") {
             navigate(verifyData.Url);
           }
@@ -183,7 +170,6 @@ export function PreviewTest({ test, onBack }) {
         color: "#5f63b8",
       },
     };
-    //console.log("Options", options)
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
   };
@@ -200,13 +186,11 @@ export function PreviewTest({ test, onBack }) {
         `${process.env.REACT_APP_API2}zenstudy/api/payment/create-token`,
         sendData
       );
-      console.log("Token response:", res.data);
       if (res.data) {
         setTokenData(res.data.token);
       }
-      console.log("response me", res);
     } catch (error) {
-      console.log("something went wrong", error);
+      // console.log("something went wrong", error);
     }
   };
 
@@ -522,7 +506,6 @@ export function PreviewTest({ test, onBack }) {
                 <div className="flex gap-3 w-full sm:w-auto">
                   <button
                     onClick={() => {
-                      trackEvent("Back_Clicked");
                       onBack();
                     }}
                     className="flex-1 sm:flex-initial px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors text-sm"
@@ -561,10 +544,6 @@ export function PreviewTest({ test, onBack }) {
                   ) : (
                     <button
                       onClick={() => {
-                        trackEvent("EnrollNow_Clicked", {
-                          price: test.isFree ? 0 : test.price,
-                        });
-
                         user
                           ? handlePayment(test.isFree ? 0 : test.price, test)
                           : createToken(

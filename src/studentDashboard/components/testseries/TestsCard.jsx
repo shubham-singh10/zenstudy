@@ -11,7 +11,7 @@ export const TestsCard = ({ test, onProceed }) => {
     (test) => test.userId === user?._id
   );
   // ✅ Get user's progress percentage (default to 0 if not found)
-  const userProgress = test.progressPercentage[user?._id] || 0;
+  const userProgress = ((test.progressPercentage?.[user?._id] ?? 0).toFixed(2));
 
   return (
     <div

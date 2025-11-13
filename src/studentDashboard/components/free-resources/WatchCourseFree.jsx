@@ -82,7 +82,6 @@ const WatchCourseFree = () => {
           `${process.env.REACT_APP_API}zenstudy/api/course/coursedetail/${id}`
         );
         setCourses(response.data.coursedetail?.modules || []);
-        // console.log("Fetched courses:", response.data.coursedetail?.modules);
         setcourseName(response.data.coursedetail?.title || "");
         if (response.data.coursedetail._id) {
           fetchReviews(response.data.coursedetail._id);

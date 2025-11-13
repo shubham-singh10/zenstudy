@@ -104,7 +104,6 @@ const ResetPassword = () => {
         throw new Error(errorData.message || "Reset failed");
       }
       const resData = await response.json();
-      ////console.log("ResData", resData)
       if (resData.message === "Success") {
         await handlePhoneNumberAuth(`+91${data.phone}`);
       }
@@ -167,7 +166,6 @@ const ResetPassword = () => {
       }
 
       const resData = await response.json();
-      //console.log("ResData", resData);
 
       if (resData.message === "Password updated successfully") {
         Swal.fire({

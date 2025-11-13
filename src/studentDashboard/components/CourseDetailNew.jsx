@@ -48,7 +48,6 @@ const CourseDetailNew = () => {
         coursePrice: price,
         courseId: coursePost?._id,
       };
-      // console.log("Sending data:", sendData);
 
       const response = await fetch(
         `${process.env.REACT_APP_API}zenstudy/api/coupon/applyCoupon`,
@@ -78,10 +77,10 @@ const CourseDetailNew = () => {
       toast.success("Discount applied successfull!!", {
         position: "top-center",
       });
-      // console.log("Coupon applied successfully:", data);
+      
       return data; // Optionally return the response data
     } catch (error) {
-      // console.error("Error applying coupon:", error);
+      
       setCouponLoading(false);
     }
   };
@@ -122,13 +121,11 @@ const CourseDetailNew = () => {
             },
           }
         );
-        // console.log("Response:", response);
+        
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-
-        // console.log("Course_data: ", data);
        
         setCoursePost(data.coursedetail);
         setLoading(false);
@@ -202,7 +199,6 @@ const CourseDetailNew = () => {
 
       if (!res.ok) {
         const errorText = await res.text();
-        console.error(`Error: ${res.status} - ${res.statusText}\n${errorText}`);
         Swal.fire({
           title: "Oops. Course already purchase",
           text: "Please visit the MyCourse section to see course",
@@ -214,11 +210,9 @@ const CourseDetailNew = () => {
       }
 
       const data = await res.json();
-      //console.log("Data", data)
       handlePaymentVerify(data.data, coursePost?._id);
       setPayLoading(false);
     } catch (error) {
-      console.error("Error creating payment order:", error);
       setPayLoading(false);
     }
   };
@@ -263,8 +257,6 @@ const CourseDetailNew = () => {
           );
 
           const verifyData = await res.json();
-
-          console.log("VerifyData", verifyData);
           if (verifyData.message === "Payment Successful") {
             navigate(verifyData.Url);
           }
@@ -278,7 +270,6 @@ const CourseDetailNew = () => {
         color: "#5f63b8",
       },
     };
-    //console.log("Options", options)
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
   };

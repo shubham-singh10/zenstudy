@@ -94,7 +94,6 @@ const WatchCourse = () => {
         );
         setCoursesData(response.data.response?.modules || []);
         setNotes(response.data.response?.notes || []);
-        // console.log('Course data:', response.data.response );
         setMaterials(response.data.response?.course?.materials || []);
         setcourseName(response.data.response?.course.title || "");
         if (response.data.response?.course._id) {

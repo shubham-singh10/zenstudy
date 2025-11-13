@@ -24,8 +24,6 @@ useEffect(() => {
       const response = await axios.get(
         `${process.env.REACT_APP_API2}zenstudy/api/main/pyq`
       );
-
-      console.log("Response:", response.data.data);
       setPyqs(response.data.data); // axios gives you the data directly
     } catch (error) {
       console.error("Error fetching PYQs:", error);
@@ -37,9 +35,6 @@ useEffect(() => {
   fetchPyqs();
 }, []);
 
-
-
-  console.log("Filter:", searchTerm);
   const years = Array.from(new Set(Pyqs?.map((pyq) => pyq.year))).sort(
     (a, b) => b - a
   );

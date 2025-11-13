@@ -68,7 +68,6 @@ const LiveCourseDetailsPage = () => {
   }, [user]);
 
   const handleApplyCoupon = async () => {
-    console.log("Coupon Code Applied:", couponCode);
     try {
       setCouponLoading(true);
       const sendData = {
@@ -76,7 +75,6 @@ const LiveCourseDetailsPage = () => {
         coursePrice: CoursesData?.price,
         courseId: CoursesData?._id,
       };
-      console.log("Sending data:", sendData);
 
       const response = await fetch(
         `${process.env.REACT_APP_API}zenstudy/api/coupon/applyCoupon`,
@@ -299,7 +297,6 @@ const LiveCourseDetailsPage = () => {
           );
 
           const verifyData = await res.json();
-          console.log("VerifyData", verifyData);
 
           if (verifyData.message === "Payment Successful") {
             // Facebook Pixel - Purchase
@@ -359,11 +356,11 @@ const LiveCourseDetailsPage = () => {
         `${process.env.REACT_APP_API2}zenstudy/api/payment/create-token`,
         sendData
       );
-      console.log("Token response:", res.data);
+      // console.log("Token response:", res.data);
       if (res.data) {
         setTokenData(res.data.token);
       }
-      console.log("response me", res);
+      
     } catch (error) {
       console.log("something went wrong", error);
     }

@@ -12,7 +12,7 @@ import Loading from "../../../Loading";
 import { useAuth } from "../../../context/auth-context";
 import Swal from "sweetalert2";
 
-export const TestQuestionsPage = ({ route }) => {
+export const TestQuestionsPage = ({ series, test }) => {
   const [questions, setquestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState(null);
@@ -24,11 +24,6 @@ export const TestQuestionsPage = ({ route }) => {
   const { user } = useAuth();
   const timerRef = useRef(null);
   const timeLeftRef = useRef(0);
-  const {test, series} = route.params || {};
-
-
-  console.log("Test Info: ", test);
-  console.log("Series Info: ", series);
 
   const handleAnswerSelect = (optionIndex) => {
     const newAnswers = [...selectedAnswers];
@@ -79,7 +74,6 @@ export const TestQuestionsPage = ({ route }) => {
       );
 
       const result = await response.json();
-      // console.log("Test Result: ", result);
       setTestResult(result.resultSummary);
       setShowResults(true);
       setTimeLeft(-1);
@@ -161,11 +155,9 @@ export const TestQuestionsPage = ({ route }) => {
 
         const data = await response.json();
         if (isMounted) {
-          // console.log("Response_Data: ", data)
           setquestions(data);
           setSelectedAnswers(Array(data.length).fill(-1));
           setLoading(false);
-          console.log("Test Questions: ", data);
         }
       } catch (error) {
         console.error("Error fetching test series:", error);

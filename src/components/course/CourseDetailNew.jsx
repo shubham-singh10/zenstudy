@@ -47,7 +47,6 @@ const NewCourseDetailPage = () => {
         coursePrice: price,
         courseId: coursePost?._id,
       };
-      // console.log("Sending data:", sendData);
 
       const response = await fetch(
         `${process.env.REACT_APP_API}zenstudy/api/coupon/applyCoupon`,
@@ -77,7 +76,6 @@ const NewCourseDetailPage = () => {
       toast.success("Discount applied successfull!!", {
         position: "top-center",
       });
-      // console.log("Coupon applied successfully:", data);
       return data; // Optionally return the response data
     } catch (error) {
       // console.error("Error applying coupon:", error);
@@ -121,13 +119,10 @@ const NewCourseDetailPage = () => {
             },
           }
         );
-        // console.log("Response:", response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-
-        // console.log("Course_data: ", data);
 
         setCoursePost(data.coursedetail);
         setLoading(false);
@@ -224,7 +219,6 @@ const NewCourseDetailPage = () => {
       }
 
       const data = await res.json();
-      //console.log("Data", data)
       handlePaymentVerify(data.data, coursePost?._id);
       setPayLoading(false);
     } catch (error) {
@@ -273,8 +267,6 @@ const NewCourseDetailPage = () => {
           );
 
           const verifyData = await res.json();
-
-          console.log("VerifyData", verifyData);
           if (verifyData.message === "Payment Successful") {
             // ✅ Pixel: Track Purchase
             if (window.fbq) {
@@ -305,7 +297,6 @@ const NewCourseDetailPage = () => {
         color: "#5f63b8",
       },
     };
-    //console.log("Options", options)
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
   };
@@ -332,13 +323,11 @@ const NewCourseDetailPage = () => {
         `${process.env.REACT_APP_API2}zenstudy/api/payment/create-token`,
         sendData
       );
-      console.log("Token response:", res.data);
       if (res.data) {
         setTokenData(res.data.token);
       }
-      console.log("response me", res);
     } catch (error) {
-      console.log("something went wrong", error);
+      // console.log("something went wrong", error);
     }
   };
 

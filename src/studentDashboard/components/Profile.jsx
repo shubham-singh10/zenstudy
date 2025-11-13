@@ -49,7 +49,6 @@ const Profile = () => {
   
   const password = watch("password");
   const onSubmit = async (data) => {
-    // console.log("Form_Data: ", data);
     try {
       setOtpLoading((prev) => ({ ...prev, verifyOtp: true }));
 
@@ -136,7 +135,6 @@ const Profile = () => {
         throw new Error(errorData.message || "Failed to fetch user data");
       }
       const resData = await response.json();
-      // console.log("Responsiocve: ", resData.userdetail)
       const { userdetail } = resData;
 
       // Construct the `imageUrl` conditionally
@@ -148,7 +146,6 @@ const Profile = () => {
         ...userdetail,
         imageUrl,
       };
-      // console.log("Image: ", updatedUserDetail);
       setUserData(updatedUserDetail || {});
       setDLoading(false);
     } catch (error) {
@@ -174,7 +171,6 @@ const Profile = () => {
     if (!user) return;
 
     setLoading(true);
-    // console.log("User_Data: ", userData)
     try {
       const response = await axios.put(
         `${process.env.REACT_APP_API}zenstudy/api/user/updateUserN/${user?._id}`,
@@ -187,7 +183,6 @@ const Profile = () => {
         }
       );
 
-      // console.log("Response_Data", response.data.user)
       if (response.data.message === "Success") {
         Swal.fire({
           icon: "success",
@@ -196,7 +191,6 @@ const Profile = () => {
         });
       }
     } catch (error) {
-      // console.log('Error: ', error)
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -212,7 +206,6 @@ const Profile = () => {
     if (!user) return;
 
     setImgLoading(true);
-    // console.log("User_Data: ", userData)
     try {
       const response = await axios.put(
         `${process.env.REACT_APP_API}zenstudy/api/user/updatenew/${user?._id}`,
@@ -225,7 +218,6 @@ const Profile = () => {
         }
       );
 
-      // console.log("Response_Data", response.data.user)
       if (response.data.message === "Success") {
         Swal.fire({
           icon: "success",
@@ -235,7 +227,6 @@ const Profile = () => {
         setImager(null);
       }
     } catch (error) {
-      // console.log('Error: ', error)
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -285,7 +276,6 @@ const Profile = () => {
 
       // Accessing data from axios response
       const data = response.data;
-      // console.log(data);
 
       if (data.message === "OTP sent successfully") {
         setIsModalOpen(true);
@@ -315,8 +305,6 @@ const Profile = () => {
       );
       const data = response.data;
 
-      // console.log(data);
-
       if (data.message === "OTP verified successfully") {
         setIsModalOpen(false);
         getUserData(user?._id);
@@ -331,7 +319,6 @@ const Profile = () => {
   };
 
   const sendOtpPhone = async (phoneNumber) => {
-    // console.log("Phone Number: ", phoneNumber);
 
     setOtpLoading((prev) => ({ ...prev, sendOtp: true }));
     try {

@@ -24,11 +24,9 @@ function Images({ thumbnail, className }) {
 
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
-      console.log("URL", url)
       setImageData(url);
 
     } catch (error) {
-      console.log("Error:", error.message);
       setError("Failed to load image");
     }
   }, [thumbnail]);

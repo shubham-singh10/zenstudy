@@ -57,7 +57,6 @@ const Footer = () => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      // //console.log("Contact", data)
       if (data) {
         Swal.fire({
           icon: "success",

@@ -74,7 +74,6 @@ const ArticleDetail = () => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      //console.log("Comment", data);
       if (data) {
         Swal.fire({
           icon: "success",
@@ -92,7 +91,6 @@ const ArticleDetail = () => {
   };
 
   const handleLikeComment = async (commentId) => {
-    //console.log("Id", commentId);
     setLoadingL(true);
     try {
       const response = await fetch(`
@@ -110,7 +108,6 @@ const ArticleDetail = () => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      //console.log("Comment_Like", data);
       if (data.comment.likes && data.comment.likes.includes(currentUser)) {
         setLikedComments((prev) => {
           const updatedLikes = new Set(prev).add(commentId);

@@ -25,7 +25,6 @@ const MonthlyAffairs = () => {
           month: selectedMonth,
           year: selectedYear,
         };
-        // console.log("send", sendData);
 
         const response = await axios.post(
           `${process.env.REACT_APP_API}zenstudy/api/image/getAffairswithMonth`,

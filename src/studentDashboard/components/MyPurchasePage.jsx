@@ -20,12 +20,9 @@ const MyPurchaseCourse = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const navigate = useNavigate();
 
-
-  console.log("User ID in MyPurchaseCourse:", courses);
   useEffect(() => {
     const getcourse = async () => {
       if (!user?._id) return;
-      console.log("Fetching courses for user ID:", user._id);
       try {
         const response = await fetch(
           `${process.env.REACT_APP_API}zenstudy/api/payment/purchaseCourseNew`,
@@ -50,7 +47,6 @@ const MyPurchaseCourse = () => {
         }
 
         const data = await response.json();
-        console.log("Data: ", data);
         if (data.message === "Done") {
           const coursesWithImageUrls = data.purchaseCourses.map((purchase) => ({
             ...purchase.course,
@@ -72,7 +68,6 @@ const MyPurchaseCourse = () => {
 
         setLoading(false);
       } catch (error) {
-        console.log("Error: ", error);
         setLoading(false);
       }
     };

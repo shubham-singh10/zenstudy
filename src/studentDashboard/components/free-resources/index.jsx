@@ -73,7 +73,6 @@ const FreeResourcesIndex = () => {
                 }, 300)
             } catch (error) {
                 toast.error(`Oops!! Something went wrong`, { position: "top-center" })
-                console.log(error)
                 setLoading({ mainLoading: false, paginationLoading: false })
                 setTimeout(() => {
                     setContentVisible(true)

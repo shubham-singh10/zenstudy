@@ -26,7 +26,6 @@ const TestSeriesIndex = () => {
   };
 
   const handleTestSeries = (test) => {
-    // console.log("test", test);
     setSelectedSeries(test);
     setCurrentView("rules");
   };
@@ -72,7 +71,6 @@ const TestSeriesIndex = () => {
         }
 
         const data = await response.json();
-        // console.log("Response_Data", data);
 
         if (isMounted) {
           setTestSeries(data.purchasedTestSeries);

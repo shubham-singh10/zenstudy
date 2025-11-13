@@ -201,7 +201,6 @@ const Testing = ({ token, price, courseName }) => {
           );
 
           const verifyData = await res.json();
-          console.log("VerifyData", verifyData);
 
           if (verifyData.message === "Payment Successful") {
             // Facebook Pixel - Purchase
@@ -283,7 +282,6 @@ const Testing = ({ token, price, courseName }) => {
       }
 
       const data = await res.json();
-      console.log("dattaaugsugsw", data);
       if (data.message === "Free purchase successful") {
         navigation("/testSeries", {
           state: { testData: paydata.otherDetailsTestSeries },
@@ -356,8 +354,6 @@ const Testing = ({ token, price, courseName }) => {
 
       const resData = await response.json();
 
-      console.log("modeal data ", resData);
-
       if (resData.message === "Success") {
         toast.success(
           `Welcome, ${resData.user.name}! Your account has been successfully created.`,
@@ -373,7 +369,6 @@ const Testing = ({ token, price, courseName }) => {
         verifyToken(token, resData.user._id);
       }
     } catch (error) {
-      console.log("something went wrong", error);
       if (error.status === 400) {
         Swal.fire({
           icon: "error",
