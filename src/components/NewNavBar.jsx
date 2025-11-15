@@ -1,9 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import {
-  RxHamburgerMenu,
-  RxCross2,
-  RxDashboard,
-} from "react-icons/rx";
+import { RxHamburgerMenu, RxCross2, RxDashboard } from "react-icons/rx";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { FaUserAlt } from "react-icons/fa";
@@ -12,6 +8,7 @@ import { FiLogOut } from "react-icons/fi";
 import { useAuth } from "../context/auth-context";
 import Loading from "../Loading";
 
+// ✅ Updated navLink with nested structure
 const navLink = [
   { label: "Home", link: "/" },
   { label: "About", link: "/about" },
@@ -19,20 +16,63 @@ const navLink = [
   { label: "Mock Tests", link: "/test-series" },
   { label: "Current Affairs", link: "/currentAffair" },
   { label: "Our Team", link: "/ourteam" },
-  { label: "UPSC PYQ", link: "https://blog.zenstudy.in/category/pyq/" },
-  { label: "Daily Editorials", link: "https://blog.zenstudy.in/category/daily-editorials/" },
   { label: "Contact", link: "/contact" },
+  {
+    label: "Free Study Material",
+    subLinks: [
+      {
+        label: "Editorials/Issues",
+        link: "https://blog.zenstudy.in/category/daily-editorials/",
+      },
+      {
+        label: "Daily Current Affairs",
+        link: "https://blog.zenstudy.in/category/gs3/current-affairs/",
+      },
+      {
+        label: "Daily Practice MCQs",
+        link: "https://blog.zenstudy.in/category/gs3/daily-practice-mcqs/",
+      },
+      {
+        label: "Monthly Current Affairs Magazine",
+        link: "https://blog.zenstudy.in/category/gs3/monthly-current-affairs-magazine/",
+      },
+      {
+        label: "UPSC PYQs",
+        subLinks: [
+          {
+            label: "Prelims",
+            link: "https://blog.zenstudy.in/category/pyq/pyq-prelims/",
+          },
+          {
+            label: "Mains",
+            link: "https://blog.zenstudy.in/category/pyq/pyq-mains/",
+          },
+          {
+            label: "Optional Paper",
+            link: "https://blog.zenstudy.in/category/pyq/pyq-optional-papers/",
+          },
+          {
+            label: "Essay Paper",
+            link: "https://blog.zenstudy.in/category/pyq/pyq-essay-papers/",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 const NewNavBar = () => {
   const [hamBurger, setHamBurger] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [openMain, setOpenMain] = useState(null); // for main submenu (Free Study Material)
+  const [openNested, setOpenNested] = useState(null); // for nested submenu (UPSC PYQs)
+
   const location = useLocation();
   const navigate = useNavigate();
   const { isAuthenticated, loading, user, logout, logoutLoading } = useAuth();
 
-  // 👉 Track nav links using Facebook Pixel
+  // 👉 Facebook Pixel Tracking
   const handlePixelTrack = (label, source = "Desktop") => {
     if (window.fbq) {
       fbq("trackCustom", "NavbarLinkClick", {
@@ -43,38 +83,32 @@ const NewNavBar = () => {
   };
 
   useEffect(() => {
-    if (hamBurger) {
-      document.body.style.overflow = "hidden";
-      document.documentElement.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-      document.documentElement.style.overflow = "auto";
-    }
-    return () => {
-      document.body.style.overflow = "auto";
-      document.documentElement.style.overflow = "auto";
-    };
+    document.body.style.overflow = hamBurger ? "hidden" : "auto";
   }, [hamBurger]);
-
-  const handleMoreToggle = () => setShowMore(!showMore);
 
   if (loading) {
     return <Loading />;
   }
 
+  // Desktop Dropdown items
+  const freeStudy = navLink.find(
+    (item) => item.label === "Free Study Material"
+  );
+
   return (
     <Fragment>
-      <div className="w-full z-50 lg:h-[15vh] md:h-[-15vh] h-[10vh] mb-1 flex items-center justify-between px-6 lg:px-12 shadow-md">
+      {/* TOP NAVBAR */}
+      <div className="w-full z-50 lg:h-[15vh] h-[10vh] mb-1 flex items-center justify-between px-6 lg:px-12 shadow-md bg-white">
         <Link to={"/"} className="flex flex-col items-start">
           <p className="text-3xl textdark font-bold">Zenstudy</p>
-          <p className="text-[10px] font-bold  textPurple">
+          <p className="text-[10px] font-bold textPurple">
             Making Education Imaginative
           </p>
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center space-x-6">
-          {navLink.slice(0, 5).map((item) => (
+        <div className="hidden lg:flex items-center space-x-1">
+          {navLink.slice(0, 7).map((item) => (
             <Link
               key={item.label}
               to={item.link}
@@ -89,14 +123,14 @@ const NewNavBar = () => {
             </Link>
           ))}
 
-          {/* More Dropdown */}
+          {/* Dropdown: Free Study Material */}
           <div
             className="relative z-50"
             onMouseEnter={() => setShowMore(true)}
             onMouseLeave={() => setShowMore(false)}
           >
             <div className="px-3 py-2 rounded-md font-medium text-gray-700 hover:text-[#efdb78] flex items-center cursor-pointer">
-              More{" "}
+              Free Study Material{" "}
               {showMore ? (
                 <IoMdArrowDropup className="ml-1" />
               ) : (
@@ -105,22 +139,47 @@ const NewNavBar = () => {
             </div>
 
             <div
-              className={`absolute right-0 mt-2 bg-white shadow-lg rounded-lg border border-gray-200 min-w-[150px] z-10 transition-opacity duration-200 ${
+              className={`absolute right-0 mt-2 bg-white shadow-lg rounded-lg border border-gray-200 min-w-[200px] z-10 transition-all duration-200 ${
                 showMore ? "opacity-100 visible" : "opacity-0 invisible"
               }`}
             >
-              {navLink.slice(5).map((item) => (
-                <Link
-                  key={item.label}
-                  to={item.link}
-                  onClick={() => {
-                    handlePixelTrack(item.label, "Desktop");
-                    setShowMore(false);
-                  }}
-                  className="block px-4 py-2 text-gray-700 hover:bg-[#efdb78] hover:text-white transition-all"
-                >
-                  {item.label}
-                </Link>
+              {freeStudy?.subLinks.map((item) => (
+                <div key={item.label} className="relative group">
+                  {!item.subLinks ? (
+                    <Link
+                      to={item.link}
+                      onClick={() => {
+                        handlePixelTrack(item.label, "Desktop");
+                        setShowMore(false);
+                      }}
+                      className="block px-4 py-2 text-gray-700 hover:bg-[#efdb78] hover:text-white transition-all"
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <div className="relative">
+                      <div className="flex justify-between items-center px-4 py-2 text-gray-700 hover:bg-[#efdb78] hover:text-white cursor-pointer">
+                        {item.label}
+                        <IoMdArrowDropdown />
+                      </div>
+                      <div className="absolute top-0 left-full ml-1 bg-white shadow-lg rounded-lg border border-gray-200 min-w-[180px] opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-all duration-200">
+                        {item.subLinks.map((sub) => (
+                          <Link
+                            key={sub.label}
+                            to={sub.link}
+                            onClick={() => {
+                              handlePixelTrack(sub.label, "Desktop");
+                              setShowMore(false);
+                            }}
+                            className="block px-4 py-2 text-gray-700 hover:bg-[#efdb78] hover:text-white transition-all"
+                          >
+                            {sub.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           </div>
@@ -129,18 +188,15 @@ const NewNavBar = () => {
         {/* Desktop Auth Buttons */}
         <div className="hidden lg:flex items-center space-x-4">
           {!isAuthenticated ? (
-            <div className="flex items-center gap-4">
-              <button
-                className="px-6 py-2 bgGredient-purple text-white font-semibold rounded-full shadow-lg hover:from-[#935aa6] hover:to-[#543a5d] hover:shadow-xl transition-all duration-300"
-                onClick={() => {
-                  handlePixelTrack("Login", "Desktop");
-                  navigate("/sign-In");
-                }}
-              >
-                LogIn / SignUp
-              </button>
-             
-            </div>
+            <button
+              className="px-6 py-2 bgGredient-purple text-white font-semibold rounded-full shadow-lg hover:from-[#935aa6] hover:to-[#543a5d] hover:shadow-xl transition-all duration-300"
+              onClick={() => {
+                handlePixelTrack("Login", "Desktop");
+                navigate("/sign-In");
+              }}
+            >
+              LogIn / SignUp
+            </button>
           ) : (
             <div
               className="relative z-50"
@@ -155,6 +211,7 @@ const NewNavBar = () => {
                 {showDropdown ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
               </div>
 
+              {/* Profile Dropdown */}
               <div
                 className={`absolute right-0 mt-2 w-60 bg-white shadow-lg rounded-lg border border-gray-200 z-10 transition-opacity duration-200 ${
                   showDropdown ? "opacity-100 visible" : "opacity-0 invisible"
@@ -205,7 +262,7 @@ const NewNavBar = () => {
           )}
         </div>
 
-        {/* Hamburger */}
+        {/* Hamburger (Mobile) */}
         <div className="lg:hidden flex items-center">
           {!hamBurger ? (
             <RxHamburgerMenu
@@ -231,40 +288,117 @@ const NewNavBar = () => {
             />
           </div>
           <div className="flex-1 overflow-y-auto px-4">
-            <ul className="flex flex-col items-center space-y-4 py-4">
-              {navLink.map((item) => (
-                <li key={item.label} className="w-full text-center">
-                  <Link
-                    to={item.link}
-                    onClick={() => {
-                      handlePixelTrack(item.label, "Mobile");
-                      setHamBurger(false);
-                    }}
-                    className="block w-full px-4 py-2 textLight hover:bg-[#efdb78] hover:text-black border-2 rounded-3xl border-white transition-all"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+            <ul className="flex flex-col items-start space-y-4 py-4">
+              {navLink.map((item) =>
+                !item.subLinks ? (
+                  <li key={item.label} className="w-full text-left">
+                    <Link
+                      to={item.link}
+                      onClick={() => {
+                        handlePixelTrack(item.label, "Mobile");
+                        setHamBurger(false);
+                      }}
+                      className="block w-full px-4 py-2 textLight hover:bg-[#efdb78] hover:text-black border-2 rounded-3xl border-white transition-all"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ) : (
+                  <li key={item.label} className="w-full">
+                    <button
+                      className="w-full flex justify-between items-center px-4 py-2 textLight font-semibold border-2 border-white rounded-3xl"
+                      onClick={() =>
+                        setOpenMain(openMain === item.label ? null : item.label)
+                      }
+                    >
+                      {item.label}
+                      {openMain === item.label ? (
+                        <IoMdArrowDropup />
+                      ) : (
+                        <IoMdArrowDropdown />
+                      )}
+                    </button>
 
+                    {openMain === item.label && (
+                      <ul className="ml-4 mt-2 space-y-2">
+                        {item.subLinks.map((sub) =>
+                          !sub.subLinks ? (
+                            <li key={sub.label}>
+                              <Link
+                                to={sub.link}
+                                onClick={() => {
+                                  handlePixelTrack(sub.label, "Mobile");
+                                  setHamBurger(false);
+                                }}
+                                className="block px-4 py-2 textLight hover:bg-[#efdb78] hover:text-black rounded-xl border border-white transition-all"
+                              >
+                                {sub.label}
+                              </Link>
+                            </li>
+                          ) : (
+                            <li key={sub.label}>
+                              <button
+                                className="w-full flex justify-between items-center px-4 py-2 textLight border border-white rounded-xl"
+                                onClick={() =>
+                                  setOpenNested(
+                                    openNested === sub.label ? null : sub.label
+                                  )
+                                }
+                              >
+                                {sub.label}
+                                {openNested === sub.label ? (
+                                  <IoMdArrowDropup />
+                                ) : (
+                                  <IoMdArrowDropdown />
+                                )}
+                              </button>
+
+                              {openNested === sub.label && (
+                                <ul className="ml-6 mt-2 space-y-2">
+                                  {sub.subLinks.map((deep) => (
+                                    <li key={deep.label}>
+                                      <Link
+                                        to={deep.link}
+                                        onClick={() => {
+                                          handlePixelTrack(
+                                            deep.label,
+                                            "Mobile"
+                                          );
+                                          setHamBurger(false);
+                                        }}
+                                        className="block px-4 py-2 textLight hover:bg-[#efdb78] hover:text-black rounded-xl border border-white transition-all"
+                                      >
+                                        {deep.label}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    )}
+                  </li>
+                )
+              )}
+
+              {/* Auth Buttons */}
               {!isAuthenticated ? (
-                <Fragment>
-                  <button
-                    className="w-full px-4 py-2 bgGredient-gold textLight rounded-full hover:scale-105 transition-all"
-                    onClick={() => {
-                      handlePixelTrack("Login", "Mobile");
-                      navigate("/sign-In");
-                      setHamBurger(false);
-                    }}
-                  >
-                    LogIn / SignUp
-                  </button>
-                  
-                </Fragment>
+                <button
+                  className="w-full px-4 py-2 bgGredient-gold textLight rounded-full hover:scale-105 transition-all"
+                  onClick={() => {
+                    handlePixelTrack("Login", "Mobile");
+                    navigate("/sign-In");
+                    setHamBurger(false);
+                  }}
+                >
+                  LogIn / SignUp
+                </button>
               ) : (
                 <Fragment>
                   <button
-                    className="flex items-center justify-center w-[50%] px-6 py-3 bgGredient-green textGold rounded-full hover:scale-105 transition-all"
+                    className="flex items-center justify-center w-[70%] px-6 py-3 bgGredient-green textGold rounded-full hover:scale-105 transition-all"
                     onClick={() => {
                       handlePixelTrack("Dashboard", "Mobile");
                       navigate("/profile");
@@ -275,7 +409,7 @@ const NewNavBar = () => {
                     My Dashboard
                   </button>
                   <button
-                    className="flex items-center justify-center w-[50%] px-6 py-3 hover:scale-105 bgGredient-gold textGreen rounded-full transition-all"
+                    className="flex items-center justify-center w-[70%] px-6 py-3 bgGredient-gold textGreen rounded-full hover:scale-105 transition-all"
                     disabled={logoutLoading}
                     onClick={() => {
                       handlePixelTrack("Logout", "Mobile");
