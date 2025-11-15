@@ -14,8 +14,8 @@ const navLink = [
   { label: "About", link: "/about" },
   { label: "Courses", link: "/courses" },
   { label: "Mock Tests", link: "/test-series" },
-  { label: "Current Affairs", link: "/currentAffair" },
-  { label: "Our Team", link: "/ourteam" },
+  // { label: "Current Affairs", link: "/currentAffair" },
+  // { label: "Our Team", link: "/ourteam" },
   { label: "Contact", link: "/contact" },
   {
     label: "Free Study Material",
@@ -25,17 +25,9 @@ const navLink = [
         link: "https://blog.zenstudy.in/category/daily-editorials/",
       },
       {
-        label: "Daily Current Affairs",
-        link: "https://blog.zenstudy.in/category/gs3/current-affairs/",
-      },
-      {
         label: "Daily Practice MCQs",
         link: "https://blog.zenstudy.in/category/gs3/daily-practice-mcqs/",
-      },
-      {
-        label: "Monthly Current Affairs Magazine",
-        link: "https://blog.zenstudy.in/category/gs3/monthly-current-affairs-magazine/",
-      },
+      },      
       {
         label: "UPSC PYQs",
         subLinks: [
@@ -54,6 +46,23 @@ const navLink = [
           {
             label: "Essay Paper",
             link: "https://blog.zenstudy.in/category/pyq/pyq-essay-papers/",
+          },
+        ],
+      },
+      {
+        label: "Current Affairs",
+        subLinks: [
+          {
+            label: "Daily CA",
+            link: "/currentAffair",
+          },
+          {
+            label: "Topic Wise CA",
+            link: "https://blog.zenstudy.in/category/gs3/current-affairs/",
+          },
+          {
+            label: "Monthly Magazine",
+            link: "https://blog.zenstudy.in/category/gs3/monthly-current-affairs-magazine/",
           },
         ],
       },
@@ -107,8 +116,8 @@ const NewNavBar = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center space-x-1">
-          {navLink.slice(0, 7).map((item) => (
+        <div className="hidden lg:flex items-center space-x-3">
+          {navLink.slice(0, 5).map((item) => (
             <Link
               key={item.label}
               to={item.link}
